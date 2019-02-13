@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="jhmarcus" />
+
+<meta name="date" content="2019-02-11" />
+
+<title>Non-Negative FLASH for visualizing Population Structure</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Non-Negative FLASH for visualizing Population Structure</h1>
+<h4 class="author"><em>jhmarcus</em></h4>
+<h4 class="date"><em>2019-02-11</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2019-02-12</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<details>
+<p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20190211)</code> </summary></p>
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/29966a9d54a4f0aa92805ba424b5a62508a07c37" target="_blank">29966a9</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    data/NearEastPublic/
+
+Untracked files:
+    Untracked:  analysis/flash.Rmd
+
+Unstaged changes:
+    Modified:   _workflowr.yml
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</details>
+</li>
+</ul>
+<hr />
+<p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of a arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset of individuals ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestor of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait. We assume the following matrix factorization model for the genotypes that can flexibly describe this process:</p>
+<p><span class="math display">\[
+y_{ij} = \mu_j + \sum_{k=1} \ell_{ik} \delta_{jk} + e_{ij}
+\]</span></p>
+<p>where <span class="math inline">\(\mu_j\)</span> represents the mean genotype at the <span class="math inline">\(j\)</span>th SNP (something like a mean allele frequency), <span class="math inline">\(\ell_{ik}\)</span> represents a non-negative weight of the <span class="math inline">\(i\)</span>th individual on the <span class="math inline">\(K\)</span>th drift event, <span class="math inline">\(\delta_{jk}\)</span> represents a deviance from the mean genotype which defines the drift event, and <span class="math inline">\(e_{ij} \sim N(0, \sigma^2)\)</span> is a random error with variance <span class="math inline">\(\sigma^2\)</span>. Given the model I described above it would be natural for <span class="math inline">\(\boldsymbol{\ell}_k\)</span> to be sparse, with different levels of sparsity for each <span class="math inline">\(k\)</span> i.e. in a dataset of global Human diversity, all the non-African individuals experienced the “Out of Africa” drift event but only a subset of samples experienced the founding of Finland, or some population specific processes. Here we assume the following priors for the individual weights (loadings) and deviances (factors):</p>
+<p><span class="math display">\[
+\ell_{1k}, \dots, \ell_{nk} \overset{iid}{\sim} g_k, \  g_k \in \mathcal{G}_+ \\
+\delta_{1k}, \dots, \delta_{pk} \overset{iid}{\sim} N(0, 1)
+\]</span></p>
+<p>Briefly: where <span class="math inline">\(g_k\)</span> is an adaptive shrinkage prior that is constrained to be in the family of unimodal and non-negative distributions <span class="math inline">\(\mathcal{G}_+\)</span>. The prior on the sample weights can be fit using <code>flashier</code> using an efficient approach that adapts to unknown sparsity using Empirical Bayes via solving iterative convex optimization problems. We assume the deviances come from a dense prior given that all SNPs are effected by the drift event. More can be expanded upon the model later lets now explore a proof of principle with a real dataset using <code>flashier</code>.</p>
+<div id="imports" class="section level2">
+<h2>Imports</h2>
+<p>Lets import some needed packages</p>
+<pre class="r"><code>library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(softImpute)
+library(flashier)</code></pre>
+<p>I prepared a dataset described in Lazaridis et al. 2017 which include 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the “Human Origins Array Dataset” and is commonly used a reference panel to determine the ancestry of individuals from new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in <code>plink</code>. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:</p>
+<pre class="r"><code>X = t(lfa:::read.bed(&quot;../data/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune&quot;))</code></pre>
+<pre><code>[1] &quot;reading in 2068 individuals&quot;
+[1] &quot;reading in 167178 snps&quot;
+[1] &quot;snp major mode&quot;
+[1] &quot;reading snp 20000&quot;
+[1] &quot;reading snp 40000&quot;
+[1] &quot;reading snp 60000&quot;
+[1] &quot;reading snp 80000&quot;
+[1] &quot;reading snp 100000&quot;
+[1] &quot;reading snp 120000&quot;
+[1] &quot;reading snp 140000&quot;
+[1] &quot;reading snp 160000&quot;</code></pre>
+<pre class="r"><code>n = nrow(X)
+p = ncol(X)
+print(n)</code></pre>
+<pre><code>[1] 2068</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<pre><code>[1] 167178</code></pre>
+<p>Next we read in some meta data that includes population and regional labels for each individual:</p>
+<pre class="r"><code># read the meta data
+meta_df = read.table(&quot;../data/NearEastPublic/HumanOriginsPublic2068_clst.tsv&quot;, sep=&quot;\t&quot;)
+colnames(meta_df) = c(&quot;iid&quot;, &quot;clst&quot;)
+
+# read the clst data
+clst_df = read.table(&quot;../data/NearEastPublic/meta.tsv&quot;, sep=&quot;\t&quot;, header=TRUE)
+clst_df$clst = clst_df$Simple.Population.ID
+clst_df = clst_df %&gt;% distinct(clst, .keep_all = TRUE) </code></pre>
+<p>To start lets sub-sample the genotype matrix so we have fewer individuals</p>
+<pre class="r"><code>set.seed(12345)
+idx = sample(n, 500, replace = FALSE)
+Y =  X[idx, ]
+m = nrow(Y)
+p = ncol(Y)
+print(m)</code></pre>
+<pre><code>[1] 500</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<pre><code>[1] 167178</code></pre>
+<p>Next lets run greedy <code>flashier</code> on the resulting data matrix with a maximum of 10 factors:</p>
+<pre class="r"><code>K = 9 # the first factor is fixed
+
+# to start we use point.normal not normal
+flash_res = flashier(Y, 
+                     greedy.Kmax=K, 
+                     prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;), 
+                     var.type=0,
+                     fix.dim=list(1), 
+                     fix.idx=list(1:m), 
+                     fix.vals=list(rep(1, m)))</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+An iteration decreased the objective by 3.00e+00. Try backfitting with warmstarts.
+Adding factor 3 to flash object...
+An iteration decreased the objective by 1.02e+02. Try backfitting with warmstarts.
+Adding factor 4 to flash object...
+An iteration decreased the objective by 2.68e+01. Try backfitting with warmstarts.
+Adding factor 5 to flash object...
+An iteration decreased the objective by 1.90e+00. Try backfitting with warmstarts.
+Adding factor 6 to flash object...
+An iteration decreased the objective by 6.90e+00. Try backfitting with warmstarts.
+Adding factor 7 to flash object...
+An iteration decreased the objective by 1.96e+01. Try backfitting with warmstarts.
+Adding factor 8 to flash object...
+An iteration decreased the objective by 2.34e+01. Try backfitting with warmstarts.
+Adding factor 9 to flash object...
+An iteration decreased the objective by 4.91e+01. Try backfitting with warmstarts.
+Adding factor 10 to flash object...
+An iteration decreased the objective by 1.83e+00. Try backfitting with warmstarts.
+Nullchecking 9 factors...
+Wrapping up...
+Done.</code></pre>
+<p>Lets now visualize the fitted <code>flashier</code> fit:</p>
+<pre class="r"><code># setup loadings data.frame
+l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
+l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
+l_df$clst = meta_df$clst[idx] # population labels
+l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
+
+# join with the meta data
+l_df = l_df %&gt;% inner_join(clst_df, on=&quot;clst&quot;)
+l_df = l_df %&gt;% arrange(Region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:(K+1)] = paste0(&quot;K=&quot;, 1:(K+1)) # name the columsn
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
+                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %&gt;%
+            gather(K, value, -iid, -clst, -lab, -Region) 
+
+# plot facet grid
+p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
+    geom_text(size=2) +  
+    scale_colour_brewer(palette = &quot;Set2&quot;, guide=guide_legend(override.aes=list(size=4))) + 
+    scale_y_continuous(limits = c(0, NA)) + # non-negative
+    theme_bw() +
+    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    facet_grid(factor(K, levels=paste0(&quot;K=&quot;, 1:10))~., scales=&quot;free_y&quot;) +
+    xlab(&quot;Individual&quot;) + 
+    ylab(&quot;Loading&quot;) 
+p</code></pre>
+<p><img src="figure/flash.Rmd/flash-viz-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization which I like to think about more as its quite important but I think this is a good starting direction that helps reveal some patterns. Here are a couple observations:</p>
+<ul>
+<li>As one would hope (as I set it as an argument in <code>flashier</code>) the 1st drift event is a constant value across the individuals</li>
+<li>The 2nd drift event looks like it represents “Out of Africa”. Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label “AA” which is shorthand for African American and as such these individuals carry African ancestry.</li>
+<li><code>Add more observations</code></li>
+</ul>
+<p>My impression is that this approach is promising in building an interpretable visualization of population structure. I will continue to add to this analysis with comparisons to other standard approaches like PCA and the PSD model.</p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS  10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] bindrcpp_0.2.2 flashier_0.1.0 softImpute_1.4 Matrix_1.2-15 
+[5] dplyr_0.7.6    tidyr_0.8.1    ggplot2_3.0.0 
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_0.2.4   xfun_0.4           reshape2_1.4.3    
+ [4] purrr_0.2.5        ashr_2.2-27        lattice_0.20-38   
+ [7] colorspace_1.3-2   htmltools_0.3.6    yaml_2.2.0        
+[10] rlang_0.3.1        mixsqp_0.1-93      R.oo_1.22.0       
+[13] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
+[16] R.utils_2.7.0      RColorBrewer_1.1-2 foreach_1.4.4     
+[19] bindr_0.1.1        plyr_1.8.4         stringr_1.3.1     
+[22] munsell_0.5.0      gtable_0.2.0       workflowr_1.1.1   
+[25] R.methodsS3_1.7.1  lfa_1.9.0          codetools_0.2-15  
+[28] evaluate_0.12      labeling_0.3       knitr_1.21        
+[31] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
+[34] Rcpp_1.0.0         corpcor_1.6.9      scales_0.5.0      
+[37] backports_1.1.2    truncnorm_1.0-8    digest_0.6.18     
+[40] stringi_1.2.4      ebnm_0.1-17        grid_3.5.1        
+[43] rprojroot_1.3-2    tools_3.5.1        magrittr_1.5      
+[46] lazyeval_0.2.1     tibble_1.4.2       crayon_1.3.4      
+[49] whisker_0.3-2      pkgconfig_2.0.1    MASS_7.3-51.1     
+[52] SQUAREM_2017.10-1  assertthat_0.2.0   rmarkdown_1.11    
+[55] iterators_1.0.10   R6_2.3.0           git2r_0.23.0      
+[58] compiler_3.5.1    </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

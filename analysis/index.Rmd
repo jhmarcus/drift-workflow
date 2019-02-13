@@ -7,3 +7,5 @@ output:
 ---
 
 Welcome to my research website.
+
+* [`FLASH` proof of principle](flash.html)
