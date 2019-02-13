@@ -425,7 +425,7 @@ div.section {
 <ul>
 <li>
 <details>
-<p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -448,28 +448,87 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/29966a9d54a4f0aa92805ba424b5a62508a07c37" target="_blank">29966a9</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/5c0f91aa44dadc88f2410d991fd5b8c215652340" target="_blank">5c0f91a</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    data/NearEastPublic/
 
-Untracked files:
-    Untracked:  analysis/flash.Rmd
-
 Unstaged changes:
-    Modified:   _workflowr.yml
+    Modified:   analysis/flash.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </details>
 </li>
 </ul>
+<details>
+<summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/analysis/flash.Rmd" target="_blank">5c0f91a</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+<td style="text-align:left;">
+init flash proof of principle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/flash.html" target="_blank">5c0f91a</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+<td style="text-align:left;">
+init flash proof of principle
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+</details>
 <hr />
-<p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of a arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset of individuals ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestor of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait. We assume the following matrix factorization model for the genotypes that can flexibly describe this process:</p>
+<p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of an arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset of individuals ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestor of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait. We assume the following matrix factorization model for the genotypes that can flexibly describe this process:</p>
 <p><span class="math display">\[
-y_{ij} = \mu_j + \sum_{k=1} \ell_{ik} \delta_{jk} + e_{ij}
+y_{ij} = \mu_j + \sum_{k=1}^K \ell_{ik} \delta_{jk} + e_{ij}
 \]</span></p>
 <p>where <span class="math inline">\(\mu_j\)</span> represents the mean genotype at the <span class="math inline">\(j\)</span>th SNP (something like a mean allele frequency), <span class="math inline">\(\ell_{ik}\)</span> represents a non-negative weight of the <span class="math inline">\(i\)</span>th individual on the <span class="math inline">\(K\)</span>th drift event, <span class="math inline">\(\delta_{jk}\)</span> represents a deviance from the mean genotype which defines the drift event, and <span class="math inline">\(e_{ij} \sim N(0, \sigma^2)\)</span> is a random error with variance <span class="math inline">\(\sigma^2\)</span>. Given the model I described above it would be natural for <span class="math inline">\(\boldsymbol{\ell}_k\)</span> to be sparse, with different levels of sparsity for each <span class="math inline">\(k\)</span> i.e. in a dataset of global Human diversity, all the non-African individuals experienced the “Out of Africa” drift event but only a subset of samples experienced the founding of Finland, or some population specific processes. Here we assume the following priors for the individual weights (loadings) and deviances (factors):</p>
 <p><span class="math display">\[
@@ -557,7 +616,7 @@ An iteration decreased the objective by 1.83e+00. Try backfitting with warmstart
 Nullchecking 9 factors...
 Wrapping up...
 Done.</code></pre>
-<p>Lets now visualize the fitted <code>flashier</code> fit:</p>
+<p>It seems like the objective decreases in many of the factor fits. Lets now visualize the fitted <code>flashier</code> fit:</p>
 <pre class="r"><code># setup loadings data.frame
 l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
@@ -578,7 +637,7 @@ l_gath_df = l_df %&gt;%
 
 # plot facet grid
 p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
-    geom_text(size=2) +  
+    geom_text(size=2.5) +  
     scale_colour_brewer(palette = &quot;Set2&quot;, guide=guide_legend(override.aes=list(size=4))) + 
     scale_y_continuous(limits = c(0, NA)) + # non-negative
     theme_bw() +
@@ -588,14 +647,45 @@ p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) +
     xlab(&quot;Individual&quot;) + 
     ylab(&quot;Loading&quot;) 
 p</code></pre>
-<p><img src="figure/flash.Rmd/flash-viz-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/flash.Rmd/flash-viz-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-viz-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/figure/flash.Rmd/flash-viz-1.png" target="_blank">5c0f91a</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization which I like to think about more as its quite important but I think this is a good starting direction that helps reveal some patterns. Here are a couple observations:</p>
 <ul>
 <li>As one would hope (as I set it as an argument in <code>flashier</code>) the 1st drift event is a constant value across the individuals</li>
 <li>The 2nd drift event looks like it represents “Out of Africa”. Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label “AA” which is shorthand for African American and as such these individuals carry African ancestry.</li>
 <li><code>Add more observations</code></li>
 </ul>
-<p>My impression is that this approach is promising in building an interpretable visualization of population structure. I will continue to add to this analysis with comparisons to other standard approaches like PCA and the PSD model.</p>
+<p>My impression is that this approach could promising in building an interpretable visualization of population structure. I will continue to add to this analysis with comparisons to other standard approaches like PCA and the PSD model.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
