@@ -5,7 +5,11 @@ date: "2019-02-11"
 output: workflowr::wflow_html
 ---
 
-Here I explore Matthew's suggestion of applying a version of `FLASH` to visualize population structure. Let $\mathbf{Y}$ be the $n \times p$ genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix $y_{ij} \in \{0, 1, 2\}$ encode the count of an arbitrarily predefined allele for the diploid individual $i$ and SNP $j$. Here we imagine that the genotypes can be explained by $K$ latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset of individuals ancestors were in a "population" whom experienced the $k$th event. For instance, the ancestor of all Europeans experienced the "Out of Africa" drift event and the ancestors of North and South Americans crossed the Bering strait. We assume the following matrix factorization model for the genotypes that can flexibly describe this process:
+Here I explore Matthew's suggestion of applying a version of `FLASH` to visualize population structure. Let $\mathbf{Y}$ be the $n \times p$ genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix $y_{ij} \in \{0, 1, 2\}$ encode the count of an arbitrarily predefined allele for the diploid individual $i$ and SNP $j$. Here we imagine that the genotypes can be explained by $K$ latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset the individuals' ancestors were in a "population" whom experienced the $k$th event. For instance, the ancestors of all Europeans experienced the "Out of Africa" drift event and the ancestors of North and South Americans crossed the Bering strait, undergoing a bottleneck. Here is a figure from a recent review (Nielson et al. 2017) that describes some of the major "drift events" in human history:
+
+![](../data/img/nielsen_et_al_2017.png)
+
+We assume the following matrix factorization model for the genotypes that can flexibly describe this kind of process:
 
 $$
 y_{ij} = \mu_j + \sum_{k=1}^K \ell_{ik} \delta_{jk} + e_{ij}
@@ -14,11 +18,11 @@ $$
 where $\mu_j$ represents the mean genotype at the $j$th SNP (something like a mean allele frequency), $\ell_{ik}$ represents a non-negative weight of the $i$th individual on the $K$th drift event, $\delta_{jk}$ represents a deviance from the mean genotype which defines the drift event, and $e_{ij} \sim N(0, \sigma^2)$ is a random error with variance $\sigma^2$. Given the model I described above it would be natural for $\boldsymbol{\ell}_k$ to be sparse, with different levels of sparsity for each $k$ i.e. in a dataset of global Human diversity, all the non-African individuals experienced the "Out of Africa" drift event but only a subset of samples experienced the founding of Finland, or some population specific processes. Here we assume the following priors for the individual weights (loadings) and deviances (factors):
 
 $$
-\ell_{1k}, \dots, \ell_{nk} \overset{iid}{\sim} g_k, \  g_k \in \mathcal{G}_+ \\
-\delta_{1k}, \dots, \delta_{pk} \overset{iid}{\sim} N(0, 1)
+\ell_{1k}, \dots, \ell_{nk} \overset{iid}{\sim} g_k, \quad  g_k \in \mathcal{G}_+ \\
+\delta_{jk} \overset{iid}{\sim} N(0, 1)
 $$
 
-Briefly: where $g_k$ is an adaptive shrinkage prior that is constrained to be in the family of unimodal and non-negative distributions $\mathcal{G}_+$. The prior on the sample weights can be fit using `flashier` using an efficient approach that adapts to unknown sparsity using Empirical Bayes via solving iterative convex optimization problems. We assume the deviances come from a dense prior given that all SNPs are effected by the drift event. More can be expanded upon the model later lets now explore a proof of principle with a real dataset using `flashier`.
+Briefly: where $g_k$ is an adaptive shrinkage prior that is constrained to be in the family of unimodal and non-negative distributions $\mathcal{G}_+$. The prior on the sample weights can be fit using `flashier` using an efficient approach that adapts to unknown sparsity using Empirical Bayes via solving iterative convex optimization problems. We assume the deviances come from a dense prior given that all SNPs are effected by the drift event. More can be expanded upon the model later, lets now explore a proof of principle with a real dataset using `flashier`.
 
 ## Imports
 
@@ -32,7 +36,9 @@ library(softImpute)
 library(flashier)
 ```
 
-I prepared a dataset described in Lazaridis et al. 2017 which include 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the "Human Origins Array Dataset" and is commonly used a reference panel to determine the ancestry of individuals from new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in `plink`. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:
+## Data
+
+I prepared a dataset described in [Lazaridis et al. 2016](https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf) which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the "Human Origins Array Dataset" (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in `plink`. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:
 
 ```{r data-genotypes}
 X = t(lfa:::read.bed("../data/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune"))
@@ -48,24 +54,29 @@ Next we read in some meta data that includes population and regional labels for 
 # read the meta data
 meta_df = read.table("../data/NearEastPublic/HumanOriginsPublic2068_clst.tsv", sep="\t")
 colnames(meta_df) = c("iid", "clst")
+head(meta_df)
 
 # read the clst data
 clst_df = read.table("../data/NearEastPublic/meta.tsv", sep="\t", header=TRUE)
 clst_df$clst = clst_df$Simple.Population.ID
 clst_df = clst_df %>% distinct(clst, .keep_all = TRUE) 
+head(clst_df)
 ```
 
 To start lets sub-sample the genotype matrix so we have fewer individuals
 
 ```{r data-subsample}
 set.seed(12345)
-idx = sample(n, 500, replace = FALSE)
+n_samples = 500
+idx = sample(n, n_samples, replace = FALSE)
 Y =  X[idx, ]
 m = nrow(Y)
 p = ncol(Y)
 print(m)
 print(p)
 ```
+
+## FLASH
 
 Next lets run greedy `flashier` on the resulting data matrix with a maximum of 10 factors:
 
@@ -82,7 +93,7 @@ flash_res = flashier(Y,
                      fix.vals=list(rep(1, m)))
 ```
 
-It seems like the objective decreases in many of the factor fits. Lets now visualize the fitted `flashier` fit:
+It seems like the objective decreases in many of the factor fits (is this something to worry about). Lets now visualize the fitted `flashier` fit:
 
 ```{r flash-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
 # setup loadings data.frame
@@ -95,7 +106,7 @@ l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
 l_df = l_df %>% inner_join(clst_df, on="clst")
 l_df = l_df %>% arrange(Region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:(K+1)] = paste0("K=", 1:(K+1)) # name the columsn
+colnames(l_df)[1:(K+1)] = paste0("K=", 1:(K+1)) # name the columns
 
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
@@ -117,10 +128,57 @@ p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) +
 p
 ```
 
-Here each row of the facet grid represents a different latent "drift event". Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization which I like to think about more as its quite important but I think this is a good starting direction that helps reveal some patterns. Here are a couple observations:
+Here each row of the facet grid represents a different latent "drift event". Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization (which I like to think about more as its quite important) but I think this is a good starting place that helps reveal some patterns. Here are a couple observations:
 
 * As one would hope (as I set it as an argument in `flashier`) the 1st drift event is a constant value across the individuals
-* The 2nd drift event looks like it represents "Out of Africa". Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label "AA" which is shorthand for African American and as such these individuals carry African ancestry.
-* `Add more observations`
+* The 2nd drift event looks like it represents "Out of Africa". Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label "AA" which is shorthand for African American and as such these individuals carry African ancestry
+* The 4th and 6th drift event looks like its related to the peopling of the Americas
+* The 5th drift event seems to be related to the migration into Ocenia i.e. Australia / Papua New Guinea. This might be wishful thinking but its interesting to see the small weight of SouthAsian populations on this event.
+* `TODO: describe more events`
 
-My impression is that this approach could promising in building an interpretable visualization of population structure. I will continue to add to this analysis with comparisons to other standard approaches like PCA and the PSD model.
+My impression is that this approach could be promising in building an interpretable visualization of population structure. 
+
+## PCA (`softImpute`)
+
+Here we center and scale the columns and use `softImpute` to compute a PCA like solution in spite of missing data:
+
+```{r data-biscale}
+Z = biScale(Y, row.center=F, row.scale=F)
+soft_res = softImpute(Z, rank.max=9, type="svd")
+```
+
+Here we visualize the result:
+
+```{r soft-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
+# setup loadings data.frame
+l_df = as.data.frame(soft_res$u)
+l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
+l_df$clst = meta_df$clst[idx] # population labels
+l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
+
+# join with the meta data
+l_df = l_df %>% inner_join(clst_df, on="clst")
+l_df = l_df %>% arrange(Region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = paste0("K=", 1:K) # name the columns
+
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
+                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %>%
+            gather(K, value, -iid, -clst, -lab, -Region) 
+
+# plot facet grid
+p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
+    geom_text(size=2.5) +  
+    scale_colour_brewer(palette = "Set2", guide=guide_legend(override.aes=list(size=4))) + 
+    theme_bw() +
+    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    facet_grid(factor(K, levels=paste0("K=", 1:9))~., scales="free_y") +
+    xlab("Individual") + 
+    ylab("Loading") 
+p
+```
+
+`softImpute`'s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier.

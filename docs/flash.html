@@ -420,7 +420,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-12</p>
+<p><strong>Last updated:</strong> 2019-02-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -448,12 +448,15 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/5c0f91aa44dadc88f2410d991fd5b8c215652340" target="_blank">5c0f91a</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e" target="_blank">7b6ecbc</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    data/NearEastPublic/
+
+Untracked files:
+    Untracked:  data/img/
 
 Unstaged changes:
     Modified:   analysis/flash.Rmd
@@ -487,6 +490,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/analysis/flash.Rmd" target="_blank">7b6ecbc</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+<td style="text-align:left;">
+made fig size bigger
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/flash.html" target="_blank">7b6ecbc</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+<td style="text-align:left;">
+made fig size bigger
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -526,16 +563,18 @@ init flash proof of principle
 </ul>
 </details>
 <hr />
-<p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of an arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset of individuals ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestor of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait. We assume the following matrix factorization model for the genotypes that can flexibly describe this process:</p>
+<p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of an arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset the individuals’ ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestors of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait, undergoing a bottleneck. Here is a figure from a recent review (Nielson et al. 2017) that describes some of the major “drift events” in human history:</p>
+<p><img src="../data/img/nielsen_et_al_2017.png" /></p>
+<p>We assume the following matrix factorization model for the genotypes that can flexibly describe this kind of process:</p>
 <p><span class="math display">\[
 y_{ij} = \mu_j + \sum_{k=1}^K \ell_{ik} \delta_{jk} + e_{ij}
 \]</span></p>
 <p>where <span class="math inline">\(\mu_j\)</span> represents the mean genotype at the <span class="math inline">\(j\)</span>th SNP (something like a mean allele frequency), <span class="math inline">\(\ell_{ik}\)</span> represents a non-negative weight of the <span class="math inline">\(i\)</span>th individual on the <span class="math inline">\(K\)</span>th drift event, <span class="math inline">\(\delta_{jk}\)</span> represents a deviance from the mean genotype which defines the drift event, and <span class="math inline">\(e_{ij} \sim N(0, \sigma^2)\)</span> is a random error with variance <span class="math inline">\(\sigma^2\)</span>. Given the model I described above it would be natural for <span class="math inline">\(\boldsymbol{\ell}_k\)</span> to be sparse, with different levels of sparsity for each <span class="math inline">\(k\)</span> i.e. in a dataset of global Human diversity, all the non-African individuals experienced the “Out of Africa” drift event but only a subset of samples experienced the founding of Finland, or some population specific processes. Here we assume the following priors for the individual weights (loadings) and deviances (factors):</p>
 <p><span class="math display">\[
-\ell_{1k}, \dots, \ell_{nk} \overset{iid}{\sim} g_k, \  g_k \in \mathcal{G}_+ \\
-\delta_{1k}, \dots, \delta_{pk} \overset{iid}{\sim} N(0, 1)
+\ell_{1k}, \dots, \ell_{nk} \overset{iid}{\sim} g_k, \quad  g_k \in \mathcal{G}_+ \\
+\delta_{jk} \overset{iid}{\sim} N(0, 1)
 \]</span></p>
-<p>Briefly: where <span class="math inline">\(g_k\)</span> is an adaptive shrinkage prior that is constrained to be in the family of unimodal and non-negative distributions <span class="math inline">\(\mathcal{G}_+\)</span>. The prior on the sample weights can be fit using <code>flashier</code> using an efficient approach that adapts to unknown sparsity using Empirical Bayes via solving iterative convex optimization problems. We assume the deviances come from a dense prior given that all SNPs are effected by the drift event. More can be expanded upon the model later lets now explore a proof of principle with a real dataset using <code>flashier</code>.</p>
+<p>Briefly: where <span class="math inline">\(g_k\)</span> is an adaptive shrinkage prior that is constrained to be in the family of unimodal and non-negative distributions <span class="math inline">\(\mathcal{G}_+\)</span>. The prior on the sample weights can be fit using <code>flashier</code> using an efficient approach that adapts to unknown sparsity using Empirical Bayes via solving iterative convex optimization problems. We assume the deviances come from a dense prior given that all SNPs are effected by the drift event. More can be expanded upon the model later, lets now explore a proof of principle with a real dataset using <code>flashier</code>.</p>
 <div id="imports" class="section level2">
 <h2>Imports</h2>
 <p>Lets import some needed packages</p>
@@ -544,7 +583,10 @@ library(tidyr)
 library(dplyr)
 library(softImpute)
 library(flashier)</code></pre>
-<p>I prepared a dataset described in Lazaridis et al. 2017 which include 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the “Human Origins Array Dataset” and is commonly used a reference panel to determine the ancestry of individuals from new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in <code>plink</code>. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:</p>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>I prepared a dataset described in <a href="https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf">Lazaridis et al. 2016</a> which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the “Human Origins Array Dataset” (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in <code>plink</code>. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:</p>
 <pre class="r"><code>X = t(lfa:::read.bed(&quot;../data/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune&quot;))</code></pre>
 <pre><code>[1] &quot;reading in 2068 individuals&quot;
 [1] &quot;reading in 167178 snps&quot;
@@ -567,14 +609,37 @@ print(n)</code></pre>
 <pre class="r"><code># read the meta data
 meta_df = read.table(&quot;../data/NearEastPublic/HumanOriginsPublic2068_clst.tsv&quot;, sep=&quot;\t&quot;)
 colnames(meta_df) = c(&quot;iid&quot;, &quot;clst&quot;)
-
-# read the clst data
+head(meta_df)</code></pre>
+<pre><code>     iid    clst
+1 SA1004 Khomani
+2  SA063 Khomani
+3  SA010 Khomani
+4  SA064 Khomani
+5  SA073 Khomani
+6 SA1025 Khomani</code></pre>
+<pre class="r"><code># read the clst data
 clst_df = read.table(&quot;../data/NearEastPublic/meta.tsv&quot;, sep=&quot;\t&quot;, header=TRUE)
 clst_df$clst = clst_df$Simple.Population.ID
-clst_df = clst_df %&gt;% distinct(clst, .keep_all = TRUE) </code></pre>
+clst_df = clst_df %&gt;% distinct(clst, .keep_all = TRUE) 
+head(clst_df)</code></pre>
+<pre><code>  Simple.Population.ID Verbose.Population.ID Region  Country Latitude
+1        Ain_Touta_WGA         Ain_Touta_WGA Africa  Algeria     35.4
+2             Algerian              Algerian Africa  Algeria     36.8
+3             Mozabite              Mozabite Africa  Algeria       32
+4              BantuSA       Bantu_SA_Ovambo Africa   Angola      -19
+5                 Gana                  Gana Africa Botswana    -21.7
+6                  Gui                   Gui Africa Botswana    -21.5
+  Longitude Samples Passed.QC                   Contributor          clst
+1       5.9       3         0 Mark G. Thomas / Leila Laredj Ain_Touta_WGA
+2         3       7         7                   David Comas      Algerian
+3         3      27        21         Patterson et al. 2012      Mozabite
+4        18       1         1         Patterson et al. 2012       BantuSA
+5      23.4       9         8 Pickrell et al. 2012 and 2014          Gana
+6      23.3      11         7 Pickrell et al. 2012 and 2014           Gui</code></pre>
 <p>To start lets sub-sample the genotype matrix so we have fewer individuals</p>
 <pre class="r"><code>set.seed(12345)
-idx = sample(n, 500, replace = FALSE)
+n_samples = 500
+idx = sample(n, n_samples, replace = FALSE)
 Y =  X[idx, ]
 m = nrow(Y)
 p = ncol(Y)
@@ -582,6 +647,9 @@ print(m)</code></pre>
 <pre><code>[1] 500</code></pre>
 <pre class="r"><code>print(p)</code></pre>
 <pre><code>[1] 167178</code></pre>
+</div>
+<div id="flash" class="section level2">
+<h2>FLASH</h2>
 <p>Next lets run greedy <code>flashier</code> on the resulting data matrix with a maximum of 10 factors:</p>
 <pre class="r"><code>K = 9 # the first factor is fixed
 
@@ -616,7 +684,7 @@ An iteration decreased the objective by 1.83e+00. Try backfitting with warmstart
 Nullchecking 9 factors...
 Wrapping up...
 Done.</code></pre>
-<p>It seems like the objective decreases in many of the factor fits. Lets now visualize the fitted <code>flashier</code> fit:</p>
+<p>It seems like the objective decreases in many of the factor fits (is this something to worry about). Lets now visualize the fitted <code>flashier</code> fit:</p>
 <pre class="r"><code># setup loadings data.frame
 l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
@@ -627,7 +695,7 @@ l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
 l_df = l_df %&gt;% inner_join(clst_df, on=&quot;clst&quot;)
 l_df = l_df %&gt;% arrange(Region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:(K+1)] = paste0(&quot;K=&quot;, 1:(K+1)) # name the columsn
+colnames(l_df)[1:(K+1)] = paste0(&quot;K=&quot;, 1:(K+1)) # name the columns
 
 # gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
@@ -667,6 +735,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/figure/flash.Rmd/flash-viz-1.png" target="_blank">7b6ecbc</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/figure/flash.Rmd/flash-viz-1.png" target="_blank">5c0f91a</a>
 </td>
 <td style="text-align:left;">
@@ -679,13 +758,53 @@ jhmarcus
 </tbody>
 </table>
 </details>
-<p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization which I like to think about more as its quite important but I think this is a good starting direction that helps reveal some patterns. Here are a couple observations:</p>
+<p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization (which I like to think about more as its quite important) but I think this is a good starting place that helps reveal some patterns. Here are a couple observations:</p>
 <ul>
 <li>As one would hope (as I set it as an argument in <code>flashier</code>) the 1st drift event is a constant value across the individuals</li>
-<li>The 2nd drift event looks like it represents “Out of Africa”. Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label “AA” which is shorthand for African American and as such these individuals carry African ancestry.</li>
-<li><code>Add more observations</code></li>
+<li>The 2nd drift event looks like it represents “Out of Africa”. Interestingly it picks up a number of American samples as being weighted on this event. If we look more closely they have the label “AA” which is shorthand for African American and as such these individuals carry African ancestry</li>
+<li>The 4th and 6th drift event looks like its related to the peopling of the Americas</li>
+<li>The 5th drift event seems to be related to the migration into Ocenia i.e. Australia / Papua New Guinea. This might be wishful thinking but its interesting to see the small weight of SouthAsian populations on this event.</li>
+<li><code>TODO: describe more events</code></li>
 </ul>
-<p>My impression is that this approach could promising in building an interpretable visualization of population structure. I will continue to add to this analysis with comparisons to other standard approaches like PCA and the PSD model.</p>
+<p>My impression is that this approach could be promising in building an interpretable visualization of population structure.</p>
+</div>
+<div id="pca-softimpute" class="section level2">
+<h2>PCA (<code>softImpute</code>)</h2>
+<p>Here we center and scale the columns and use <code>softImpute</code> to compute a PCA like solution in spite of missing data:</p>
+<pre class="r"><code>Z = biScale(Y, row.center=F, row.scale=F)
+soft_res = softImpute(Z, rank.max=9, type=&quot;svd&quot;)</code></pre>
+<p>Here we visualize the result:</p>
+<pre class="r"><code># setup loadings data.frame
+l_df = as.data.frame(soft_res$u)
+l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
+l_df$clst = meta_df$clst[idx] # population labels
+l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
+
+# join with the meta data
+l_df = l_df %&gt;% inner_join(clst_df, on=&quot;clst&quot;)
+l_df = l_df %&gt;% arrange(Region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = paste0(&quot;K=&quot;, 1:K) # name the columns
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
+                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %&gt;%
+            gather(K, value, -iid, -clst, -lab, -Region) 
+
+# plot facet grid
+p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
+    geom_text(size=2.5) +  
+    scale_colour_brewer(palette = &quot;Set2&quot;, guide=guide_legend(override.aes=list(size=4))) + 
+    theme_bw() +
+    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    facet_grid(factor(K, levels=paste0(&quot;K=&quot;, 1:9))~., scales=&quot;free_y&quot;) +
+    xlab(&quot;Individual&quot;) + 
+    ylab(&quot;Loading&quot;) 
+p</code></pre>
+<p><img src="figure/flash.Rmd/soft-viz-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><code>softImpute</code>’s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
