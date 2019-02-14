@@ -420,7 +420,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-13</p>
+<p><strong>Last updated:</strong> 2019-02-14</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -448,11 +448,12 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/63c2b7528f4e2498d7fd7c795958509858a268ee" target="_blank">63c2b75</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/95385101c23660b8db007cd135b90085db6b22c3" target="_blank">9538510</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
+    Ignored:    analysis/flash_cache/
     Ignored:    data/.DS_Store
     Ignored:    data/NearEastPublic/
 
@@ -488,6 +489,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/95385101c23660b8db007cd135b90085db6b22c3/analysis/flash.Rmd" target="_blank">9538510</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-13
+</td>
+<td style="text-align:left;">
+switched to struct style plot
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/flash.html" target="_blank">9538510</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-13
+</td>
+<td style="text-align:left;">
+switched to struct style plot
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -618,9 +653,9 @@ library(flashier)</code></pre>
 </div>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
-<pre class="r"><code>positive_structure_plot = function(gath_df, pops, label_size=5){
+<pre class="r"><code>positive_structure_plot = function(gath_df, pops, K_, label_size=5){
   
-  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
+  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
       geom_bar(stat=&quot;identity&quot;, width=1) +  
       scale_fill_brewer(palette = &quot;Set3&quot;) + 
       scale_y_continuous(expand=c(0, 0)) +
@@ -769,85 +804,43 @@ pops = unique(l_df$clst)
 # Africa
 africa_df = clst_df %&gt;% filter(Region == &quot;Africa&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 africa_pops = africa_df$Simple.Population.ID
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), africa_pops, label_size=5)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), africa_pops, 10, label_size=5)
 
 # America
 america_df = clst_df %&gt;% filter(Region == &quot;America&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 america_pops = america_df$Simple.Population.ID
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), america_pops, label_size=5) 
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), america_pops, 10, label_size=5) 
 
 # Central Asia Siberia
 central_asia_siberia_df = clst_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 central_asia_siberia_pops = central_asia_siberia_df$Simple.Population.ID
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, label_size=5)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, 10, label_size=5)
 
 # East Asia
 east_asia_df = clst_df %&gt;% filter(Region == &quot;EastAsia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 east_asia_pops = east_asia_df$Simple.Population.ID
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), east_asia_pops, label_size=5)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), east_asia_pops, 10, label_size=5)
 
 # South Asia
 south_asia_df = clst_df %&gt;% filter(Region == &quot;SouthAsia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 south_asia_pops = south_asia_df$Simple.Population.ID
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;), south_asia_pops, label_size=5)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;), south_asia_pops, 10, label_size=5)
 
 # West Eurasia
 west_eurasia_df = clst_df %&gt;% filter(Region == &quot;WestEurasia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 west_eurasia_pops = west_eurasia_df$Simple.Population.ID
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), west_eurasia_pops, label_size=5)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), west_eurasia_pops, 10, label_size=5)
 
 # Oceania
 oceania_df = clst_df %&gt;% filter(Region == &quot;Oceania&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
 oceania_pops = oceania_df$Simple.Population.ID
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), oceania_pops, label_size=5) 
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), oceania_pops, 10, label_size=5) 
 
 p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/flash.Rmd/flash-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-viz-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/figure/flash.Rmd/flash-viz-1.png" target="_blank">7b6ecbc</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-12
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/figure/flash.Rmd/flash-viz-1.png" target="_blank">5c0f91a</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</details>
+<p><img src="figure/flash.Rmd/flash-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization (which I like to think about more as its quite important) but I think this is a good starting place that helps reveal some patterns. Here are a couple observations:</p>
 <ul>
 <li>As one would hope (as I set it as an argument in <code>flashier</code>) the 1st drift event is a constant value across the individuals</li>
@@ -856,7 +849,27 @@ jhmarcus
 <li>The 5th drift event seems to be related to the migration into Ocenia i.e. Australia / Papua New Guinea. This might be wishful thinking but its interesting to see the small weight of SouthAsian populations on this event.</li>
 <li><code>TODO: describe more events</code></li>
 </ul>
-<p>My impression is that this approach could be promising in building an interpretable visualization of population structure.</p>
+<p>My impression is that this approach could be promising in building an interpretable visualization of population structure. Lets now visualize the factors … the question here is to see if FLASH estimated them to be sparse or not b/c I used a point normal prior on the deviances (not a normal distribution as described above):</p>
+<pre class="r"><code># read factors
+delta_df = as.data.frame(flash_res$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:(K+1)] = 1:(K+1) 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %&gt;% 
+                gather(K, value) %&gt;%
+                filter(K!=1)
+
+# plot the factors
+K_ = K + 1
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_brewer(palette = &quot;Set3&quot;) +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+        labs(fill=&quot;K&quot;) + 
+        theme_bw()
+p_fct</code></pre>
+<p><img src="figure/flash.Rmd/flash-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Interestingly, some of the latent drift events seems be denser than others … so it seems the <code>point.normal</code> prior is doing some magic here. It will take some reading of the tea leaves to understand why some of the drift events are sparser than others. It seems like the later factors tend to be sparser. What I like about this plot is that it kind of serves a natural legend for the colors in the loadings plot.</p>
 </div>
 <div id="pca-softimpute" class="section level2">
 <h2>PCA (<code>softImpute</code>)</h2>
@@ -966,26 +979,22 @@ other attached packages:
 [5] dplyr_0.7.6    tidyr_0.8.1    ggplot2_3.0.0 
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.4   xfun_0.4           reshape2_1.4.3    
- [4] purrr_0.2.5        ashr_2.2-27        lattice_0.20-38   
- [7] colorspace_1.3-2   htmltools_0.3.6    yaml_2.2.0        
-[10] rlang_0.3.1        mixsqp_0.1-93      R.oo_1.22.0       
-[13] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
-[16] R.utils_2.7.0      RColorBrewer_1.1-2 foreach_1.4.4     
-[19] bindr_0.1.1        plyr_1.8.4         stringr_1.3.1     
-[22] munsell_0.5.0      gtable_0.2.0       workflowr_1.1.1   
-[25] R.methodsS3_1.7.1  lfa_1.9.0          codetools_0.2-15  
-[28] evaluate_0.12      labeling_0.3       knitr_1.21        
-[31] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
-[34] Rcpp_1.0.0         corpcor_1.6.9      scales_0.5.0      
-[37] backports_1.1.2    truncnorm_1.0-8    digest_0.6.18     
-[40] stringi_1.2.4      ebnm_0.1-17        cowplot_0.9.4     
-[43] grid_3.5.1         rprojroot_1.3-2    tools_3.5.1       
-[46] magrittr_1.5       lazyeval_0.2.1     tibble_1.4.2      
-[49] crayon_1.3.4       whisker_0.3-2      pkgconfig_2.0.1   
-[52] MASS_7.3-51.1      SQUAREM_2017.10-1  assertthat_0.2.0  
-[55] rmarkdown_1.11     iterators_1.0.10   R6_2.3.0          
-[58] git2r_0.23.0       compiler_3.5.1    </code></pre>
+ [1] Rcpp_1.0.0         lfa_1.9.0          RColorBrewer_1.1-2
+ [4] compiler_3.5.1     pillar_1.3.0       git2r_0.23.0      
+ [7] plyr_1.8.4         workflowr_1.1.1    bindr_0.1.1       
+[10] R.methodsS3_1.7.1  R.utils_2.7.0      tools_3.5.1       
+[13] digest_0.6.18      lattice_0.20-38    evaluate_0.12     
+[16] tibble_1.4.2       gtable_0.2.0       pkgconfig_2.0.1   
+[19] rlang_0.3.1        yaml_2.2.0         xfun_0.4          
+[22] withr_2.1.2        stringr_1.3.1      knitr_1.21        
+[25] cowplot_0.9.4      rprojroot_1.3-2    grid_3.5.1        
+[28] tidyselect_0.2.4   glue_1.3.0         R6_2.3.0          
+[31] rmarkdown_1.11     reshape2_1.4.3     corpcor_1.6.9     
+[34] purrr_0.2.5        magrittr_1.5       whisker_0.3-2     
+[37] backports_1.1.2    scales_0.5.0       htmltools_0.3.6   
+[40] assertthat_0.2.0   colorspace_1.3-2   labeling_0.3      
+[43] stringi_1.2.4      lazyeval_0.2.1     munsell_0.5.0     
+[46] crayon_1.3.4       R.oo_1.22.0       </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

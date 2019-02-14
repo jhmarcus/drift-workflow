@@ -39,9 +39,9 @@ library(flashier)
 ## Functions
 
 ```{r functions}
-positive_structure_plot = function(gath_df, pops, label_size=5){
+positive_structure_plot = function(gath_df, pops, K_, label_size=5){
   
-  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
+  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
       geom_bar(stat="identity", width=1) +  
       scale_fill_brewer(palette = "Set3") + 
       scale_y_continuous(expand=c(0, 0)) +
@@ -125,7 +125,7 @@ flash_res = flashier(Y,
 It seems like the objective decreases in many of the factor fits (is this something to worry about). Lets now visualize the fitted `flashier` fit:
 
 
-```{r flash-viz, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=11}
+```{r flash-viz-loadings, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=11}
 # setup loadings data.frame
 l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
@@ -151,37 +151,37 @@ pops = unique(l_df$clst)
 # Africa
 africa_df = clst_df %>% filter(Region == "Africa", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 africa_pops = africa_df$Simple.Population.ID
-p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), africa_pops, label_size=5)
+p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), africa_pops, 10, label_size=5)
 
 # America
 america_df = clst_df %>% filter(Region == "America", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 america_pops = america_df$Simple.Population.ID
-p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), america_pops, label_size=5) 
+p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), america_pops, 10, label_size=5) 
 
 # Central Asia Siberia
 central_asia_siberia_df = clst_df %>% filter(Region == "CentralAsiaSiberia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 central_asia_siberia_pops = central_asia_siberia_df$Simple.Population.ID
-p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), central_asia_siberia_pops, label_size=5)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), central_asia_siberia_pops, 10, label_size=5)
 
 # East Asia
 east_asia_df = clst_df %>% filter(Region == "EastAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 east_asia_pops = east_asia_df$Simple.Population.ID
-p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), east_asia_pops, label_size=5)
+p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), east_asia_pops, 10, label_size=5)
 
 # South Asia
 south_asia_df = clst_df %>% filter(Region == "SouthAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 south_asia_pops = south_asia_df$Simple.Population.ID
-p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"), south_asia_pops, label_size=5)
+p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"), south_asia_pops, 10, label_size=5)
 
 # West Eurasia
 west_eurasia_df = clst_df %>% filter(Region == "WestEurasia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 west_eurasia_pops = west_eurasia_df$Simple.Population.ID
-p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), west_eurasia_pops, label_size=5)
+p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), west_eurasia_pops, 10, label_size=5)
 
 # Oceania
 oceania_df = clst_df %>% filter(Region == "Oceania", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
 oceania_pops = oceania_df$Simple.Population.ID
-p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), oceania_pops, label_size=5) 
+p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), oceania_pops, 10, label_size=5) 
 
 p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
@@ -197,7 +197,30 @@ Here each row of the facet grid represents a different latent "drift event". Eac
 * The 5th drift event seems to be related to the migration into Ocenia i.e. Australia / Papua New Guinea. This might be wishful thinking but its interesting to see the small weight of SouthAsian populations on this event.
 * `TODO: describe more events`
 
-My impression is that this approach could be promising in building an interpretable visualization of population structure. 
+My impression is that this approach could be promising in building an interpretable visualization of population structure. Lets now visualize the factors ... the question here is to see if FLASH estimated them to be sparse or not b/c I used a point normal prior on the deviances (not a normal distribution as described above):
+
+```{r flash-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=7}
+# read factors
+delta_df = as.data.frame(flash_res$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:(K+1)] = 1:(K+1) 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                gather(K, value) %>%
+                filter(K!=1)
+
+# plot the factors
+K_ = K + 1
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_brewer(palette = "Set3") +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+        labs(fill="K") + 
+        theme_bw()
+p_fct
+```
+
+Interestingly, some of the latent drift events seems be denser than others ... so it seems the `point.normal` prior is doing some magic here. It will take some reading of the tea leaves to understand why some of the drift events are sparser than others. It seems like the later factors tend to be sparser. What I like about this plot is that it kind of serves a natural legend for the colors in the loadings plot.
 
 ## PCA (`softImpute`)
 
