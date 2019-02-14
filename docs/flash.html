@@ -448,15 +448,13 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e" target="_blank">7b6ecbc</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/63c2b7528f4e2498d7fd7c795958509858a268ee" target="_blank">63c2b75</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
+    Ignored:    data/.DS_Store
     Ignored:    data/NearEastPublic/
-
-Untracked files:
-    Untracked:  data/img/
 
 Unstaged changes:
     Modified:   analysis/flash.Rmd
@@ -490,6 +488,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/63c2b7528f4e2498d7fd7c795958509858a268ee/analysis/flash.Rmd" target="_blank">63c2b75</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-13
+</td>
+<td style="text-align:left;">
+added softimpute
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/flash.html" target="_blank">63c2b75</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-13
+</td>
+<td style="text-align:left;">
+added softimpute
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -584,6 +616,33 @@ library(dplyr)
 library(softImpute)
 library(flashier)</code></pre>
 </div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<pre class="r"><code>positive_structure_plot = function(gath_df, pops, label_size=5){
+  
+  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
+      geom_bar(stat=&quot;identity&quot;, width=1) +  
+      scale_fill_brewer(palette = &quot;Set3&quot;) + 
+      scale_y_continuous(expand=c(0, 0)) +
+      scale_x_discrete(expand=c(0, 0)) +
+      facet_grid(. ~ factor(clst, levels=pops), scales = &quot;free&quot;, space=&quot;free&quot;, switch=&quot;both&quot;) + 
+      theme_classic() +
+      theme(panel.spacing = unit(0.2, &quot;lines&quot;), 
+            strip.background = element_rect(colour=&quot;white&quot;, fill=&quot;white&quot;),
+            strip.text.x = element_text(size = label_size, colour = &quot;black&quot;, angle = 90, hjust = 1.1), 
+            strip.placement = &quot;outside&quot;, 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            axis.text.x=element_blank(), 
+            axis.ticks.x=element_blank()) + 
+            ylab(&quot;&quot;) + 
+            xlab(&quot;&quot;) + 
+            guides(fill=F)
+  
+  return(p)
+  
+}</code></pre>
+</div>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>I prepared a dataset described in <a href="https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf">Lazaridis et al. 2016</a> which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the “Human Origins Array Dataset” (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in <code>plink</code>. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:</p>
@@ -648,8 +707,8 @@ print(m)</code></pre>
 <pre class="r"><code>print(p)</code></pre>
 <pre><code>[1] 167178</code></pre>
 </div>
-<div id="flash" class="section level2">
-<h2>FLASH</h2>
+<div id="flash-flashier" class="section level2">
+<h2>FLASH (<code>flashier</code>)</h2>
 <p>Next lets run greedy <code>flashier</code> on the resulting data matrix with a maximum of 10 factors:</p>
 <pre class="r"><code>K = 9 # the first factor is fixed
 
@@ -695,27 +754,58 @@ l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
 l_df = l_df %&gt;% inner_join(clst_df, on=&quot;clst&quot;)
 l_df = l_df %&gt;% arrange(Region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:(K+1)] = paste0(&quot;K=&quot;, 1:(K+1)) # name the columns
+colnames(l_df)[1:(K+1)] = 1:(K+1)
 
 # gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
             select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
                    -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %&gt;%
-            gather(K, value, -iid, -clst, -lab, -Region) 
+            gather(K, value, -iid, -clst, -lab, -Region) %&gt;% 
+            filter(K!=1)
 
-# plot facet grid
-p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
-    geom_text(size=2.5) +  
-    scale_colour_brewer(palette = &quot;Set2&quot;, guide=guide_legend(override.aes=list(size=4))) + 
-    scale_y_continuous(limits = c(0, NA)) + # non-negative
-    theme_bw() +
-    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-    facet_grid(factor(K, levels=paste0(&quot;K=&quot;, 1:10))~., scales=&quot;free_y&quot;) +
-    xlab(&quot;Individual&quot;) + 
-    ylab(&quot;Loading&quot;) 
+#### viz #####
+pops = unique(l_df$clst)
+
+# Africa
+africa_df = clst_df %&gt;% filter(Region == &quot;Africa&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+africa_pops = africa_df$Simple.Population.ID
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), africa_pops, label_size=5)
+
+# America
+america_df = clst_df %&gt;% filter(Region == &quot;America&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+america_pops = america_df$Simple.Population.ID
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), america_pops, label_size=5) 
+
+# Central Asia Siberia
+central_asia_siberia_df = clst_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+central_asia_siberia_pops = central_asia_siberia_df$Simple.Population.ID
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, label_size=5)
+
+# East Asia
+east_asia_df = clst_df %&gt;% filter(Region == &quot;EastAsia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+east_asia_pops = east_asia_df$Simple.Population.ID
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), east_asia_pops, label_size=5)
+
+# South Asia
+south_asia_df = clst_df %&gt;% filter(Region == &quot;SouthAsia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+south_asia_pops = south_asia_df$Simple.Population.ID
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;), south_asia_pops, label_size=5)
+
+# West Eurasia
+west_eurasia_df = clst_df %&gt;% filter(Region == &quot;WestEurasia&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+west_eurasia_pops = west_eurasia_df$Simple.Population.ID
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), west_eurasia_pops, label_size=5)
+
+# Oceania
+oceania_df = clst_df %&gt;% filter(Region == &quot;Oceania&quot;, Simple.Population.ID %in% pops) %&gt;% arrange(desc(Latitude))
+oceania_pops = oceania_df$Simple.Population.ID
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), oceania_pops, label_size=5) 
+
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/flash.Rmd/flash-viz-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/flash.Rmd/flash-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
 <details>
 <summary><em>Expand here to see past versions of flash-viz-1.png:</em></summary>
 <table style = "border-collapse:separate; border-spacing:5px;">
@@ -792,6 +882,24 @@ l_gath_df = l_df %&gt;%
                    -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %&gt;%
             gather(K, value, -iid, -clst, -lab, -Region) 
 
+# setup loadings data.frame
+l_df = as.data.frame(soft_res$u)
+l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
+l_df$clst = meta_df$clst[idx] # population labels
+l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
+
+# join with the meta data
+l_df = l_df %&gt;% inner_join(clst_df, on=&quot;clst&quot;)
+l_df = l_df %&gt;% arrange(Region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = paste0(&quot;K=&quot;, 1:K) # name the columns
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
+                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %&gt;%
+            gather(K, value, -iid, -clst, -lab, -Region) 
+
 # plot facet grid
 p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
     geom_text(size=2.5) +  
@@ -804,7 +912,38 @@ p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) +
     ylab(&quot;Loading&quot;) 
 p</code></pre>
 <p><img src="figure/flash.Rmd/soft-viz-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p><code>softImpute</code>’s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier.</p>
+<details>
+<summary><em>Expand here to see past versions of soft-viz-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/figure/flash.Rmd/soft-viz-1.png" target="_blank">63c2b75</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-13
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><code>softImpute</code>’s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier. I’m also now convinced by the power of the stacked bar plot (STRUCTURE plot)!</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -840,13 +979,13 @@ loaded via a namespace (and not attached):
 [31] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
 [34] Rcpp_1.0.0         corpcor_1.6.9      scales_0.5.0      
 [37] backports_1.1.2    truncnorm_1.0-8    digest_0.6.18     
-[40] stringi_1.2.4      ebnm_0.1-17        grid_3.5.1        
-[43] rprojroot_1.3-2    tools_3.5.1        magrittr_1.5      
-[46] lazyeval_0.2.1     tibble_1.4.2       crayon_1.3.4      
-[49] whisker_0.3-2      pkgconfig_2.0.1    MASS_7.3-51.1     
-[52] SQUAREM_2017.10-1  assertthat_0.2.0   rmarkdown_1.11    
-[55] iterators_1.0.10   R6_2.3.0           git2r_0.23.0      
-[58] compiler_3.5.1    </code></pre>
+[40] stringi_1.2.4      ebnm_0.1-17        cowplot_0.9.4     
+[43] grid_3.5.1         rprojroot_1.3-2    tools_3.5.1       
+[46] magrittr_1.5       lazyeval_0.2.1     tibble_1.4.2      
+[49] crayon_1.3.4       whisker_0.3-2      pkgconfig_2.0.1   
+[52] MASS_7.3-51.1      SQUAREM_2017.10-1  assertthat_0.2.0  
+[55] rmarkdown_1.11     iterators_1.0.10   R6_2.3.0          
+[58] git2r_0.23.0       compiler_3.5.1    </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

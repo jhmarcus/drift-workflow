@@ -36,6 +36,35 @@ library(softImpute)
 library(flashier)
 ```
 
+## Functions
+
+```{r functions}
+positive_structure_plot = function(gath_df, pops, label_size=5){
+  
+  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
+      geom_bar(stat="identity", width=1) +  
+      scale_fill_brewer(palette = "Set3") + 
+      scale_y_continuous(expand=c(0, 0)) +
+      scale_x_discrete(expand=c(0, 0)) +
+      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
+      theme_classic() +
+      theme(panel.spacing = unit(0.2, "lines"), 
+            strip.background = element_rect(colour="white", fill="white"),
+            strip.text.x = element_text(size = label_size, colour = "black", angle = 90, hjust = 1.1), 
+            strip.placement = "outside", 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            axis.text.x=element_blank(), 
+            axis.ticks.x=element_blank()) + 
+            ylab("") + 
+            xlab("") + 
+            guides(fill=F)
+  
+  return(p)
+  
+}
+```
+
 ## Data
 
 I prepared a dataset described in [Lazaridis et al. 2016](https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf) which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the "Human Origins Array Dataset" (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in `plink`. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:
@@ -76,11 +105,11 @@ print(m)
 print(p)
 ```
 
-## FLASH
+## FLASH (`flashier`)
 
 Next lets run greedy `flashier` on the resulting data matrix with a maximum of 10 factors:
 
-```{r flash-setup}
+```{r flash-setup, cache=TRUE}
 K = 9 # the first factor is fixed
 
 # to start we use point.normal not normal
@@ -95,7 +124,8 @@ flash_res = flashier(Y,
 
 It seems like the objective decreases in many of the factor fits (is this something to worry about). Lets now visualize the fitted `flashier` fit:
 
-```{r flash-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
+
+```{r flash-viz, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=11}
 # setup loadings data.frame
 l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
@@ -106,25 +136,56 @@ l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
 l_df = l_df %>% inner_join(clst_df, on="clst")
 l_df = l_df %>% arrange(Region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:(K+1)] = paste0("K=", 1:(K+1)) # name the columns
+colnames(l_df)[1:(K+1)] = 1:(K+1)
 
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
             select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
                    -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %>%
-            gather(K, value, -iid, -clst, -lab, -Region) 
+            gather(K, value, -iid, -clst, -lab, -Region) %>% 
+            filter(K!=1)
 
-# plot facet grid
-p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) + 
-    geom_text(size=2.5) +  
-    scale_colour_brewer(palette = "Set2", guide=guide_legend(override.aes=list(size=4))) + 
-    scale_y_continuous(limits = c(0, NA)) + # non-negative
-    theme_bw() +
-    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-    facet_grid(factor(K, levels=paste0("K=", 1:10))~., scales="free_y") +
-    xlab("Individual") + 
-    ylab("Loading") 
+#### viz #####
+pops = unique(l_df$clst)
+
+# Africa
+africa_df = clst_df %>% filter(Region == "Africa", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+africa_pops = africa_df$Simple.Population.ID
+p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), africa_pops, label_size=5)
+
+# America
+america_df = clst_df %>% filter(Region == "America", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+america_pops = america_df$Simple.Population.ID
+p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), america_pops, label_size=5) 
+
+# Central Asia Siberia
+central_asia_siberia_df = clst_df %>% filter(Region == "CentralAsiaSiberia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+central_asia_siberia_pops = central_asia_siberia_df$Simple.Population.ID
+p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), central_asia_siberia_pops, label_size=5)
+
+# East Asia
+east_asia_df = clst_df %>% filter(Region == "EastAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+east_asia_pops = east_asia_df$Simple.Population.ID
+p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), east_asia_pops, label_size=5)
+
+# South Asia
+south_asia_df = clst_df %>% filter(Region == "SouthAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+south_asia_pops = south_asia_df$Simple.Population.ID
+p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"), south_asia_pops, label_size=5)
+
+# West Eurasia
+west_eurasia_df = clst_df %>% filter(Region == "WestEurasia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+west_eurasia_pops = west_eurasia_df$Simple.Population.ID
+p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), west_eurasia_pops, label_size=5)
+
+# Oceania
+oceania_df = clst_df %>% filter(Region == "Oceania", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
+oceania_pops = oceania_df$Simple.Population.ID
+p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), oceania_pops, label_size=5) 
+
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = "v") 
 p
 ```
 
@@ -142,7 +203,7 @@ My impression is that this approach could be promising in building an interpreta
 
 Here we center and scale the columns and use `softImpute` to compute a PCA like solution in spite of missing data:
 
-```{r data-biscale}
+```{r soft-setup, cache=TRUE}
 Z = biScale(Y, row.center=F, row.scale=F)
 soft_res = softImpute(Z, rank.max=9, type="svd")
 ```
@@ -150,6 +211,24 @@ soft_res = softImpute(Z, rank.max=9, type="svd")
 Here we visualize the result:
 
 ```{r soft-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
+# setup loadings data.frame
+l_df = as.data.frame(soft_res$u)
+l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
+l_df$clst = meta_df$clst[idx] # population labels
+l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
+
+# join with the meta data
+l_df = l_df %>% inner_join(clst_df, on="clst")
+l_df = l_df %>% arrange(Region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = paste0("K=", 1:K) # name the columns
+
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
+                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %>%
+            gather(K, value, -iid, -clst, -lab, -Region) 
+
 # setup loadings data.frame
 l_df = as.data.frame(soft_res$u)
 l_df$iid = as.vector(meta_df$iid[idx]) # individual ids
@@ -181,4 +260,4 @@ p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) +
 p
 ```
 
-`softImpute`'s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier.
+`softImpute`'s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier. I'm also now convinced by the power of the stacked bar plot (STRUCTURE plot)!
