@@ -17,3 +17,5 @@ output/flash_greedy/
 output/flash_backfit/
 output/admixture/
 output/softImpute/
+
+.snakemake/
