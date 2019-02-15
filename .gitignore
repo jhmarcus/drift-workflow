@@ -21,3 +21,4 @@ output/softImpute/
 .snakemake/
 
 output/log/
+Makefile
