@@ -19,3 +19,5 @@ output/admixture/
 output/softImpute/
 
 .snakemake/
+
+output/log/

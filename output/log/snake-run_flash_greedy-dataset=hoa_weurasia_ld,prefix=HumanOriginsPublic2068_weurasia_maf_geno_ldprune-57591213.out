@@ -14,3 +14,435 @@ rule run_flash_greedy:
     jobid: 0
     wildcards: dataset=hoa_weurasia_ld, prefix=HumanOriginsPublic2068_weurasia_maf_geno_ldprune
 
+/project/jnovembre/jhmarcus/src/miniconda3/envs/drift_e/lib/python3.6/site-packages/rpy2/rinterface/__init__.py:146: RRuntimeWarning: Loading .Rprofile for the current workflowr project
+
+  warnings.warn(x, RRuntimeWarning)
+/project/jnovembre/jhmarcus/src/miniconda3/envs/drift_e/lib/python3.6/site-packages/rpy2/rinterface/__init__.py:146: RRuntimeWarning: This is workflowr version 1.1.1
+Run ?workflowr for help getting started
+
+  warnings.warn(x, RRuntimeWarning)
+[Fri Feb 15 12:07:10 2019]
+Finished job 0.
+1 of 1 steps (100%) done
+['output/flash_greedy/hoa_global/HumanOriginsPublic2068_maf_geno.rds', 'output/flash_greedy/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.rds', 'output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds', 'output/flash_greedy/hoa_weurasia/HumanOriginsPublic2068_weurasia_maf_geno.rds']
+['output/flash_backfit/hoa_global/HumanOriginsPublic2068_maf_geno.rds', 'output/flash_backfit/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.rds', 'output/flash_backfit/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds', 'output/flash_backfit/hoa_weurasia/HumanOriginsPublic2068_weurasia_maf_geno.rds']
+[1]
+ "reading in 770 individuals"
+
+
+[1]
+ "reading in 139640 snps"
+
+
+[1]
+ "snp major mode"
+
+
+[1]
+ "reading snp 20000"
+
+
+[1]
+ "reading snp 40000"
+
+
+[1]
+ "reading snp 60000"
+
+
+[1]
+ "reading snp 80000"
+
+
+[1]
+ "reading snp 100000"
+
+
+[1]
+ "reading snp 120000"
+
+
+Initializing flash object...
+
+Adding factor
+ 
+1
+ 
+to flash object...
+
+Adding factor
+ 
+2
+ 
+to flash object...
+
+Adding factor
+ 
+3
+ 
+to flash object...
+
+Adding factor
+ 
+4
+ 
+to flash object...
+
+Adding factor
+ 
+5
+ 
+to flash object...
+
+Adding factor
+ 
+6
+ 
+to flash object...
+
+Adding factor
+ 
+7
+ 
+to flash object...
+
+Adding factor
+ 
+8
+ 
+to flash object...
+
+Adding factor
+ 
+9
+ 
+to flash object...
+
+Adding factor
+ 
+10
+ 
+to flash object...
+
+Adding factor
+ 
+11
+ 
+to flash object...
+
+Adding factor
+ 
+12
+ 
+to flash object...
+
+Adding factor
+ 
+13
+ 
+to flash object...
+
+Adding factor
+ 
+14
+ 
+to flash object...
+
+An iteration decreased the objective by 
+
+5.49e+01
+
+. Try backfitting with warmstarts.
+
+Adding factor
+ 
+15
+ 
+to flash object...
+
+Adding factor
+ 
+16
+ 
+to flash object...
+
+Adding factor
+ 
+17
+ 
+to flash object...
+
+Adding factor
+ 
+18
+ 
+to flash object...
+
+Adding factor
+ 
+19
+ 
+to flash object...
+
+Adding factor
+ 
+20
+ 
+to flash object...
+
+Adding factor
+ 
+21
+ 
+to flash object...
+
+Adding factor
+ 
+22
+ 
+to flash object...
+
+Adding factor
+ 
+23
+ 
+to flash object...
+
+Adding factor
+ 
+24
+ 
+to flash object...
+
+Adding factor
+ 
+25
+ 
+to flash object...
+
+Adding factor
+ 
+26
+ 
+to flash object...
+
+Adding factor
+ 
+27
+ 
+to flash object...
+
+Adding factor
+ 
+28
+ 
+to flash object...
+
+Adding factor
+ 
+29
+ 
+to flash object...
+
+Adding factor
+ 
+30
+ 
+to flash object...
+
+Adding factor
+ 
+31
+ 
+to flash object...
+
+Nullchecking
+ 
+30
+ 
+factors...
+
+Factor 
+
+13
+
+ removed, increasing objective by 
+
+5.888e+02
+
+.
+
+Factor 
+
+15
+
+ removed, increasing objective by 
+
+6.189e+02
+
+.
+
+Factor 
+
+16
+
+ removed, increasing objective by 
+
+2.454e-02
+
+.
+
+Factor 
+
+17
+
+ removed, increasing objective by 
+
+6.156e+02
+
+.
+
+Factor 
+
+18
+
+ removed, increasing objective by 
+
+5.960e+02
+
+.
+
+Factor 
+
+19
+
+ removed, increasing objective by 
+
+6.179e+02
+
+.
+
+Factor 
+
+20
+
+ removed, increasing objective by 
+
+6.374e+02
+
+.
+
+Factor 
+
+21
+
+ removed, increasing objective by 
+
+6.085e+02
+
+.
+
+Factor 
+
+22
+
+ removed, increasing objective by 
+
+6.811e+02
+
+.
+
+Factor 
+
+23
+
+ removed, increasing objective by 
+
+7.226e+02
+
+.
+
+Factor 
+
+24
+
+ removed, increasing objective by 
+
+5.888e+02
+
+.
+
+Factor 
+
+25
+
+ removed, increasing objective by 
+
+5.991e+02
+
+.
+
+Factor 
+
+26
+
+ removed, increasing objective by 
+
+6.993e+02
+
+.
+
+Factor 
+
+27
+
+ removed, increasing objective by 
+
+6.764e+02
+
+.
+
+Factor 
+
+28
+
+ removed, increasing objective by 
+
+5.834e+02
+
+.
+
+Factor 
+
+29
+
+ removed, increasing objective by 
+
+5.802e+02
+
+.
+
+Factor 
+
+30
+
+ removed, increasing objective by 
+
+8.495e+02
+
+.
+
+Factor 
+
+31
+
+ removed, increasing objective by 
+
+5.719e+02
+
+.
+
+Wrapping up...
+
+Done.
+
