@@ -14,3 +14,4 @@ rule run_flash_greedy:
     jobid: 0
     wildcards: dataset=hoa_global_ld, prefix=HumanOriginsPublic2068_maf_geno_ldprune
 
+slurmstepd-midway2-0401: error: *** JOB 57578450 ON midway2-0401 CANCELLED AT 2019-02-14T22:39:27 ***
