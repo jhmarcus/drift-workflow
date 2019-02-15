@@ -323,12 +323,13 @@ div.section {
 <ul>
 <li>
 <details>
-<p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/1fc0c948e64dbf2123b981a1af8302712843310c" target="_blank">1fc0c94</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/f5ef1af4d17d9469ed52811c88166186d0c3c993" target="_blank">f5ef1af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -342,18 +343,10 @@ Ignored files:
     Ignored:    output/flash_greedy/
     Ignored:    output/softImpute/
 
-Untracked files:
-    Untracked:  analysis/hoa_weurasia.Rmd
-    Untracked:  code/viz.R
-    Untracked:  docs/figure/hoa_global.Rmd/
-    Untracked:  docs/figure/hoa_weurasia.Rmd/
-
 Unstaged changes:
-    Modified:   analysis/flash.Rmd
     Modified:   analysis/hoa_global.Rmd
-    Modified:   analysis/index.Rmd
-    Modified:   data/meta/HumanOriginsPublic2068_weurasia_maf_geno.meta
-    Modified:   data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta
+    Modified:   analysis/hoa_weurasia.Rmd
+    Modified:   output/log/snake-run_flash_backfit-dataset=hoa_global_ld,prefix=HumanOriginsPublic2068_maf_geno_ldprune-57591216.out
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -384,6 +377,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/analysis/index.Rmd" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added workflows for human origins datasets
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/index.html" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added workflows for human origins datasets
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html

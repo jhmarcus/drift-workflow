@@ -448,7 +448,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/1fc0c948e64dbf2123b981a1af8302712843310c" target="_blank">1fc0c94</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/f5ef1af4d17d9469ed52811c88166186d0c3c993" target="_blank">f5ef1af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -462,17 +462,10 @@ Ignored files:
     Ignored:    output/flash_greedy/
     Ignored:    output/softImpute/
 
-Untracked files:
-    Untracked:  analysis/hoa_weurasia.Rmd
-    Untracked:  code/viz.R
-    Untracked:  docs/figure/hoa_weurasia.Rmd/
-
 Unstaged changes:
-    Modified:   analysis/flash.Rmd
     Modified:   analysis/hoa_global.Rmd
-    Modified:   analysis/index.Rmd
-    Modified:   data/meta/HumanOriginsPublic2068_weurasia_maf_geno.meta
-    Modified:   data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta
+    Modified:   analysis/hoa_weurasia.Rmd
+    Modified:   output/log/snake-run_flash_backfit-dataset=hoa_global_ld,prefix=HumanOriginsPublic2068_maf_geno_ldprune-57591216.out
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -508,6 +501,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/analysis/hoa_global.Rmd" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added workflows for human origins datasets
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/hoa_global.html" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added workflows for human origins datasets
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/jhmarcus/drift-workflow/blob/4afc77e7c21b668a5b240c920c563dab67acc0e5/analysis/hoa_global.Rmd" target="_blank">4afc77e</a>
 </td>
 <td style="text-align:left;">
@@ -527,7 +554,7 @@ init hoa global analysis
 <hr />
 <div id="imports" class="section level2">
 <h2>Imports</h2>
-<p>Lets import some needed packages</p>
+<p>Lets import some needed packages:</p>
 <pre class="r"><code>library(ggplot2)
 library(tidyr)
 library(dplyr)
@@ -575,6 +602,37 @@ p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) +
         theme_bw()
 p_fct</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-factors-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p>We can see the later factors tend to get sparser but they still seem to contribute! Lets now take a look at the loadings:</p>
 <pre class="r"><code>############### data ############### 
 
@@ -633,6 +691,132 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-loadings-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-1.png" target="_blank">f5ef1af</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div id="backfit" class="section level3">
+<h3>Backfit</h3>
+<p>Lets first read the backfit <code>flashier</code> fit</p>
+<pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_backfit/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds&quot;)
+K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+print(K)</code></pre>
+<pre><code>[1] 31</code></pre>
+<pre class="r"><code>print(n)</code></pre>
+<pre><code>[1] 2068</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<pre><code>[1] 167178</code></pre>
+<p>Lets now plot the distribution of factors for each drift event</p>
+<pre class="r"><code># read factors
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:K] = 1:K 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %&gt;% 
+                gather(K, value) %&gt;%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_manual(values = getPalette(K_)) +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+        labs(fill=&quot;K&quot;) + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_fct</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-backfit-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Some of the drift event histograms look quite odd i.e. see 4 and 6. Lets now take a look at the loadings:</p>
+<pre class="r"><code>############### data ############### 
+
+# read the meta data
+meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta&quot;, sep=&quot; &quot;, header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+l_df$iid = as.vector(meta_df$iid) # individual ids
+l_df$clst = meta_df$clst # population labels
+
+# join with the meta data
+l_df = l_df %&gt;% inner_join(meta_df, on=&quot;clst&quot;)
+l_df = l_df %&gt;% arrange(region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = 1:K
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %&gt;% 
+            filter(K!=1)
+
+############### viz ############### 
+pops = unique(l_df$clst)
+
+# Africa
+africa_pops = get_pops(meta_df, &quot;Africa&quot;)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), africa_pops, K, label_size=5)
+
+# America
+america_pops = get_pops(meta_df, &quot;America&quot;)
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), america_pops, K, label_size=5) 
+
+# Central Asia Siberia
+central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, K, label_size=5)
+
+# East Asia
+east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), east_asia_pops, K, label_size=5)
+
+# South Asia
+south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;), south_asia_pops, K, label_size=5)
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), west_eurasia_pops, K, label_size=5)
+
+# Oceania
+oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), oceania_pops, K, label_size=5) 
+
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = &quot;v&quot;) 
+p</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-backfit-ld-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Its hard to visually tell the difference with so many events.</p>
 </div>
 </div>
 <div id="session-information" class="section level2">

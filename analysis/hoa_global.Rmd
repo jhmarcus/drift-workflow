@@ -7,7 +7,7 @@ output: workflowr::wflow_html
 
 ## Imports
 
-Lets import some needed packages 
+Lets import some needed packages:
 
 ```{r imports, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -124,5 +124,104 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
 p
 ```
 
+### Backfit
 
+Lets first read the backfit `flashier` fit
 
+```{r flash-backfit-ld}
+flash_fit = readRDS("../output/flash_backfit/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds")
+K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+print(K)
+print(n)
+print(p)
+```
+
+Lets now plot the distribution of factors for each drift event
+
+```{r flash-backfit-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
+# read factors
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:K] = 1:K 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                gather(K, value) %>%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_manual(values = getPalette(K_)) +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+        labs(fill="K") + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_fct
+```
+
+Some of the drift event histograms look quite odd i.e. see 4 and 6. Lets now take a look at the loadings:
+
+```{r flash-backfit-ld-viz-loadings, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=11}
+############### data ############### 
+
+# read the meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta", sep=" ", header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+l_df$iid = as.vector(meta_df$iid) # individual ids
+l_df$clst = meta_df$clst # population labels
+
+# join with the meta data
+l_df = l_df %>% inner_join(meta_df, on="clst")
+l_df = l_df %>% arrange(region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = 1:K
+
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
+            filter(K!=1)
+
+############### viz ############### 
+pops = unique(l_df$clst)
+
+# Africa
+africa_pops = get_pops(meta_df, "Africa")
+p_africa = positive_structure_plot(l_gath_df %>% filter(region == "Africa"), africa_pops, K, label_size=5)
+
+# America
+america_pops = get_pops(meta_df, "America")
+p_america = positive_structure_plot(l_gath_df %>% filter(region == "America"), america_pops, K, label_size=5) 
+
+# Central Asia Siberia
+central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
+p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(region == "CentralAsiaSiberia"), central_asia_siberia_pops, K, label_size=5)
+
+# East Asia
+east_asia_pops = get_pops(meta_df, "EastAsia")
+p_east_asia = positive_structure_plot(l_gath_df %>% filter(region == "EastAsia"), east_asia_pops, K, label_size=5)
+
+# South Asia
+south_asia_pops = get_pops(meta_df, "SouthAsia")
+p_south_asia= positive_structure_plot(l_gath_df %>% filter(region == "SouthAsia"), south_asia_pops, K, label_size=5)
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, "WestEurasia")
+p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(region == "WestEurasia"), west_eurasia_pops, K, label_size=5)
+
+# Oceania
+oceania_pops = get_pops(meta_df, "Oceania")
+p_oceania = positive_structure_plot(l_gath_df %>% filter(region == "Oceania"), oceania_pops, K, label_size=5) 
+
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = "v") 
+p
+```
+
+Its hard to visually tell the difference with so many events.
