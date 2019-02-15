@@ -1,5 +1,6 @@
 # drift-workflow
 
+A workflow for visualizing population structure with Empirical Bayes factor analysis
 
 ## Setup
 
@@ -9,7 +10,7 @@ source activate drift_e
 conda install numpy pandas scipy snakemake rpy2 matplotlib
 ```
 
-In `R` session
+In `R` session:
 
 ```
 library(devtools)
