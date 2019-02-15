@@ -124,7 +124,7 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
 p
 ```
 
-### Backfit
+### Backfitting
 
 Lets first read the backfit `flashier` fit
 
