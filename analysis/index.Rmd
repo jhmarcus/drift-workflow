@@ -8,4 +8,11 @@ output:
 
 Welcome to my research website.
 
+## Exploration
+
 * [`FLASH` proof of principle](flash.html)
+
+## Results
+
+* [Human Origins Array Global](hoa_global.html)  
+* [Human Origins Array West Eurasia](hoa_weurasia.html)

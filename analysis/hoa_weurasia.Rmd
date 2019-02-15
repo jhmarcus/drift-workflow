@@ -1,0 +1,98 @@
+---
+title: "Human Origins Array West Eurasia Results"
+author: "jhmarcus"
+date: "2019-02-15"
+output: workflowr::wflow_html
+---
+
+## Imports
+
+Lets import some needed packages 
+
+```{r imports, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+source("../code/viz.R")
+getPalette = colorRampPalette(brewer.pal(12, "Set3"))
+```
+
+## Human Origins West Eurasia (LD Pruned)
+
+This is a subset of the Human Origins Array dataset with 770 sampled from accross West Eurasia. I filtered out rare variants with global minor allele frequency less than 5%, and remove any variants with a missingness level greater than 1%. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 139640 SNPs.
+
+### Greedy
+
+Lets first read the greedy `flashier` fit
+
+```{r flash-greedy-ld}
+flash_fit = readRDS("../output/flash_greedy/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.rds")
+K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+print(K)
+print(n)
+print(p)
+```
+
+Lets now plot the distribution of factors for each drift event
+
+```{r flash-greedy-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
+# read factors
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:K] = 1:K 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                gather(K, value) %>%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_manual(values = getPalette(K_)) +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+        labs(fill="K") + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_fct
+```
+
+This seems that greedy`flashier` found no contributions of factors after the 14th although it seems a little bit buggy b/c the 13th factor is all `NA` but the 14th factor has some non-zeros but it does indeed seem very sparse? Lets now take a look at the loadings: 
+
+```{r flash-greedy-ld-viz-loadings, warning=FALSE, message=FALSE, fig.width=8, fig.height=4}
+# read the meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta", sep=" ", header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+l_df$iid = meta_df$iid # individual ids
+l_df$clst = meta_df$clst # population labels
+
+# join with the meta data
+l_df = l_df %>% inner_join(meta_df, on="clst")
+l_df = l_df %>% arrange(region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = 1:K
+
+l_df = l_df %>% select_if(~sum(!is.na(.)) > 0)
+
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
+            filter(K!=1) 
+
+#### viz #####
+pops = unique(l_df$clst)
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, "WestEurasia")
+p_west_eurasia = positive_structure_plot(l_gath_df, west_eurasia_pops, K, label_size=5)
+p_west_eurasia
+```
+
+It does seem cool that many groups can be made up of a sparse set of colors but it looks like many groups can be quite noisy as well.
+

@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="jhmarcus" />
 
+<meta name="date" content="2019-02-15" />
 
-<title>Home</title>
+<title>Human Origins Array Global Results</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -266,6 +271,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -313,7 +413,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Human Origins Array Global Results</h1>
+<h4 class="author"><em>jhmarcus</em></h4>
+<h4 class="date"><em>2019-02-15</em></h4>
 
 </div>
 
@@ -324,6 +426,24 @@ div.section {
 <li>
 <details>
 <p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20190211)</code> </summary></p>
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<details>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
 </details>
 </li>
 <li>
@@ -345,7 +465,6 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/hoa_weurasia.Rmd
     Untracked:  code/viz.R
-    Untracked:  docs/figure/hoa_global.Rmd/
     Untracked:  docs/figure/hoa_weurasia.Rmd/
 
 Unstaged changes:
@@ -386,121 +505,19 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/index.html" target="_blank">31a16c6</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-14
-</td>
-<td style="text-align:left;">
-added hists of factors
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/index.html" target="_blank">9538510</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-switched to struct style plot
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/index.html" target="_blank">63c2b75</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-added softimpute
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/index.html" target="_blank">7b6ecbc</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-12
-</td>
-<td style="text-align:left;">
-made fig size bigger
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/analysis/index.Rmd" target="_blank">5c0f91a</a>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/4afc77e7c21b668a5b240c920c563dab67acc0e5/analysis/hoa_global.Rmd" target="_blank">4afc77e</a>
 </td>
 <td style="text-align:left;">
 jhmarcus
 </td>
 <td style="text-align:left;">
-2019-02-12
+2019-02-15
 </td>
 <td style="text-align:left;">
-init flash proof of principle
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/index.html" target="_blank">5c0f91a</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-12
-</td>
-<td style="text-align:left;">
-init flash proof of principle
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/46105eea5be00db7743ec118652699f94fdea18a/analysis/index.Rmd" target="_blank">46105ee</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-11
-</td>
-<td style="text-align:left;">
-Start workflowr project.
+init hoa global analysis
 </td>
 </tr>
 </tbody>
@@ -508,20 +525,152 @@ Start workflowr project.
 </ul>
 </details>
 <hr />
-<p>Welcome to my research website.</p>
-<div id="exploration" class="section level2">
-<h2>Exploration</h2>
-<ul>
-<li><a href="flash.html"><code>FLASH</code> proof of principle</a></li>
-</ul>
+<div id="imports" class="section level2">
+<h2>Imports</h2>
+<p>Lets import some needed packages</p>
+<pre class="r"><code>library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+source(&quot;../code/viz.R&quot;)
+
+# this is the color palette we will use over and over 
+getPalette = colorRampPalette(brewer.pal(12, &quot;Set3&quot;))</code></pre>
 </div>
-<div id="results" class="section level2">
-<h2>Results</h2>
-<ul>
-<li><a href="hoa_global.html">Human Origins Array Global</a><br />
-</li>
-<li><a href="hoa_weurasia.html">Human Origins Array West Eurasia</a></li>
-</ul>
+<div id="human-origins-global-ld-pruned" class="section level2">
+<h2>Human Origins Global (LD Pruned)</h2>
+<p>This is the full Human Origins dataset 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, and remove any variants with a missingness level greater than 1%. I then LD pruned the SNPs using standard parameters in <code>plink</code>, resulting in 167178 SNPs.</p>
+<div id="greedy" class="section level3">
+<h3>Greedy</h3>
+<p>Lets first read the greedy <code>flashier</code> fit</p>
+<pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds&quot;)
+K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+print(K)</code></pre>
+<pre><code>[1] 31</code></pre>
+<pre class="r"><code>print(n)</code></pre>
+<pre><code>[1] 2068</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<pre><code>[1] 167178</code></pre>
+<p>Lets now plot the distribution of factors for each drift event</p>
+<pre class="r"><code># read factors
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:K] = 1:K 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %&gt;% 
+                gather(K, value) %&gt;%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_manual(values = getPalette(K_)) +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+        labs(fill=&quot;K&quot;) + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_fct</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>We can see the later factors tend to get sparser but they still seem to contribute! Lets now take a look at the loadings:</p>
+<pre class="r"><code>############### data ############### 
+
+# read the meta data
+meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta&quot;, sep=&quot; &quot;, header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+l_df$iid = as.vector(meta_df$iid) # individual ids
+l_df$clst = meta_df$clst # population labels
+
+# join with the meta data
+l_df = l_df %&gt;% inner_join(meta_df, on=&quot;clst&quot;)
+l_df = l_df %&gt;% arrange(region, clst) # sort by region then by population
+l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
+colnames(l_df)[1:K] = 1:K
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %&gt;% 
+            filter(K!=1)
+
+############### viz ############### 
+pops = unique(l_df$clst)
+
+# Africa
+africa_pops = get_pops(meta_df, &quot;Africa&quot;)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), africa_pops, K, label_size=5)
+
+# America
+america_pops = get_pops(meta_df, &quot;America&quot;)
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), america_pops, K, label_size=5) 
+
+# Central Asia Siberia
+central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, K, label_size=5)
+
+# East Asia
+east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), east_asia_pops, K, label_size=5)
+
+# South Asia
+south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;), south_asia_pops, K, label_size=5)
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), west_eurasia_pops, K, label_size=5)
+
+# Oceania
+oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), oceania_pops, K, label_size=5) 
+
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = &quot;v&quot;) 
+p</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS  10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] bindrcpp_0.2.2     RColorBrewer_1.1-2 dplyr_0.7.6       
+[4] tidyr_0.8.1        ggplot2_3.0.0     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0        compiler_3.5.1    pillar_1.3.0     
+ [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
+ [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.7.0    
+[10] tools_3.5.1       digest_0.6.18     evaluate_0.12    
+[13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.1  
+[16] rlang_0.3.1       yaml_2.2.0        xfun_0.4         
+[19] flashier_0.1.0    withr_2.1.2       stringr_1.3.1    
+[22] knitr_1.21        cowplot_0.9.4     rprojroot_1.3-2  
+[25] grid_3.5.1        tidyselect_0.2.4  glue_1.3.0       
+[28] R6_2.3.0          rmarkdown_1.11    reshape2_1.4.3   
+[31] purrr_0.2.5       magrittr_1.5      whisker_0.3-2    
+[34] backports_1.1.2   scales_0.5.0      htmltools_0.3.6  
+[37] assertthat_0.2.0  colorspace_1.3-2  labeling_0.3     
+[40] stringi_1.2.4     lazyeval_0.2.1    munsell_0.5.0    
+[43] crayon_1.3.4      R.oo_1.22.0      </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -545,6 +694,8 @@ footer is added to webpages before the MathJax javascript. -->
 <hr>
 
 
+</div>
+</div>
 
 </div>
 

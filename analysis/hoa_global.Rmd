@@ -14,47 +14,33 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(RColorBrewer)
-```
+source("../code/viz.R")
 
-## Functions
-
-```{r functions}
-positive_structure_plot = function(gath_df, pops, K_, label_size=5){
-  
-  getPalette = colorRampPalette(brewer.pal(12, "Set3"))
-  
-  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
-      geom_bar(stat="identity", width=1) +  
-      scale_fill_manual(values = getPalette(K_)) + 
-      scale_y_continuous(expand=c(0, 0)) +
-      scale_x_discrete(expand=c(0, 0)) +
-      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
-      theme_classic() +
-      theme(panel.spacing = unit(0.2, "lines"), 
-            strip.background = element_rect(colour="white", fill="white"),
-            strip.text.x = element_text(size = label_size, colour = "black", angle = 90, hjust = 1.1), 
-            strip.placement = "outside", 
-            panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank(),
-            axis.text.x=element_blank(), 
-            axis.ticks.x=element_blank()) + 
-            ylab("") + 
-            xlab("") + 
-            guides(fill=F)
-  
-  return(p)
-  
-}
+# this is the color palette we will use over and over 
+getPalette = colorRampPalette(brewer.pal(12, "Set3"))
 ```
 
 ## Human Origins Global (LD Pruned)
 
-```{r flash-greedy-hoa-global-ld}
+This is the full Human Origins dataset 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, and remove any variants with a missingness level greater than 1%. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 167178 SNPs.
+
+### Greedy
+
+Lets first read the greedy `flashier` fit
+
+```{r flash-greedy-ld}
 flash_fit = readRDS("../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds")
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+print(K)
+print(n)
+print(p)
 ```
 
-```{r flash-greedy-hoa-global-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=7}
+Lets now plot the distribution of factors for each drift event
+
+```{r flash-greedy-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
 # read factors
 delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
 colnames(delta_df)[1:K] = 1:K 
@@ -64,8 +50,6 @@ delta_gath_df = delta_df %>%
                 gather(K, value) %>%
                 filter(K!=1)
 
-getPalette = colorRampPalette(brewer.pal(12, "Set3"))
-
 # plot the factors
 K_ = K
 p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
@@ -73,83 +57,72 @@ p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) +
         geom_histogram() + 
         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
         labs(fill="K") + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
         theme_bw()
 p_fct
 ```
 
-```{r flash-greedy-hoa-global-ld-viz-loadings}
-# read the meta data
-meta_df = read.table("../data/NearEastPublic/HumanOriginsPublic2068_clst.tsv", sep="\t")
-colnames(meta_df) = c("iid", "clst")
-head(meta_df)
+We can see the later factors tend to get sparser but they still seem to contribute! Lets now take a look at the loadings:
 
-# read the clst data
-clst_df = read.table("../data/NearEastPublic/meta.tsv", sep="\t", header=TRUE)
-clst_df$clst = clst_df$Simple.Population.ID
-clst_df = clst_df %>% distinct(clst, .keep_all = TRUE) 
-head(clst_df)
+```{r flash-greedy-ld-viz-loadings, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=11}
+############### data ############### 
+
+# read the meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta", sep=" ", header=T)
 
 # setup loadings data.frame
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid) # individual ids
 l_df$clst = meta_df$clst # population labels
-l_df$lab = substr(l_df$clst, 1, 3) # shorthand for population labels
 
 # join with the meta data
-l_df = l_df %>% inner_join(clst_df, on="clst")
-l_df = l_df %>% arrange(Region, clst) # sort by region then by population
+l_df = l_df %>% inner_join(meta_df, on="clst")
+l_df = l_df %>% arrange(region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
 colnames(l_df)[1:K] = 1:K
 
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
-            select(-Simple.Population.ID, -Verbose.Population.ID, -Country, 
-                   -Latitude, -Longitude, -Samples, -Passed.QC, -Contributor) %>%
-            gather(K, value, -iid, -clst, -lab, -Region) %>% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
             filter(K!=1)
 
-#### viz #####
+############### viz ############### 
 pops = unique(l_df$clst)
 
 # Africa
-africa_df = clst_df %>% filter(Region == "Africa", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-africa_pops = africa_df$Simple.Population.ID
-p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), africa_pops, K, label_size=5)
+africa_pops = get_pops(meta_df, "Africa")
+p_africa = positive_structure_plot(l_gath_df %>% filter(region == "Africa"), africa_pops, K, label_size=5)
 
 # America
-america_df = clst_df %>% filter(Region == "America", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-america_pops = america_df$Simple.Population.ID
-p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), america_pops, K, label_size=5) 
+america_pops = get_pops(meta_df, "America")
+p_america = positive_structure_plot(l_gath_df %>% filter(region == "America"), america_pops, K, label_size=5) 
 
 # Central Asia Siberia
-central_asia_siberia_df = clst_df %>% filter(Region == "CentralAsiaSiberia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-central_asia_siberia_pops = central_asia_siberia_df$Simple.Population.ID
-p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), central_asia_siberia_pops, K, label_size=5)
+central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
+p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(region == "CentralAsiaSiberia"), central_asia_siberia_pops, K, label_size=5)
 
 # East Asia
-east_asia_df = clst_df %>% filter(Region == "EastAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-east_asia_pops = east_asia_df$Simple.Population.ID
-p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), east_asia_pops, K, label_size=5)
+east_asia_pops = get_pops(meta_df, "EastAsia")
+p_east_asia = positive_structure_plot(l_gath_df %>% filter(region == "EastAsia"), east_asia_pops, K, label_size=5)
 
 # South Asia
-south_asia_df = clst_df %>% filter(Region == "SouthAsia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-south_asia_pops = south_asia_df$Simple.Population.ID
-p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"), south_asia_pops, K, label_size=5)
+south_asia_pops = get_pops(meta_df, "SouthAsia")
+p_south_asia= positive_structure_plot(l_gath_df %>% filter(region == "SouthAsia"), south_asia_pops, K, label_size=5)
 
 # West Eurasia
-west_eurasia_df = clst_df %>% filter(Region == "WestEurasia", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-west_eurasia_pops = west_eurasia_df$Simple.Population.ID
-p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), west_eurasia_pops, K, label_size=5)
+west_eurasia_pops = get_pops(meta_df, "WestEurasia")
+p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(region == "WestEurasia"), west_eurasia_pops, K, label_size=5)
 
 # Oceania
-oceania_df = clst_df %>% filter(Region == "Oceania", Simple.Population.ID %in% pops) %>% arrange(desc(Latitude))
-oceania_pops = oceania_df$Simple.Population.ID
-p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), oceania_pops, K, label_size=5) 
+oceania_pops = get_pops(meta_df, "Oceania")
+p_oceania = positive_structure_plot(l_gath_df %>% filter(region == "Oceania"), oceania_pops, K, label_size=5) 
 
 p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = "v") 
 p
 ```
+
 
 
