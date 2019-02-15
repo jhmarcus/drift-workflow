@@ -1,0 +1,26 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 65
+Job counts:
+	count	jobs
+	1	flash_all
+	1	run_flash_greedy
+	2
+
+[Thu Feb 14 22:17:00 2019]
+rule run_flash_greedy:
+    input: data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.bed
+    output: output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds
+    jobid: 1
+    wildcards: dataset=hoa_global_ld, prefix=HumanOriginsPublic2068_maf_geno_ldprune
+
+Submitted job 1 with external jobid 'Submitted batch job 57577412'.
+[Thu Feb 14 22:17:40 2019]
+Error in rule run_flash_greedy:
+    jobid: 1
+    output: output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds
+    cluster_jobid: Submitted batch job 57577412
+
+Job failed, going on with independent jobs.
+Exiting because a job execution failed. Look above for error message
+Complete log: /project/jnovembre/jhmarcus/drift-workflow/.snakemake/log/2019-02-14T221700.572092.snakemake.log

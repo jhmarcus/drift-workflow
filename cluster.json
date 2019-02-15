@@ -1,0 +1,24 @@
+{
+	"__default__":
+	{
+	    "time" : "2:00:00",
+        "mem" : "1G",
+        "n" : 1,
+        "tasks" : 1,
+        "name" : "{rule}-{wildcards}",
+        "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
+        "email": "jhmarcus@uchicago.edu",
+        "emailtype": "ALL"
+    },
+	"run_flash_greedy":
+	{
+	    "time" : "36:00:00",
+        "mem" : "40G",
+        "n" : 1,
+        "tasks" : 1,
+        "name" : "{rule}-{wildcards}",
+        "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
+        "email": "jhmarcus@uchicago.edu",
+        "emailtype": "ALL"
+    }
+}

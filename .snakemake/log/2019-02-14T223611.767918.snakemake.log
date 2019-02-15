@@ -1,0 +1,17 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cluster nodes: 65
+Job counts:
+	count	jobs
+	1	flash_all
+	1	run_flash_greedy
+	2
+
+[Thu Feb 14 22:36:12 2019]
+rule run_flash_greedy:
+    input: data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.bed
+    output: output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds
+    jobid: 1
+    wildcards: dataset=hoa_global_ld, prefix=HumanOriginsPublic2068_maf_geno_ldprune
+
+Submitted job 1 with external jobid 'Submitted batch job 57578450'.

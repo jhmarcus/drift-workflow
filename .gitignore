@@ -10,4 +10,10 @@ analysis/*html
 analysis/*_cache
 analysis/site_libs
 
-data/NearEastPublic/
+data/raw/
+data/datasets/
+
+output/flash_greedy/
+output/flash_backfit/
+output/admixture/
+output/softImpute/
