@@ -1,0 +1,16 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	run_flash_greedy
+	1
+
+[Fri Feb 15 10:35:01 2019]
+rule run_flash_greedy:
+    input: data/datasets/hoa_weurasia/HumanOriginsPublic2068_weurasia_maf_geno.bed
+    output: output/flash_greedy/hoa_weurasia/HumanOriginsPublic2068_weurasia_maf_geno.rds
+    jobid: 0
+    wildcards: dataset=hoa_weurasia, prefix=HumanOriginsPublic2068_weurasia_maf_geno
+
