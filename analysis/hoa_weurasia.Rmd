@@ -2,7 +2,9 @@
 title: "Human Origins Array West Eurasia Results"
 author: "jhmarcus"
 date: "2019-02-15"
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    code_folding: show
 ---
 
 ## Imports
