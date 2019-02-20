@@ -31,5 +31,16 @@
         "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
         "email": "jhmarcus@uchicago.edu",
         "emailtype": "ALL"
+    },
+	"run_admixture":
+	{
+	    "time" : "24:00:00",
+        "mem" : "40G",
+        "n" : 1,
+        "tasks" : 1,
+        "name" : "{rule}-{wildcards}",
+        "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
+        "email": "jhmarcus@uchicago.edu",
+        "emailtype": "ALL"
     }
 }

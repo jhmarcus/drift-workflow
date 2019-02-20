@@ -15,8 +15,6 @@ for dataset_path in dataset_paths:
     rds_greedy.append("output/flash_greedy/{}/{}.rds".format(dataset, prefix))
     rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
 
-print(rds_greedy)
-print(rds_backfit)
 
 rule flash_all:
     """Runs all the flash rules
