@@ -1,0 +1,19 @@
+#!python
+import glob
+import os
+import numpy as np
+import pandas as pd
+
+
+rule coalsim_all:
+    """Runs all admixture rules
+    """
+    input:
+
+
+rule run_ooa_sim:
+    """Runs out of africa simulation
+    """
+    input:
+    output:
+    run:
