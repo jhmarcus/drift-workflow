@@ -13,13 +13,8 @@ analysis/site_libs
 data/raw/
 data/datasets/
 
-output/flash_greedy/
-output/flash_backfit/
-output/admixture/
-output/softImpute/
-output/log/
-output/sim/
+output/
+output.tar.gz
 
 .snakemake/
 
-Makefile
