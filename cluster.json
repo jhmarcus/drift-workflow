@@ -42,5 +42,16 @@
         "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
         "email": "jhmarcus@uchicago.edu",
         "emailtype": "ALL"
+    },
+	"run_ooa_sim":
+	{
+	    "time" : "7:00:00",
+        "mem" : "10G",
+        "n" : 1,
+        "tasks" : 1,
+        "name" : "{rule}-{wildcards}",
+        "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
+        "email": "jhmarcus@uchicago.edu",
+        "emailtype": "ALL"
     }
 }

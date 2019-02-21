@@ -17,9 +17,9 @@ output/flash_greedy/
 output/flash_backfit/
 output/admixture/
 output/softImpute/
+output/log/
+output/sim/
 
 .snakemake/
 
-output/log/
-output/benchmarks/
 Makefile

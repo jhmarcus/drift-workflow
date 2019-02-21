@@ -3,6 +3,8 @@ import glob
 import os
 import numpy as np
 import pandas as pd
+import math
+import msprime
 
 
 rule coalsim_all:
@@ -21,9 +23,16 @@ rule run_ooa_sim:
     """
     input:
     params:
+        vcf = "output/sim/ooa/ooa.vcf",
         bed_prefix_0 = "output/sim/ooa/ooa_maf",
         prune_prefix = "output/sim/ooa/ooa_maf",
-        bed_prefix_1 = "output/sim/ooa/ooa_maf_ldprune"
+        bed_prefix_1 = "output/sim/ooa/ooa_maf_ldprune",
+        n_afr=100,
+        n_eur=100,
+        n_eas=100,
+        mu = 1.2e-8,
+        r = 1e-8,
+        seqlen = 1e8
     output:
         vcf = "output/sim/ooa/ooa.vcf.gz",
         prune = "output/sim/ooa/ooa_maf.prune.in",
@@ -32,9 +41,6 @@ rule run_ooa_sim:
         fam = "output/sim/ooa/ooa_maf_ldprune.fam"
     run:
         # modified from https://msprime.readthedocs.io/en/stable/tutorial.html + Arjuns script
-        n_afr=100
-        n_eur=100
-        n_eas=100
 
         # First we set out the maximum likelihood values of the various parameters
         # given in Table 1.
@@ -68,11 +74,11 @@ rule run_ooa_sim:
         # initially.
         population_configurations = [
             msprime.PopulationConfiguration(
-                sample_size=n_afr, initial_size=N_AF),
+                sample_size=params.n_afr, initial_size=N_AF),
             msprime.PopulationConfiguration(
-                sample_size=n_eur, initial_size=N_EU, growth_rate=r_EU),
+                sample_size=params.n_eur, initial_size=N_EU, growth_rate=r_EU),
             msprime.PopulationConfiguration(
-                sample_size=n_eas, initial_size=N_AS, growth_rate=r_AS)
+                sample_size=params.n_eas, initial_size=N_AS, growth_rate=r_AS)
         ]
 
         migration_matrix = [
@@ -101,17 +107,20 @@ rule run_ooa_sim:
         ]
 
         # tree seq
-        ts = msprime.simulate(length=5e7, recombination_rate=1e-8, mutation_rate=1.2e-8,
+        ts = msprime.simulate(length=params.seqlen, recombination_rate=params.r, mutation_rate=params.mu,
                               population_configurations=population_configurations,
-                              migration_matrix=,migration_matrix
+                              migration_matrix=migration_matrix,
                               demographic_events=demographic_events)
 
         # write to vcf
-        with open(outfile, "w") as vcf_out:
-	        ts.write_vcf(output.vcf, 2)
+        with open(params.vcf, "w") as vcf_out:
+	        ts.write_vcf(vcf_out, 2)
+        
+        # compress vcf
+        shell("bgzip {params.vcf}")
 
         # filter on maf
-        shell("plink --bfile {output.vcf} --maf .05 --out {params.bed_prefix_0} --make-bed")
+        shell("plink --vcf {output.vcf} --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
 
         # ld prune snps
         shell("plink --bfile {params.bed_prefix_0} --indep-pairwise 200 25 0.4 --out {params.prune_prefix}")

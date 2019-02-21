@@ -2,6 +2,7 @@
 
 include: "snakefiles/flash/Snakefile"
 include: "snakefiles/admixture/Snakefile"
+include: "snakefiles/coalsim/Snakefile"
 
 rule none:
     input: 'Snakefile'
