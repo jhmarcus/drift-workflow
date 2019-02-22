@@ -1,9 +1,13 @@
 ---
-title: "ooa"
+title: "Out of Africa Simulation"
 author: "jhmarcus"
 date: "2019-02-21"
 output: workflowr::wflow_html
 ---
+
+Here I analyze
+
+## Imports
 
 ```{r imports, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -22,13 +26,10 @@ print(p)
 ```
 
 ```{r flash-setup, cache=TRUE}
-K = 5 # the first factor is fixed
+K = 4 # the first factor is fixed
 
 # to start we use point.normal not normal
 flash_res = flashier(X, 
-                     backfit = "final", 
-                     backfit.order = "dropout", 
-                     backfit.reltol = 10,
                      greedy.Kmax=K, 
                      prior.type=c("nonnegative", "point.normal"), 
                      var.type=0,
@@ -95,36 +96,36 @@ p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) +
 p_fct
 ```
 
-```{r soft-setup, cache=TRUE}
-Z = biScale(X, row.center=F, row.scale=F)
-soft_res = softImpute(Z, rank.max=10, type="svd")
-```
-
-Here we visualize the result:
-
-```{r soft-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
-# setup loadings data.frame
-l_df = as.data.frame(soft_res$u)
+```{r admixture}
+l_df = read.table("../output/admixture/ooa_sim/ooa_sim_maf_ldprune.K3r1.Q", sep=" ", header=F)
 l_df$iid = 1:150
 l_df$clst = c(rep("AF", 50), rep("EU", 50), rep("AS", 50))
-colnames(l_df)[1:10] = 1:10
+colnames(l_df)[1:3] = 1:3
 pops = c("AF", "EU", "AS")
-
 
 # gather the data.frame for plotting
 gath_df = l_df %>% 
           select_if(~sum(!is.na(.)) > 0) %>%
-          gather(K, value, -iid, -clst) 
+          gather(K, value, -iid, -clst) %>% 
+          mutate(iid = reorder(iid, value))
 
-# plot facet grid
-p = ggplot(data=gath_df, aes(x=iid, y=value, label=clst, color=clst)) + 
-    geom_text(size=2.5) +  
-    scale_colour_brewer(palette = "Set2", guide=guide_legend(override.aes=list(size=4))) + 
-    theme_bw() +
-    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-    facet_grid(factor(K, levels = 1:10)~., scales="free_y") +
-    xlab("Individual") + 
-    ylab("Loading") 
+p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=1:3))) + 
+      geom_bar(stat="identity", width=1) +  
+      scale_fill_brewer(palette = "Set3") + 
+      scale_y_continuous(expand=c(0, 0)) +
+      scale_x_discrete(expand=c(0, 0)) +
+      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
+      theme_classic() +
+      theme(panel.spacing = unit(0.2, "lines"), 
+            strip.background = element_rect(colour="white", fill="white"),
+            strip.text.x = element_text(colour = "black", angle = 90, hjust = 1.1), 
+            strip.placement = "outside", 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            axis.text.x=element_blank(), 
+            axis.ticks.x=element_blank()) + 
+            ylab("") + 
+            xlab("") + 
+            guides(fill=F)
 p
 ```
