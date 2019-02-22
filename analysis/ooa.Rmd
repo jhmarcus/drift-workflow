@@ -1,0 +1,130 @@
+---
+title: "ooa"
+author: "jhmarcus"
+date: "2019-02-21"
+output: workflowr::wflow_html
+---
+
+```{r imports, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(softImpute)
+library(flashier)
+```
+
+```{r data-genotypes}
+X = t(lfa:::read.bed("../output/sim/ooa/ooa_maf_ldprune"))
+n = nrow(X)
+p = ncol(X)
+print(n)
+print(p)
+```
+
+```{r flash-setup, cache=TRUE}
+K = 5 # the first factor is fixed
+
+# to start we use point.normal not normal
+flash_res = flashier(X, 
+                     backfit = "final", 
+                     backfit.order = "dropout", 
+                     backfit.reltol = 10,
+                     greedy.Kmax=K, 
+                     prior.type=c("nonnegative", "point.normal"), 
+                     var.type=0,
+                     fix.dim=list(1), 
+                     fix.idx=list(1:n), 
+                     fix.vals=list(rep(1, n)))
+```
+
+```{r flash-viz-loadings, warning=FALSE, message=FALSE}
+# setup loadings data.frame
+l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
+l_df$iid = 1:150
+l_df$clst = c(rep("AF", 50), rep("EU", 50), rep("AS", 50))
+colnames(l_df)[1:4] = 1:4
+pops = c("AF", "EU", "AS")
+K_ = 4
+
+# gather the data.frame for plotting
+gath_df = l_df %>% 
+          select_if(~sum(!is.na(.)) > 0) %>%
+          gather(K, value, -iid, -clst) %>% 
+          filter(K!=1)
+
+p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
+      geom_bar(stat="identity", width=1) +  
+      scale_fill_brewer(palette = "Set3") + 
+      scale_y_continuous(expand=c(0, 0)) +
+      scale_x_discrete(expand=c(0, 0)) +
+      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
+      theme_classic() +
+      theme(panel.spacing = unit(0.2, "lines"), 
+            strip.background = element_rect(colour="white", fill="white"),
+            strip.text.x = element_text(colour = "black", angle = 90, hjust = 1.1), 
+            strip.placement = "outside", 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            axis.text.x=element_blank(), 
+            axis.ticks.x=element_blank()) + 
+            ylab("") + 
+            xlab("") + 
+            guides(fill=F)
+p
+```
+
+```{r flash-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=7}
+# read factors
+delta_df = as.data.frame(flash_res$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:K_] = 1:K_ 
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                select_if(~sum(!is.na(.)) > 0) %>%
+                gather(K, value) %>%
+                filter(K!=1)
+
+# plot the factors
+K_ = K + 1
+p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+        scale_fill_brewer(palette = "Set3") +
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+        labs(fill="K") + 
+        theme_bw()
+p_fct
+```
+
+```{r soft-setup, cache=TRUE}
+Z = biScale(X, row.center=F, row.scale=F)
+soft_res = softImpute(Z, rank.max=10, type="svd")
+```
+
+Here we visualize the result:
+
+```{r soft-viz, warning=FALSE, message=FALSE, fig.width=8, fig.height=10}
+# setup loadings data.frame
+l_df = as.data.frame(soft_res$u)
+l_df$iid = 1:150
+l_df$clst = c(rep("AF", 50), rep("EU", 50), rep("AS", 50))
+colnames(l_df)[1:10] = 1:10
+pops = c("AF", "EU", "AS")
+
+
+# gather the data.frame for plotting
+gath_df = l_df %>% 
+          select_if(~sum(!is.na(.)) > 0) %>%
+          gather(K, value, -iid, -clst) 
+
+# plot facet grid
+p = ggplot(data=gath_df, aes(x=iid, y=value, label=clst, color=clst)) + 
+    geom_text(size=2.5) +  
+    scale_colour_brewer(palette = "Set2", guide=guide_legend(override.aes=list(size=4))) + 
+    theme_bw() +
+    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    facet_grid(factor(K, levels = 1:10)~., scales="free_y") +
+    xlab("Individual") + 
+    ylab("Loading") 
+p
+```
