@@ -11,11 +11,9 @@ rule coalsim_all:
     """Runs all admixture rules
     """
     input:
-        ["output/sim/ooa/ooa.vcf.gz"],
-        ["output/sim/ooa/ooa_maf.prune.in"],
-        ["output/sim/ooa/ooa_maf_ldprune.bed"],
-        ["output/sim/ooa/ooa_maf_ldprune.bim"],
-        ["output/sim/ooa/ooa_maf_ldprune.fam"]
+        ["data/datasets/ooa_sim/ooa_sim_maf_ldprune.bed",
+         "data/datasets/ooa_sim/ooa_sim_maf_ldprune.bim", 
+         "data/datasets/ooa_sim/ooa_sim_maf_ldprune.fam"]
 
 
 rule run_ooa_sim:
@@ -23,10 +21,12 @@ rule run_ooa_sim:
     """
     input:
     params:
-        vcf = "output/sim/ooa/ooa.vcf",
-        bed_prefix_0 = "output/sim/ooa/ooa_maf",
-        prune_prefix = "output/sim/ooa/ooa_maf",
-        bed_prefix_1 = "output/sim/ooa/ooa_maf_ldprune",
+        path = "data/datasets/ooa_sim",
+        vcf = "data/datasets/ooa_sim/ooa_sim.vcf",
+        vcfgz = "data/datasets/ooa_sim/ooa_sim.vcf.gz",
+        prune = "data/datasets/ooa_sim/ooa_sim_maf.prune.in",
+        bed_prefix_0 = "data/datasets/ooa_sim/ooa_sim_maf",
+        bed_prefix_1 = "data/datasets/ooa_sim/ooa_sim_maf_ldprune",
         n_afr=100,
         n_eur=100,
         n_eas=100,
@@ -34,11 +34,9 @@ rule run_ooa_sim:
         r = 1e-8,
         seqlen = 1e8
     output:
-        vcf = "output/sim/ooa/ooa.vcf.gz",
-        prune = "output/sim/ooa/ooa_maf.prune.in",
-        bed = "output/sim/ooa/ooa_maf_ldprune.bed",
-        bim = "output/sim/ooa/ooa_maf_ldprune.bim",
-        fam = "output/sim/ooa/ooa_maf_ldprune.fam"
+        bed = "data/datasets/ooa_sim/ooa_sim_maf_ldprune.bed",
+        bim = "data/datasets/ooa_sim/ooa_sim_maf_ldprune.bim",
+        fam = "data/datasets/ooa_sim/ooa_sim_maf_ldprune.fam"
     run:
         # modified from https://msprime.readthedocs.io/en/stable/tutorial.html + Arjuns script
 
@@ -120,8 +118,13 @@ rule run_ooa_sim:
         shell("bgzip {params.vcf}")
 
         # filter on maf
-        shell("plink --vcf {output.vcf} --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
+        shell("plink --vcf {params.vcfgz} --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
 
         # ld prune snps
-        shell("plink --bfile {params.bed_prefix_0} --indep-pairwise 200 25 0.4 --out {params.prune_prefix}")
-        shell("plink --bfile {params.bed_prefix_0} --extract {output.prune} --make-bed --out {params.bed_prefix_1}")
+        shell("plink --bfile {params.bed_prefix_0} --indep-pairwise 200 25 0.4 --out {params.bed_prefix_0}")
+        shell("plink --bfile {params.bed_prefix_0} --extract {params.prune} --make-bed --out {params.bed_prefix_1}")
+
+        # remove intermediate files
+        shell("rm {params.vcfgz}")
+        shell("rm {params.bed_prefix_0}.*")
+        shell("rm {params.path}/*.log {params.path}/*.nosex")

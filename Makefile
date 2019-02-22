@@ -1,3 +1,6 @@
+clean: 
+	rm output.tar.gz
+
 compress:
 	tar -cvzf output.tar.gz output/
 

@@ -10,10 +10,12 @@ rds_greedy = []
 rds_backfit = []
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
-    bed_path = glob.glob("{}/*.bed".format(dataset_path))[0]
-    prefix = os.path.basename(bed_path).split(".")[0]
-    rds_greedy.append("output/flash_greedy/{}/{}.rds".format(dataset, prefix))
-    rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
+    bed_lst = glob.glob("{}/*.bed".format(dataset_path))
+    if len(bed_lst) > 0:
+        bed_path = bed_lst[0]
+        prefix = os.path.basename(bed_path).split(".")[0]
+        rds_greedy.append("output/flash_greedy/{}/{}.rds".format(dataset, prefix))
+        rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
 
 
 rule flash_all:
