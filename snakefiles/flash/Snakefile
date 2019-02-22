@@ -45,7 +45,7 @@ rule run_flash_greedy:
           
           # run greedy flash
           flash_fit = flashier::flashier(Y,
-                                         greedy.Kmax=30,
+                                         greedy.Kmax=20,
                                          prior.type=c('nonnegative', 'point.normal'),
                                          var.type=0,
                                          fix.dim=list(1),
