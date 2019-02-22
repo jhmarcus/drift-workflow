@@ -8,7 +8,7 @@ import msprime
 
 
 rule coalsim_all:
-    """Runs all admixture rules
+    """Runs all coalescent simulations
     """
     input:
         ["data/datasets/ooa_sim/ooa_sim_maf_ldprune.bed",
