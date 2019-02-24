@@ -23,7 +23,7 @@ rule flash_all:
     """
     input:
         rds_greedy,
-        rds_backfit
+#        rds_backfit
 
 
 rule run_flash_greedy:
@@ -47,7 +47,7 @@ rule run_flash_greedy:
           flash_fit = flashier::flashier(Y,
                                          greedy.Kmax=20,
                                          prior.type=c('nonnegative', 'point.normal'),
-                                         var.type=0,
+                                         var.type=2,
                                          fix.dim=list(1),
                                          fix.idx=list(1:n),
                                          fix.vals=list(rep(1, n)))
