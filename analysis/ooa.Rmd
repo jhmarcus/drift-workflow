@@ -17,43 +17,26 @@ library(softImpute)
 library(flashier)
 ```
 
-```{r data-genotypes}
-X = t(lfa:::read.bed("../output/sim/ooa/ooa_maf_ldprune"))
-n = nrow(X)
-p = ncol(X)
-print(n)
-print(p)
-```
-
 ```{r flash-setup, cache=TRUE}
-K = 4 # the first factor is fixed
-
-# to start we use point.normal not normal
-flash_res = flashier(X, 
-                     greedy.Kmax=K, 
-                     prior.type=c("nonnegative", "point.normal"), 
-                     var.type=0,
-                     fix.dim=list(1), 
-                     fix.idx=list(1:n), 
-                     fix.vals=list(rep(1, n)))
+flash_fit = readRDS("../output/flash_greedy/ooa_sim/ooa_sim_maf_ldprune.rds")
 ```
 
 ```{r flash-viz-loadings, warning=FALSE, message=FALSE}
 # setup loadings data.frame
-l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 l_df$iid = 1:150
 l_df$clst = c(rep("AF", 50), rep("EU", 50), rep("AS", 50))
-colnames(l_df)[1:4] = 1:4
+colnames(l_df)[1:21] = 1:21
 pops = c("AF", "EU", "AS")
 K_ = 4
 
 # gather the data.frame for plotting
-gath_df = l_df %>% 
+gath_df = l_df %>%
           select_if(~sum(!is.na(.)) > 0) %>%
           gather(K, value, -iid, -clst) %>% 
-          filter(K!=1)
+          filter(K %in% c("2", "3", "4")) 
 
-p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
+p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
       geom_bar(stat="identity", width=1) +  
       scale_fill_brewer(palette = "Set3") + 
       scale_y_continuous(expand=c(0, 0)) +
@@ -76,8 +59,8 @@ p
 
 ```{r flash-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=7}
 # read factors
-delta_df = as.data.frame(flash_res$loadings$normalized.loadings[[2]])
-colnames(delta_df)[1:K_] = 1:K_ 
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df)[1:21] = 1:21
 
 # gather the data.frame for plotting
 delta_gath_df = delta_df %>% 
@@ -86,7 +69,7 @@ delta_gath_df = delta_df %>%
                 filter(K!=1)
 
 # plot the factors
-K_ = K + 1
+K_ = 21
 p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
         scale_fill_brewer(palette = "Set3") +
         geom_histogram() + 

@@ -437,7 +437,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-15</p>
+<p><strong>Last updated:</strong> 2019-02-24</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -465,24 +465,25 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2" target="_blank">b4749ac</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/2d28bb945ece17c4043981e2caae3de7114b3c3f" target="_blank">2d28bb9</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
-    Ignored:    Makefile
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/flash_cache/
-    Ignored:    data/.DS_Store
-    Ignored:    data/raw/
-    Ignored:    output/admixture/
+    Ignored:    output.tar.gz
     Ignored:    output/flash_backfit/
     Ignored:    output/flash_greedy/
+    Ignored:    output/log/
+    Ignored:    output/sim/
     Ignored:    output/softImpute/
 
 Unstaged changes:
     Modified:   analysis/hoa_global.Rmd
     Modified:   analysis/hoa_weurasia.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/ooa.Rmd
+    Modified:   code/viz.R
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -513,6 +514,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/analysis/hoa_global.Rmd" target="_blank">403bc6b</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added hide code blocks
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/hoa_global.html" target="_blank">403bc6b</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added hide code blocks
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -644,10 +679,7 @@ init hoa global analysis
 library(tidyr)
 library(dplyr)
 library(RColorBrewer)
-source(&quot;../code/viz.R&quot;)
-
-# this is the color palette we will use over and over 
-getPalette = colorRampPalette(brewer.pal(12, &quot;Set3&quot;))</code></pre>
+source(&quot;../code/viz.R&quot;)</code></pre>
 </div>
 <div id="human-origins-global-ld-pruned" class="section level2">
 <h2>Human Origins Global (LD Pruned)</h2>
@@ -660,7 +692,7 @@ K = ncol(flash_fit$loadings$normalized.loadings[[1]])
 n = nrow(flash_fit$loadings$normalized.loadings[[1]])
 p = nrow(flash_fit$loadings$normalized.loadings[[2]])
 print(K)</code></pre>
-<pre><code>[1] 31</code></pre>
+<pre><code>[1] 21</code></pre>
 <pre class="r"><code>print(n)</code></pre>
 <pre><code>[1] 2068</code></pre>
 <pre class="r"><code>print(p)</code></pre>
@@ -677,7 +709,7 @@ delta_gath_df = delta_df %&gt;%
 
 # plot the factors
 K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+p_fct = ggplot(delta_gath_df, aes(x=value)) + 
         scale_fill_manual(values = getPalette(K_)) +
         geom_histogram() + 
         facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
@@ -718,16 +750,38 @@ jhmarcus
 </tbody>
 </table>
 </details>
-<p>We can see the later factors tend to get sparser but they still seem to contribute! Lets now take a look at the loadings:</p>
-<pre class="r"><code>############### data ############### 
-
-# read the meta data
+<p>We can see the later factors tend to get sparser but they still seem to contribute! Here is a plot of the “proportion of variance explained” of each factor:</p>
+<pre class="r"><code>qplot(2:K, flash_fit$pve[2:K]) + ylab(&quot;Proportion of Varaince Explained&quot;) + xlab(&quot;K&quot;) + theme_bw()</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$pve)</code></pre>
+<pre><code> [1] 0.4750002010 0.0221931227 0.0180913971 0.0103143286 0.0025255466
+ [6] 0.0015774930 0.0045260494 0.0014121917 0.0012173854 0.0007676335
+[11] 0.0006728921 0.0008111508 0.0002212648 0.0003887796 0.0002380212
+[16] 0.0002352021 0.0001895606 0.0002282840 0.0002907459 0.0001156450
+[21] 0.0001605612</code></pre>
+<p>It looks like the PVE drops off at around 11 or so? I setup the <code>flashier</code> run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:</p>
+<pre class="r"><code>qplot(1/flash_fit$fit$est.tau) + xlab(&quot;Estimated Variance&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Lets now look the the fitted means:</p>
+<pre class="r"><code>qplot(delta_df$`1`) + xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The mean seems a bit smaller than I would have expected? These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity <span class="math inline">\(\approx 2p(1-p)\)</span>? The mean term should roughly be interpreted as the mean allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:</p>
+<pre class="r"><code>p_mv = qplot(delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+       xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Estimated Variance&quot;) + 
+       scale_alpha(guide = &quot;none&quot;) + 
+       theme_bw()
+p_mv</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Lets now take a look at the loadings. First we setup a data.frame that we can work with:</p>
+<pre class="r"><code># read the meta data
 meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta&quot;, sep=&quot; &quot;, header=T)
 
 # setup loadings data.frame
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+K = ncol(l_df)
 l_df$iid = as.vector(meta_df$iid) # individual ids
 l_df$clst = meta_df$clst # population labels
+pops = unique(l_df$clst) # all unique pop labels
 
 # join with the meta data
 l_df = l_df %&gt;% inner_join(meta_df, on=&quot;clst&quot;)
@@ -735,153 +789,158 @@ l_df = l_df %&gt;% arrange(region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
 colnames(l_df)[1:K] = 1:K
 
-# gather the data.frame for plotting
+head(l_df)</code></pre>
+<pre><code>           1           2            3          4            5          6
+1 0.02198997 0.009454832 4.485180e-06 0.02211841 3.303098e-05 0.01764253
+2 0.02198997 0.009511229 4.406670e-06 0.02247997 4.952488e-05 0.01608845
+3 0.02198997 0.006147078 4.086449e-06 0.02482062 2.726321e-05 0.01692735
+4 0.02198997 0.009103984 4.338176e-06 0.02293795 2.797966e-05 0.01742585
+5 0.02198997 0.009529573 4.394827e-06 0.02267025 3.845100e-05 0.01450389
+6 0.02198997 0.009243629 4.460459e-06 0.02215776 2.795106e-05 0.01760249
+            7            8            9           10           11
+1 0.004374536 1.089539e-03 2.812993e-05 3.470028e-05 3.866924e-05
+2 0.003241962 4.231122e-04 2.932860e-05 3.615817e-05 3.888100e-05
+3 0.004951296 9.893482e-05 2.583221e-05 3.555401e-05 3.744459e-05
+4 0.004661258 1.784788e-04 2.702595e-05 3.411185e-05 3.742829e-05
+5 0.004437185 8.043608e-04 2.643633e-05 3.423255e-05 3.784264e-05
+6 0.005064440 8.324509e-05 2.791866e-05 3.363985e-05 3.856931e-05
+          12           13           14         15           16
+1 0.05017069 8.140998e-05 4.952727e-05 0.08068407 7.771326e-05
+2 0.04589132 8.638569e-05 5.161609e-05 0.05897009 7.994484e-05
+3 0.05074213 8.358567e-05 5.114096e-05 0.08024062 7.892103e-05
+4 0.05519966 7.798145e-05 4.992192e-05 0.09129734 8.299529e-05
+5 0.05242051 7.961690e-05 4.865967e-05 0.09571542 8.121683e-05
+6 0.05152888 8.057720e-05 5.030271e-05 0.07831456 7.913664e-05
+            17           18           19           20           21
+1 7.842225e-05 1.019054e-04 2.147227e-04 8.793061e-05 8.502300e-05
+2 8.227041e-05 8.412758e-05 1.665734e-04 8.801740e-05 1.154576e-04
+3 9.672675e-05 8.794415e-05 1.557965e-04 8.469595e-05 2.321882e-04
+4 8.006631e-05 1.754711e-04 9.898022e-05 8.627449e-05 3.734673e-04
+5 7.616521e-05 8.802899e-05 1.127468e-04 8.540387e-05 6.950001e-03
+6 8.043370e-05 8.734172e-05 2.415143e-04 8.651963e-05 8.910156e-05
+            iid     clst region country  lat lon    clst2
+1 Algerian43A22 Algerian Africa Algeria 36.8   3 Algerian
+2 Algerian43A21 Algerian Africa Algeria 36.8   3 Algerian
+3 Algerian43A34 Algerian Africa Algeria 36.8   3 Algerian
+4 Algerian43A13 Algerian Africa Algeria 36.8   3 Algerian
+5 Algerian43A24 Algerian Africa Algeria 36.8   3 Algerian
+6 Algerian43A32 Algerian Africa Algeria 36.8   3 Algerian</code></pre>
+<p>Its hard to find a color scale that can sufficiently visualize all of the loadings in a single plot. Instead I just split the loadings up into two plots (K=2,…,11) and (K=12,…,21). Lets first visualize loadings 2 through 12:</p>
+<pre class="r"><code># gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
             gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %&gt;% 
-            filter(K!=1)
-
-############### viz ############### 
-pops = unique(l_df$clst)
+            filter(K %in% paste0(2:11))
 
 # Africa
 africa_pops = get_pops(meta_df, &quot;Africa&quot;)
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), africa_pops, K, label_size=5)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), 
+                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
+           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, &quot;America&quot;)
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), america_pops, K, label_size=5) 
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), 
+                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, K, label_size=5)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), 
+                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), east_asia_pops, K, label_size=5)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), 
+                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;), south_asia_pops, K, label_size=5)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;),
+                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), west_eurasia_pops, K, label_size=5)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), 
+                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), oceania_pops, K, label_size=5) 
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), 
+                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
 
+# Global
 p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-greedy-ld-viz-loadings-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-1.png" target="_blank">f5ef1af</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-15
-</td>
-</tr>
-</tbody>
-</table>
-</details>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Lets now visualize loadings 12 to 21 (be careful: there is no connection to the colors in the last plot):</p>
+<pre class="r"><code># gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %&gt;% 
+            filter(K %in% paste0(12:21))
+
+# Africa
+africa_pops = get_pops(meta_df, &quot;Africa&quot;)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), 
+                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
+           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
+
+# America
+america_pops = get_pops(meta_df, &quot;America&quot;)
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), 
+                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
+
+# Central Asia Siberia
+central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), 
+                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
+
+# East Asia
+east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), 
+                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
+
+# South Asia
+south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;),
+                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), 
+                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
+
+# Oceania
+oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), 
+                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
+
+# Global
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+                       rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
+                       nrow = 7, align = &quot;v&quot;) 
+p</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>Its kinda interesting to see that some populations have zero loading on later factors. This would be difficult to visualize see if using a single plot for all the factors.</p>
 </div>
-<div id="backfitting" class="section level3">
-<h3>Backfitting</h3>
-<p>Lets first read the backfit <code>flashier</code> fit</p>
-<pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_backfit/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds&quot;)
-K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
-n = nrow(flash_fit$loadings$normalized.loadings[[1]])
-p = nrow(flash_fit$loadings$normalized.loadings[[2]])
-print(K)</code></pre>
-<pre><code>[1] 31</code></pre>
-<pre class="r"><code>print(n)</code></pre>
-<pre><code>[1] 2068</code></pre>
-<pre class="r"><code>print(p)</code></pre>
-<pre><code>[1] 167178</code></pre>
-<p>Lets now plot the distribution of factors for each drift event</p>
-<pre class="r"><code># read factors
-delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
-colnames(delta_df)[1:K] = 1:K 
+<div id="admixture" class="section level3">
+<h3>ADMIXTURE</h3>
+<p>Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. <code>FLASH</code> with 2,…,11 (be careful: there is no connection to the colors in the last plot):</p>
+<pre class="r"><code>l_df = read.table(&quot;../output/admixture/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.K9r1.Q&quot;, sep=&quot; &quot;, header=F)
+K = ncol(l_df)
 
-# gather the data.frame for plotting
-delta_gath_df = delta_df %&gt;% 
-                gather(K, value) %&gt;%
-                filter(K!=1)
-
-# plot the factors
-K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
-        scale_fill_manual(values = getPalette(K_)) +
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
-        labs(fill=&quot;K&quot;) + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
-        theme_bw()
-p_fct</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-backfit-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-backfit-ld-viz-factors-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/figure/hoa_global.Rmd/flash-backfit-ld-viz-factors-1.png" target="_blank">7a2b6c7</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-15
-</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p>Some of the drift event histograms look quite odd i.e. see 4 and 6. Lets now take a look at the loadings:</p>
-<pre class="r"><code>############### data ############### 
-
-# read the meta data
-meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta&quot;, sep=&quot; &quot;, header=T)
-
-# setup loadings data.frame
-l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 l_df$iid = as.vector(meta_df$iid) # individual ids
 l_df$clst = meta_df$clst # population labels
 
@@ -893,77 +952,57 @@ colnames(l_df)[1:K] = 1:K
 
 # gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
-            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %&gt;% 
-            filter(K!=1)
-
-############### viz ############### 
-pops = unique(l_df$clst)
+            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2)
 
 # Africa
 africa_pops = get_pops(meta_df, &quot;Africa&quot;)
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), africa_pops, K, label_size=5)
+p_africa = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Africa&quot;), 
+                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
+           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, &quot;America&quot;)
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), america_pops, K, label_size=5) 
+p_america = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;America&quot;), 
+                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), central_asia_siberia_pops, K, label_size=5)
+p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;CentralAsiaSiberia&quot;), 
+                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), east_asia_pops, K, label_size=5)
+p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;EastAsia&quot;), 
+                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;), south_asia_pops, K, label_size=5)
+p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;SouthAsia&quot;),
+                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), west_eurasia_pops, K, label_size=5)
+p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;WestEurasia&quot;), 
+                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), oceania_pops, K, label_size=5) 
+p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(region == &quot;Oceania&quot;), 
+                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
 
+# Global
 p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-backfit-ld-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-backfit-ld-viz-loadings-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/jhmarcus/drift-workflow/blob/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/figure/hoa_global.Rmd/flash-backfit-ld-viz-loadings-1.png" target="_blank">7a2b6c7</a>
-</td>
-<td style="text-align:left;">
-jhmarcus
-</td>
-<td style="text-align:left;">
-2019-02-15
-</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p>Its hard to visually tell the difference with so many events.</p>
+<p><img src="figure/hoa_global.Rmd/admixtrue-ld-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leaing to a more clustered result?</p>
 </div>
 </div>
 <div id="session-information" class="section level2">

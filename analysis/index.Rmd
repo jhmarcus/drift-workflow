@@ -14,5 +14,4 @@ Welcome to my research website.
 
 ## Results
 
-* [Human Origins Array Global](hoa_global.html)  
-* [Human Origins Array West Eurasia](hoa_weurasia.html)
+* [Human Origins Array Global](hoa_global.html) 

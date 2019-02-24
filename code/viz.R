@@ -12,17 +12,16 @@ get_pops = function(meta_df, region){
 }
 
 
-positive_structure_plot = function(gath_df, pops, K_, label_size=5){
+positive_structure_plot = function(gath_df, pops, colset, label_size=5){
   
   library(ggplot2)
   library(tidyr)
   library(dplyr)
   library(RColorBrewer)
     
-  getPalette = colorRampPalette(brewer.pal(12, "Set3"))
-  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=2:K_))) + 
+  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
       geom_bar(stat="identity", width=1) +  
-      scale_fill_manual(values = getPalette(K_)) + 
+      scale_fill_brewer(palette = colset) + 
       scale_y_continuous(expand=c(0, 0)) +
       scale_x_discrete(expand=c(-1, 0)) +
       facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 

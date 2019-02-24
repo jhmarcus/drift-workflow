@@ -17,7 +17,6 @@ library(tidyr)
 library(dplyr)
 library(RColorBrewer)
 source("../code/viz.R")
-getPalette = colorRampPalette(brewer.pal(12, "Set3"))
 ```
 
 ## Human Origins West Eurasia (LD Pruned)
@@ -52,7 +51,7 @@ delta_gath_df = delta_df %>%
 
 # plot the factors
 K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
+p_fct = ggplot(delta_gath_df, aes(x=value)) + 
         scale_fill_manual(values = getPalette(K_)) +
         geom_histogram() + 
         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
@@ -63,15 +62,38 @@ p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) +
 p_fct
 ```
 
-This seems that greedy`flashier` found no contributions of factors after the 14th although it seems a little bit buggy b/c the 13th factor is all `NA` but the 14th factor has some non-zeros but it does indeed seem very sparse? Lets now take a look at the loadings: 
+We can see the later factors tend to get sparser but they still seem to contribute! Here is a plot of the "proportion of variance explained" of each factor:
 
-```{r flash-greedy-ld-viz-loadings, warning=FALSE, message=FALSE, fig.width=8, fig.height=4}
+```{r flash-greedy-ld-viz-pve}
+qplot(2:K, flash_fit$pve[2:K]) + ylab("Proportion of Varaince Explained") + xlab("K") + theme_bw()
+print(flash_fit$pve)
+```
+
+I setup the `flashier` run so it estimates a SNP speficic precision term. Here is a histogram of fitted variances:
+
+```{r flash-greedy-ld-viz-var}
+qplot(1/flash_fit$fit$est.tau) + xlab("Estiamted Variance") + ylab("Count") + theme_bw()
+```
+
+This looks reasonable as each of the SNP variances should rougly be interpreted as the average heterozygosity $\approx 2p(1-p)$. The mean term should roughly be interpreted as the mean allele frequeny at the SNP and thus we should see a quadratic relationship with the estimated variance:
+
+```{r flash-greedy-ld-viz-mv}
+p_mv = qplot(delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+       xlab("Estimated Mean") + ylab("Estimated Variance") + 
+       scale_alpha(guide = "none") + 
+       theme_bw()
+p_mv
+```
+
+Lets now take a look at the loadings. First we setup a data.frame that we can work with:
+
+```{r flash-greedy-ld-data-loadings, warning=FALSE, message=FALSE}
 # read the meta data
 meta_df = read.table("../data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta", sep=" ", header=T)
 
 # setup loadings data.frame
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
-l_df$iid = meta_df$iid # individual ids
+l_df$iid = as.vector(meta_df$iid) # individual ids
 l_df$clst = meta_df$clst # population labels
 
 # join with the meta data
@@ -80,92 +102,17 @@ l_df = l_df %>% arrange(region, clst) # sort by region then by population
 l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
 colnames(l_df)[1:K] = 1:K
 
-l_df = l_df %>% select_if(~sum(!is.na(.)) > 0)
+pops = unique(l_df$clst)
 
+head(l_df)
+```
+
+```{r flash-greedy-ld-viz-loadings-2-10}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
             gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
-            filter(K!=1) 
+            filter(K %in% paste0(2:10))
 
-#### viz #####
-pops = unique(l_df$clst)
-
-# West Eurasia
-west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(l_gath_df, west_eurasia_pops, K, label_size=5)
-p_west_eurasia
+pops = get_pops(meta_df, "WestEurasia")
+p = positive_structure_plot(l_gath_df, pops, colset="Set3", label_size=5)
 ```
-
-It does seem cool that many groups can be made up of a sparse set of colors but it looks like many groups can be quite noisy as well.
-
-### Backfitting
-
-```{r flash-backfit-ld}
-flash_fit = readRDS("../output/flash_backfit/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.rds")
-K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
-n = nrow(flash_fit$loadings$normalized.loadings[[1]])
-p = nrow(flash_fit$loadings$normalized.loadings[[2]])
-print(K)
-print(n)
-print(p)
-```
-
-Lets now plot the distribution of factors for each drift event
-
-```{r flash-backfit-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
-# read factors
-delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
-colnames(delta_df)[1:K] = 1:K 
-
-# gather the data.frame for plotting
-delta_gath_df = delta_df %>% 
-                gather(K, value) %>%
-                filter(K!=1)
-
-# plot the factors
-K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) + 
-        scale_fill_manual(values = getPalette(K_)) +
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
-        labs(fill="K") + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
-        theme_bw()
-p_fct
-```
-
-The factors look a bit sparser? Lets now look at the loadings:
-
-```{r flash-backfit-ld-viz-loadings, warning=FALSE, message=FALSE, fig.width=8, fig.height=4}
-# read the meta data
-meta_df = read.table("../data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta", sep=" ", header=T)
-
-# setup loadings data.frame
-l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
-l_df$iid = meta_df$iid # individual ids
-l_df$clst = meta_df$clst # population labels
-
-# join with the meta data
-l_df = l_df %>% inner_join(meta_df, on="clst")
-l_df = l_df %>% arrange(region, clst) # sort by region then by population
-l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:K] = 1:K
-
-l_df = l_df %>% select_if(~sum(!is.na(.)) > 0)
-
-# gather the data.frame for plotting
-l_gath_df = l_df %>% 
-            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
-            filter(K!=1) 
-
-#### viz #####
-pops = unique(l_df$clst)
-
-# West Eurasia
-west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(l_gath_df, west_eurasia_pops, K, label_size=5)
-p_west_eurasia
-```
-
-At first glance it doesn't seem the backfitting changed much of the result.
