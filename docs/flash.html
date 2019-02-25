@@ -420,7 +420,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-15</p>
+<p><strong>Last updated:</strong> 2019-02-24</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -449,24 +449,26 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2" target="_blank">b4749ac</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b5aafbb646dc86e64316f81d9a9e4dd972eed734" target="_blank">b5aafbb</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
-    Ignored:    Makefile
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/flash_cache/
-    Ignored:    data/.DS_Store
     Ignored:    data/raw/
-    Ignored:    output/admixture/
+    Ignored:    output.tar.gz
     Ignored:    output/flash_backfit/
     Ignored:    output/flash_greedy/
+    Ignored:    output/log/
+    Ignored:    output/sim/
     Ignored:    output/softImpute/
 
+Untracked files:
+    Untracked:  sandbox/
+
 Unstaged changes:
-    Modified:   analysis/hoa_global.Rmd
-    Modified:   analysis/hoa_weurasia.Rmd
+    Deleted:    analysis/hoa_weurasia.Rmd
+    Deleted:    analysis/ooa.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -497,6 +499,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/flash.html" target="_blank">403bc6b</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-15
+</td>
+<td style="text-align:left;">
+added hide code blocks
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -1151,22 +1170,26 @@ other attached packages:
 [5] dplyr_0.7.6    tidyr_0.8.1    ggplot2_3.0.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0         lfa_1.9.0          RColorBrewer_1.1-2
- [4] compiler_3.5.1     pillar_1.3.0       git2r_0.23.0      
- [7] plyr_1.8.4         workflowr_1.1.1    bindr_0.1.1       
-[10] R.methodsS3_1.7.1  R.utils_2.7.0      tools_3.5.1       
-[13] digest_0.6.18      lattice_0.20-38    evaluate_0.12     
-[16] tibble_1.4.2       gtable_0.2.0       pkgconfig_2.0.1   
-[19] rlang_0.3.1        yaml_2.2.0         xfun_0.4          
-[22] withr_2.1.2        stringr_1.3.1      knitr_1.21        
-[25] cowplot_0.9.4      rprojroot_1.3-2    grid_3.5.1        
-[28] tidyselect_0.2.4   glue_1.3.0         R6_2.3.0          
-[31] rmarkdown_1.11     reshape2_1.4.3     corpcor_1.6.9     
-[34] purrr_0.2.5        magrittr_1.5       whisker_0.3-2     
-[37] backports_1.1.2    scales_0.5.0       htmltools_0.3.6   
-[40] assertthat_0.2.0   colorspace_1.3-2   labeling_0.3      
-[43] stringi_1.2.4      lazyeval_0.2.1     munsell_0.5.0     
-[46] crayon_1.3.4       R.oo_1.22.0       </code></pre>
+ [1] tidyselect_0.2.4   xfun_0.4           reshape2_1.4.3    
+ [4] purrr_0.2.5        ashr_2.2-27        lattice_0.20-38   
+ [7] colorspace_1.3-2   htmltools_0.3.6    yaml_2.2.0        
+[10] rlang_0.3.1        mixsqp_0.1-93      R.oo_1.22.0       
+[13] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
+[16] R.utils_2.7.0      RColorBrewer_1.1-2 foreach_1.4.4     
+[19] bindr_0.1.1        plyr_1.8.4         stringr_1.3.1     
+[22] munsell_0.5.0      gtable_0.2.0       workflowr_1.1.1   
+[25] R.methodsS3_1.7.1  lfa_1.9.0          codetools_0.2-15  
+[28] evaluate_0.12      labeling_0.3       knitr_1.21        
+[31] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
+[34] Rcpp_1.0.0         corpcor_1.6.9      scales_0.5.0      
+[37] backports_1.1.2    truncnorm_1.0-8    digest_0.6.18     
+[40] stringi_1.2.4      ebnm_0.1-17        cowplot_0.9.4     
+[43] grid_3.5.1         rprojroot_1.3-2    tools_3.5.1       
+[46] magrittr_1.5       lazyeval_0.2.1     tibble_1.4.2      
+[49] crayon_1.3.4       whisker_0.3-2      pkgconfig_2.0.1   
+[52] MASS_7.3-51.1      SQUAREM_2017.10-1  assertthat_0.2.0  
+[55] rmarkdown_1.11     iterators_1.0.10   R6_2.3.0          
+[58] git2r_0.23.0       compiler_3.5.1    </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
