@@ -81,17 +81,20 @@ Lets now look the the fitted means:
 qplot(delta_df$`1`) + xlab("Estimated Mean") + ylab("Count") + theme_bw()
 ```
 
-The mean seems a bit smaller than I would have expected? These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity $\approx 2p(1-p)$? The mean term should roughly be interpreted as the mean allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:
+The mean seems smaller than I would have expected but thats probably because its normalized to have unit norm?! These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity $\approx 2p(1-p)$? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:
 
 ```{r flash-greedy-ld-viz-mv, warning=FALSE, message=FALSE}
-p_mv = qplot(delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
-       xlab("Estimated Mean") + ylab("Estimated Variance") + 
+d1 = flash_fit$loadings$scale.constant[1]
+p_mv = qplot(sqrt(d1) * delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+       xlab("Rescaled Estimated Mean") + ylab("Estimated Variance") + 
        scale_alpha(guide = "none") + 
+       stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
+       xlim(0, .5) + 
        theme_bw()
 p_mv
 ```
 
-Lets now take a look at the loadings. First we setup a data.frame that we can work with:
+I need to better understand the `flashier` output but it seems that when I scale the estimated mean by the square root of the output scale constant and plot this rescaled mean against the estimated variance, most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. $y_{ij} \sim Binomial(2, p_{ij})$. Though, there are indeed many SNPs that have a a much larger variance than expected under this simple "Hardy-Weinberg" model. I wonder if there is anything "special" going on with those SNPs (this is something to follow up on). Lets now take a look at the loadings. First we setup a data.frame that we can work with:
 
 ```{r flash-greedy-ld-data-loadings, warning=FALSE, message=FALSE}
 # read the meta data
@@ -299,4 +302,4 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
 p
 ```
 
-There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions ...  ADMIXTURE tends use fewer factors to explain population structure in each region, leaing to a more clustered result? 
+There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions ...  ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result? 

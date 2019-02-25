@@ -465,7 +465,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/2d28bb945ece17c4043981e2caae3de7114b3c3f" target="_blank">2d28bb9</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7644d40f17cc1940328c2c6ba40ff0b1817e667a" target="_blank">7644d40</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -480,10 +480,6 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/hoa_global.Rmd
-    Modified:   analysis/hoa_weurasia.Rmd
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/ooa.Rmd
-    Modified:   code/viz.R
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -514,6 +510,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/analysis/hoa_global.Rmd" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+<td style="text-align:left;">
+simplified greedy flash global analysis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/38b57c54997e44c495298de7423104f1749299a1/docs/hoa_global.html" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+<td style="text-align:left;">
+simplified greedy flash global analysis
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -738,6 +768,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">f5ef1af</a>
 </td>
 <td style="text-align:left;">
@@ -753,6 +794,37 @@ jhmarcus
 <p>We can see the later factors tend to get sparser but they still seem to contribute! Here is a plot of the “proportion of variance explained” of each factor:</p>
 <pre class="r"><code>qplot(2:K, flash_fit$pve[2:K]) + ylab(&quot;Proportion of Varaince Explained&quot;) + xlab(&quot;K&quot;) + theme_bw()</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-pve-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
 <pre><code> [1] 0.4750002010 0.0221931227 0.0180913971 0.0103143286 0.0025255466
  [6] 0.0015774930 0.0045260494 0.0014121917 0.0012173854 0.0007676335
@@ -762,17 +834,113 @@ jhmarcus
 <p>It looks like the PVE drops off at around 11 or so? I setup the <code>flashier</code> run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:</p>
 <pre class="r"><code>qplot(1/flash_fit$fit$est.tau) + xlab(&quot;Estimated Variance&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-var-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p>Lets now look the the fitted means:</p>
 <pre class="r"><code>qplot(delta_df$`1`) + xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The mean seems a bit smaller than I would have expected? These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity <span class="math inline">\(\approx 2p(1-p)\)</span>? The mean term should roughly be interpreted as the mean allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:</p>
-<pre class="r"><code>p_mv = qplot(delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
-       xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Estimated Variance&quot;) + 
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-mean-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>The mean seems smaller than I would have expected but thats probably because its normalized to have unit norm?! These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity <span class="math inline">\(\approx 2p(1-p)\)</span>? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:</p>
+<pre class="r"><code>d1 = flash_fit$loadings$scale.constant[1]
+p_mv = qplot(sqrt(d1) * delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+       xlab(&quot;Rescaled Estimated Mean&quot;) + ylab(&quot;Estimated Variance&quot;) + 
        scale_alpha(guide = &quot;none&quot;) + 
+       stat_function(fun = function(x){return(2*x*(1-x))}, color=&quot;red&quot;) + 
+       xlim(0, .5) + 
        theme_bw()
 p_mv</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Lets now take a look at the loadings. First we setup a data.frame that we can work with:</p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-mv-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>I need to better understand the <code>flashier</code> output but it seems that when I scale the estimated mean by the square root of the output scale constant and plot this rescaled mean against the estimated variance, most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. Though, there are indeed many SNPs that have a a much larger variance than expected under this simple “Hardy-Weinberg” model. I wonder if there is anything “special” going on with those SNPs (this is something to follow up on). Lets now take a look at the loadings. First we setup a data.frame that we can work with:</p>
 <pre class="r"><code># read the meta data
 meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068_maf_geno_ldprune.meta&quot;, sep=&quot; &quot;, header=T)
 
@@ -879,6 +1047,37 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" width="816" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-loadings-2-11-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p>Lets now visualize loadings 12 to 21 (be careful: there is no connection to the colors in the last plot):</p>
 <pre class="r"><code># gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
@@ -933,6 +1132,37 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" width="816" style="display: block; margin: auto;" /></p>
+<details>
+<summary><em>Expand here to see past versions of flash-greedy-ld-viz-loadings-12-21-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p>Its kinda interesting to see that some populations have zero loading on later factors. This would be difficult to visualize see if using a single plot for all the factors.</p>
 </div>
 <div id="admixture" class="section level3">
@@ -1002,7 +1232,38 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/admixtrue-ld-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leaing to a more clustered result?</p>
+<details>
+<summary><em>Expand here to see past versions of admixtrue-ld-viz-loadings-9-1.png:</em></summary>
+<table style = "border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/admixtrue-ld-viz-loadings-9-1.png" target="_blank">38b57c5</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result?</p>
 </div>
 </div>
 <div id="session-information" class="section level2">
