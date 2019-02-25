@@ -437,13 +437,12 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-24</p>
+<p><strong>Last updated:</strong> 2019-02-25</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p><summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -466,7 +465,7 @@ div.section {
 </li>
 <li>
 <details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b5aafbb646dc86e64316f81d9a9e4dd972eed734" target="_blank">b5aafbb</a> </summary></p>
+<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/38a461d4a7d655238d6508eaf62f6daeee605252" target="_blank">38a461d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -481,12 +480,8 @@ Ignored files:
     Ignored:    output/sim/
     Ignored:    output/softImpute/
 
-Untracked files:
-    Untracked:  sandbox/
-
 Unstaged changes:
-    Deleted:    analysis/hoa_weurasia.Rmd
-    Deleted:    analysis/ooa.Rmd
+    Modified:   analysis/hoa_global.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -517,6 +512,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/38a461d4a7d655238d6508eaf62f6daeee605252/docs/hoa_global.html" target="_blank">38a461d</a>
+</td>
+<td style="text-align:left;">
+jhmarcus
+</td>
+<td style="text-align:left;">
+2019-02-24
+</td>
+<td style="text-align:left;">
+built all
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -774,6 +786,25 @@ source(&quot;../code/viz.R&quot;)</code></pre>
 <p>This is the full Human Origins dataset 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, and remove any variants with a missingness level greater than 1%. I then LD pruned the SNPs using standard parameters in <code>plink</code>, resulting in 167178 SNPs.</p>
 <div id="greedy" class="section level3">
 <h3>Greedy</h3>
+<p>Here is the <code>snakemake</code> rule I used for running <code>flashier</code>:</p>
+<pre><code>    run:
+        R(&quot;&quot;&quot;
+          # read the genotype matrix
+          Y = t(lfa:::read.bed(&#39;{params.bed}&#39;))
+          # number of individuals
+          n = nrow(Y)
+          
+          # run greedy flash
+          flash_fit = flashier::flashier(Y,
+                                         greedy.Kmax=20,
+                                         prior.type=c(&#39;nonnegative&#39;, &#39;point.normal&#39;),
+                                         var.type=2,
+                                         fix.dim=list(1),
+                                         fix.idx=list(1:n),
+                                         fix.vals=list(rep(1, n)))
+          # save the rds
+          saveRDS(flash_fit, &#39;{output.rds}&#39;)
+          &quot;&quot;&quot;)</code></pre>
 <p>Lets first read the greedy <code>flashier</code> fit</p>
 <pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.rds&quot;)
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 

@@ -25,6 +25,29 @@ This is the full Human Origins dataset 2068 sampled from around the world. I fil
 
 ### Greedy
 
+Here is the `snakemake` rule I used for running `flashier`:
+
+```
+    run:
+        R("""
+          # read the genotype matrix
+          Y = t(lfa:::read.bed('{params.bed}'))
+          # number of individuals
+          n = nrow(Y)
+          
+          # run greedy flash
+          flash_fit = flashier::flashier(Y,
+                                         greedy.Kmax=20,
+                                         prior.type=c('nonnegative', 'point.normal'),
+                                         var.type=2,
+                                         fix.dim=list(1),
+                                         fix.idx=list(1:n),
+                                         fix.vals=list(rep(1, n)))
+          # save the rds
+          saveRDS(flash_fit, '{output.rds}')
+          """)
+```
+
 Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy-ld}
