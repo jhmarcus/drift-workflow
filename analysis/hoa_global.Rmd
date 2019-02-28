@@ -67,15 +67,21 @@ Lets now plot the distribution of factors for each drift event
 delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
 colnames(delta_df)[1:K] = 1:K 
 
+# add snp meta data
+bim_df = read.table("../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune.bim", header=F)
+colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
+delta_df$chrom = bim_df$chrom
+delta_df$pos = bim_df$pos
+delta_df$rsid = bim_df$rsid
+
 # gather the data.frame for plotting
 delta_gath_df = delta_df %>% 
-                gather(K, value) %>%
+                gather(K, value, -chrom, -pos, -rsid) %>%
                 filter(K!=1)
 
 # plot the factors
 K_ = K
 p_fct = ggplot(delta_gath_df, aes(x=value)) + 
-        scale_fill_manual(values = getPalette(K_)) +
         geom_histogram() + 
         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
         labs(fill="K") + 
@@ -85,7 +91,7 @@ p_fct = ggplot(delta_gath_df, aes(x=value)) +
 p_fct
 ```
 
-We can see the later factors tend to get sparser but they still seem to contribute! Here is a plot of the "proportion of variance explained" of each factor:
+We can see the later factors tend to get sparser! Here is a plot of the "proportion of variance explained" of each factor:
 
 ```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
 qplot(2:K, flash_fit$pve[2:K]) + ylab("Proportion of Varaince Explained") + xlab("K") + theme_bw()
@@ -259,7 +265,7 @@ Its kinda interesting to see that some populations have zero loading on later fa
 
 Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. `FLASH` with 2,...,11 (be careful: there is no connection to the colors in the last plot):
 
-```{r admixtrue-ld-viz-loadings-9, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
+```{r admixture-ld-viz-loadings-9, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 l_df = read.table("../output/admixture/hoa_global_ld/HumanOriginsPublic2068_maf_geno_ldprune.K9r1.Q", sep=" ", header=F)
 K = ncol(l_df)
 
@@ -326,3 +332,61 @@ p
 ```
 
 There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions ...  ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result? 
+
+### Drift Factors
+
+Lets take a closer look at the drift factors to see if they are clustring in particular regions of the genome:
+
+```{r flash-ld-factors-chrom-viz}
+delta_thresh_df = delta_df %>%
+                  gather(K, value, -chrom, -pos, -rsid) %>%
+                  filter(K %in% paste0(2:11)) %>% 
+                  group_by(K) %>%
+                  summarise(t_95 = quantile(abs(value), probs = .95)[1],
+                            t_99 = quantile(abs(value), probs = .99)[1])
+
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                gather(K, value, -chrom, -pos, -rsid) %>%
+                filter(K %in% paste0(2:11)) %>% 
+                inner_join(delta_thresh_df, on="K") %>%
+                filter(abs(value) > t_95) %>%
+                filter(chrom %in% 1:22)
+
+p = ggplot(delta_gath_df, aes(x=pos, y=abs(value), color=factor(K))) + geom_point(size=.5, alpha=.7) + 
+    scale_color_brewer(palette = "Set3") + 
+    facet_grid(factor(K, levels=2:11)~factor(chrom, levels = 1:22), scales="free") +
+    geom_hline(data=delta_gath_df %>% distinct(chrom, K, t_99), aes(yintercept = t_99), linetype="dashed") +
+    theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    guides(color=FALSE) +
+    xlab("Position") + 
+    ylab("|Factor|")
+```
+
+```{r tophit}
+grch37.snp = useMart(biomart="ENSEMBL_MART_SNP", host="grch37.ensembl.org", path="/biomart/martservice",dataset="hsapiens_snp")
+grch37 = useMart(biomart="ENSEMBL_MART_ENSEMBL", host="grch37.ensembl.org", path="/biomart/martservice", dataset="hsapiens_gene_ensembl")
+
+delta_tophit_df = delta_df %>%
+                  gather(K, value, -chrom, -pos, -rsid) %>%
+                  filter(K %in% paste0(12:21)) %>% 
+                  group_by(K) %>%
+                  top_n(5, abs(value))
+
+table1 <- getBM(attributes=c('refsnp_id', 'chrom_start', 'minor_allele_freq', 'ensembl_gene_stable_id',
+                             'consequence_type_tv', "associated_gene"), 
+                filters = "snp_filter", 
+                values = delta_tophit_df$rsid, 
+                mart = grch37.snp)
+
+table1$ensembl_gene_id = table1$ensembl_gene_stable_id
+table2 <- getBM(attributes = c("ensembl_gene_id", "external_gene_name", "description"),
+                filters = "ensembl_gene_id", 
+                values =  table1$ensembl_gene_stable_id, 
+                mart = grch37)
+
+d = table1 %>% left_join(table2, on="ensembl_gene_id") %>% mutate(rsid=refsnp_id) %>% 
+    inner_join(delta_tophit_df, on="rsid") %>%
+    arrange(desc(K))
+```
