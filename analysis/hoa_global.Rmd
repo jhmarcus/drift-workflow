@@ -114,12 +114,24 @@ The mean seems smaller than I would have expected but thats probably because its
 
 ```{r flash-greedy-ld-viz-mv, warning=FALSE, message=FALSE}
 d1 = flash_fit$loadings$scale.constant[1]
-p_mv = qplot(sqrt(d1) * delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=sqrt(d1) * delta_df$`1`, chrom=bim_df$chrom) %>%
+        mutate(chrom_type=ifelse(chrom > 22, "Sex", "Autosome"))
+
+p_mv = ggplot(mv_df, aes(x=mu, y=var, color=chrom_type)) + 
+       geom_point() + 
        xlab("Rescaled Estimated Mean") + ylab("Estimated Variance") + 
        scale_alpha(guide = "none") + 
        stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
        xlim(0, .5) + 
        theme_bw()
+
+
+#p_mv = qplot(sqrt(d1) * delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+#       xlab("Rescaled Estimated Mean") + ylab("Estimated Variance") + 
+#       scale_alpha(guide = "none") + 
+#       stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
+#       xlim(0, .5) + 
+#       theme_bw()
 p_mv
 ```
 
