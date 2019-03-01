@@ -1,5 +1,5 @@
 clean: 
-	rm output.tar.gz
+	rm output.tar.gz data.tar.gz
 
 compress:
 	tar -cvzf output.tar.gz output/;tar -cvzf data.tar.gz data/
