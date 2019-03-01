@@ -1,0 +1,55 @@
+#!python
+import glob
+import os
+import numpy as np
+import pandas as pd
+
+# setup the output files 
+qs = []
+ps = []
+max_K = 8
+n_rep = 1
+tols = [.0001, .001, .01]
+dataset_paths = glob.glob("data/datasets/*")
+for dataset_path in dataset_paths:
+    dataset = os.path.basename(dataset_path)
+    bed_path = glob.glob("{}/*.bed".format(dataset_path))[0]
+    prefix = os.path.basename(bed_path).split(".")[0]
+    for k in range(2, max_K):
+        for r in range(n_rep):
+            for tol in tols:
+                qs.append("output/admixture_benchmark/{}/{}.K{}r{}tol{}.Q".format(dataset, prefix, k, r + 1, tol))
+                ps.append("output/admixture_benchmark/{}/{}.K{}r{}tol{}.P".format(dataset, prefix, k, r + 1, tol))
+
+
+rule admixture_benchmark_all:
+    """Runs all admixture benchmark rules
+    """
+    input:
+        qs,
+        ps
+
+
+rule run_admixture_benchmark:
+    """Runs admixture benchmark
+    """
+    input:
+        bed = "data/datasets/{dataset}/{prefix}.bed"
+    params:
+        K = "{K}",
+        r = "{r}",
+        q = "./{prefix}.{K}.Q",
+        p = "./{prefix}.{K}.P"
+    output:
+        q="output/admixture_benchmark/{dataset}/{prefix}.K{K}r{r}tol{tol}.Q",
+        p="output/admixture_benchmark/{dataset}/{prefix}.K{K}r{r}tol{tol}.P"
+    log:
+        "output/log/admixture_benchmark_{dataset}_{prefix}_{K}_{r}_{tol}.log"
+    benchmark:
+        "output/benchmark/admixture_benchmark_{dataset}_{prefix}_{K}_{r}_{tol}.txt"
+    run:
+        shell("admixture -C {tol} -s ${{RANDOM}} {input.bed} {params.K} -j8")
+        shell("mv {params.p} {output.p}")
+        shell("mv {params.q} {output.q}")
+
+
