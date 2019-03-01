@@ -420,345 +420,461 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-24</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-02-28
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 4 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+</p>
+</div>
+<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div class="panel-body">
+The following chunks had caches available:
 <ul>
 <li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+flash-setup
 </li>
 <li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</details>
+soft-setup
 </li>
-<li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20190211)</code> </summary></p>
-<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</details>
-</li>
-<li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</details>
-</li>
-<li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b5aafbb646dc86e64316f81d9a9e4dd972eed734" target="_blank">b5aafbb</a> </summary></p>
+</ul>
+<p>To ensure reproducibility of the results, delete the cache directory <code>flash_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3b61a0da02c41415f6768726302489c8582a1f97" target="_blank">3b61a0d</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/flash_cache/
+    Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    output.tar.gz
-    Ignored:    output/flash_backfit/
+    Ignored:    output/admixture/
     Ignored:    output/flash_greedy/
     Ignored:    output/log/
     Ignored:    output/sim/
-    Ignored:    output/softImpute/
 
 Untracked files:
-    Untracked:  sandbox/
+    Untracked:  data.tar.gz
 
 Unstaged changes:
-    Deleted:    analysis/hoa_weurasia.Rmd
-    Deleted:    analysis/ooa.Rmd
+    Modified:   analysis/flash.Rmd
+    Modified:   analysis/hoa_global.Rmd
+    Modified:   code/viz.R
+    Modified:   data/meta/HumanOriginsPublic2068.meta
+    Modified:   data/meta/write_meta_HumanOriginsPublic2068.R
 
 </code></pre>
+<p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
-</details>
-</li>
-</ul>
-<details>
-<summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/flash.html" target="_blank">403bc6b</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/38a461d4a7d655238d6508eaf62f6daeee605252/docs/flash.html" target="_blank">38a461d</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
+2019-02-24
+</td>
+<td>
+built all
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/flash.html" target="_blank">403bc6b</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added hide code blocks
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2/docs/flash.html" target="_blank">b4749ac</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2/docs/flash.html" target="_blank">b4749ac</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 fixed some typos
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/flash.html" target="_blank">7a2b6c7</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/flash.html" target="_blank">7a2b6c7</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added backfit
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/analysis/flash.Rmd" target="_blank">f5ef1af</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added workflows for human origins datasets
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/flash.html" target="_blank">f5ef1af</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/flash.html" target="_blank">f5ef1af</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added workflows for human origins datasets
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/31a16c694bf65cba8fb598420548cc747aa27abc/analysis/flash.Rmd" target="_blank">31a16c6</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-14
 </td>
-<td style="text-align:left;">
+<td>
 added hists of factors
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/flash.html" target="_blank">31a16c6</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/flash.html" target="_blank">31a16c6</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-14
 </td>
-<td style="text-align:left;">
+<td>
 added hists of factors
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/95385101c23660b8db007cd135b90085db6b22c3/analysis/flash.Rmd" target="_blank">9538510</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 switched to struct style plot
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/flash.html" target="_blank">9538510</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/flash.html" target="_blank">9538510</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 switched to struct style plot
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/63c2b7528f4e2498d7fd7c795958509858a268ee/analysis/flash.Rmd" target="_blank">63c2b75</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 added softimpute
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/flash.html" target="_blank">63c2b75</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/flash.html" target="_blank">63c2b75</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 added softimpute
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/analysis/flash.Rmd" target="_blank">7b6ecbc</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 made fig size bigger
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/flash.html" target="_blank">7b6ecbc</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/flash.html" target="_blank">7b6ecbc</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 made fig size bigger
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/analysis/flash.Rmd" target="_blank">5c0f91a</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 init flash proof of principle
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/flash.html" target="_blank">5c0f91a</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/flash.html" target="_blank">5c0f91a</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 init flash proof of principle
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-</details>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <p>Here I explore Matthew’s suggestion of applying a version of <code>FLASH</code> to visualize population structure. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(n \times p\)</span> genotype matrix where the rows are individuals and the columns are SNPs. The elements of this matrix <span class="math inline">\(y_{ij} \in \{0, 1, 2\}\)</span> encode the count of an arbitrarily predefined allele for the diploid individual <span class="math inline">\(i\)</span> and SNP <span class="math inline">\(j\)</span>. Here we imagine that the genotypes can be explained by <span class="math inline">\(K\)</span> latent drift events. Each drift event effects the entire genome, i.e. all of the SNPs, but only a subset the individuals’ ancestors were in a “population” whom experienced the <span class="math inline">\(k\)</span>th event. For instance, the ancestors of all Europeans experienced the “Out of Africa” drift event and the ancestors of North and South Americans crossed the Bering strait, undergoing a bottleneck. Here is a figure from a recent review (Nielson et al. 2017) that describes some of the major “drift events” in human history:</p>
 <p><img src="../data/img/nielsen_et_al_2017.png" /></p>
 <p>We assume the following matrix factorization model for the genotypes that can flexibly describe this kind of process:</p>
@@ -810,9 +926,9 @@ library(flashier)</code></pre>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>I prepared a dataset described in <a href="https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf">Lazaridis et al. 2016</a> which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the “Human Origins Array Dataset” (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in <code>plink</code>. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:</p>
-<pre class="r"><code>X = t(lfa:::read.bed(&quot;../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune&quot;))</code></pre>
+<pre class="r"><code>X = t(lfa:::read.bed(&quot;../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_auto_ldprune&quot;))</code></pre>
 <pre><code>[1] &quot;reading in 2068 individuals&quot;
-[1] &quot;reading in 167178 snps&quot;
+[1] &quot;reading in 165468 snps&quot;
 [1] &quot;snp major mode&quot;
 [1] &quot;reading snp 20000&quot;
 [1] &quot;reading snp 40000&quot;
@@ -827,7 +943,7 @@ p = ncol(X)
 print(n)</code></pre>
 <pre><code>[1] 2068</code></pre>
 <pre class="r"><code>print(p)</code></pre>
-<pre><code>[1] 167178</code></pre>
+<pre><code>[1] 165468</code></pre>
 <p>Next we read in some meta data that includes population and regional labels for each individual:</p>
 <pre class="r"><code># read the meta data
 meta_df = read.table(&quot;../data/raw/NearEastPublic/HumanOriginsPublic2068_clst.tsv&quot;, sep=&quot;\t&quot;)
@@ -869,7 +985,7 @@ p = ncol(Y)
 print(m)</code></pre>
 <pre><code>[1] 500</code></pre>
 <pre class="r"><code>print(p)</code></pre>
-<pre><code>[1] 167178</code></pre>
+<pre><code>[1] 165468</code></pre>
 </div>
 <div id="flash-flashier" class="section level2">
 <h2>FLASH (<code>flashier</code>)</h2>
@@ -887,26 +1003,23 @@ flash_res = flashier(Y,
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
-An iteration decreased the objective by 3.00e+00. Try backfitting with warmstarts.
 Adding factor 3 to flash object...
-An iteration decreased the objective by 1.02e+02. Try backfitting with warmstarts.
 Adding factor 4 to flash object...
-An iteration decreased the objective by 2.68e+01. Try backfitting with warmstarts.
 Adding factor 5 to flash object...
-An iteration decreased the objective by 1.90e+00. Try backfitting with warmstarts.
 Adding factor 6 to flash object...
-An iteration decreased the objective by 6.90e+00. Try backfitting with warmstarts.
 Adding factor 7 to flash object...
-An iteration decreased the objective by 1.96e+01. Try backfitting with warmstarts.
 Adding factor 8 to flash object...
-An iteration decreased the objective by 2.34e+01. Try backfitting with warmstarts.
 Adding factor 9 to flash object...
-An iteration decreased the objective by 4.91e+01. Try backfitting with warmstarts.
 Adding factor 10 to flash object...
-An iteration decreased the objective by 1.83e+00. Try backfitting with warmstarts.
 Nullchecking 9 factors...
 Wrapping up...
 Done.</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
 <p>It seems like the objective decreases in many of the factor fits (is this something to worry about). Lets now visualize the fitted <code>flashier</code> fit:</p>
 <pre class="r"><code># setup loadings data.frame
 l_df = as.data.frame(flash_res$loadings$normalized.loadings[[1]])
@@ -970,37 +1083,43 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_ameri
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/flash.Rmd/flash-viz-loadings-1.png" width="816" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-viz-loadings-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-viz-loadings-1">
+Past versions of flash-viz-loadings-1.png
+</button>
+</p>
+<div id="fig-flash-viz-loadings-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/31a16c694bf65cba8fb598420548cc747aa27abc/docs/figure/flash.Rmd/flash-viz-loadings-1.png" target="_blank">31a16c6</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-14
 </td>
 </tr>
 </tbody>
 </table>
-</details>
+</div>
+</div>
 <p>Here each row of the facet grid represents a different latent “drift event”. Each tick on the x-axis is a different individual. I represent each individual by a three letter short hand for the population label provided in the meta data. I then color each individual by a broad scale regional level label. There is much that can be improved in the visualization (which I like to think about more as its quite important) but I think this is a good starting place that helps reveal some patterns. Here are a couple observations:</p>
 <ul>
 <li>As one would hope (as I set it as an argument in <code>flashier</code>) the 1st drift event is a constant value across the individuals</li>
@@ -1029,37 +1148,43 @@ p_fct = ggplot(delta_gath_df, aes(x=value, fill=factor(K, 2:K_))) +
         theme_bw()
 p_fct</code></pre>
 <p><img src="figure/flash.Rmd/flash-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of flash-viz-factors-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-viz-factors-1">
+Past versions of flash-viz-factors-1.png
+</button>
+</p>
+<div id="fig-flash-viz-factors-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/31a16c694bf65cba8fb598420548cc747aa27abc/docs/figure/flash.Rmd/flash-viz-factors-1.png" target="_blank">31a16c6</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-14
 </td>
 </tr>
 </tbody>
 </table>
-</details>
+</div>
+</div>
 <p>Interestingly, some of the latent drift events seems be denser than others … so it seems the <code>point.normal</code> prior is doing some magic here. It will take some reading of the tea leaves to understand why some of the drift events are sparser than others. It seems like the later factors tend to be sparser. What I like about this plot is that it kind of serves a natural legend for the colors in the loadings plot.</p>
 </div>
 <div id="pca-softimpute" class="section level2">
@@ -1067,6 +1192,12 @@ jhmarcus
 <p>Here we center and scale the columns and use <code>softImpute</code> to compute a PCA like solution in spite of missing data:</p>
 <pre class="r"><code>Z = biScale(Y, row.center=F, row.scale=F)
 soft_res = softImpute(Z, rank.max=9, type=&quot;svd&quot;)</code></pre>
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
 <p>Here we visualize the result:</p>
 <pre class="r"><code># setup loadings data.frame
 l_df = as.data.frame(soft_res$u)
@@ -1116,41 +1247,50 @@ p = ggplot(data=l_gath_df, aes(x=iid, y=value, label=lab, color=Region)) +
     ylab(&quot;Loading&quot;) 
 p</code></pre>
 <p><img src="figure/flash.Rmd/soft-viz-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details>
-<summary><em>Expand here to see past versions of soft-viz-1.png:</em></summary>
-<table style = "border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-soft-viz-1">
+Past versions of soft-viz-1.png
+</button>
+</p>
+<div id="fig-soft-viz-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/figure/flash.Rmd/soft-viz-1.png" target="_blank">63c2b75</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
 </tr>
 </tbody>
 </table>
-</details>
-<p><code>softImpute</code>’s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier. I’m also now convinced by the power of the stacked bar plot (STRUCTURE plot)!</p>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
+</div>
+<code>softImpute</code>’s solution looks pretty good and picks up similar patterns it seems, though its a bit harder to interpret negative / positive loadings and some of the drift events look denser which also makes interpretation trickier. I’m also now convinced by the power of the stacked bar plot (STRUCTURE plot)! <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.1 (2018-07-02)
 Platform: x86_64-apple-darwin13.4.0 (64-bit)
@@ -1167,30 +1307,31 @@ attached base packages:
 
 other attached packages:
 [1] bindrcpp_0.2.2 flashier_0.1.0 softImpute_1.4 Matrix_1.2-15 
-[5] dplyr_0.7.6    tidyr_0.8.1    ggplot2_3.0.0 
+[5] dplyr_0.8.0.1  tidyr_0.8.2    ggplot2_3.1.0 
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.4   xfun_0.4           reshape2_1.4.3    
- [4] purrr_0.2.5        ashr_2.2-27        lattice_0.20-38   
- [7] colorspace_1.3-2   htmltools_0.3.6    yaml_2.2.0        
-[10] rlang_0.3.1        mixsqp_0.1-93      R.oo_1.22.0       
-[13] pillar_1.3.0       glue_1.3.0         withr_2.1.2       
-[16] R.utils_2.7.0      RColorBrewer_1.1-2 foreach_1.4.4     
-[19] bindr_0.1.1        plyr_1.8.4         stringr_1.3.1     
-[22] munsell_0.5.0      gtable_0.2.0       workflowr_1.1.1   
-[25] R.methodsS3_1.7.1  lfa_1.9.0          codetools_0.2-15  
-[28] evaluate_0.12      labeling_0.3       knitr_1.21        
-[31] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
-[34] Rcpp_1.0.0         corpcor_1.6.9      scales_0.5.0      
-[37] backports_1.1.2    truncnorm_1.0-8    digest_0.6.18     
-[40] stringi_1.2.4      ebnm_0.1-17        cowplot_0.9.4     
-[43] grid_3.5.1         rprojroot_1.3-2    tools_3.5.1       
-[46] magrittr_1.5       lazyeval_0.2.1     tibble_1.4.2      
-[49] crayon_1.3.4       whisker_0.3-2      pkgconfig_2.0.1   
-[52] MASS_7.3-51.1      SQUAREM_2017.10-1  assertthat_0.2.0  
-[55] rmarkdown_1.11     iterators_1.0.10   R6_2.3.0          
-[58] git2r_0.23.0       compiler_3.5.1    </code></pre>
+ [1] tidyselect_0.2.5   xfun_0.4           reshape2_1.4.3    
+ [4] purrr_0.3.0        ashr_2.2-32        lattice_0.20-38   
+ [7] colorspace_1.4-0   htmltools_0.3.6    yaml_2.2.0        
+[10] rlang_0.3.1        mixsqp_0.1-97      pillar_1.3.1      
+[13] glue_1.3.0         withr_2.1.2        RColorBrewer_1.1-2
+[16] foreach_1.4.4      plyr_1.8.4         bindr_0.1.1       
+[19] stringr_1.4.0      munsell_0.5.0      gtable_0.2.0      
+[22] workflowr_1.2.0    lfa_1.12.0         codetools_0.2-16  
+[25] evaluate_0.12      labeling_0.3       knitr_1.21        
+[28] doParallel_1.0.14  pscl_1.5.2         parallel_3.5.1    
+[31] Rcpp_1.0.0         corpcor_1.6.9      scales_1.0.0      
+[34] backports_1.1.3    truncnorm_1.0-8    fs_1.2.6          
+[37] digest_0.6.18      stringi_1.2.4      ebnm_0.1-17       
+[40] grid_3.5.1         rprojroot_1.3-2    cowplot_0.9.4     
+[43] tools_3.5.1        magrittr_1.5       lazyeval_0.2.1    
+[46] tibble_2.0.1       crayon_1.3.4       whisker_0.3-2     
+[49] pkgconfig_2.0.2    MASS_7.3-51.1      SQUAREM_2017.10-1 
+[52] assertthat_0.2.0   rmarkdown_1.11     iterators_1.0.10  
+[55] R6_2.4.0           git2r_0.23.0       compiler_3.5.1    </code></pre>
 </div>
+</div>
+
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
@@ -1203,14 +1344,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 </div>

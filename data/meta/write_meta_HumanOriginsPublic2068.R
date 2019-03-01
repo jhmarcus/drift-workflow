@@ -1,5 +1,5 @@
 meta_df = read.table('../raw/NearEastPublic/meta.tsv', sep="\t", header=T, stringsAsFactors=F)
 ind_df = read.table('../raw/NearEastPublic/HumanOriginsPublic2068_clst.tsv', sep='\t', header=F, stringsAsFactors=F)
-colnames(ind_df) = c("iid", "Verbose.Population.ID")
-df = ind_df %>% left_join(meta_df, by="Verbose.Population.ID")
+colnames(ind_df) = c("ID", "Simple.Population.ID")
+df = ind_df %>% left_join(meta_df, by="Simple.Population.ID") %>% distinct(ID, .keep_all = T)
 write.table(df, file="HumanOriginsPublic2068.meta", sep="\t", row.names=F, col.names=T, quote=F)

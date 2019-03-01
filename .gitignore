@@ -12,9 +12,11 @@ analysis/site_libs
 
 data/raw/
 data/datasets/
+data.tar.gz
 
 output/
 output.tar.gz
 
 .snakemake/
+
 

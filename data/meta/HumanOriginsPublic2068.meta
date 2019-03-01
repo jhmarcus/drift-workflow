@@ -1,4 +1,4 @@
-ID	Verbose.Population.ID	Simple.Population.ID	Region	Country	Latitude	Longitude	Samples	Passed.QC	Contributor
+ID	Simple.Population.ID	Verbose.Population.ID	Region	Country	Latitude	Longitude	Samples	Passed.QC	Contributor
 SA1004	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 SA063	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 SA010	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
@@ -7,40 +7,40 @@ SA073	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 SA1025	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 SA078	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 SA083	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
-Yuk_009	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_025	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_022	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_020	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Yuk_009	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Yuk_025	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Yuk_022	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Yuk_020	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 MC_40	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Yuk_024	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Nesk_25	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_023	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Yuk_024	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Nesk_25	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+Yuk_023	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 MC_16	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 MC_15	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 MC_18	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Yuk_004	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Yuk_004	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 MC_08	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 Nov_005	Nganasan	Nganasan	CentralAsiaSiberia	Russia	71.1	96.1	14	11	Rem Sukernik / Elena B. Starikovskaya
 MC_25	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Yuk_019	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_011	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
-Nesk_22	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Yuk_019	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Yuk_011	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
+Nesk_22	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Sesk_47	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 MC_17	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Nesk_15	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-Yuk_021	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nesk_15	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+Yuk_021	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 MC_06	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 MC_38	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 MC_14	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Nesk_23	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Nesk_23	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Ul5	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Ul31	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Ul65	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Tuba12	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba20	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
-Nel19	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nel19	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Nlk16	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
-Esk20	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Esk20	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor66	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 Ul6	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Ul33	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
@@ -49,7 +49,7 @@ Tuba21	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / St
 Tuba29	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Nlk1	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
 Nlk18	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
-Esk29	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Esk29	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor30	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 Kor72	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
 Ul71	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
@@ -66,44 +66,44 @@ Tuba23	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / St
 Tuba31	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Nlk5	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
 Ale9	Aleut_Tlingit	NA	NA	NA	NA	NA	NA	NA	NA
-Esk38	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Esk38	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor40	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 Ul44	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Ul74	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Tuba16	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba24	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
-Nel13	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nel13	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Nlk6	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
-Sir77	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Sir77	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor49	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 Ul19	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Tuba1	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba9	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba17	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba25	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
-Nel15	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nel15	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Nlk9	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
 Ale14	Aleut_Tlingit	NA	NA	NA	NA	NA	NA	NA	NA
-Sir14	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Sir14	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor54	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
-Ckrd8	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Ckrd8	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Ul24	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Ul59	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Tuba2	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba10	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba18	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
-Nel16	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nel16	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Nlk10	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
 Ale16	Aleut_Tlingit	NA	NA	NA	NA	NA	NA	NA	NA
-Sir26	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Sir26	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor57	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
-Ckrd9	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Ckrd9	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Tuba11	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
 Tuba19	Tubalar	Tubalar	CentralAsiaSiberia	Russia	51.1	87	31	22	Rem Sukernik / Stanislav Dryomov
-Nel17	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Nel17	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 Nlk14	Even	Even	CentralAsiaSiberia	Russia	57.5	135.9	10	10	Rem Sukernik / Stanislav Dryomov
 Ale32	Aleut_Tlingit	NA	NA	NA	NA	NA	NA	NA	NA
-Sir61	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Sir61	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kor61	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 HGDP00001	Brahui	Brahui	SouthAsia	Pakistan	30.5	66.5	24	21	Patterson et al. 2012
 HGDP00003	Brahui	Brahui	SouthAsia	Pakistan	30.5	66.5	24	21	Patterson et al. 2012
@@ -258,28 +258,28 @@ HGDP00433	Burusho	Burusho	SouthAsia	Pakistan	36.5	74	25	23	Patterson et al. 2012
 HGDP00438	Burusho	Burusho	SouthAsia	Pakistan	36.5	74	25	23	Patterson et al. 2012
 HGDP00444	Burusho	Burusho	SouthAsia	Pakistan	36.5	74	25	23	Patterson et al. 2012
 HGDP00445	Burusho	Burusho	SouthAsia	Pakistan	36.5	74	25	23	Patterson et al. 2012
-HGDP00449	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00454	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00455	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00457	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00458	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00459	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00460	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00461	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00462	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00463	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00464	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00465	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00466	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00467	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00469	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00470	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00472	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00473	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00474	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00475	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00476	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00478	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP00449	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00454	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00455	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00457	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00458	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00459	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00460	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00461	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00462	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00463	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00464	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00465	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00466	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00467	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00469	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00470	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00472	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00473	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00474	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00475	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00476	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00478	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
 HGDP00511	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
 HGDP00512	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
 HGDP00513	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
@@ -642,15 +642,15 @@ HGDP00974	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP00975	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP00976	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP00977	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
-HGDP00982	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00984	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00985	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00986	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP00982	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00984	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP00985	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP00986	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
 HGDP00987	Ju_hoan_North	Ju_hoan_North	Africa	Namibia	-18.9	21.5	24	22	Patterson et al. 2012
 HGDP00991	Ju_hoan_North	Ju_hoan_North	Africa	Namibia	-18.9	21.5	24	22	Patterson et al. 2012
 HGDP00992	Ju_hoan_North	Ju_hoan_North	Africa	Namibia	-18.9	21.5	24	22	Patterson et al. 2012
-HGDP00993	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP00994	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP00993	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
+HGDP00994	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
 HGDP00995	Karitiana	Karitiana	America	Brazil	-10	-63	14	12	Patterson et al. 2012
 HGDP00999	Karitiana	Karitiana	America	Brazil	-10	-63	14	12	Patterson et al. 2012
 HGDP01001	Karitiana	Karitiana	America	Brazil	-10	-63	14	12	Patterson et al. 2012
@@ -667,13 +667,13 @@ HGDP01021	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP01023	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP01024	Han	Han	EastAsia	China	32.3	114	35	33	Patterson et al. 2012
 HGDP01027	Nasoi	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01028	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01030	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01031	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP01028	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
+HGDP01030	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
+HGDP01031	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
 HGDP01032	Ju_hoan_North	Ju_hoan_North	Africa	Namibia	-18.9	21.5	24	22	Patterson et al. 2012
-HGDP01033	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01034	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01035	BantuSA	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP01033	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
+HGDP01034	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
+HGDP01035	BantuSA	Bantu_SA_Ovambo	Africa	Angola	-19	18	1	1	Patterson et al. 2012
 HGDP01036	Ju_hoan_North	Ju_hoan_North	Africa	Namibia	-18.9	21.5	24	22	Patterson et al. 2012
 HGDP01037	Pima	Pima	America	Mexico	29	108	14	14	Patterson et al. 2012
 HGDP01041	Pima	Pima	America	Mexico	29	108	14	14	Patterson et al. 2012
@@ -707,10 +707,10 @@ HGDP01076	Sardinian	Sardinian	WestEurasia	Italy(Sardinia)	40	9	29	27	Patterson e
 HGDP01077	Sardinian	Sardinian	WestEurasia	Italy(Sardinia)	40	9	29	27	Patterson et al. 2012
 HGDP01078	Sardinian	Sardinian	WestEurasia	Italy(Sardinia)	40	9	29	27	Patterson et al. 2012
 HGDP01079	Sardinian	Sardinian	WestEurasia	Italy(Sardinia)	40	9	29	27	Patterson et al. 2012
-HGDP01081	Mbuti	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01086	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01090	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01094	Biaka	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP01081	Mbuti	MbutiPygmy	Africa	Congo	1	29	14	10	Patterson et al. 2012
+HGDP01086	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP01090	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
+HGDP01094	Biaka	BiakaPygmy	Africa	CentralAfricanRepublic	4	17	23	20	Patterson et al. 2012
 HGDP01095	Tujia	Tujia	EastAsia	China	29	109	10	10	Patterson et al. 2012
 HGDP01096	Tujia	Tujia	EastAsia	China	29	109	10	10	Patterson et al. 2012
 HGDP01097	Tujia	Tujia	EastAsia	China	29	109	10	10	Patterson et al. 2012
@@ -894,26 +894,26 @@ HGDP01353	Tu	Tu	EastAsia	China	36	101	10	10	Patterson et al. 2012
 HGDP01354	Tu	Tu	EastAsia	China	36	101	10	10	Patterson et al. 2012
 HGDP01355	Tu	Tu	EastAsia	China	36	101	10	10	Patterson et al. 2012
 HGDP01356	Tu	Tu	EastAsia	China	36	101	10	10	Patterson et al. 2012
-HGDP01357	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01358	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01359	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01360	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01362	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01363	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01364	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01365	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01366	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01367	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01368	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01370	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01371	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01373	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01374	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01375	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01377	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01378	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01379	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-HGDP01380	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+HGDP01357	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01358	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01359	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01360	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01362	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01363	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01364	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01365	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01366	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01367	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01368	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01370	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01371	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01373	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01374	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01375	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01377	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01378	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01379	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+HGDP01380	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 HGDP01381	Adygei	Adygei	WestEurasia	Russia(Caucasus)	44	39	25	17	Coriell Cell Repositories
 HGDP01382	Adygei	Adygei	WestEurasia	Russia(Caucasus)	44	39	25	17	Coriell Cell Repositories
 HGDP01383	Adygei	Adygei	WestEurasia	Russia(Caucasus)	44	39	25	17	Coriell Cell Repositories
@@ -935,22 +935,22 @@ HGDP01414	BantuKenya	BantuKenya	Africa	Kenya	-3	37	11	6	Patterson et al. 2012
 HGDP01417	BantuKenya	BantuKenya	Africa	Kenya	-3	37	11	6	Patterson et al. 2012
 HGDP01418	BantuKenya	BantuKenya	Africa	Kenya	-3	37	11	6	Patterson et al. 2012
 HGDP01419	BantuKenya	BantuKenya	Africa	Kenya	-3	37	11	6	Patterson et al. 2012
-ADR00090	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-ADR00092	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-ADR00089	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-ADR00093	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-ADR00098	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+ADR00090	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+ADR00092	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+ADR00089	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+ADR00093	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+ADR00098	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 ADR00064	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00514	Nganasan	Nganasan	CentralAsiaSiberia	Russia	71.1	96.1	14	11	Rem Sukernik / Elena B. Starikovskaya
 ADR00074	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00513	Nganasan	Nganasan	CentralAsiaSiberia	Russia	71.1	96.1	14	11	Rem Sukernik / Elena B. Starikovskaya
 ADR00066	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-ADR00102	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+ADR00102	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 ADR00065	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00079	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00509	Nganasan	Nganasan	CentralAsiaSiberia	Russia	71.1	96.1	14	11	Rem Sukernik / Elena B. Starikovskaya
 ADR00061	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-ADR00096	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+ADR00096	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 ADR00068	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00060	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
 ADR00059	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
@@ -969,37 +969,37 @@ Ayodo_23S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
 Ayodo_67K	Kikuyu	Kikuyu	Africa	Kenya	-0.4	36.9	4	4	George Ayodo
 mixe0030	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Ayodo_69S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
-IHW9118(BUR,E)	Australian	NA	NA	NA	NA	NA	NA	NA	NA
+IHW9118(BUR,E)	Australian	Australian_ECCAC	Oceania	Australia	-13	143	9	3	European Collection of Cell Cultures
 Ayodo_90S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
 mixe0015	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Ayodo_61K	Kikuyu	Kikuyu	Africa	Kenya	-0.4	36.9	4	4	George Ayodo
 Ayodo_83K	Kikuyu	Kikuyu	Africa	Kenya	-0.4	36.9	4	4	George Ayodo
-Ayodo_103M	Masai	NA	NA	NA	NA	NA	NA	NA	NA
-Ayodo_101M	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+Ayodo_103M	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
+Ayodo_101M	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 mixe0035	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Bar08	Hadza	Hadza	Africa	Tanzania	-3.8	35.3	20	17	Sarah A. Tishkoff / Thomas Nyambo
 mixe0018	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Bar10	Hadza	Hadza	Africa	Tanzania	-3.8	35.3	20	17	Sarah A. Tishkoff / Thomas Nyambo
-AD_066	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_066	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 mixe0026	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
-AD_064	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_505	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_064	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_505	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 mixe0027	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Bar13	Hadza	Hadza	Africa	Tanzania	-3.8	35.3	20	17	Sarah A. Tishkoff / Thomas Nyambo
-AD_523	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_500	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_523	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_500	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 mixe0028	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 End08	Hadza	Hadza	Africa	Tanzania	-3.8	35.3	20	17	Sarah A. Tishkoff / Thomas Nyambo
-AD_510	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_015	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_510	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_015	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 mixe0007	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
 Bar04	Hadza	Hadza	Africa	Tanzania	-3.8	35.3	20	17	Sarah A. Tishkoff / Thomas Nyambo
-AD_061	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_061	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 mixe0009	Mixe	Mixe	America	Mexico	17	96.6	10	10	William Klitz / Cheryl Winkler
-AD_076	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_512	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_006	AA	NA	NA	NA	NA	NA	NA	NA	NA
-AD_511	AA	NA	NA	NA	NA	NA	NA	NA	NA
+AD_076	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_512	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_006	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
+AD_511	AA	AA_Denver	America	USA	39.7	105	12	12	Rick Kittles
 SD60_297	Saami_WGA	Saami_WGA	WestEurasia	Finland	68.4	23.6	1	1	Svante Pääbo / Antti Sajantila / Klemetti Näkkäläjärvi
 NA18501	Yoruba	Yoruba	Africa	Nigeria	7.4	3.9	108	70	Coriell Cell Repositories
 NA18504	Yoruba	Yoruba	Africa	Nigeria	7.4	3.9	108	70	Coriell Cell Repositories
@@ -1052,7 +1052,7 @@ NA19238	Yoruba	Yoruba	Africa	Nigeria	7.4	3.9	108	70	Coriell Cell Repositories
 NA19239	Yoruba	Yoruba	Africa	Nigeria	7.4	3.9	108	70	Coriell Cell Repositories
 BulgarianD6	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
 BulgarianA4	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-hungary3	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+hungary3	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 LithuanianF1	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
 iran19	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 iran14	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1061,7 +1061,7 @@ Lebanon5	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Ric
 Jordan543	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 BulgarianE2	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
 BulgarianB4	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-hungary6	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+hungary6	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 lithuania3	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
 iran2	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 iran20	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1071,10 +1071,10 @@ SaudiA5	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Rich
 Jordan214	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Yemen2	Yemeni	NA	NA	NA	NA	NA	NA	NA	NA
 BulgarianA1	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-HungarianC5	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
-hungary7	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+HungarianC5	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
+hungary7	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 lithuania10	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
-Egypt7	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt7	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 iran3	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 syria485	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Lebanon7	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1082,8 +1082,8 @@ SaudiA6	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Rich
 Jordan445	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Yemen3	Yemeni	NA	NA	NA	NA	NA	NA	NA	NA
 BulgarianB1	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-HungarianE5	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
-HungarianH3	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+HungarianE5	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
+HungarianH3	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 lithuania9	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
 syria520	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 syria4	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1091,10 +1091,10 @@ Lebanon8	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Ric
 SaudiA7	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Jordan62	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 BulgarianC1	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-hungary15	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+hungary15	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 LithuanianA1	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
 LithuanianE2	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
-Egypt9	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt9	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 iran11	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 syria461	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Lebanon1	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1102,30 +1102,30 @@ saudi1434	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Ri
 Jordan603	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Yemen5	Yemeni	NA	NA	NA	NA	NA	NA	NA	NA
 BulgarianF1	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-hungary20	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+hungary20	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 lithuania1	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
 lithuania8	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
-Egypt10	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt10	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 iran16	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Lebanon2	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 saudi1424	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 SaudiA9	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Jordan307	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 BulgarianH2	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-hungary2	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+hungary2	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 lithuania2	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
-Egypt3	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt11	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt3	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
+Egypt11	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 iran17	Iranian	Iranian	WestEurasia	Iran	35.6	51.5	9	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 syria6	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Lebanon3	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Jordan503	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Yemen9	Yemeni	NA	NA	NA	NA	NA	NA	NA	NA
 BulgarianF2	Bulgarian	Bulgarian	WestEurasia	Bulgaria	42.2	24.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Draga Toncheva / Sena Karachanak-Yankova / Mari Nelis*
-HungarianD1	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+HungarianD1	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 LithuanianD1	Lithuanian	Lithuanian	WestEurasia	Lithuania	54.9	23.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Vaidutis
-Egypt1	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt12	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt1	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
+Egypt12	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 syria7	Syrian	Syrian	WestEurasia	Syrian	35.1	36.9	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 Lebanon4	Lebanese	Lebanese	WestEurasia	Lebanon	33.8	35.6	8	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
 SaudiA1	Saudi	Saudi	WestEurasia	Saudi_Arabia	18.5	42.5	10	8	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu
@@ -1134,7 +1134,7 @@ Jordan384	Jordanian	Jordanian	WestEurasia	Jordan	32.1	35.9	10	9	Mait Metspalu / 
 Yemen10	Yemeni	NA	NA	NA	NA	NA	NA	NA	NA
 bal102	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal64	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg43	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg43	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia19	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch126	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 abh27	Abkhasian	Abkhasian	WestEurasia	Georgia	43	41	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1143,7 +1143,7 @@ lez38	Lezgin	Lezgin	WestEurasia	Russia	42.1	48.2	10	9	Mait Metspalu / Richard Vi
 nogay42	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal124	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal97	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg47	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg47	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia2	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch16	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 abh107	Abkhasian	Abkhasian	WestEurasia	Georgia	43	41	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1154,8 +1154,8 @@ kumyks44	Kumyk	Kumyk	WestEurasia	Russia	43.3	46.6	9	8	Mait Metspalu / Richard Vi
 nogay35	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 nogay34	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal136	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg22	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
-mg49	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg22	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
+mg49	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia3	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch174	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 abh119	Abkhasian	Abkhasian	WestEurasia	Georgia	43	41	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1164,8 +1164,8 @@ armenia279	Armenian	Armenian	WestEurasia	Armenia	40.2	44.5	10	10	Mait Metspalu /
 nogay24	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 kalmyk11	Kalmyk	Kalmyk	CentralAsiaSiberia	Russia	46.2	45.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal22	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg23	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
-mg62	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg23	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
+mg62	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia5	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch179	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 abh122	Abkhasian	Abkhasian	WestEurasia	Georgia	43	41	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1176,7 +1176,7 @@ kumyks93	Kumyk	Kumyk	WestEurasia	Russia	43.3	46.6	9	8	Mait Metspalu / Richard Vi
 nogay25	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 kalmyk32	Kalmyk	Kalmyk	CentralAsiaSiberia	Russia	46.2	45.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal41	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg27	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg27	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia11	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia8	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch193	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1188,7 +1188,7 @@ kumyks98	Kumyk	Kumyk	WestEurasia	Russia	43.3	46.6	9	8	Mait Metspalu / Richard Vi
 nogay33	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 kalmyk9	Kalmyk	Kalmyk	CentralAsiaSiberia	Russia	46.2	45.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal42	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg31	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg31	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia12	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia9	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch21	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1200,7 +1200,7 @@ kumyks90	Kumyk	Kumyk	WestEurasia	Russia	43.3	46.6	9	8	Mait Metspalu / Richard Vi
 nogay44	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 kalmyk14	Kalmyk	Kalmyk	CentralAsiaSiberia	Russia	46.2	45.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal45	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg34	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg34	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia14	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch3	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 abh154	Abkhasian	Abkhasian	WestEurasia	Georgia	43	41	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1211,7 +1211,7 @@ kumyks94	Kumyk	Kumyk	WestEurasia	Russia	43.3	46.6	9	8	Mait Metspalu / Richard Vi
 nogay45	Nogai	Nogai	WestEurasia	Russia	44.4	41.9	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 kalmyk67	Kalmyk	Kalmyk	CentralAsiaSiberia	Russia	46.2	45.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 bal50	Balkar	Balkar	WestEurasia	Russia	43.5	43.6	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
-mg40	Georgian	NA	NA	NA	NA	NA	NA	NA	NA
+mg40	Georgian	Georgian_Megrels	WestEurasia	Georgia	42.5	41.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 NorthOssetia17	North_Ossetian	North_Ossetian	WestEurasia	Russia	43	44.7	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch113	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 ch31	Chechen	Chechen	WestEurasia	Russia	43.3	45.7	9	9	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1228,8 +1228,8 @@ Tuvinians86	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Met
 Dolgan1708	Dolgan	Dolgan	CentralAsiaSiberia	Russia	73	115.4	4	3	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Sardana A. Fedorova / Fedor Platonov
 Selkup38	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel43s	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel618	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
-UkrLv240	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel618	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
+UkrLv240	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est393	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians27	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 Chuvash33	Chuvash	Chuvash	WestEurasia	Russia	56.1	47.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1239,7 +1239,7 @@ altai380k	Altaian	Altaian	CentralAsiaSiberia	Russia	51.9	86	7	7	Mait Metspalu / 
 Tuvinians111	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Larissa Damba/ Mikhail Voevoda / Marina Gubina
 Selkup83	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel30s	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel620	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel620	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est375	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Est380	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians28	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1250,7 +1250,7 @@ altai280p	Altaian	Altaian	CentralAsiaSiberia	Russia	51.9	86	7	7	Mait Metspalu / 
 Tuvinians66	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Larissa Damba/ Mikhail Voevoda / Marina Gubina
 Selkup87	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel72c	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel622	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel622	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est391	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Est377	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians30	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1261,7 +1261,7 @@ Tuvinians64	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Met
 Selkup220	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 Selkup121	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel93c	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel733	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel733	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est372	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians4	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 Mordovians31	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1273,7 +1273,7 @@ Tuvinians67	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Met
 Selkup105	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 Selkup82	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel110c	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel736	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel736	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est358	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians17	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 Mordovians1	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1296,7 +1296,7 @@ Dolgan3875	Dolgan	Dolgan	CentralAsiaSiberia	Russia	73	115.4	4	3	Mait Metspalu / 
 Selkup21	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel23s	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
 belarusian47zp	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrLv228	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrLv228	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est397	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians32	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 Chuvash29	Chuvash	Chuvash	WestEurasia	Russia	56.1	47.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1307,8 +1307,8 @@ Tuvinians85	Tuvinian	Tuvinian	CentralAsiaSiberia	Russia	50.3	95.2	10	10	Mait Met
 Dolgan3857	Dolgan	Dolgan	CentralAsiaSiberia	Russia	73	115.4	4	3	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Sardana A. Fedorova / Fedor Platonov
 Selkup4a	Selkup	Selkup	CentralAsiaSiberia	Russia	65.5	82.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Ludmila Osipova
 bel82s	Belarusian	Belarusian	WestEurasia	Belarus	53.9	28	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Alena Kushniarevich
-UkrBel614	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
-UkrLv237	Ukrainian	NA	NA	NA	NA	NA	NA	NA	NA
+UkrBel614	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
+UkrLv237	Ukrainian	Ukrainian_East	WestEurasia	Ukraine	50.3	31.6	6	6	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska / Mikhail Churnosov
 Est394	Estonian	Estonian	WestEurasia	Estonia	58.5	24.9	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Jüri Parik
 Mordovians5	Mordovian	Mordovian	WestEurasia	Russia	54.2	45.2	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
 Chuvash31	Chuvash	Chuvash	WestEurasia	Russia	56.1	47.3	10	10	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Elza Khusnutdinova / Rita Khusainova / Sergey Litvinov
@@ -1332,240 +1332,240 @@ UZB105_turkmen	Turkmen	Turkmen	CentralAsiaSiberia	Uzbekistan	42.5	59.6	7	7	Mait 
 tdj305_shugnan	Tajik	NA	NA	NA	NA	NA	NA	NA	NA
 UZB111_turkmen	Turkmen	Turkmen	CentralAsiaSiberia	Uzbekistan	42.5	59.6	7	7	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska
 UZB150_turkmen	Turkmen	Turkmen	CentralAsiaSiberia	Uzbekistan	42.5	59.6	7	7	Mait Metspalu / Richard Villems / Leila Laredj / Ene Metspalu / Oleg Balanovsky / Elena Balanovska
-NA13597	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13605	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13613	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15202	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA13597	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13605	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13613	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15202	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15725	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15733	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15762	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17373	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA11200	Quechua	NA	NA	NA	NA	NA	NA	NA	NA
-NA21487	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA17373	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA11200	Quechua	Quechua_RuizLinares	America	Bolivia	-20	-66	2	2	Andres Ruiz-Linares / Jean-Michel Dugoujon / René Vasquez / Mercedes Villena
+NA21487	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 ND19394	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-NA13598	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13606	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13614	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15203	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA13598	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13606	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13614	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15203	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15726	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15755	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
 NA15763	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17374	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA11201	Quechua	NA	NA	NA	NA	NA	NA	NA	NA
-NA21490	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA17374	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA11201	Quechua	Quechua_RuizLinares	America	Bolivia	-20	-66	2	2	Andres Ruiz-Linares / Jean-Michel Dugoujon / René Vasquez / Mercedes Villena
+NA21490	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 ND22219	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-NA13599	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13607	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA13615	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15204	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA13599	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13607	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA13615	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15204	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15727	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15756	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
 NA15764	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17375	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA21514	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA17375	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA21514	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 NA00726	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-NA13608	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA13616	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15205	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA13608	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA13616	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15205	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15728	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15757	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
 NA15765	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17376	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA21302	Masai	NA	NA	NA	NA	NA	NA	NA	NA
-NA21581	Masai	NA	NA	NA	NA	NA	NA	NA	NA
-NA13601	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13609	Ami	NA	NA	NA	NA	NA	NA	NA	NA
+NA17376	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA21302	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
+NA21581	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
+NA13601	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13609	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
 NA13626	Adygei	Adygei	WestEurasia	Russia(Caucasus)	44	39	25	17	Coriell Cell Repositories
-NA15206	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA15206	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15729	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15758	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
 NA15766	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17377	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA21310	Masai	NA	NA	NA	NA	NA	NA	NA	NA
-NA21648	Masai	NA	NA	NA	NA	NA	NA	NA	NA
-NA13602	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13610	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15199	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
-NA15207	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA17377	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA21310	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
+NA21648	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
+NA13602	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13610	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15199	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
+NA15207	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15730	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15759	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA11197	Quechua	NA	NA	NA	NA	NA	NA	NA	NA
-NA21366	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA11197	Quechua	Quechua_RuizLinares	America	Bolivia	-20	-66	2	2	Andres Ruiz-Linares / Jean-Michel Dugoujon / René Vasquez / Mercedes Villena
+NA21366	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 ND13299	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-NA13603	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13611	Ami	NA	NA	NA	NA	NA	NA	NA	NA
+NA13603	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13611	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
 NA13619	Ignore_Adygei(relative_of_HGDP01382)	NA	NA	NA	NA	NA	NA	NA	NA
-NA15200	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
-NA15208	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA15200	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
+NA15208	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15731	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15760	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA11198	Quechua	NA	NA	NA	NA	NA	NA	NA	NA
-NA21425	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA11198	Quechua	Quechua_RuizLinares	America	Bolivia	-20	-66	2	2	Andres Ruiz-Linares / Jean-Michel Dugoujon / René Vasquez / Mercedes Villena
+NA21425	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 ND14916	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-NA13604	Atayal	NA	NA	NA	NA	NA	NA	NA	NA
-NA13612	Ami	NA	NA	NA	NA	NA	NA	NA	NA
-NA15201	Hungarian	NA	NA	NA	NA	NA	NA	NA	NA
+NA13604	Atayal	Atayal_Coriell	EastAsia	Taiwan	24.6	121.3	10	9	Coriell Cell Repositories
+NA13612	Ami	Ami_Coriell	EastAsia	Taiwan	22.8	121.2	10	10	Coriell Cell Repositories
+NA15201	Hungarian	Hungarian_Coriell	WestEurasia	Hungary	47.5	19.1	10	10	Coriell Cell Repositories
 NA15724	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15732	Czech	Czech	WestEurasia	Czechoslovia(pre1989)	50.1	14.4	10	10	Coriell Cell Repositories
 NA15761	Icelandic	Icelandic	WestEurasia	Iceland	64.1	-21.9	12	12	Coriell Cell Repositories
-NA17372	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-NA11199	Quechua	NA	NA	NA	NA	NA	NA	NA	NA
-NA21477	Masai	NA	NA	NA	NA	NA	NA	NA	NA
+NA17372	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+NA11199	Quechua	Quechua_RuizLinares	America	Bolivia	-20	-66	2	2	Andres Ruiz-Linares / Jean-Michel Dugoujon / René Vasquez / Mercedes Villena
+NA21477	Masai	Masai_Ayodo	Africa	Kenya	-1.1	35.9	3	2	George Ayodo
 ND15143	Korean	Korean	EastAsia	Korea	37.6	127	6	6	Coriell Cell Repositories
-HG00103	Scottish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00104	Scottish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00105	Scottish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00106	Scottish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00128	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00129	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00130	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00131	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00233	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00234	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00232	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG01500	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01501	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01503	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01504	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01506	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01507	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01509	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01510	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01512	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01513	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01515	Spanish_North	NA	NA	NA	NA	NA	NA	NA	NA
-HG01516	Spanish_North	NA	NA	NA	NA	NA	NA	NA	NA
-HG01518	Spanish_North	NA	NA	NA	NA	NA	NA	NA	NA
-HG01524	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01527	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01528	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01530	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01536	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01537	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01605	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01606	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01607	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01608	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01613	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01615	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01617	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01618	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01619	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01620	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01623	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01624	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01625	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01626	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00171	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00174	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00190	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00266	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00231	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00183	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00126	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG00173	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG00182	Finnish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01747	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01746	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01675	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01680	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01682	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01700	Spanish_North	NA	NA	NA	NA	NA	NA	NA	NA
-HG01679	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01702	Spanish_North	NA	NA	NA	NA	NA	NA	NA	NA
-HG01676	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01684	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01705	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01707	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01685	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01686	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01704	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01673	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
+HG00103	Scottish	Scottish_Argyll_Bute_GBR	WestEurasia	England	56	-3.9	4	4	Coriell Cell Repositories
+HG00104	Scottish	Scottish_Argyll_Bute_GBR	WestEurasia	England	56	-3.9	4	4	Coriell Cell Repositories
+HG00105	Scottish	Scottish_Argyll_Bute_GBR	WestEurasia	England	56	-3.9	4	4	Coriell Cell Repositories
+HG00106	Scottish	Scottish_Argyll_Bute_GBR	WestEurasia	England	56	-3.9	4	4	Coriell Cell Repositories
+HG00128	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00129	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00130	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00131	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00233	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00234	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00232	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG01500	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01501	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01503	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01504	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01506	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01507	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01509	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01510	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01512	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01513	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01515	Spanish_North	Spanish_Pais_Vasco_IBS	WestEurasia	Spain	42.8	-2.7	5	5	Coriell Cell Repositories
+HG01516	Spanish_North	Spanish_Pais_Vasco_IBS	WestEurasia	Spain	42.8	-2.7	5	5	Coriell Cell Repositories
+HG01518	Spanish_North	Spanish_Pais_Vasco_IBS	WestEurasia	Spain	42.8	-2.7	5	5	Coriell Cell Repositories
+HG01524	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01527	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01528	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01530	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01536	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01537	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01605	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01606	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01607	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01608	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01613	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01615	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01617	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01618	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01619	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01620	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01623	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01624	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01625	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01626	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG00171	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00174	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00190	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00266	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00231	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00183	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00126	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG00173	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG00182	Finnish	Finnish_FIN	WestEurasia	Finland	60.2	24.9	8	7	Coriell Cell Repositories
+HG01747	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01746	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01675	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01680	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01682	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01700	Spanish_North	Spanish_Pais_Vasco_IBS	WestEurasia	Spain	42.8	-2.7	5	5	Coriell Cell Repositories
+HG01679	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01702	Spanish_North	Spanish_Pais_Vasco_IBS	WestEurasia	Spain	42.8	-2.7	5	5	Coriell Cell Repositories
+HG01676	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01684	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01705	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01707	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01685	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01686	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01704	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01673	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
 HG01695	Canary_Islander	NA	NA	NA	NA	NA	NA	NA	NA
 HG01694	Canary_Islander	NA	NA	NA	NA	NA	NA	NA	NA
-HG01761	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01770	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01762	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01773	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01842	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01844	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01846	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01600	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01595	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01596	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01597	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG01598	Kinh	NA	NA	NA	NA	NA	NA	NA	NA
-HG02220	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG02238	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01678	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01699	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG01697	Spanish	NA	NA	NA	NA	NA	NA	NA	NA
-HG02687	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02491	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02783	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02688	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02724	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-NA19027	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-NA19044	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-NA20847	GujaratiD	NA	NA	NA	NA	NA	NA	NA	NA
-NA20854	GujaratiB	NA	NA	NA	NA	NA	NA	NA	NA
-NA20881	GujaratiA	NA	NA	NA	NA	NA	NA	NA	NA
-NA20882	GujaratiB	NA	NA	NA	NA	NA	NA	NA	NA
-NA20899	GujaratiD	NA	NA	NA	NA	NA	NA	NA	NA
-NA20910	GujaratiA	NA	NA	NA	NA	NA	NA	NA	NA
-NA21125	GujaratiD	NA	NA	NA	NA	NA	NA	NA	NA
-NA20858	GujaratiA	NA	NA	NA	NA	NA	NA	NA	NA
-NA20866	GujaratiC	NA	NA	NA	NA	NA	NA	NA	NA
-NA20873	GujaratiB	NA	NA	NA	NA	NA	NA	NA	NA
-NA20883	GujaratiC	NA	NA	NA	NA	NA	NA	NA	NA
-NA20885	GujaratiB	NA	NA	NA	NA	NA	NA	NA	NA
-NA20898	GujaratiB	NA	NA	NA	NA	NA	NA	NA	NA
-NA20903	GujaratiC	NA	NA	NA	NA	NA	NA	NA	NA
-NA20904	GujaratiA	NA	NA	NA	NA	NA	NA	NA	NA
-NA20911	GujaratiD	NA	NA	NA	NA	NA	NA	NA	NA
-NA21116	GujaratiC	NA	NA	NA	NA	NA	NA	NA	NA
-NA21123	GujaratiD	NA	NA	NA	NA	NA	NA	NA	NA
-NA21097	GujaratiC	NA	NA	NA	NA	NA	NA	NA	NA
-NA20862	GujaratiA	NA	NA	NA	NA	NA	NA	NA	NA
-NA19020	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-HG00160	English	NA	NA	NA	NA	NA	NA	NA	NA
-HG03007	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG03006	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG03793	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG02571	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-HG03085	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03100	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG02574	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-HG02464	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-HG02943	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG02922	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG02974	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG03109	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG02573	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-HG02923	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG03078	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03097	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03057	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03099	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG03108	Esan	NA	NA	NA	NA	NA	NA	NA	NA
-HG02570	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-HG03052	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03076	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-NA19023	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-NA19024	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-NA19017	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-HG02465	Gambian	NA	NA	NA	NA	NA	NA	NA	NA
-NA19019	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-NA19026	Luhya	NA	NA	NA	NA	NA	NA	NA	NA
-HG02790	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02601	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG02600	Punjabi	NA	NA	NA	NA	NA	NA	NA	NA
-HG03072	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03069	Mende	NA	NA	NA	NA	NA	NA	NA	NA
-HG03589	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG03009	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG03585	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
-HG03012	Bengali	NA	NA	NA	NA	NA	NA	NA	NA
+HG01761	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01770	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01762	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01773	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01842	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01844	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01846	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01600	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01595	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01596	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01597	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG01598	Kinh	Kinh_Vietnam_KHV	EastAsia	Vietnam	21	105.9	8	8	Coriell Cell Repositories
+HG02220	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG02238	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01678	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01699	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG01697	Spanish	Spanish_Andalucia_IBS	WestEurasia	Spain	37.4	-6	4	4	Coriell Cell Repositories
+HG02687	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02491	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02783	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02688	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02724	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+NA19027	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+NA19044	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+NA20847	GujaratiD	GujaratiD_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20854	GujaratiB	GujaratiB_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20881	GujaratiA	GujaratiA_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20882	GujaratiB	GujaratiB_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20899	GujaratiD	GujaratiD_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20910	GujaratiA	GujaratiA_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA21125	GujaratiD	GujaratiD_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20858	GujaratiA	GujaratiA_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20866	GujaratiC	GujaratiC_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20873	GujaratiB	GujaratiB_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20883	GujaratiC	GujaratiC_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20885	GujaratiB	GujaratiB_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20898	GujaratiB	GujaratiB_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20903	GujaratiC	GujaratiC_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20904	GujaratiA	GujaratiA_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20911	GujaratiD	GujaratiD_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA21116	GujaratiC	GujaratiC_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA21123	GujaratiD	GujaratiD_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA21097	GujaratiC	GujaratiC_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA20862	GujaratiA	GujaratiA_GIH	SouthAsia	India	23.2	72.7	5	5	Coriell Cell Repositories
+NA19020	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+HG00160	English	English_Cornwall_GBR	WestEurasia	England	50.3	-4.9	5	5	Coriell Cell Repositories
+HG03007	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG03006	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG03793	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG02571	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+HG03085	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03100	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG02574	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+HG02464	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+HG02943	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG02922	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG02974	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG03109	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG02573	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+HG02923	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG03078	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03097	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03057	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03099	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG03108	Esan	Esan_Nigeria_ESN	Africa	Nigeria	6.5	6	8	8	Coriell Cell Repositories
+HG02570	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+HG03052	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03076	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+NA19023	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+NA19024	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+NA19017	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+HG02465	Gambian	Gambian_GWD	Africa	Gambia	13.4	16.7	6	6	Coriell Cell Repositories
+NA19019	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+NA19026	Luhya	Luhya_Kenya_LWK	Africa	Kenya	1.3	36.8	8	8	Coriell Cell Repositories
+HG02790	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02601	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG02600	Punjabi	Punjabi_Lahore_PJL	SouthAsia	Pakistan	31.5	74.3	8	8	Coriell Cell Repositories
+HG03072	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03069	Mende	Mende_Sierra_Leone_MSL	Africa	SierraLeone	8.5	-13.2	8	8	Coriell Cell Repositories
+HG03589	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG03009	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG03585	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
+HG03012	Bengali	Bengali_Bangladesh_BEB	SouthAsia	Bangladesh	23.7	90.4	8	7	Coriell Cell Repositories
 Ayodo_430C	Luo	Luo	Africa	Kenya	-0.1	34.3	9	8	George Ayodo
 Ayodo_460C	Luo	Luo	Africa	Kenya	-0.1	34.3	9	8	George Ayodo
 Ayodo_412C	Luo	Luo	Africa	Kenya	-0.1	34.3	9	8	George Ayodo
@@ -1583,8 +1583,8 @@ Ayodo_40S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
 Ayodo_34S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
 Ayodo_35S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
 Ayodo_5S	Somali	Somali	Africa	Kenya	5.6	48.3	13	13	George Ayodo
-IHW9195(WON,C)	Australian	NA	NA	NA	NA	NA	NA	NA	NA
-IHW9193(WON,M)	Australian	NA	NA	NA	NA	NA	NA	NA	NA
+IHW9195(WON,C)	Australian	Australian_ECCAC	Oceania	Australia	-13	143	9	3	European Collection of Cell Cultures
+IHW9193(WON,M)	Australian	Australian_ECCAC	Oceania	Australia	-13	143	9	3	European Collection of Cell Cultures
 CHI007	Thai	Thai	EastAsia	Thailand	13.8	100.5	10	10	European Collection of Cell Cultures
 CHI034	Thai	Thai	EastAsia	Thailand	13.8	100.5	10	10	European Collection of Cell Cultures
 DCH002	Thai	Thai	EastAsia	Thailand	13.8	100.5	10	10	European Collection of Cell Cultures
@@ -1619,7 +1619,7 @@ LibyanJew1438	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
 GOR063	Datog	Datog	Africa	Tanzania	-3.3	35.7	3	3	Brenna Henna / Joanna Mountain
 Malta4AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
 Malta8AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
-Bolivian41	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
+Bolivian41	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
 Ul56	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Kusunda10	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 Tunisian200000	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
@@ -1638,10 +1638,10 @@ TunisianJew1421	Jew_Tunisian	NA	NA	NA	NA	NA	NA	NA	NA
 SephardiJewTurkey5877	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
 Kusunda01	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 Sir50	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-TP08	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
-Ckrd13	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+TP08	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
+Ckrd13	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 SA016	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
-GREEKGRALPOP18	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP18	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 GOR067	Datog	Datog	Africa	Tanzania	-3.3	35.7	3	3	Brenna Henna / Joanna Mountain
 EthiopianJew1818	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
 AshkenaziJew5782	Jew_Ashkenazi	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1649,20 +1649,20 @@ Kusunda03	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / Georg
 SA018	Khomani	Khomani	Africa	South_Africa	-27.8	21.1	12	11	Brenna Henna
 Kusunda04	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 BEL57	Italian_South	Italian_South	WestEurasia	Italy	39.4	15.5	1	1	Cristian Capelli / George B. J. Busby / Francesca Brisighelli
-Sir43	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Sir43	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Algerian43A22	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
 Ul16	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
-BAS35	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS35	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 Ul69	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
-Esk22	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-SR23	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+Esk22	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+SR23	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 Ul1	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Kor2	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 Kor22	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
 CRO47	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
 NOR106	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 CRO41	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
-Nesk19	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
+Nesk19	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
 Kusunda07	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 Malta7AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
 SephardiJewTurkey4953	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1672,51 +1672,51 @@ SephardiJewTurkey5832	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
 YemeniteJew4684	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
 Kusunda02	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 Kor60	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
-TP05	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+TP05	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 Kayseri24392	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
-Egypt17AQ176	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt17AQ176	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 YemeniteJew4695	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
-SR60	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+SR60	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 Kor62	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
 NOR146	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 Ul36	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 GOR049	Datog	Datog	Africa	Tanzania	-3.3	35.7	3	3	Brenna Henna / Joanna Mountain
 Kusunda15	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
-Nesk8	Eskimo	NA	NA	NA	NA	NA	NA	NA	NA
-TP06	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+Nesk8	Eskimo	Eskimo_Chaplin	CentralAsiaSiberia	Russia	64.5	172.9	5	4	Rem Sukernik / Stanislav Dryomov
+TP06	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 NOR108	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 Sir41	Chukchi	Chukchi	CentralAsiaSiberia	Russia	69.5	168.8	24	20	Rem Sukernik / Stanislav Dryomov
-Ckrd18	Yukagir	NA	NA	NA	NA	NA	NA	NA	NA
+Ckrd18	Yukagir	Yukagir_Forest	CentralAsiaSiberia	Russia	65.5	151	5	5	Rem Sukernik / Stanislav Dryomov
 CRO66	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
 IranianJew1409	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
 NOR126	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 SephardiJewTurkey5075	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
 Kor76	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
-Bolivian39	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
-GREEKGRALPOP13	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-TP07	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
-BAS31	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+Bolivian39	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
+GREEKGRALPOP13	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+TP07	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
+BAS31	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 ALB191	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
-GREEKGRALPOP15	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP15	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 SephardiJewTurkey4950	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
 NOR107	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 SephardiJewTurkey5033	Jew_Turkish	NA	NA	NA	NA	NA	NA	NA	NA
 Ul25	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 EthiopianJew4690	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
-GREEKGRALPOP5	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP5	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 YemeniteJew4675	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
 CRO153	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
 NOR109	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 EthiopianJew1574	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
 SouthFrench3326	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
-GREEKGRALPOP9	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP9	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 Mansi48	Mansi	Mansi	CentralAsiaSiberia	Russia	62.5	63.3	8	8	Rem Sukernik / Stanislav Dryomov
-TP04	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+TP04	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 CRO31	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
 Kor35	Koryak	Koryak	CentralAsiaSiberia	Russia	58.1	159	13	9	Rem Sukernik / Stanislav Dryomov
-Bolivian62	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
-TP25	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
-GREEKGRALPOP4	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+Bolivian62	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
+TP25	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
+GREEKGRALPOP4	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 LibyanJew1601	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
 EthiopianJew1804	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
 CRO93	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
@@ -1725,52 +1725,52 @@ Ul52	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stani
 KuchinJew30052	Jew_Cochin	NA	NA	NA	NA	NA	NA	NA	NA
 SouthFrench3947	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
 SouthFrench1323	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
-SR48R	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+SR48R	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 Balikesir16675	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 YemeniteJew4938	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
-SR44	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+SR44	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 Kor78	Itelmen	Itelmen	CentralAsiaSiberia	Russia	57.2	156.9	7	6	Rem Sukernik / Stanislav Dryomov
-Egypt15AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
-SR64	Sicilian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt15AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
+SR64	Sicilian	Italian_EastSicilian	WestEurasia	Italy	37.1	15.3	5	5	Cristian Capelli / George B. J. Busby / Francesco Cali / Valentino Romano
 NOR148	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 Kusunda12	Kusunda	Kusunda	SouthAsia	Nepal	28.1	82.5	10	10	Aashish R. Jha / George van Driem / Irene Gallego Romero / Toomas Kivisild
 IraqiJew4061	Jew_iraqi	NA	NA	NA	NA	NA	NA	NA	NA
 CYP19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 CRO48	Croatian	Croatian	WestEurasia	Croatia	43.5	16.4	10	10	Cristian Capelli / George B. J. Busby / Igor Rudan / Tatijana Zemunik
-GREEKGRALPOP17	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP17	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 Ul70	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Algerian43A21	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
-Egypt3AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt3AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 ALB213	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
 Turkish7BA57	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
-BAS22	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS22	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 Tunisian20C1	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
-GREEKGRALPOP16	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-Bolivian72	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP16	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+Bolivian72	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
 LibyanJew1104	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
 Balikesir16790	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 NOR111	Norwegian	Norwegian	WestEurasia	Norway	60.4	5.4	11	11	Cristian Capelli / George B. J. Busby / Tor Hervig
 SouthFrench3951	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
-Bolivian46	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
-BAS25	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-BAS32	Basque	NA	NA	NA	NA	NA	NA	NA	NA
-GREEKGRALPOP11	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+Bolivian46	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
+BAS25	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+BAS32	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
+GREEKGRALPOP11	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 SAH27	Saharawi	Saharawi	Africa	WesternSahara(Morocco)	27.3	-8.9	7	6	David Comas
 Tunisian20F4	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
-GREEKGRALPOP10	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-Bolivian71	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP10	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+Bolivian71	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
 EthiopianJew1822	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
 Malta2AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
-GREEKGRALPOP3	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP3	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 Malta16AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
-GREEKGRALPOP8	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP8	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 IranianJew1132	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
 MoroccanJew5126	Jew_Moroccan	NA	NA	NA	NA	NA	NA	NA	NA
 Turkish8BA62	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 LibyanJew1462	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
 CYP5	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 SouthFrench3068	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
-Egypt1AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt1AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 Cyprus13AJ19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 Algerian43A34	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
 Algerian43A13	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
@@ -1780,7 +1780,7 @@ SAH21	Saharawi	Saharawi	Africa	WesternSahara(Morocco)	27.3	-8.9	7	6	David Comas
 MoroccanJew4634	Jew_Moroccan	NA	NA	NA	NA	NA	NA	NA	NA
 LibyanJew1263	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
 Istanbul20010	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
-BAS30	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS30	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 SAH24	Saharawi	Saharawi	Africa	WesternSahara(Morocco)	27.3	-8.9	7	6	David Comas
 Cyprus24AJ19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 YemeniteJew4667	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1795,14 +1795,14 @@ AshkenaziJew5704	Jew_Ashkenazi	NA	NA	NA	NA	NA	NA	NA	NA
 Tunisian20A5	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
 MoroccanJew4789	Jew_Moroccan	NA	NA	NA	NA	NA	NA	NA	NA
 IranianJew1159	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt5AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt5AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 MoroccanJew5168	Jew_Moroccan	NA	NA	NA	NA	NA	NA	NA	NA
 IranianJew1513	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
 AshkenaziJew5728	Jew_Ashkenazi	NA	NA	NA	NA	NA	NA	NA	NA
 ALB202	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
 Algerian43A24	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
 YemeniteJew4960	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
-GREEKGRALPOP12	Greek	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP12	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
 SouthFrench1112	French	French	WestEurasia	France	46	2	29	25	Patterson et al. 2012
 AshkenaziJew5790	Jew_Ashkenazi	NA	NA	NA	NA	NA	NA	NA	NA
 SAH18	Saharawi	Saharawi	Africa	WesternSahara(Morocco)	27.3	-8.9	7	6	David Comas
@@ -1814,8 +1814,8 @@ GeorgianJew1671	Jew_Georgian	NA	NA	NA	NA	NA	NA	NA	NA
 Cyprus2AJ19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 Tunisian20C4	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
 Adana23114	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
-GREEKGRALPOP14	Greek	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt8AT113	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+GREEKGRALPOP14	Greek	Greek_Comas	WestEurasia	Greece	40.6	22.9	14	14	David Comas
+Egypt8AT113	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 IranianJew1556	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
 TunisianJew1170	Jew_Tunisian	NA	NA	NA	NA	NA	NA	NA	NA
 TunisianJew1531	Jew_Tunisian	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1824,7 +1824,7 @@ SAH9	Saharawi	Saharawi	Africa	WesternSahara(Morocco)	27.3	-8.9	7	6	David Comas
 Trabzon21177	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 GeorgianJew1577	Jew_Georgian	NA	NA	NA	NA	NA	NA	NA	NA
 Algerian43A32	Algerian	Algerian	Africa	Algeria	36.8	3	7	7	David Comas
-BAS28	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS28	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 Aydin18784	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 IraqiJew1417	Jew_iraqi	NA	NA	NA	NA	NA	NA	NA	NA
 Istanbul19810	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
@@ -1836,8 +1836,8 @@ GeorgianJew1594	Jew_Georgian	NA	NA	NA	NA	NA	NA	NA	NA
 MoroccanJew4692	Jew_Moroccan	NA	NA	NA	NA	NA	NA	NA	NA
 ALB212	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
 KuchinJew20551	Jew_Cochin	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt12AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
-Egypt9AQ177	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt12AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
+Egypt9AQ177	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 IraqiJew1771	Jew_iraqi	NA	NA	NA	NA	NA	NA	NA	NA
 YemeniteJew5433	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
 Mansi94	Mansi	Mansi	CentralAsiaSiberia	Russia	62.5	63.3	8	8	Rem Sukernik / Stanislav Dryomov
@@ -1846,11 +1846,11 @@ ALB220	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
 Cyprus22AJ19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 YemeniteJew4937	Jew_Yemenite	NA	NA	NA	NA	NA	NA	NA	NA
 Bishkek28452	Kyrgyz	Kyrgyz	CentralAsiaSiberia	Kyrgyzstan	42.9	74.6	10	9	Robert W. Mahley / Ugur Hodoglugil
-Egypt9AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt9AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 Malta12AM91	Maltese	Maltese	WestEurasia	Malta	35.9	14.4	8	8	David Comas / Pierre Zalloua
 Trabzon21534	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 LibyanJew1605	Jew_Libyan	NA	NA	NA	NA	NA	NA	NA	NA
-BAS27	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS27	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 Cyprus21AJ19	Cypriot	Cypriot	WestEurasia	Cyprus	35.1	33.4	8	8	David Comas / Pierre Zalloua
 EthiopianJew1831	Jew_Ethiopian	NA	NA	NA	NA	NA	NA	NA	NA
 TunisianJew1511	Jew_Tunisian	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1858,8 +1858,8 @@ Turkish9BA57	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pier
 Tunisian20D1	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
 Tunisian20B4	Tunisian	Tunisian	Africa	Tunisia	36.8	10.2	8	8	David Comas
 Kayseri24075	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
-Egypt7AQ172	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
-Bolivian81	Bolivian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt7AQ172	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
+Bolivian81	Bolivian	Bolivian_Cochabamba	America	Bolivia	-17.4	-66.2	1	1	Antonio Salas
 IraqiJew4291	Jew_iraqi	NA	NA	NA	NA	NA	NA	NA	NA
 ALB230	Albanian	Albanian	WestEurasia	Albania	41.3	19.8	6	6	David Comas
 Adana23108	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
@@ -1871,7 +1871,7 @@ Balikesir16887	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pi
 IranianJew1832	Jew_Iranian	NA	NA	NA	NA	NA	NA	NA	NA
 GeorgianJew1654	Jew_Georgian	NA	NA	NA	NA	NA	NA	NA	NA
 Bishkek28442	Kyrgyz	Kyrgyz	CentralAsiaSiberia	Kyrgyzstan	42.9	74.6	10	9	Robert W. Mahley / Ugur Hodoglugil
-BAS33	Basque	NA	NA	NA	NA	NA	NA	NA	NA
+BAS33	Basque	Basque_French	WestEurasia	France	43	0	22	20	Patterson et al. 2012
 KuchinJew20851	Jew_Cochin	NA	NA	NA	NA	NA	NA	NA	NA
 Mansi43	Mansi	Mansi	CentralAsiaSiberia	Russia	62.5	63.3	8	8	Rem Sukernik / Stanislav Dryomov
 KuchinJew20320	Jew_Cochin	NA	NA	NA	NA	NA	NA	NA	NA
@@ -1925,7 +1925,7 @@ Kayseri23271	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pier
 Trabzon21645	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 Adana23147	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 Bishkek28456	Kyrgyz	Kyrgyz	CentralAsiaSiberia	Kyrgyzstan	42.9	74.6	10	9	Robert W. Mahley / Ugur Hodoglugil
-Egypt22TD21	Egyptian	NA	NA	NA	NA	NA	NA	NA	NA
+Egypt22TD21	Egyptian	Egyptian_Comas	Africa	Egypt	31	31.2	14	11	David Comas / Pierre Zalloua
 Ul39	Ulchi	Ulchi	CentralAsiaSiberia	Russia	52.2	140.4	33	25	Rem Sukernik / Stanislav Dryomov
 Aydin18483	Turkish	Turkish	WestEurasia	Turkey	39.6	28.5	4	4	David Comas / Pierre Zalloua
 Ale22	Aleut	Aleut	CentralAsiaSiberia	Russia	53.6	160.8	7	7	Rem Sukernik / Stanislav Dryomov

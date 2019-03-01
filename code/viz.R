@@ -2,11 +2,13 @@
 
 get_pops = function(meta_df, region){
     
-  pops = meta_df %>% filter(region==region) %>% 
-         select(region, clst, lat) %>%
-         distinct(clst, lat) %>% 
-         arrange(desc(lat)) %>% 
-         pull(clst)
+  library(dplyr)
+  
+  pops = meta_df %>% filter(Region==region) %>% 
+         dplyr::select(Region, Simple.Population.ID, Latitude) %>%
+         distinct(Simple.Population.ID, Latitude) %>% 
+         arrange(desc(Latitude)) %>% 
+         pull(Simple.Population.ID)
     
     return(pops)
 }
@@ -19,12 +21,12 @@ positive_structure_plot = function(gath_df, pops, colset, label_size=5){
   library(dplyr)
   library(RColorBrewer)
     
-  p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K))) + 
+  p = ggplot(data=gath_df, aes(x=reorder(ID, desc(value)), y=value, fill=factor(K))) + 
       geom_bar(stat="identity", width=1) +  
       scale_fill_brewer(palette = colset) + 
       scale_y_continuous(expand=c(0, 0)) +
       scale_x_discrete(expand=c(-1, 0)) +
-      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
+      facet_grid(. ~ factor(Simple.Population.ID, levels=pops), scales = "free", space="free", switch="both") + 
       theme_classic() +
       theme(panel.spacing = unit(0.2, "lines"), 
             strip.background = element_rect(colour="white", fill="white"),

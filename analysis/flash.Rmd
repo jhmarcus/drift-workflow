@@ -70,7 +70,7 @@ positive_structure_plot = function(gath_df, pops, K_, label_size=5){
 I prepared a dataset described in [Lazaridis et al. 2016](https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf) which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the "Human Origins Array Dataset" (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in `plink`. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:
 
 ```{r data-genotypes}
-X = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_ldprune"))
+X = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_auto_ldprune"))
 n = nrow(X)
 p = ncol(X)
 print(n)

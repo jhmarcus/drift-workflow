@@ -318,243 +318,321 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-02-24</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<details>
-<p><summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/b5aafbb646dc86e64316f81d9a9e4dd972eed734" target="_blank">b5aafbb</a> </summary></p>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-02-28
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3b61a0da02c41415f6768726302489c8582a1f97" target="_blank">3b61a0d</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/flash_cache/
+    Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    output.tar.gz
-    Ignored:    output/flash_backfit/
+    Ignored:    output/admixture/
     Ignored:    output/flash_greedy/
     Ignored:    output/log/
     Ignored:    output/sim/
-    Ignored:    output/softImpute/
 
 Untracked files:
-    Untracked:  sandbox/
+    Untracked:  data.tar.gz
 
 Unstaged changes:
-    Deleted:    analysis/hoa_weurasia.Rmd
-    Deleted:    analysis/ooa.Rmd
+    Modified:   analysis/flash.Rmd
+    Modified:   analysis/hoa_global.Rmd
+    Modified:   code/viz.R
+    Modified:   data/meta/HumanOriginsPublic2068.meta
+    Modified:   data/meta/write_meta_HumanOriginsPublic2068.R
 
 </code></pre>
+<p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
-</details>
-</li>
-</ul>
-<details>
-<summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/about.html" target="_blank">403bc6b</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/38a461d4a7d655238d6508eaf62f6daeee605252/docs/about.html" target="_blank">38a461d</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
+2019-02-24
+</td>
+<td>
+built all
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/about.html" target="_blank">403bc6b</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added hide code blocks
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2/docs/about.html" target="_blank">b4749ac</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2/docs/about.html" target="_blank">b4749ac</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 fixed some typos
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/about.html" target="_blank">7a2b6c7</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/about.html" target="_blank">7a2b6c7</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added backfit
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/about.html" target="_blank">f5ef1af</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/about.html" target="_blank">f5ef1af</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-15
 </td>
-<td style="text-align:left;">
+<td>
 added workflows for human origins datasets
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/about.html" target="_blank">31a16c6</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/about.html" target="_blank">31a16c6</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-14
 </td>
-<td style="text-align:left;">
+<td>
 added hists of factors
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/about.html" target="_blank">9538510</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/about.html" target="_blank">9538510</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 switched to struct style plot
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/about.html" target="_blank">63c2b75</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/about.html" target="_blank">63c2b75</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-13
 </td>
-<td style="text-align:left;">
+<td>
 added softimpute
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/about.html" target="_blank">7b6ecbc</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/about.html" target="_blank">7b6ecbc</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 made fig size bigger
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/about.html" target="_blank">5c0f91a</a>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/about.html" target="_blank">5c0f91a</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-12
 </td>
-<td style="text-align:left;">
+<td>
 init flash proof of principle
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/46105eea5be00db7743ec118652699f94fdea18a/analysis/about.Rmd" target="_blank">46105ee</a>
 </td>
-<td style="text-align:left;">
+<td>
 jhmarcus
 </td>
-<td style="text-align:left;">
+<td>
 2019-02-11
 </td>
-<td style="text-align:left;">
+<td>
 Start workflowr project.
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-</details>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <p>Describe your project.</p>
+
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
@@ -567,14 +645,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
