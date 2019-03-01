@@ -7,6 +7,7 @@ import pandas as pd
 # setup the output files 
 qs = []
 ps = []
+benchmarks = []
 max_K = 8
 n_rep = 1
 tols = [.0001, .001, .01]
@@ -20,14 +21,17 @@ for dataset_path in dataset_paths:
             for tol in tols:
                 qs.append("output/admixture_benchmark/{}/{}.K{}r{}tol{}.Q".format(dataset, prefix, k, r + 1, tol))
                 ps.append("output/admixture_benchmark/{}/{}.K{}r{}tol{}.P".format(dataset, prefix, k, r + 1, tol))
+                benchmarks.append("output/benchmark/admixture_benchmark_{}_{}_{}_{}_{}.txt".format(dataset, prefix, k, r + 1, tol))
 
+localrules: merge_benchmarks
 
 rule admixture_benchmark_all:
     """Runs all admixture benchmark rules
     """
     input:
         qs,
-        ps
+        ps,
+        "output/benchmark/admixture_benchmark_hoa_global_ld_HumanOriginsPublic2068_maf_geno_auto_ldprune.csv"
 
 
 rule run_admixture_benchmark:
@@ -52,4 +56,24 @@ rule run_admixture_benchmark:
         shell("mv {params.p} {output.p}")
         shell("mv {params.q} {output.q}")
 
-
+rule merge_benchmarks:
+    """Merges benchmarks
+    """
+    input:
+        benchmarks=benchmarks
+    output: 
+        csv="output/benchmark/admixture_benchmark_{dataset}_{prefix}.csv"
+    run:
+        df = pd.DataFrame({})
+        for benchmark in input.benchmarks:
+            b = os.path.basename(benchmark)
+            b_lst = b.strip('.txt').split("_")
+            tol = np.array(b_lst[-1])
+            r = np.array(b_lst[-2])
+            K = np.array(b_lst[-3])
+            row_df = pd.read_csv(benchmark, sep="\t", header=0)
+            row_df["tol"] = tol
+            row_df["r"] = r
+            row_df["K"] = K
+            df = pd.concat([df, row_df], axis=0)
+        df.to_csv(output.csv, index=False)
