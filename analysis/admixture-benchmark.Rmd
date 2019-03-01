@@ -1,0 +1,24 @@
+---
+title: "ADMIXTURE Benchmark"
+author: "jhmarcus"
+date: "2019-03-01"
+output: workflowr::wflow_html
+---
+
+## Imports
+
+```{r imports}
+library(ggplot2)
+library(dplyr)
+```
+
+## Viz
+
+```{r benchmark-viz}
+df = read.table("../output/benchmark/admixture_benchmark_hoa_global_ld_HumanOriginsPublic2068_maf_geno_auto_ldprune.csv", sep=",", 
+                header=T, stringsAsFactors=F)
+p = ggplot(df, aes(x=factor(tol, levels=c(.01, .001, .0001)), y=s)) + geom_point() + 
+    facet_wrap(K~., scales = "free_x") + ylab("Seconds") + xlab("Tolerance")
+p
+```
+
