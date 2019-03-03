@@ -439,7 +439,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -448,7 +448,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -457,10 +457,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-02-28
+<strong>Last updated:</strong> 2019-03-03
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -476,12 +476,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -536,10 +536,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3b61a0da02c41415f6768726302489c8582a1f97" target="_blank">3b61a0d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7392ef2a88404e40b5c1b1d6981c8428a5094025targetblank7392ef2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7392ef2a88404e40b5c1b1d6981c8428a5094025" target="_blank">7392ef2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b61a0da02c41415f6768726302489c8582a1f97targetblank3b61a0da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7392ef2a88404e40b5c1b1d6981c8428a5094025targetblank7392ef2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -549,23 +549,24 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/flash_cache/
+    Ignored:    data.tar.gz
     Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    output.tar.gz
     Ignored:    output/admixture/
+    Ignored:    output/admixture_benchmark/
     Ignored:    output/flash_greedy/
     Ignored:    output/log/
     Ignored:    output/sim/
 
 Untracked files:
-    Untracked:  data.tar.gz
+    Untracked:  sandbox/admixture-benchmark.Rmd
+    Untracked:  sandbox/sgdp.Rmd
 
 Unstaged changes:
-    Modified:   analysis/flash.Rmd
-    Modified:   analysis/hoa_global.Rmd
+    Deleted:    analysis/admixture-benchmark.Rmd
     Modified:   code/viz.R
-    Modified:   data/meta/HumanOriginsPublic2068.meta
-    Modified:   data/meta/write_meta_HumanOriginsPublic2068.R
+    Modified:   sandbox/hoa_weurasia.Rmd
 
 </code></pre>
 <p>
@@ -604,6 +605,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7392ef2a88404e40b5c1b1d6981c8428a5094025/analysis/hoa_global.Rmd" target="_blank">7392ef2</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-03
+</td>
+<td>
+wflow_publish(&quot;analysis/*.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/analysis/hoa_global.Rmd" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+<td>
+updated to autosomes and added manhatten plot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/hoa_global.html" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+<td>
+updated to autosomes and added manhatten plot
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -934,8 +986,9 @@ init hoa global analysis
 </div>
 </div>
 </div>
-<div id="imports" class="section level2">
-<h2>Imports</h2>
+<p>This an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in <code>plink</code>, resulting in 165468 SNPs.</p>
+<div id="imports" class="section level1">
+<h1>Imports</h1>
 <p>Lets import some needed packages:</p>
 <pre class="r"><code>library(ggplot2)
 library(tidyr)
@@ -945,11 +998,8 @@ library(biomaRt)
 library(knitr)
 source(&quot;../code/viz.R&quot;)</code></pre>
 </div>
-<div id="human-origins-global-ld-pruned" class="section level2">
-<h2>Human Origins Global (LD Pruned)</h2>
-<p>This an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in <code>plink</code>, resulting in 165468 SNPs.</p>
-<div id="greedy" class="section level3">
-<h3>Greedy</h3>
+<div id="flash-greedy" class="section level1">
+<h1>FLASH-Greedy</h1>
 <p>Here is the <code>snakemake</code> rule I used for running <code>flashier</code>:</p>
 <pre><code>    run:
         R(&quot;&quot;&quot;
@@ -961,18 +1011,47 @@ source(&quot;../code/viz.R&quot;)</code></pre>
           # run greedy flash
           flash_fit = flashier::flashier(Y,
                                          greedy.Kmax=20,
-                                         prior.type=c(&#39;nonnegative&#39;, &#39;point.normal&#39;),
+                                         ash.param=list(method=&#39;fdr&#39;),
+                                         prior.type=c(&#39;nonnegative&#39;, &#39;normal.mixture&#39;),
                                          var.type=2,
-                                         fix.dim=list(1),
-                                         fix.idx=list(1:n),
-                                         fix.vals=list(rep(1, n)))
+                                         fixed.factors=flashier::ones.factor(1),
+                                         output.lvl=4,
+                                         verbose.lvl=2)
           # save the rds
-          saveRDS(flash_fit, &#39;{output.rds}&#39;)
-          &quot;&quot;&quot;)</code></pre>
+          saveRDS(flash_fit, &#39;{output.rds}&#39;)</code></pre>
 <p>Lets first read the greedy <code>flashier</code> fit</p>
-<pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.rds&quot;)
+<pre class="r"><code># read the flash fit output by snakemake
+flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.rds&quot;)
+
+# read the snp meta data
+bim_df = read.table(&quot;../data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim&quot;, header=F)
+colnames(bim_df) = c(&quot;chrom&quot;, &quot;rsid&quot;, &quot;cm&quot;, &quot;pos&quot;, &quot;a1&quot;, &quot;a2&quot;)
+
+# drift event loadings lfsr
+l_lfsr_df = data.frame(flash_fit$lfsr[[1]])
+colnames(l_lfsr_df) = 1:21
+
+# drift event lfsr
+delta_lfsr_df = data.frame(flash_fit$lfsr[[2]])
+colnames(delta_lfsr_df) = 1:21
+delta_lfsr_df$chrom = bim_df$chrom
+delta_lfsr_df$pos = bim_df$pos
+delta_lfsr_df$rsid = bim_df$rsid
+
+# drift events
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df) = 1:21
+delta_df$chrom = bim_df$chrom
+delta_df$pos = bim_df$pos
+delta_df$rsid = bim_df$rsid
+
+# number of drift events
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+
+# number of individuals
 n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+
+# number of SNPs
 p = nrow(flash_fit$loadings$normalized.loadings[[2]])
 print(K)</code></pre>
 <pre><code>[1] 21</code></pre>
@@ -980,84 +1059,15 @@ print(K)</code></pre>
 <pre><code>[1] 2068</code></pre>
 <pre class="r"><code>print(p)</code></pre>
 <pre><code>[1] 165468</code></pre>
-<p>Lets now plot the distribution of factors for each drift event</p>
-<pre class="r"><code># read factors
-delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
-colnames(delta_df)[1:K] = 1:K 
-
-# add snp meta data
-bim_df = read.table(&quot;../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim&quot;, header=F)
-colnames(bim_df) = c(&quot;chrom&quot;, &quot;rsid&quot;, &quot;cm&quot;, &quot;pos&quot;, &quot;a1&quot;, &quot;a2&quot;)
-delta_df$chrom = bim_df$chrom
-delta_df$pos = bim_df$pos
-delta_df$rsid = bim_df$rsid
-
-# gather the data.frame for plotting
-delta_gath_df = delta_df %&gt;% 
-                gather(K, value, -chrom, -pos, -rsid) %&gt;%
-                filter(K!=1)
-
-# plot the factors
-K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value)) + 
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
-        labs(fill=&quot;K&quot;) + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+</div>
+<div id="pves" class="section level1">
+<h1>PVEs</h1>
+<p>Here is a plot of the proportion of variance (PVE) explained by each drift event:</p>
+<pre class="r"><code>p_pve = qplot(2:K, flash_fit$pve[2:K]) + 
+        ylab(&quot;Proportion of Varaince Explained&quot;) + 
+        xlab(&quot;K&quot;) + 
         theme_bw()
-p_fct</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-factors-1">
-Past versions of flash-greedy-ld-viz-factors-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-factors-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">f5ef1af</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>We can see the later factors tend to get sparser! Here is a plot of the “proportion of variance explained” of each factor:</p>
-<pre class="r"><code>qplot(2:K, flash_fit$pve[2:K]) + ylab(&quot;Proportion of Varaince Explained&quot;) + xlab(&quot;K&quot;) + theme_bw()</code></pre>
+p_pve</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-pve-1">
@@ -1083,6 +1093,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" target="_blank">38b57c5</a>
 </td>
 <td>
@@ -1097,13 +1118,21 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
-<pre><code> [1] 0.4763895014 0.0180272272 0.0221803113 0.0102965471 0.0025143344
- [6] 0.0045277929 0.0015659276 0.0014218575 0.0011760893 0.0008608887
-[11] 0.0007633150 0.0006690835 0.0005002149 0.0002133497 0.0001920124
-[16] 0.0002281114 0.0001847405 0.0002903768 0.0002700529 0.0001573717
-[21] 0.0001176524</code></pre>
-<p>It looks like the PVE drops off at around 14 or so? I setup the <code>flashier</code> run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:</p>
-<pre class="r"><code>qplot(1/flash_fit$fit$est.tau) + xlab(&quot;Estimated Variance&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
+<pre><code> [1] 0.4758928191 0.0180430938 0.0221910986 0.0102953222 0.0025186497
+ [6] 0.0045329056 0.0015651404 0.0014220784 0.0011824621 0.0008636509
+[11] 0.0007593062 0.0006714457 0.0005026230 0.0002140494 0.0001931981
+[16] 0.0002269361 0.0001832276 0.0002904277 0.0002626722 0.0001573182
+[21] 0.0001179608</code></pre>
+<p>It looks like the PVE drops off at around 14 or so?</p>
+</div>
+<div id="fitted-mean-and-variance" class="section level1">
+<h1>Fitted Mean and Variance</h1>
+<p>I setup the <code>flashier</code> run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:</p>
+<pre class="r"><code>p_var = qplot(1/flash_fit$fit$est.tau) + 
+        xlab(&quot;Estimated Variance&quot;) + 
+        ylab(&quot;Count&quot;) + 
+        theme_bw()
+p_var</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-var-1">
@@ -1129,6 +1158,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">38b57c5</a>
 </td>
 <td>
@@ -1144,7 +1184,11 @@ jhmarcus
 </div>
 <p>Lets now look the the fitted means:</p>
 <pre class="r"><code>mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
-qplot(mu) + xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Count&quot;) + theme_bw()</code></pre>
+p_mu = qplot(mu) + 
+       xlab(&quot;Estimated Mean&quot;) + 
+       ylab(&quot;Count&quot;) + 
+       theme_bw()
+p_mu</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-mean-1">
@@ -1170,6 +1214,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">38b57c5</a>
 </td>
 <td>
@@ -1188,7 +1243,7 @@ jhmarcus
 mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
 p_mv = ggplot(mv_df, aes(x=mu, y=var)) + 
        geom_point() + 
-       xlab(&quot;Rescaled Estimated Mean&quot;) + ylab(&quot;Estimated Variance&quot;) + 
+       xlab(&quot;Estimated Mean&quot;) + ylab(&quot;Estimated Variance&quot;) + 
        scale_alpha(guide = &quot;none&quot;) + 
        stat_function(fun = function(x){return(2*x*(1-x))}, color=&quot;red&quot;) + 
        xlim(0, .5) + 
@@ -1219,6 +1274,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/63e7173f9a33d2a087e6f16d90cd929eb422bb6b/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">63e7173</a>
 </td>
 <td>
@@ -1243,7 +1309,111 @@ jhmarcus
 </table>
 </div>
 </div>
-<p>Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. I wonder if there is anything “special” going on with the high variance SNP (will explore this later). Lets now take a look at the loadings. First we setup a data.frame that we can work with:</p>
+<p>Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. I wonder if there is anything “special” going on with the high variance SNP (will explore this later). I’m not sure why there is a sharp cuttof at .45.</p>
+</div>
+<div id="drift-event-distributions" class="section level1">
+<h1>Drift Event Distributions</h1>
+<p>Lets now plot the distribution of drift events:</p>
+<pre class="r"><code># gather the data.frame for plotting
+delta_gath_df = delta_df %&gt;% 
+                gather(K, value, -chrom, -pos, -rsid) %&gt;%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_de = ggplot(delta_gath_df, aes(x=value)) + 
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+        labs(fill=&quot;K&quot;) + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_de</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-factors-1">
+Past versions of flash-greedy-ld-viz-factors-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-ld-viz-factors-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">38b57c5</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">f5ef1af</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can see the lower PVE drift events tend to get sparser!</p>
+</div>
+<div id="drift-event-local-false-sign-rates" class="section level1">
+<h1>Drift Event Local False Sign Rates</h1>
+<p>Here histograms of the lfsrs for each drift event:</p>
+<pre class="r"><code>delta_lfsr_gath_df = delta_lfsr_df %&gt;% 
+                     gather(K, value, -chrom, -pos, -rsid) %&gt;%
+                     filter(K %in% paste0(2:21))
+
+p_lfsr = ggplot(delta_lfsr_gath_df, aes(x=value)) + 
+         geom_histogram() + 
+         facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+         labs(fill=&quot;K&quot;) + 
+         scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+         scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+         theme_bw() + 
+         xlab(&quot;Local False Sign Rate&quot;)
+p_lfsr</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-lfsr-factors-viz-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainity of the sign of the drift event.</p>
+</div>
+<div id="drift-event-loadings-2-11" class="section level1">
+<h1>Drift Event Loadings (2-11)</h1>
+<p>Lets now take a look at the drift event loadings. First we setup the data:</p>
 <pre class="r"><code># read the meta data
 meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068.meta&quot;, sep=&quot;\t&quot;, header=T)
 
@@ -1251,7 +1421,9 @@ meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068.meta&quot;, sep=&
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 K = ncol(l_df)
 l_df = cbind(l_df, meta_df)
-pops = unique(l_df$Simple.Population.ID) # all unique pop labels
+
+# all unique pop labels
+pops = unique(l_df$Simple.Population.ID) 
 
 # join with the meta data
 l_df = l_df %&gt;% arrange(Region, Simple.Population.ID) # sort by region then by population
@@ -1260,33 +1432,33 @@ colnames(l_df)[1:K] = 1:K
 
 head(l_df)</code></pre>
 <pre><code>           1            2           3          4            5            6
-1 0.02198997 3.983040e-06 0.009742430 0.02223268 2.480331e-05 1.933025e-05
-2 0.02198997 3.907523e-06 0.009734339 0.02268403 2.577005e-05 1.894343e-05
-3 0.02198997 3.849485e-06 0.006489710 0.02495816 2.398744e-05 2.021861e-05
-4 0.02198997 3.869767e-06 0.009428810 0.02313380 2.421315e-05 1.971725e-05
-5 0.02198997 3.889654e-06 0.009863181 0.02289416 2.525070e-05 2.054919e-05
-6 0.02198997 3.977201e-06 0.009502596 0.02229676 2.420936e-05 2.011595e-05
+1 0.02198997 1.562440e-10 0.009748510 0.02224623 7.496723e-07 5.564681e-07
+2 0.02198997 1.498617e-10 0.009740473 0.02269808 1.389697e-06 4.160829e-07
+3 0.02198997 1.450794e-10 0.006494890 0.02497461 4.110090e-07 1.022280e-06
+4 0.02198997 1.467553e-10 0.009433912 0.02314688 4.900230e-07 7.339584e-07
+5 0.02198997 1.483937e-10 0.009868851 0.02290795 1.023726e-06 1.243865e-06
+6 0.02198997 1.557400e-10 0.009509020 0.02230823 4.839558e-07 9.636279e-07
             7            8            9         10           11
-1 0.011770312 3.967352e-05 2.832321e-05 0.05538038 3.960260e-05
-2 0.010829446 4.011844e-05 2.957381e-05 0.04942202 4.264933e-05
-3 0.010805872 3.752266e-05 2.607744e-05 0.05509969 4.206464e-05
-4 0.010939192 3.790906e-05 2.729509e-05 0.05984811 3.902960e-05
-5 0.008271378 3.933508e-05 2.670218e-05 0.05788346 3.936151e-05
-6 0.011583697 3.722886e-05 2.807376e-05 0.05629556 3.791417e-05
+1 0.011864108 1.950983e-06 2.134680e-08 0.05518295 1.998480e-06
+2 0.010896971 2.218510e-06 2.596953e-08 0.04932135 4.235657e-06
+3 0.010882016 8.834097e-07 1.532842e-08 0.05498083 3.759938e-06
+4 0.011011579 1.021461e-06 1.829201e-08 0.05974476 1.691153e-06
+5 0.008335442 1.722933e-06 1.676397e-08 0.05778697 1.862318e-06
+6 0.011669452 7.847559e-07 2.056824e-08 0.05614764 1.171816e-06
            12           13           14         15           16
-1 0.014925313 6.531321e-05 7.771835e-05 0.06157679 7.687870e-05
-2 0.009683119 8.181238e-05 7.817497e-05 0.04760745 7.947480e-05
-3 0.011611347 7.275697e-05 7.761959e-05 0.06522022 7.812401e-05
-4 0.016421998 6.915482e-05 7.413616e-05 0.07187187 8.095212e-05
-5 0.015993345 6.391435e-05 7.548730e-05 0.07753460 8.029139e-05
-6 0.015481074 6.697399e-05 7.687836e-05 0.06055225 7.798898e-05
+1 0.014841288 2.475559e-06 1.196299e-06 0.06257501 3.574080e-06
+2 0.009671195 1.735489e-05 1.307078e-06 0.04815442 5.286249e-06
+3 0.011501083 8.012301e-06 1.163721e-06 0.06577732 4.371689e-06
+4 0.016477949 4.847320e-06 6.057587e-07 0.07252450 6.484941e-06
+5 0.016029848 1.854048e-06 7.768784e-07 0.07805249 5.937048e-06
+6 0.015462082 3.375407e-06 1.009148e-06 0.06144209 4.287258e-06
             17           18           19           20           21
-1 0.0001113319 0.0004044934 8.802684e-05 8.731966e-05 8.756886e-05
-2 0.0001220043 0.0002632577 3.821495e-04 1.139101e-04 8.716143e-05
-3 0.0022902140 0.0002782860 9.505465e-05 2.280344e-04 8.567540e-05
-4 0.0001352564 0.0001225972 8.289963e-05 7.181312e-04 8.324215e-05
-5 0.0001010870 0.0001548211 1.957986e-04 7.474813e-03 8.673768e-05
-6 0.0001327867 0.0005840805 7.520526e-05 9.241005e-05 8.510847e-05
+1 3.231384e-05 3.686193e-04 2.768013e-05 1.201701e-05 2.821169e-06
+2 4.278782e-05 2.089317e-04 4.289490e-04 4.107142e-05 2.684191e-06
+3 2.555584e-03 2.272919e-04 3.728350e-05 1.835738e-04 2.204598e-06
+4 5.754635e-05 5.062869e-05 2.207929e-05 7.701641e-04 1.574267e-06
+5 2.230132e-05 8.553066e-05 1.794721e-04 7.282639e-03 2.575973e-06
+6 5.395636e-05 5.777995e-04 1.192646e-05 1.745599e-05 2.016293e-06
              ID Simple.Population.ID Verbose.Population.ID Region Country
 1 Algerian43A22             Algerian              Algerian Africa Algeria
 2 Algerian43A21             Algerian              Algerian Africa Algeria
@@ -1304,55 +1476,98 @@ head(l_df)</code></pre>
 <p>Its hard to find a color scale that can sufficiently visualize all of the loadings in a single plot. Instead I just split the loadings up into two plots (K=2,…,11) and (K=12,…,21). Lets first visualize loadings 2 through 12:</p>
 <pre class="r"><code># gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
-            gather(K, value, -ID, -Verbose.Population.ID, -Simple.Population.ID, 
-                   -Region, -Country, -Latitude, -Longitude, -Samples,
-                   -Passed.QC,  -Contributor) %&gt;% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %&gt;% 
             filter(K %in% paste0(2:11))
 
 # Africa
 africa_pops = get_pops(meta_df, &quot;Africa&quot;)
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), 
-                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
-           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                   filter(Region == &quot;Africa&quot;), 
+                                   colset=&quot;Set3&quot;,
+                                   facet_levels=africa_pops,
+                                   facet_grp=&quot;Simple.Population.ID&quot;, 
+                                   label_size=5) +
+           ggtitle(&quot;Africa&quot;) + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, &quot;America&quot;)
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), 
-                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;America&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=america_pops,
+                                    facet_grp=&quot;Simple.Population.ID&quot;, 
+                                    label_size=5) + 
+            ggtitle(&quot;America&quot;) + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), 
-                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                                 filter(Region == &quot;CentralAsiaSiberia&quot;), 
+                                                 colset=&quot;Set3&quot;,
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp=&quot;Simple.Population.ID&quot;,
+                                                 label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), 
-                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;EastAsia&quot;), 
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;),
-                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;SouthAsia&quot;),
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), 
-                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                         filter(Region == &quot;WestEurasia&quot;), 
+                                         colset=&quot;Set3&quot;,
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp=&quot;Simple.Population.ID&quot;,
+                                         label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), 
-                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;Oceania&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=oceania_pops, 
+                                    facet_grp=&quot;Simple.Population.ID&quot;,
+                                    label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + 
+            theme(plot.title = element_text(size=6))
 
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
@@ -1381,6 +1596,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">38b57c5</a>
 </td>
 <td>
@@ -1394,58 +1620,104 @@ jhmarcus
 </table>
 </div>
 </div>
+</div>
+<div id="drift-event-loadings-12-21" class="section level1">
+<h1>Drift Event Loadings (12-21)</h1>
 <p>Lets now visualize loadings 12 to 21 (be careful: there is no connection to the colors in the last plot):</p>
 <pre class="r"><code># gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
-            gather(K, value, -ID, -Verbose.Population.ID, -Simple.Population.ID, 
-                   -Region, -Country, -Latitude, -Longitude, -Samples,
-                   -Passed.QC,  -Contributor) %&gt;% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %&gt;% 
             filter(K %in% paste0(12:21))
 
 # Africa
 africa_pops = get_pops(meta_df, &quot;Africa&quot;)
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), 
-                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
-           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                   filter(Region == &quot;Africa&quot;), 
+                                   colset=&quot;Set3&quot;,
+                                   facet_levels=africa_pops,
+                                   facet_grp=&quot;Simple.Population.ID&quot;, 
+                                   label_size=5) +
+           ggtitle(&quot;Africa&quot;) + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, &quot;America&quot;)
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), 
-                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;America&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=america_pops,
+                                    facet_grp=&quot;Simple.Population.ID&quot;, 
+                                    label_size=5) + 
+            ggtitle(&quot;America&quot;) + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), 
-                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                                 filter(Region == &quot;CentralAsiaSiberia&quot;), 
+                                                 colset=&quot;Set3&quot;,
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp=&quot;Simple.Population.ID&quot;,
+                                                 label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), 
-                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;EastAsia&quot;), 
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;),
-                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;SouthAsia&quot;),
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), 
-                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                         filter(Region == &quot;WestEurasia&quot;), 
+                                         colset=&quot;Set3&quot;,
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp=&quot;Simple.Population.ID&quot;,
+                                         label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), 
-                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;Oceania&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=oceania_pops, 
+                                    facet_grp=&quot;Simple.Population.ID&quot;,
+                                    label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + 
+            theme(plot.title = element_text(size=6))
 
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
@@ -1474,6 +1746,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">38b57c5</a>
 </td>
 <td>
@@ -1489,8 +1772,27 @@ jhmarcus
 </div>
 <p>Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors.</p>
 </div>
-<div id="admixture" class="section level3">
-<h3>ADMIXTURE</h3>
+<div id="drift-event-loadings-local-false-sign-rates" class="section level1">
+<h1>Drift Event Loadings Local False Sign Rates</h1>
+<pre class="r"><code>l_lfsr_gath_df = l_lfsr_df %&gt;% 
+                 gather(K, value) %&gt;%
+                 filter(K %in% paste0(2:21))
+
+p_lfsr = ggplot(l_lfsr_gath_df, aes(x=value)) + 
+         geom_histogram() + 
+         facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+         labs(fill=&quot;K&quot;) + 
+         scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+         scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+         theme_bw() + 
+         xlab(&quot;Local False Sign Rate&quot;)
+p_lfsr</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-lfsr-loadings-viz-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Its very intersting to see that the lfsr seem very bi-model for the loadings for many of the drift events.</p>
+</div>
+<div id="admixture" class="section level1">
+<h1>ADMIXTURE</h1>
 <p>Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. <code>FLASH</code> with 2,…,11 (be careful: there is no connection to the colors in the last plot):</p>
 <pre class="r"><code>l_df = read.table(&quot;../output/admixture/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.K9r1.Q&quot;, sep=&quot; &quot;, header=F)
 K = ncol(l_df)
@@ -1508,1458 +1810,670 @@ l_gath_df = l_df %&gt;%
 
 # Africa
 africa_pops = get_pops(meta_df, &quot;Africa&quot;)
-p_africa = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Africa&quot;), 
-                                   africa_pops, colset=&quot;Set3&quot;, label_size=5) +
-           ggtitle(&quot;Africa&quot;) + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                   filter(Region == &quot;Africa&quot;), 
+                                   colset=&quot;Set3&quot;,
+                                   facet_levels=africa_pops,
+                                   facet_grp=&quot;Simple.Population.ID&quot;, 
+                                   label_size=5) +
+           ggtitle(&quot;Africa&quot;) + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, &quot;America&quot;)
-p_america = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;America&quot;), 
-                                    america_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;America&quot;) + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;America&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=america_pops,
+                                    facet_grp=&quot;Simple.Population.ID&quot;, 
+                                    label_size=5) + 
+            ggtitle(&quot;America&quot;) + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, &quot;CentralAsiaSiberia&quot;)
-p_central_asia_siberia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;CentralAsiaSiberia&quot;), 
-                                                 central_asia_siberia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                         ggtitle(&quot;CentralAsiaSiberia&quot;) + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                                 filter(Region == &quot;CentralAsiaSiberia&quot;), 
+                                                 colset=&quot;Set3&quot;,
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp=&quot;Simple.Population.ID&quot;,
+                                                 label_size=5) + 
+                         ggtitle(&quot;CentralAsiaSiberia&quot;) + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, &quot;EastAsia&quot;)
-p_east_asia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;EastAsia&quot;), 
-                                      east_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;EastAsia&quot;) + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;EastAsia&quot;), 
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;EastAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, &quot;SouthAsia&quot;)
-p_south_asia= positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;SouthAsia&quot;),
-                                      south_asia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-              ggtitle(&quot;SouthAsia&quot;) + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                      filter(Region == &quot;SouthAsia&quot;),
+                                      colset=&quot;Set3&quot;,
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp=&quot;Simple.Population.ID&quot;,
+                                      label_size=5) + 
+              ggtitle(&quot;SouthAsia&quot;) + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, &quot;WestEurasia&quot;)
-p_west_eurasia = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;WestEurasia&quot;), 
-                                         west_eurasia_pops, colset=&quot;Set3&quot;, label_size=5) + 
-                 ggtitle(&quot;WestEurasia&quot;) + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                         filter(Region == &quot;WestEurasia&quot;), 
+                                         colset=&quot;Set3&quot;,
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp=&quot;Simple.Population.ID&quot;,
+                                         label_size=5) + 
+                 ggtitle(&quot;WestEurasia&quot;) + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, &quot;Oceania&quot;)
-p_oceania = positive_structure_plot(l_gath_df %&gt;% filter(Region == &quot;Oceania&quot;), 
-                                    oceania_pops, colset=&quot;Set3&quot;, label_size=5) + 
-            ggtitle(&quot;Oceania&quot;) + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %&gt;% 
+                                    filter(Region == &quot;Oceania&quot;), 
+                                    colset=&quot;Set3&quot;,
+                                    facet_levels=oceania_pops, 
+                                    facet_grp=&quot;Simple.Population.ID&quot;,
+                                    label_size=5) + 
+            ggtitle(&quot;Oceania&quot;) + 
+            theme(plot.title = element_text(size=6))
+
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/admixture-ld-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-ld-viz-loadings-9-1">
+Past versions of admixture-ld-viz-loadings-9-1.png
+</button>
+</p>
+<div id="fig-admixture-ld-viz-loadings-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/admixture-ld-viz-loadings-9-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result?</p>
 </div>
-<div id="snp-weights" class="section level3">
-<h3>SNP Weights</h3>
+<div id="outlier-snps" class="section level1">
+<h1>Outlier SNPs</h1>
 <p>Lets take a closer look at the drift factors to see if they are clustering in particular regions of the genome. As a first pass I take the top 5% of SNPs weighted on each drift event (to be clear I ignore the sign of each SNP). I would like to use the lfsr here but I will return to later. I then made a Manhatten plot for each chromosome and factor:</p>
-<pre class="r"><code>delta_thresh_df = delta_df %&gt;%
-                  gather(K, value, -chrom, -pos, -rsid) %&gt;%
-                  filter(K %in% paste0(2:11)) %&gt;% 
-                  group_by(K) %&gt;%
-                  summarise(t_95 = quantile(abs(value), probs = .95)[1],
-                            t_99 = quantile(abs(value), probs = .99)[1])
+<pre class="r"><code>manh_df = delta_lfsr_df %&gt;% 
+          group_by(chrom) %&gt;% 
+          summarise(chr_len=max(pos)) %&gt;% 
+          mutate(tot=cumsum(chr_len)-chr_len) %&gt;%
+          dplyr::select(-chr_len) %&gt;%
+          left_join(delta_lfsr_df, ., by=c(&quot;chrom&quot;=&quot;chrom&quot;)) %&gt;%
+          arrange(chrom, pos) %&gt;%
+          mutate(BPcum=pos+tot)
 
-# gather the data.frame for plotting
-delta_gath_df = delta_df %&gt;% 
-                gather(K, value, -chrom, -pos, -rsid) %&gt;%
-                filter(K %in% paste0(2:11)) %&gt;% 
-                inner_join(delta_thresh_df, on=&quot;K&quot;) %&gt;%
-                filter(abs(value) &gt; t_95) %&gt;%
-                filter(chrom %in% 1:22)</code></pre>
-<pre><code>Joining, by = &quot;K&quot;</code></pre>
-<pre class="r"><code>p = ggplot(delta_gath_df, aes(x=pos, y=abs(value), color=factor(K))) + geom_point(size=.5, alpha=.7) + 
-    scale_color_brewer(palette = &quot;Set3&quot;) + 
-    facet_grid(factor(K, levels=2:11)~factor(chrom, levels = 1:22), scales=&quot;free&quot;) +
-    geom_hline(data=delta_gath_df %&gt;% distinct(chrom, K, t_99), aes(yintercept = t_99), linetype=&quot;dashed&quot;) +
-    theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+manh_axis_df = manh_df %&gt;% 
+               group_by(chrom) %&gt;% 
+               summarize(center=(max(BPcum) + min(BPcum)) / 2)
+
+manh_gath_df = manh_df %&gt;% gather(K, value, -chrom, -pos, -rsid, -tot, -BPcum) %&gt;% 
+               filter(K %in% paste0(2:11)) %&gt;% 
+               filter(value &lt; 1e-10) %&gt;%
+               filter(chrom %in% 1:22)
+          
+p = ggplot(manh_gath_df, aes(x=BPcum, y=-log10(value))) +
+    geom_point(aes(color=as.factor(chrom)), alpha=.7, size=.5) +
+    scale_color_manual(values=rep(c(&quot;grey&quot;, &quot;orange&quot;), 22)) +
+    scale_x_continuous(label=manh_axis_df$chrom, breaks=manh_axis_df$center) +
+    scale_y_continuous(expand=c(0, 0)) +     
+    theme_bw() +
+    theme(axis.title.x=element_blank(), axis.ticks.x=element_blank(),
           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-    guides(color=FALSE) +
-    xlab(&quot;Position&quot;) + 
-    ylab(&quot;|Factor|&quot;)
+    facet_grid(factor(K, levels=2:11)~., scales = &quot;free&quot;) + 
+    ylab(&quot;-log10(lfsr)&quot;) + 
+    guides(alpha=F, color=F)
 p</code></pre>
+<pre><code>Warning in FUN(X[[i]], ...): NaNs produced</code></pre>
+<pre><code>Warning: Removed 1344 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-ld-factors-chrom-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-ld-factors-chrom-viz-1">
+Past versions of flash-ld-factors-chrom-viz-1.png
+</button>
+</p>
+<div id="fig-flash-ld-factors-chrom-viz-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-ld-factors-chrom-viz-1.png" target="_blank">90a0a02</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can see there are some regions on the chromosomes that are peaky as well as some regions that have no “outliers” at all. I then took the top 5 outliers in each factor and annotated them with some functional information:</p>
-<pre class="r"><code>grch37.snp = useMart(biomart=&quot;ENSEMBL_MART_SNP&quot;, host=&quot;grch37.ensembl.org&quot;, path=&quot;/biomart/martservice&quot;,dataset=&quot;hsapiens_snp&quot;)
-grch37 = useMart(biomart=&quot;ENSEMBL_MART_ENSEMBL&quot;, host=&quot;grch37.ensembl.org&quot;, path=&quot;/biomart/martservice&quot;, dataset=&quot;hsapiens_gene_ensembl&quot;)
+<pre class="r"><code># SNP bioMart database
+grch37_snp = useMart(biomart=&quot;ENSEMBL_MART_SNP&quot;, 
+                     host=&quot;grch37.ensembl.org&quot;, 
+                     path=&quot;/biomart/martservice&quot;,
+                     dataset=&quot;hsapiens_snp&quot;)
 
+# GENE bioMart database
+grch37 = useMart(biomart=&quot;ENSEMBL_MART_ENSEMBL&quot;, 
+                 host=&quot;grch37.ensembl.org&quot;, 
+                 path=&quot;/biomart/martservice&quot;, 
+                 dataset=&quot;hsapiens_gene_ensembl&quot;)
+
+# top rank SNPs per each drift event
 delta_tophit_df = delta_df %&gt;%
                   gather(K, value, -chrom, -pos, -rsid) %&gt;%
                   filter(K %in% paste0(2:21)) %&gt;% 
                   group_by(K) %&gt;%
-                  top_n(5, abs(value))
+                  top_n(5, value)
 
-table1 &lt;- getBM(attributes=c(&#39;refsnp_id&#39;, &#39;chrom_start&#39;, &#39;minor_allele_freq&#39;, &#39;ensembl_gene_stable_id&#39;,
-                             &#39;consequence_type_tv&#39;, &quot;associated_gene&quot;), 
+# SNP meta data
+table1 = getBM(attributes=c(&quot;refsnp_id&quot;, 
+                             &quot;chrom_start&quot;, 
+                             &quot;minor_allele_freq&quot;,
+                             &quot;ensembl_gene_stable_id&quot;,
+                             &quot;consequence_type_tv&quot;, 
+                             &quot;associated_gene&quot;), 
                 filters = &quot;snp_filter&quot;, 
                 values = delta_tophit_df$rsid, 
-                mart = grch37.snp)
-
+                mart = grch37_snp)
 table1$ensembl_gene_id = table1$ensembl_gene_stable_id
-table2 &lt;- getBM(attributes = c(&quot;ensembl_gene_id&quot;, &quot;external_gene_name&quot;, &quot;description&quot;),
-                filters = &quot;ensembl_gene_id&quot;, 
-                values =  table1$ensembl_gene_stable_id, 
-                mart = grch37)
 
-anno_df = table1 %&gt;% left_join(table2, on=&quot;ensembl_gene_id&quot;) %&gt;% mutate(rsid=refsnp_id) %&gt;% 
+# GENE meta data
+table2 = getBM(attributes = c(&quot;ensembl_gene_id&quot;, &quot;external_gene_name&quot;, &quot;description&quot;),
+               filters = &quot;ensembl_gene_id&quot;, 
+               values =  table1$ensembl_gene_stable_id, 
+               mart = grch37)
+
+# annotation data
+anno_df = table1 %&gt;% left_join(table2, on=&quot;ensembl_gene_id&quot;) %&gt;% 
+          mutate(rsid=refsnp_id) %&gt;% 
           inner_join(delta_tophit_df, on=&quot;rsid&quot;) </code></pre>
 <pre><code>Joining, by = &quot;ensembl_gene_id&quot;</code></pre>
 <pre><code>Joining, by = &quot;rsid&quot;</code></pre>
 <pre><code>Warning: Column `rsid` joining character vector and factor, coercing into
 character vector</code></pre>
-<pre class="r"><code>print(unique(anno_df$external_gene_name))</code></pre>
-<pre><code> [1] &quot;CCNL2&quot;          &quot;CYP4B1&quot;         NA               &quot;RP11-280O1.2&quot;  
- [5] &quot;KIAA1614&quot;       &quot;C1orf132&quot;       &quot;CD34&quot;           &quot;FRMD4A&quot;        
- [9] &quot;SGPL1&quot;          &quot;CCSER2&quot;         &quot;HPSE2&quot;          &quot;NAV2&quot;          
-[13] &quot;SLC22A10&quot;       &quot;STT3A-AS1&quot;      &quot;STT3A&quot;          &quot;HOXC13-AS&quot;     
-[17] &quot;CNOT2&quot;          &quot;RP11-114H23.1&quot;  &quot;APPL2&quot;          &quot;LINC00641&quot;     
-[21] &quot;HERC2&quot;          &quot;RP11-109D20.1&quot;  &quot;SORD&quot;           &quot;PRKCB&quot;         
-[25] &quot;PKD1L2&quot;         &quot;RP11-1407O15.2&quot; &quot;CACNB1&quot;         &quot;RP11-515E23.1&quot; 
-[29] &quot;RP11-1055B8.4&quot;  &quot;MFSD12&quot;         &quot;IL1R1&quot;          &quot;TMEM87B&quot;       
-[33] &quot;RAB3GAP1&quot;       &quot;ZRANB3&quot;         &quot;ITGB6&quot;          &quot;TLK1&quot;          
-[37] &quot;PARD3B&quot;         &quot;SF3A1&quot;          &quot;DRG1&quot;           &quot;TEF&quot;           
-[41] &quot;KAT2B&quot;          &quot;SEMA3F&quot;         &quot;FRMD4B&quot;         &quot;MYH15&quot;         
-[45] &quot;RP11-103J17.1&quot;  &quot;RP11-696N14.1&quot;  &quot;SLC45A2&quot;        &quot;NDUFAF2&quot;       
-[49] &quot;DPYSL3&quot;         &quot;UNC5A&quot;          &quot;AKAP12&quot;         &quot;TIAM2&quot;         
-[53] &quot;TMEM248&quot;        &quot;SMARCA2&quot;        &quot;GLIS3&quot;          &quot;RCL1&quot;          
-[57] &quot;PTPN3&quot;          &quot;TNFSF8&quot;        </code></pre>
-<pre class="r"><code>kable(anno_df %&gt;% dplyr::select(rsid, chrom, pos, external_gene_name, K, value) %&gt;% arrange(desc(K, value)))</code></pre>
+<pre class="r"><code># unique genes
+print(unique(anno_df$external_gene_name))</code></pre>
+<pre><code> [1] &quot;CCNL2&quot;          &quot;CRYZ&quot;           &quot;SLC22A15&quot;       NA              
+ [5] &quot;RP11-280O1.2&quot;   &quot;KIAA1614&quot;       &quot;C1orf132&quot;       &quot;CD34&quot;          
+ [9] &quot;FRMD4A&quot;         &quot;MPP7&quot;           &quot;SGPL1&quot;          &quot;CCSER2&quot;        
+[13] &quot;RBM20&quot;          &quot;NAV2&quot;           &quot;SLC22A10&quot;       &quot;STT3A-AS1&quot;     
+[17] &quot;STT3A&quot;          &quot;HOXC13-AS&quot;      &quot;CNOT2&quot;          &quot;RP11-114H23.1&quot; 
+[21] &quot;APPL2&quot;          &quot;LINC00641&quot;      &quot;HERC2&quot;          &quot;RP11-109D20.1&quot; 
+[25] &quot;SORD&quot;           &quot;RP11-266O8.1&quot;   &quot;PRKCB&quot;          &quot;PKD1L2&quot;        
+[29] &quot;RP11-1407O15.2&quot; &quot;CACNB1&quot;         &quot;RP11-515E23.1&quot;  &quot;RP11-1055B8.4&quot; 
+[33] &quot;LINC01119&quot;      &quot;IL1R1&quot;          &quot;RAB3GAP1&quot;       &quot;ZRANB3&quot;        
+[37] &quot;ITGB6&quot;          &quot;TLK1&quot;           &quot;PARD3B&quot;         &quot;SF3A1&quot;         
+[41] &quot;DRG1&quot;           &quot;TEF&quot;            &quot;KAT2B&quot;          &quot;SEMA3F&quot;        
+[45] &quot;FRMD4B&quot;         &quot;MYH15&quot;          &quot;CRMP1&quot;          &quot;EVC&quot;           
+[49] &quot;RP11-103J17.1&quot;  &quot;RP11-696N14.1&quot;  &quot;SLC45A2&quot;        &quot;NDUFAF2&quot;       
+[53] &quot;CTB-35F21.1&quot;    &quot;DPYSL3&quot;         &quot;UNC5A&quot;          &quot;FLOT1&quot;         
+[57] &quot;AKAP12&quot;         &quot;TIAM2&quot;          &quot;TMEM248&quot;        &quot;SMKR1&quot;         
+[61] &quot;RP11-150O12.1&quot;  &quot;SMARCA2&quot;        &quot;GLIS3&quot;          &quot;RCL1&quot;          
+[65] &quot;PTPN3&quot;         </code></pre>
+<pre class="r"><code># formatted table
+d = anno_df %&gt;% 
+    distinct(external_gene_name, .keep_all = T) %&gt;% 
+    dplyr::select(external_gene_name, K, rsid, consequence_type_tv) %&gt;% 
+    arrange(consequence_type_tv)
+kable(d)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="left">rsid</th>
-<th align="right">chrom</th>
-<th align="right">pos</th>
 <th align="left">external_gene_name</th>
 <th align="left">K</th>
-<th align="right">value</th>
+<th align="left">rsid</th>
+<th align="left">consequence_type_tv</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">rs857832</td>
-<td align="right">1</td>
-<td align="right">158740336</td>
 <td align="left">NA</td>
-<td align="left">9</td>
-<td align="right">0.0114801</td>
+<td align="left">3</td>
+<td align="left">rs6428891</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">rs11717349</td>
-<td align="right">3</td>
-<td align="right">50223977</td>
-<td align="left">SEMA3F</td>
-<td align="left">9</td>
-<td align="right">0.0114268</td>
+<td align="left">CRYZ</td>
+<td align="left">11</td>
+<td align="left">rs10890141</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs11733992</td>
-<td align="right">4</td>
-<td align="right">37098598</td>
-<td align="left">RP11-103J17.1</td>
-<td align="left">9</td>
-<td align="right">0.0132286</td>
+<td align="left">SLC22A15</td>
+<td align="left">16</td>
+<td align="left">rs17035177</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs11733992</td>
-<td align="right">4</td>
-<td align="right">37098598</td>
-<td align="left">RP11-103J17.1</td>
-<td align="left">9</td>
-<td align="right">0.0132286</td>
+<td align="left">KIAA1614</td>
+<td align="left">15</td>
+<td align="left">rs7545466</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs2859136</td>
-<td align="right">6</td>
-<td align="right">36109901</td>
-<td align="left">NA</td>
-<td align="left">9</td>
-<td align="right">0.0116692</td>
-</tr>
-<tr class="even">
-<td align="left">rs201874034</td>
-<td align="right">10</td>
-<td align="right">14381634</td>
 <td align="left">FRMD4A</td>
 <td align="left">8</td>
-<td align="right">0.0121035</td>
+<td align="left">rs201874034</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">MPP7</td>
+<td align="left">4</td>
+<td align="left">rs10826403</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs7083883</td>
-<td align="right">10</td>
-<td align="right">72593611</td>
 <td align="left">SGPL1</td>
 <td align="left">8</td>
-<td align="right">0.0121500</td>
+<td align="left">rs7083883</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs12987602</td>
-<td align="right">2</td>
-<td align="right">160960788</td>
-<td align="left">ITGB6</td>
-<td align="left">8</td>
-<td align="right">0.0127913</td>
+<td align="left">CCSER2</td>
+<td align="left">21</td>
+<td align="left">rs56347056</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs12987602</td>
-<td align="right">2</td>
-<td align="right">160960788</td>
-<td align="left">ITGB6</td>
-<td align="left">8</td>
-<td align="right">0.0127913</td>
+<td align="left">RBM20</td>
+<td align="left">19</td>
+<td align="left">rs11598929</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs12987602</td>
-<td align="right">2</td>
-<td align="right">160960788</td>
-<td align="left">ITGB6</td>
-<td align="left">8</td>
-<td align="right">0.0127913</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12495912</td>
-<td align="right">3</td>
-<td align="right">128281563</td>
-<td align="left">NA</td>
-<td align="left">8</td>
-<td align="right">0.0130564</td>
-</tr>
-<tr class="even">
-<td align="left">rs10264873</td>
-<td align="right">7</td>
-<td align="right">66404770</td>
-<td align="left">TMEM248</td>
-<td align="left">8</td>
-<td align="right">0.0141428</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10264873</td>
-<td align="right">7</td>
-<td align="right">66404770</td>
-<td align="left">TMEM248</td>
-<td align="left">8</td>
-<td align="right">0.0141428</td>
-</tr>
-<tr class="even">
-<td align="left">rs11178168</td>
-<td align="right">12</td>
-<td align="right">70673667</td>
-<td align="left">CNOT2</td>
-<td align="left">7</td>
-<td align="right">0.0120869</td>
-</tr>
-<tr class="odd">
-<td align="left">rs11178168</td>
-<td align="right">12</td>
-<td align="right">70673667</td>
-<td align="left">CNOT2</td>
-<td align="left">7</td>
-<td align="right">0.0120869</td>
-</tr>
-<tr class="even">
-<td align="left">rs11178168</td>
-<td align="right">12</td>
-<td align="right">70673667</td>
-<td align="left">CNOT2</td>
-<td align="left">7</td>
-<td align="right">0.0120869</td>
-</tr>
-<tr class="odd">
-<td align="left">rs11151771</td>
-<td align="right">18</td>
-<td align="right">70175449</td>
-<td align="left">NA</td>
-<td align="left">7</td>
-<td align="right">0.0130394</td>
-</tr>
-<tr class="even">
-<td align="left">rs1229966</td>
-<td align="right">4</td>
-<td align="right">100213433</td>
-<td align="left">RP11-696N14.1</td>
-<td align="left">7</td>
-<td align="right">0.0139657</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1229966</td>
-<td align="right">4</td>
-<td align="right">100213433</td>
-<td align="left">RP11-696N14.1</td>
-<td align="left">7</td>
-<td align="right">0.0139657</td>
-</tr>
-<tr class="even">
-<td align="left">rs7028891</td>
-<td align="right">9</td>
-<td align="right">117645015</td>
-<td align="left">NA</td>
-<td align="left">7</td>
-<td align="right">0.0120868</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1322067</td>
-<td align="right">9</td>
-<td align="right">117660933</td>
-<td align="left">TNFSF8</td>
-<td align="left">7</td>
-<td align="right">-0.0132333</td>
-</tr>
-<tr class="even">
-<td align="left">rs1322067</td>
-<td align="right">9</td>
-<td align="right">117660933</td>
-<td align="left">TNFSF8</td>
-<td align="left">7</td>
-<td align="right">-0.0132333</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2094224</td>
-<td align="right">14</td>
-<td align="right">21638784</td>
-<td align="left">NA</td>
-<td align="left">6</td>
-<td align="right">0.0117880</td>
-</tr>
-<tr class="even">
-<td align="left">rs12184962</td>
-<td align="right">14</td>
-<td align="right">21671316</td>
-<td align="left">LINC00641</td>
-<td align="left">6</td>
-<td align="right">0.0118419</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12184962</td>
-<td align="right">14</td>
-<td align="right">21671316</td>
-<td align="left">LINC00641</td>
-<td align="left">6</td>
-<td align="right">0.0118419</td>
-</tr>
-<tr class="even">
-<td align="left">rs12184962</td>
-<td align="right">14</td>
-<td align="right">21671316</td>
-<td align="left">LINC00641</td>
-<td align="left">6</td>
-<td align="right">0.0118419</td>
-</tr>
-<tr class="odd">
-<td align="left">rs80533</td>
-<td align="right">22</td>
-<td align="right">41085969</td>
-<td align="left">NA</td>
-<td align="left">6</td>
-<td align="right">0.0124500</td>
-</tr>
-<tr class="even">
-<td align="left">rs9611566</td>
-<td align="right">22</td>
-<td align="right">41768625</td>
-<td align="left">TEF</td>
-<td align="left">6</td>
-<td align="right">0.0125844</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6916552</td>
-<td align="right">6</td>
-<td align="right">155412045</td>
-<td align="left">TIAM2</td>
-<td align="left">6</td>
-<td align="right">0.0122710</td>
-</tr>
-<tr class="even">
-<td align="left">rs2366148</td>
-<td align="right">12</td>
-<td align="right">54331903</td>
-<td align="left">HOXC13-AS</td>
-<td align="left">5</td>
-<td align="right">0.0100104</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2366148</td>
-<td align="right">12</td>
-<td align="right">54331903</td>
-<td align="left">HOXC13-AS</td>
-<td align="left">5</td>
-<td align="right">0.0100104</td>
-</tr>
-<tr class="even">
-<td align="left">rs2470686</td>
-<td align="right">15</td>
-<td align="right">45341718</td>
-<td align="left">RP11-109D20.1</td>
-<td align="left">5</td>
-<td align="right">0.0105256</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2470686</td>
-<td align="right">15</td>
-<td align="right">45341718</td>
-<td align="left">RP11-109D20.1</td>
-<td align="left">5</td>
-<td align="right">0.0105256</td>
-</tr>
-<tr class="even">
-<td align="left">rs2470686</td>
-<td align="right">15</td>
-<td align="right">45341718</td>
-<td align="left">SORD</td>
-<td align="left">5</td>
-<td align="right">0.0105256</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2470686</td>
-<td align="right">15</td>
-<td align="right">45341718</td>
-<td align="left">SORD</td>
-<td align="left">5</td>
-<td align="right">0.0105256</td>
-</tr>
-<tr class="even">
-<td align="left">rs9908046</td>
-<td align="right">17</td>
-<td align="right">53563782</td>
-<td align="left">RP11-515E23.1</td>
-<td align="left">5</td>
-<td align="right">0.0110059</td>
-</tr>
-<tr class="odd">
-<td align="left">rs9908046</td>
-<td align="right">17</td>
-<td align="right">53563782</td>
-<td align="left">RP11-515E23.1</td>
-<td align="left">5</td>
-<td align="right">0.0110059</td>
-</tr>
-<tr class="even">
-<td align="left">rs3744146</td>
-<td align="right">17</td>
-<td align="right">79363728</td>
-<td align="left">RP11-1055B8.4</td>
-<td align="left">5</td>
-<td align="right">0.0104628</td>
-</tr>
-<tr class="odd">
-<td align="left">rs5749071</td>
-<td align="right">22</td>
-<td align="right">30742125</td>
-<td align="left">SF3A1</td>
-<td align="left">5</td>
-<td align="right">0.0101114</td>
-</tr>
-<tr class="even">
-<td align="left">rs5749071</td>
-<td align="right">22</td>
-<td align="right">30742125</td>
-<td align="left">SF3A1</td>
-<td align="left">5</td>
-<td align="right">0.0101114</td>
-</tr>
-<tr class="odd">
-<td align="left">rs5749071</td>
-<td align="right">22</td>
-<td align="right">30742125</td>
-<td align="left">SF3A1</td>
-<td align="left">5</td>
-<td align="right">0.0101114</td>
-</tr>
-<tr class="even">
-<td align="left">rs3744146</td>
-<td align="right">17</td>
-<td align="right">79363728</td>
-<td align="left">RP11-1055B8.4</td>
-<td align="left">5</td>
-<td align="right">0.0104628</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1240747</td>
-<td align="right">1</td>
-<td align="right">1329803</td>
-<td align="left">CCNL2</td>
-<td align="left">4</td>
-<td align="right">0.0129103</td>
-</tr>
-<tr class="even">
-<td align="left">rs1240747</td>
-<td align="right">1</td>
-<td align="right">1329803</td>
-<td align="left">CCNL2</td>
-<td align="left">4</td>
-<td align="right">0.0129103</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1240747</td>
-<td align="right">1</td>
-<td align="right">1329803</td>
-<td align="left">CCNL2</td>
-<td align="left">4</td>
-<td align="right">0.0129103</td>
-</tr>
-<tr class="even">
-<td align="left">rs12441154</td>
-<td align="right">15</td>
-<td align="right">48390956</td>
-<td align="left">NA</td>
-<td align="left">4</td>
-<td align="right">-0.0116978</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6497455</td>
-<td align="right">16</td>
-<td align="right">20283920</td>
-<td align="left">NA</td>
-<td align="left">4</td>
-<td align="right">-0.0112176</td>
-</tr>
-<tr class="even">
-<td align="left">rs185146</td>
-<td align="right">5</td>
-<td align="right">33952106</td>
-<td align="left">SLC45A2</td>
-<td align="left">4</td>
-<td align="right">0.0109695</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2148359</td>
-<td align="right">9</td>
-<td align="right">7385508</td>
-<td align="left">NA</td>
-<td align="left">4</td>
-<td align="right">-0.0113081</td>
-</tr>
-<tr class="even">
-<td align="left">rs6428891</td>
-<td align="right">1</td>
-<td align="right">116873176</td>
-<td align="left">NA</td>
-<td align="left">3</td>
-<td align="right">0.0093046</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10741783</td>
-<td align="right">11</td>
-<td align="right">19625932</td>
 <td align="left">NAV2</td>
 <td align="left">3</td>
-<td align="right">0.0095619</td>
-</tr>
-<tr class="even">
-<td align="left">rs1572510</td>
-<td align="right">13</td>
-<td align="right">105381134</td>
-<td align="left">NA</td>
-<td align="left">3</td>
-<td align="right">0.0093867</td>
+<td align="left">rs10741783</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs692713</td>
-<td align="right">5</td>
-<td align="right">176253435</td>
-<td align="left">UNC5A</td>
-<td align="left">3</td>
-<td align="right">0.0093205</td>
+<td align="left">CNOT2</td>
+<td align="left">7</td>
+<td align="left">rs11178168</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs172447</td>
-<td align="right">9</td>
-<td align="right">4859106</td>
-<td align="left">RCL1</td>
-<td align="left">3</td>
-<td align="right">0.0097213</td>
+<td align="left">HERC2</td>
+<td align="left">12</td>
+<td align="left">rs7494942</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs2235767</td>
-<td align="right">1</td>
-<td align="right">207983167</td>
-<td align="left">C1orf132</td>
-<td align="left">21</td>
-<td align="right">0.0180402</td>
+<td align="left">SORD</td>
+<td align="left">5</td>
+<td align="left">rs2470686</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs3820521</td>
-<td align="right">1</td>
-<td align="right">208060464</td>
-<td align="left">CD34</td>
-<td align="left">21</td>
-<td align="right">0.0175024</td>
-</tr>
-<tr class="odd">
-<td align="left">rs3820521</td>
-<td align="right">1</td>
-<td align="right">208060464</td>
-<td align="left">CD34</td>
-<td align="left">21</td>
-<td align="right">0.0175024</td>
-</tr>
-<tr class="even">
-<td align="left">rs3820521</td>
-<td align="right">1</td>
-<td align="right">208060464</td>
-<td align="left">CD34</td>
-<td align="left">21</td>
-<td align="right">0.0175024</td>
-</tr>
-<tr class="odd">
-<td align="left">rs56347056</td>
-<td align="right">10</td>
-<td align="right">86259872</td>
-<td align="left">CCSER2</td>
-<td align="left">21</td>
-<td align="right">0.0173553</td>
-</tr>
-<tr class="even">
-<td align="left">rs56347056</td>
-<td align="right">10</td>
-<td align="right">86259872</td>
-<td align="left">CCSER2</td>
-<td align="left">21</td>
-<td align="right">0.0173553</td>
-</tr>
-<tr class="odd">
-<td align="left">rs137269</td>
-<td align="right">22</td>
-<td align="right">35167444</td>
-<td align="left">NA</td>
-<td align="left">21</td>
-<td align="right">0.0191699</td>
-</tr>
-<tr class="even">
-<td align="left">rs5999613</td>
-<td align="right">22</td>
-<td align="right">35280188</td>
-<td align="left">NA</td>
-<td align="left">21</td>
-<td align="right">0.0175980</td>
-</tr>
-<tr class="odd">
-<td align="left">rs503288</td>
-<td align="right">11</td>
-<td align="right">125461787</td>
-<td align="left">STT3A-AS1</td>
-<td align="left">20</td>
-<td align="right">0.0155133</td>
-</tr>
-<tr class="even">
-<td align="left">rs503288</td>
-<td align="right">11</td>
-<td align="right">125461787</td>
-<td align="left">STT3A-AS1</td>
-<td align="left">20</td>
-<td align="right">0.0155133</td>
-</tr>
-<tr class="odd">
-<td align="left">rs503288</td>
-<td align="right">11</td>
-<td align="right">125461787</td>
-<td align="left">STT3A</td>
-<td align="left">20</td>
-<td align="right">0.0155133</td>
-</tr>
-<tr class="even">
-<td align="left">rs503288</td>
-<td align="right">11</td>
-<td align="right">125461787</td>
-<td align="left">STT3A</td>
-<td align="left">20</td>
-<td align="right">0.0155133</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12303948</td>
-<td align="right">12</td>
-<td align="right">105591569</td>
-<td align="left">APPL2</td>
-<td align="left">20</td>
-<td align="right">0.0167013</td>
-</tr>
-<tr class="even">
-<td align="left">rs12303948</td>
-<td align="right">12</td>
-<td align="right">105591569</td>
-<td align="left">APPL2</td>
-<td align="left">20</td>
-<td align="right">0.0167013</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12303948</td>
-<td align="right">12</td>
-<td align="right">105591569</td>
-<td align="left">APPL2</td>
-<td align="left">20</td>
-<td align="right">0.0167013</td>
-</tr>
-<tr class="even">
-<td align="left">rs12303948</td>
-<td align="right">12</td>
-<td align="right">105591569</td>
-<td align="left">APPL2</td>
-<td align="left">20</td>
-<td align="right">0.0167013</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12303948</td>
-<td align="right">12</td>
-<td align="right">105591569</td>
-<td align="left">APPL2</td>
-<td align="left">20</td>
-<td align="right">0.0167013</td>
-</tr>
-<tr class="even">
-<td align="left">rs7323848</td>
-<td align="right">13</td>
-<td align="right">42079965</td>
-<td align="left">NA</td>
-<td align="left">20</td>
-<td align="right">0.0173892</td>
-</tr>
-<tr class="odd">
-<td align="left">rs16990385</td>
-<td align="right">4</td>
-<td align="right">34847300</td>
-<td align="left">NA</td>
-<td align="left">20</td>
-<td align="right">0.0164637</td>
-</tr>
-<tr class="even">
-<td align="left">rs7035991</td>
-<td align="right">9</td>
-<td align="right">2094908</td>
-<td align="left">SMARCA2</td>
-<td align="left">20</td>
-<td align="right">0.0154711</td>
-</tr>
-<tr class="odd">
-<td align="left">rs16990385</td>
-<td align="right">4</td>
-<td align="right">34847300</td>
-<td align="left">NA</td>
-<td align="left">20</td>
-<td align="right">0.0164637</td>
-</tr>
-<tr class="even">
-<td align="left">rs4657449</td>
-<td align="right">1</td>
-<td align="right">165465281</td>
-<td align="left">RP11-280O1.2</td>
-<td align="left">2</td>
-<td align="right">0.0104690</td>
-</tr>
-<tr class="odd">
-<td align="left">rs4657449</td>
-<td align="right">1</td>
-<td align="right">165465281</td>
-<td align="left">RP11-280O1.2</td>
-<td align="left">2</td>
-<td align="right">0.0104690</td>
-</tr>
-<tr class="even">
-<td align="left">rs12441154</td>
-<td align="right">15</td>
-<td align="right">48390956</td>
-<td align="left">NA</td>
-<td align="left">2</td>
-<td align="right">0.0110577</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12609922</td>
-<td align="right">19</td>
-<td align="right">57569951</td>
-<td align="left">NA</td>
-<td align="left">2</td>
-<td align="right">0.0107482</td>
-</tr>
-<tr class="even">
-<td align="left">rs6437783</td>
-<td align="right">3</td>
-<td align="right">108172817</td>
-<td align="left">MYH15</td>
-<td align="left">2</td>
-<td align="right">0.0103993</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6437783</td>
-<td align="right">3</td>
-<td align="right">108172817</td>
-<td align="left">MYH15</td>
-<td align="left">2</td>
-<td align="right">0.0103993</td>
-</tr>
-<tr class="even">
-<td align="left">rs2148359</td>
-<td align="right">9</td>
-<td align="right">7385508</td>
-<td align="left">NA</td>
-<td align="left">2</td>
-<td align="right">0.0108050</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6656573</td>
-<td align="right">1</td>
-<td align="right">163634947</td>
-<td align="left">NA</td>
-<td align="left">19</td>
-<td align="right">0.0145442</td>
-</tr>
-<tr class="even">
-<td align="left">rs13376701</td>
-<td align="right">1</td>
-<td align="right">163770504</td>
-<td align="left">NA</td>
-<td align="left">19</td>
-<td align="right">0.0150934</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10827877</td>
-<td align="right">10</td>
-<td align="right">20103046</td>
-<td align="left">NA</td>
-<td align="left">19</td>
-<td align="right">0.0155978</td>
-</tr>
-<tr class="even">
-<td align="left">rs73119690</td>
-<td align="right">12</td>
-<td align="right">50428969</td>
-<td align="left">NA</td>
-<td align="left">19</td>
-<td align="right">0.0146244</td>
-</tr>
-<tr class="odd">
-<td align="left">rs16954698</td>
-<td align="right">16</td>
-<td align="right">81157353</td>
-<td align="left">PKD1L2</td>
-<td align="left">19</td>
-<td align="right">0.0148618</td>
-</tr>
-<tr class="even">
-<td align="left">rs16954698</td>
-<td align="right">16</td>
-<td align="right">81157353</td>
-<td align="left">PKD1L2</td>
-<td align="left">19</td>
-<td align="right">0.0148618</td>
-</tr>
-<tr class="odd">
-<td align="left">rs569501</td>
-<td align="right">11</td>
-<td align="right">124271566</td>
-<td align="left">NA</td>
-<td align="left">18</td>
-<td align="right">0.0153963</td>
-</tr>
-<tr class="even">
-<td align="left">rs17106725</td>
-<td align="right">5</td>
-<td align="right">146806365</td>
-<td align="left">DPYSL3</td>
-<td align="left">18</td>
-<td align="right">0.0160691</td>
-</tr>
-<tr class="odd">
-<td align="left">rs17106725</td>
-<td align="right">5</td>
-<td align="right">146806365</td>
-<td align="left">DPYSL3</td>
-<td align="left">18</td>
-<td align="right">0.0160691</td>
-</tr>
-<tr class="even">
-<td align="left">rs10516028</td>
-<td align="right">5</td>
-<td align="right">166042592</td>
-<td align="left">NA</td>
-<td align="left">18</td>
-<td align="right">0.0156062</td>
-</tr>
-<tr class="odd">
-<td align="left">rs13213850</td>
-<td align="right">6</td>
-<td align="right">246178</td>
-<td align="left">NA</td>
-<td align="left">18</td>
-<td align="right">0.0152063</td>
-</tr>
-<tr class="even">
-<td align="left">rs12336101</td>
-<td align="right">9</td>
-<td align="right">112143287</td>
-<td align="left">PTPN3</td>
-<td align="left">18</td>
-<td align="right">0.0153654</td>
-</tr>
-<tr class="odd">
-<td align="left">rs12286785</td>
-<td align="right">11</td>
-<td align="right">106026300</td>
-<td align="left">NA</td>
-<td align="left">17</td>
-<td align="right">0.0151204</td>
-</tr>
-<tr class="even">
-<td align="left">rs1626537</td>
-<td align="right">11</td>
-<td align="right">110195612</td>
-<td align="left">NA</td>
-<td align="left">17</td>
-<td align="right">0.0146078</td>
-</tr>
-<tr class="odd">
-<td align="left">rs199553189</td>
-<td align="right">17</td>
-<td align="right">45323125</td>
-<td align="left">NA</td>
-<td align="left">17</td>
-<td align="right">0.0142453</td>
-</tr>
-<tr class="even">
-<td align="left">rs678179</td>
-<td align="right">18</td>
-<td align="right">76089945</td>
-<td align="left">NA</td>
-<td align="left">17</td>
-<td align="right">0.0150289</td>
-</tr>
-<tr class="odd">
-<td align="left">rs17034367</td>
-<td align="right">2</td>
-<td align="right">67999876</td>
-<td align="left">NA</td>
-<td align="left">17</td>
-<td align="right">0.0145329</td>
-</tr>
-<tr class="even">
-<td align="left">rs79336712</td>
-<td align="right">11</td>
-<td align="right">7189168</td>
-<td align="left">NA</td>
-<td align="left">16</td>
-<td align="right">0.0137840</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2273248</td>
-<td align="right">22</td>
-<td align="right">31816439</td>
-<td align="left">DRG1</td>
-<td align="left">16</td>
-<td align="right">0.0136611</td>
-</tr>
-<tr class="even">
-<td align="left">rs2273248</td>
-<td align="right">22</td>
-<td align="right">31816439</td>
-<td align="left">DRG1</td>
-<td align="left">16</td>
-<td align="right">0.0136611</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2273248</td>
-<td align="right">22</td>
-<td align="right">31816439</td>
-<td align="left">DRG1</td>
-<td align="left">16</td>
-<td align="right">0.0136611</td>
-</tr>
-<tr class="even">
-<td align="left">rs16885614</td>
-<td align="right">4</td>
-<td align="right">31670568</td>
-<td align="left">NA</td>
-<td align="left">16</td>
-<td align="right">0.0152543</td>
-</tr>
-<tr class="odd">
-<td align="left">rs17081009</td>
-<td align="right">6</td>
-<td align="right">151597033</td>
-<td align="left">AKAP12</td>
-<td align="left">16</td>
-<td align="right">0.0154250</td>
-</tr>
-<tr class="even">
-<td align="left">rs1973815</td>
-<td align="right">7</td>
-<td align="right">144730377</td>
-<td align="left">NA</td>
-<td align="left">16</td>
-<td align="right">0.0134115</td>
-</tr>
-<tr class="odd">
-<td align="left">rs7545466</td>
-<td align="right">1</td>
-<td align="right">180892498</td>
-<td align="left">KIAA1614</td>
-<td align="left">15</td>
-<td align="right">0.0126254</td>
-</tr>
-<tr class="even">
-<td align="left">rs3845416</td>
-<td align="right">1</td>
-<td align="right">180896031</td>
-<td align="left">KIAA1614</td>
-<td align="left">15</td>
-<td align="right">0.0123808</td>
-</tr>
-<tr class="odd">
-<td align="left">rs11189628</td>
-<td align="right">10</td>
-<td align="right">100240681</td>
-<td align="left">HPSE2</td>
-<td align="left">15</td>
-<td align="right">-0.0127590</td>
-</tr>
-<tr class="even">
-<td align="left">rs16531</td>
-<td align="right">17</td>
-<td align="right">37349655</td>
-<td align="left">CACNB1</td>
-<td align="left">15</td>
-<td align="right">0.0130201</td>
-</tr>
-<tr class="odd">
-<td align="left">rs16531</td>
-<td align="right">17</td>
-<td align="right">37349655</td>
-<td align="left">CACNB1</td>
-<td align="left">15</td>
-<td align="right">0.0130201</td>
-</tr>
-<tr class="even">
-<td align="left">rs16531</td>
-<td align="right">17</td>
-<td align="right">37349655</td>
-<td align="left">CACNB1</td>
-<td align="left">15</td>
-<td align="right">0.0130201</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10182333</td>
-<td align="right">2</td>
-<td align="right">112841856</td>
-<td align="left">TMEM87B</td>
-<td align="left">15</td>
-<td align="right">-0.0128510</td>
-</tr>
-<tr class="even">
-<td align="left">rs2297810</td>
-<td align="right">1</td>
-<td align="right">47280859</td>
-<td align="left">CYP4B1</td>
-<td align="left">14</td>
-<td align="right">-0.0121187</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2297810</td>
-<td align="right">1</td>
-<td align="right">47280859</td>
-<td align="left">CYP4B1</td>
-<td align="left">14</td>
-<td align="right">-0.0121187</td>
-</tr>
-<tr class="even">
-<td align="left">rs2297810</td>
-<td align="right">1</td>
-<td align="right">47280859</td>
-<td align="left">CYP4B1</td>
-<td align="left">14</td>
-<td align="right">-0.0121187</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2297810</td>
-<td align="right">1</td>
-<td align="right">47280859</td>
-<td align="left">CYP4B1</td>
-<td align="left">14</td>
-<td align="right">-0.0121187</td>
-</tr>
-<tr class="even">
-<td align="left">rs2297810</td>
-<td align="right">1</td>
-<td align="right">47280859</td>
-<td align="left">CYP4B1</td>
-<td align="left">14</td>
-<td align="right">-0.0121187</td>
-</tr>
-<tr class="odd">
-<td align="left">rs3847673</td>
-<td align="right">12</td>
-<td align="right">75968877</td>
-<td align="left">RP11-114H23.1</td>
-<td align="left">14</td>
-<td align="right">0.0118319</td>
-</tr>
-<tr class="even">
-<td align="left">rs3847673</td>
-<td align="right">12</td>
-<td align="right">75968877</td>
-<td align="left">RP11-114H23.1</td>
-<td align="left">14</td>
-<td align="right">0.0118319</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2929402</td>
-<td align="right">3</td>
-<td align="right">20096110</td>
-<td align="left">KAT2B</td>
-<td align="left">14</td>
-<td align="right">0.0123302</td>
-</tr>
-<tr class="even">
-<td align="left">rs2929402</td>
-<td align="right">3</td>
-<td align="right">20096110</td>
-<td align="left">KAT2B</td>
-<td align="left">14</td>
-<td align="right">0.0123302</td>
-</tr>
-<tr class="odd">
-<td align="left">rs2061510</td>
-<td align="right">8</td>
-<td align="right">47676859</td>
-<td align="left">NA</td>
-<td align="left">14</td>
-<td align="right">0.0130766</td>
-</tr>
-<tr class="even">
-<td align="left">rs10974315</td>
-<td align="right">9</td>
-<td align="right">4070279</td>
-<td align="left">GLIS3</td>
-<td align="left">14</td>
-<td align="right">0.0129599</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10974315</td>
-<td align="right">9</td>
-<td align="right">4070279</td>
-<td align="left">GLIS3</td>
-<td align="left">14</td>
-<td align="right">0.0129599</td>
-</tr>
-<tr class="even">
-<td align="left">rs6591765</td>
-<td align="right">11</td>
-<td align="right">62918253</td>
-<td align="left">SLC22A10</td>
-<td align="left">13</td>
-<td align="right">0.0126936</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6591765</td>
-<td align="right">11</td>
-<td align="right">62918253</td>
-<td align="left">SLC22A10</td>
-<td align="left">13</td>
-<td align="right">0.0126936</td>
-</tr>
-<tr class="even">
-<td align="left">rs4787651</td>
-<td align="right">16</td>
-<td align="right">24025666</td>
 <td align="left">PRKCB</td>
 <td align="left">13</td>
-<td align="right">0.0138686</td>
+<td align="left">rs4787651</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs3755295</td>
-<td align="right">2</td>
-<td align="right">102768294</td>
+<td align="left">CACNB1</td>
+<td align="left">15</td>
+<td align="left">rs16531</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">LINC01119</td>
+<td align="left">13</td>
+<td align="left">rs6713911</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
 <td align="left">IL1R1</td>
 <td align="left">13</td>
-<td align="right">0.0136692</td>
+<td align="left">rs3755295</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs34266487</td>
-<td align="right">3</td>
-<td align="right">69419614</td>
-<td align="left">FRMD4B</td>
-<td align="left">13</td>
-<td align="right">0.0124040</td>
-</tr>
-<tr class="odd">
-<td align="left">rs34266487</td>
-<td align="right">3</td>
-<td align="right">69419614</td>
-<td align="left">FRMD4B</td>
-<td align="left">13</td>
-<td align="right">0.0124040</td>
-</tr>
-<tr class="even">
-<td align="left">rs7494942</td>
-<td align="right">15</td>
-<td align="right">28364059</td>
-<td align="left">HERC2</td>
-<td align="left">12</td>
-<td align="right">0.0128747</td>
-</tr>
-<tr class="odd">
-<td align="left">rs7494942</td>
-<td align="right">15</td>
-<td align="right">28364059</td>
-<td align="left">HERC2</td>
-<td align="left">12</td>
-<td align="right">0.0128747</td>
-</tr>
-<tr class="even">
-<td align="left">rs7494942</td>
-<td align="right">15</td>
-<td align="right">28364059</td>
-<td align="left">HERC2</td>
-<td align="left">12</td>
-<td align="right">0.0128747</td>
-</tr>
-<tr class="odd">
-<td align="left">rs6730157</td>
-<td align="right">2</td>
-<td align="right">135907088</td>
 <td align="left">RAB3GAP1</td>
 <td align="left">12</td>
-<td align="right">0.0139051</td>
-</tr>
-<tr class="even">
 <td align="left">rs6730157</td>
-<td align="right">2</td>
-<td align="right">135907088</td>
-<td align="left">RAB3GAP1</td>
-<td align="left">12</td>
-<td align="right">0.0139051</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs6730157</td>
-<td align="right">2</td>
-<td align="right">135907088</td>
-<td align="left">ZRANB3</td>
-<td align="left">12</td>
-<td align="right">0.0139051</td>
+<td align="left">ITGB6</td>
+<td align="left">8</td>
+<td align="left">rs12987602</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs6730157</td>
-<td align="right">2</td>
-<td align="right">135907088</td>
-<td align="left">ZRANB3</td>
-<td align="left">12</td>
-<td align="right">0.0139051</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1519528</td>
-<td align="right">2</td>
-<td align="right">136973781</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">0.0128935</td>
-</tr>
-<tr class="even">
-<td align="left">rs185146</td>
-<td align="right">5</td>
-<td align="right">33952106</td>
-<td align="left">SLC45A2</td>
-<td align="left">12</td>
-<td align="right">0.0131700</td>
-</tr>
-<tr class="odd">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="even">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="odd">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="even">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="odd">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="even">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="odd">
-<td align="left">rs371156</td>
-<td align="right">6</td>
-<td align="right">32209963</td>
-<td align="left">NA</td>
-<td align="left">12</td>
-<td align="right">-0.0129518</td>
-</tr>
-<tr class="even">
-<td align="left">rs11085023</td>
-<td align="right">19</td>
-<td align="right">3571446</td>
-<td align="left">MFSD12</td>
-<td align="left">11</td>
-<td align="right">-0.0135666</td>
-</tr>
-<tr class="odd">
-<td align="left">rs11085023</td>
-<td align="right">19</td>
-<td align="right">3571446</td>
-<td align="left">MFSD12</td>
-<td align="left">11</td>
-<td align="right">-0.0135666</td>
-</tr>
-<tr class="even">
-<td align="left">rs11085023</td>
-<td align="right">19</td>
-<td align="right">3571446</td>
-<td align="left">MFSD12</td>
-<td align="left">11</td>
-<td align="right">-0.0135666</td>
-</tr>
-<tr class="odd">
-<td align="left">rs78813632</td>
-<td align="right">2</td>
-<td align="right">172032197</td>
 <td align="left">TLK1</td>
 <td align="left">11</td>
-<td align="right">0.0128129</td>
-</tr>
-<tr class="even">
-<td align="left">rs1841504</td>
-<td align="right">5</td>
-<td align="right">60413392</td>
-<td align="left">NDUFAF2</td>
-<td align="left">11</td>
-<td align="right">0.0119575</td>
+<td align="left">rs78813632</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs1841504</td>
-<td align="right">5</td>
-<td align="right">60413392</td>
-<td align="left">NDUFAF2</td>
-<td align="left">11</td>
-<td align="right">0.0119575</td>
-</tr>
-<tr class="even">
-<td align="left">rs7040408</td>
-<td align="right">9</td>
-<td align="right">76955137</td>
-<td align="left">NA</td>
-<td align="left">11</td>
-<td align="right">-0.0118599</td>
-</tr>
-<tr class="odd">
-<td align="left">rs10117120</td>
-<td align="right">9</td>
-<td align="right">102292520</td>
-<td align="left">NA</td>
-<td align="left">11</td>
-<td align="right">0.0118910</td>
-</tr>
-<tr class="even">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
-<td align="left">RP11-1407O15.2</td>
-<td align="left">10</td>
-<td align="right">0.0128793</td>
-</tr>
-<tr class="odd">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
-<td align="left">RP11-1407O15.2</td>
-<td align="left">10</td>
-<td align="right">0.0128793</td>
-</tr>
-<tr class="even">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
-<td align="left">RP11-1407O15.2</td>
-<td align="left">10</td>
-<td align="right">0.0128793</td>
-</tr>
-<tr class="odd">
-<td align="left">rs787583</td>
-<td align="right">18</td>
-<td align="right">72884470</td>
-<td align="left">NA</td>
-<td align="left">10</td>
-<td align="right">0.0132670</td>
-</tr>
-<tr class="even">
-<td align="left">rs3977</td>
-<td align="right">2</td>
-<td align="right">199134456</td>
-<td align="left">NA</td>
-<td align="left">10</td>
-<td align="right">0.0120080</td>
-</tr>
-<tr class="odd">
-<td align="left">rs1207425</td>
-<td align="right">2</td>
-<td align="right">206155107</td>
 <td align="left">PARD3B</td>
 <td align="left">10</td>
-<td align="right">0.0120639</td>
+<td align="left">rs1207425</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs10500023</td>
-<td align="right">7</td>
-<td align="right">112864760</td>
-<td align="left">NA</td>
-<td align="left">10</td>
-<td align="right">0.0120991</td>
+<td align="left">SF3A1</td>
+<td align="left">5</td>
+<td align="left">rs5749071</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
-<td align="left">RP11-1407O15.2</td>
-<td align="left">10</td>
-<td align="right">0.0128793</td>
+<td align="left">DRG1</td>
+<td align="left">16</td>
+<td align="left">rs2273248</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
-<td align="left">RP11-1407O15.2</td>
-<td align="left">10</td>
-<td align="right">0.0128793</td>
+<td align="left">TEF</td>
+<td align="left">6</td>
+<td align="left">rs9611566</td>
+<td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">rs8066255</td>
-<td align="right">17</td>
-<td align="right">36410559</td>
+<td align="left">KAT2B</td>
+<td align="left">14</td>
+<td align="left">rs2929402</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">SEMA3F</td>
+<td align="left">9</td>
+<td align="left">rs11717349</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">FRMD4B</td>
+<td align="left">13</td>
+<td align="left">rs34266487</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">MYH15</td>
+<td align="left">2</td>
+<td align="left">rs6437783</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">EVC</td>
+<td align="left">9</td>
+<td align="left">rs4689306</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">SLC45A2</td>
+<td align="left">4</td>
+<td align="left">rs185146</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">NDUFAF2</td>
+<td align="left">11</td>
+<td align="left">rs1841504</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">DPYSL3</td>
+<td align="left">18</td>
+<td align="left">rs17106725</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">UNC5A</td>
+<td align="left">3</td>
+<td align="left">rs692713</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">AKAP12</td>
+<td align="left">16</td>
+<td align="left">rs17081009</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">TIAM2</td>
+<td align="left">6</td>
+<td align="left">rs6916552</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">TMEM248</td>
+<td align="left">8</td>
+<td align="left">rs10264873</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">SMKR1</td>
+<td align="left">14</td>
+<td align="left">rs11771549</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">SMARCA2</td>
+<td align="left">20</td>
+<td align="left">rs7035991</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">GLIS3</td>
+<td align="left">14</td>
+<td align="left">rs10974315</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">RCL1</td>
+<td align="left">3</td>
+<td align="left">rs172447</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">PTPN3</td>
+<td align="left">18</td>
+<td align="left">rs12336101</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
+<td align="left">CCNL2</td>
+<td align="left">4</td>
+<td align="left">rs1240747</td>
+<td align="left">NMD_transcript_variant</td>
+</tr>
+<tr class="odd">
 <td align="left">RP11-1407O15.2</td>
 <td align="left">10</td>
-<td align="right">0.0128793</td>
+<td align="left">rs8066255</td>
+<td align="left">NMD_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">C1orf132</td>
+<td align="left">21</td>
+<td align="left">rs2235767</td>
+<td align="left">non_coding_transcript_exon_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">LINC00641</td>
+<td align="left">6</td>
+<td align="left">rs12184962</td>
+<td align="left">non_coding_transcript_exon_variant</td>
+</tr>
+<tr class="even">
+<td align="left">PKD1L2</td>
+<td align="left">19</td>
+<td align="left">rs16954698</td>
+<td align="left">non_coding_transcript_exon_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-1055B8.4</td>
+<td align="left">5</td>
+<td align="left">rs3744146</td>
+<td align="left">non_coding_transcript_exon_variant</td>
+</tr>
+<tr class="even">
+<td align="left">RP11-280O1.2</td>
+<td align="left">2</td>
+<td align="left">rs4657449</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">CD34</td>
+<td align="left">21</td>
+<td align="left">rs3820521</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">SLC22A10</td>
+<td align="left">13</td>
+<td align="left">rs6591765</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">STT3A-AS1</td>
+<td align="left">20</td>
+<td align="left">rs503288</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">HOXC13-AS</td>
+<td align="left">5</td>
+<td align="left">rs2366148</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-114H23.1</td>
+<td align="left">14</td>
+<td align="left">rs3847673</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">RP11-109D20.1</td>
+<td align="left">5</td>
+<td align="left">rs2470686</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-266O8.1</td>
+<td align="left">4</td>
+<td align="left">rs7163903</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">RP11-515E23.1</td>
+<td align="left">5</td>
+<td align="left">rs9908046</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">ZRANB3</td>
+<td align="left">12</td>
+<td align="left">rs6730157</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">CRMP1</td>
+<td align="left">9</td>
+<td align="left">rs4689306</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-103J17.1</td>
+<td align="left">9</td>
+<td align="left">rs11733992</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">RP11-696N14.1</td>
+<td align="left">7</td>
+<td align="left">rs1229966</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">CTB-35F21.1</td>
+<td align="left">15</td>
+<td align="left">rs10067965</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">FLOT1</td>
+<td align="left">15</td>
+<td align="left">rs3094127</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-150O12.1</td>
+<td align="left">11</td>
+<td align="left">rs2407278</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">STT3A</td>
+<td align="left">20</td>
+<td align="left">rs503288</td>
+<td align="left">splice_region_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">APPL2</td>
+<td align="left">20</td>
+<td align="left">rs12303948</td>
+<td align="left">synonymous_variant</td>
 </tr>
 </tbody>
 </table>
@@ -3010,7 +2524,6 @@ loaded via a namespace (and not attached):
 [55] pkgconfig_2.0.2      prettyunits_1.0.2    assertthat_0.2.0    
 [58] rmarkdown_1.11       httr_1.4.0           R6_2.4.0            
 [61] git2r_0.23.0         compiler_3.5.1      </code></pre>
-</div>
 </div>
 </div>
 
