@@ -46,11 +46,12 @@ rule run_flash_greedy:
           # run greedy flash
           flash_fit = flashier::flashier(Y,
                                          greedy.Kmax=20,
-                                         prior.type=c('nonnegative', 'point.normal'),
+                                         ash.param=list(method='fdr'),
+                                         prior.type=c('nonnegative', 'normal.mixture'),
                                          var.type=2,
-                                         fix.dim=list(1),
-                                         fix.idx=list(1:n),
-                                         fix.vals=list(rep(1, n)))
+                                         fixed.factors=flashier::ones.factor(1),
+                                         output.lvl=4,
+                                         verbose.lvl=2)
 
           # save the rds
           saveRDS(flash_fit, '{output.rds}')

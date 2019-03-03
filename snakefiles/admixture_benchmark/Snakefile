@@ -10,7 +10,7 @@ ps = []
 benchmarks = []
 max_K = 8
 n_rep = 1
-tols = [.0001, .001, .01]
+tols = [.0001, .001, .01, 1, 10]
 dataset_paths = glob.glob("data/datasets/*")
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
