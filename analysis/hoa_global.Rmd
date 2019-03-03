@@ -7,7 +7,9 @@ output:
     code_folding: show
 ---
 
-## Imports
+This an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 165468 SNPs.
+
+# Imports
 
 Lets import some needed packages:
 
@@ -21,11 +23,7 @@ library(knitr)
 source("../code/viz.R")
 ```
 
-## Human Origins Global (LD Pruned)
-
-This an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 165468 SNPs.
-
-### Greedy
+# FLASH-Greedy
 
 Here is the `snakemake` rule I used for running `flashier`:
 
@@ -40,77 +38,93 @@ Here is the `snakemake` rule I used for running `flashier`:
           # run greedy flash
           flash_fit = flashier::flashier(Y,
                                          greedy.Kmax=20,
-                                         prior.type=c('nonnegative', 'point.normal'),
+                                         ash.param=list(method='fdr'),
+                                         prior.type=c('nonnegative', 'normal.mixture'),
                                          var.type=2,
-                                         fix.dim=list(1),
-                                         fix.idx=list(1:n),
-                                         fix.vals=list(rep(1, n)))
+                                         fixed.factors=flashier::ones.factor(1),
+                                         output.lvl=4,
+                                         verbose.lvl=2)
           # save the rds
           saveRDS(flash_fit, '{output.rds}')
-          """)
 ```
 
 Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy-ld}
+# read the flash fit output by snakemake
 flash_fit = readRDS("../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.rds")
+
+# read the snp meta data
+bim_df = read.table("../data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim", header=F)
+colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
+
+# drift event loadings lfsr
+l_lfsr_df = data.frame(flash_fit$lfsr[[1]])
+colnames(l_lfsr_df) = 1:21
+
+# drift event lfsr
+delta_lfsr_df = data.frame(flash_fit$lfsr[[2]])
+colnames(delta_lfsr_df) = 1:21
+delta_lfsr_df$chrom = bim_df$chrom
+delta_lfsr_df$pos = bim_df$pos
+delta_lfsr_df$rsid = bim_df$rsid
+
+# drift events
+delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
+colnames(delta_df) = 1:21
+delta_df$chrom = bim_df$chrom
+delta_df$pos = bim_df$pos
+delta_df$rsid = bim_df$rsid
+
+# number of drift events
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
+
+# number of individuals
 n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+
+# number of SNPs
 p = nrow(flash_fit$loadings$normalized.loadings[[2]])
 print(K)
 print(n)
 print(p)
 ```
 
-Lets now plot the distribution of factors for each drift event
-
-```{r flash-greedy-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
-# read factors
-delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
-colnames(delta_df)[1:K] = 1:K 
-
-# add snp meta data
-bim_df = read.table("../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim", header=F)
-colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
-delta_df$chrom = bim_df$chrom
-delta_df$pos = bim_df$pos
-delta_df$rsid = bim_df$rsid
-
-# gather the data.frame for plotting
-delta_gath_df = delta_df %>% 
-                gather(K, value, -chrom, -pos, -rsid) %>%
-                filter(K!=1)
-
-# plot the factors
-K_ = K
-p_fct = ggplot(delta_gath_df, aes(x=value)) + 
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
-        labs(fill="K") + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
-        theme_bw()
-p_fct
-```
-
-We can see the later factors tend to get sparser! Here is a plot of the "proportion of variance explained" of each factor:
+# PVEs
+ 
+Here is a plot of the proportion of variance (PVE) explained by each drift event:
 
 ```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
-qplot(2:K, flash_fit$pve[2:K]) + ylab("Proportion of Varaince Explained") + xlab("K") + theme_bw()
+p_pve = qplot(2:K, flash_fit$pve[2:K]) + 
+        ylab("Proportion of Varaince Explained") + 
+        xlab("K") + 
+        theme_bw()
+p_pve
 print(flash_fit$pve)
 ```
 
-It looks like the PVE drops off at around 14 or so? I setup the `flashier` run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:
+It looks like the PVE drops off at around 14 or so? 
+
+# Fitted Mean and Variance
+
+I setup the `flashier` run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:
 
 ```{r flash-greedy-ld-viz-var, warning=FALSE, message=FALSE}
-qplot(1/flash_fit$fit$est.tau) + xlab("Estimated Variance") + ylab("Count") + theme_bw()
+p_var = qplot(1/flash_fit$fit$est.tau) + 
+        xlab("Estimated Variance") + 
+        ylab("Count") + 
+        theme_bw()
+p_var
 ```
 
 Lets now look the the fitted means:
 
 ```{r flash-greedy-ld-viz-mean, warning=FALSE, message=FALSE}
 mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
-qplot(mu) + xlab("Estimated Mean") + ylab("Count") + theme_bw()
+p_mu = qplot(mu) + 
+       xlab("Estimated Mean") + 
+       ylab("Count") + 
+       theme_bw()
+p_mu
 ```
 
 These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity $\approx 2p(1-p)$? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:
@@ -120,7 +134,7 @@ d1 = flash_fit$loadings$scale.constant[1]
 mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
 p_mv = ggplot(mv_df, aes(x=mu, y=var)) + 
        geom_point() + 
-       xlab("Rescaled Estimated Mean") + ylab("Estimated Variance") + 
+       xlab("Estimated Mean") + ylab("Estimated Variance") + 
        scale_alpha(guide = "none") + 
        stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
        xlim(0, .5) + 
@@ -128,7 +142,57 @@ p_mv = ggplot(mv_df, aes(x=mu, y=var)) +
 p_mv
 ```
 
-Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. $y_{ij} \sim Binomial(2, p_{ij})$. I wonder if there is anything "special" going on with the high variance SNP (will explore this later). Lets now take a look at the loadings. First we setup a data.frame that we can work with:
+Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. $y_{ij} \sim Binomial(2, p_{ij})$. I wonder if there is anything "special" going on with the high variance SNP (will explore this later). I'm not sure why there is a sharp cuttof at .45.
+
+# Drift Event Distributions
+
+Lets now plot the distribution of drift events:
+
+```{r flash-greedy-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
+# gather the data.frame for plotting
+delta_gath_df = delta_df %>% 
+                gather(K, value, -chrom, -pos, -rsid) %>%
+                filter(K!=1)
+
+# plot the factors
+K_ = K
+p_de = ggplot(delta_gath_df, aes(x=value)) + 
+        geom_histogram() + 
+        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+        labs(fill="K") + 
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+        theme_bw()
+p_de
+```
+
+We can see the lower PVE drift events tend to get sparser!
+
+# Drift Event Local False Sign Rates
+
+Here histograms of the lfsrs for each drift event:
+
+```{r flash-lfsr-factors-viz}
+delta_lfsr_gath_df = delta_lfsr_df %>% 
+                     gather(K, value, -chrom, -pos, -rsid) %>%
+                     filter(K %in% paste0(2:21))
+
+p_lfsr = ggplot(delta_lfsr_gath_df, aes(x=value)) + 
+         geom_histogram() + 
+         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+         labs(fill="K") + 
+         scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+         scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+         theme_bw() + 
+         xlab("Local False Sign Rate")
+p_lfsr
+```
+
+It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainity of the sign of the drift event.
+
+# Drift Event Loadings (2-11)
+
+Lets now take a look at the drift event loadings. First we setup the data:
 
 ```{r flash-greedy-ld-data-loadings, warning=FALSE, message=FALSE}
 # read the meta data
@@ -138,7 +202,9 @@ meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", heade
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 K = ncol(l_df)
 l_df = cbind(l_df, meta_df)
-pops = unique(l_df$Simple.Population.ID) # all unique pop labels
+
+# all unique pop labels
+pops = unique(l_df$Simple.Population.ID) 
 
 # join with the meta data
 l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
@@ -153,114 +219,202 @@ Its hard to find a color scale that can sufficiently visualize all of the loadin
 ```{r flash-greedy-ld-viz-loadings-2-11, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
-            gather(K, value, -ID, -Verbose.Population.ID, -Simple.Population.ID, 
-                   -Region, -Country, -Latitude, -Longitude, -Samples,
-                   -Passed.QC,  -Contributor) %>% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %>% 
             filter(K %in% paste0(2:11))
 
 # Africa
 africa_pops = get_pops(meta_df, "Africa")
-p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), 
-                                   africa_pops, colset="Set3", label_size=5) +
-           ggtitle("Africa") + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %>% 
+                                   filter(Region == "Africa"), 
+                                   colset="Set3",
+                                   facet_levels=africa_pops,
+                                   facet_grp="Simple.Population.ID", 
+                                   label_size=5) +
+           ggtitle("Africa") + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, "America")
-p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), 
-                                    america_pops, colset="Set3", label_size=5) + 
-            ggtitle("America") + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "America"), 
+                                    colset="Set3",
+                                    facet_levels=america_pops,
+                                    facet_grp="Simple.Population.ID", 
+                                    label_size=5) + 
+            ggtitle("America") + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
-p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), 
-                                                 central_asia_siberia_pops, colset="Set3", label_size=5) + 
-                         ggtitle("CentralAsiaSiberia") + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                                 filter(Region == "CentralAsiaSiberia"), 
+                                                 colset="Set3",
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp="Simple.Population.ID",
+                                                 label_size=5) + 
+                         ggtitle("CentralAsiaSiberia") + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, "EastAsia")
-p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), 
-                                      east_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("EastAsia") + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "EastAsia"), 
+                                      colset="Set3",
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("EastAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, "SouthAsia")
-p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"),
-                                      south_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("SouthAsia") + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "SouthAsia"),
+                                      colset="Set3",
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("SouthAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), 
-                                         west_eurasia_pops, colset="Set3", label_size=5) + 
-                 ggtitle("WestEurasia") + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "WestEurasia"), 
+                                         colset="Set3",
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=5) + 
+                 ggtitle("WestEurasia") + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, "Oceania")
-p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), 
-                                    oceania_pops, colset="Set3", label_size=5) + 
-            ggtitle("Oceania") + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "Oceania"), 
+                                    colset="Set3",
+                                    facet_levels=oceania_pops, 
+                                    facet_grp="Simple.Population.ID",
+                                    label_size=5) + 
+            ggtitle("Oceania") + 
+            theme(plot.title = element_text(size=6))
 
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = "v") 
 p
 ```
+
+# Drift Event Loadings (12-21)
 
 Lets now visualize loadings 12 to 21 (be careful: there is no connection to the colors in the last plot):
 
 ```{r flash-greedy-ld-viz-loadings-12-21, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
-            gather(K, value, -ID, -Verbose.Population.ID, -Simple.Population.ID, 
-                   -Region, -Country, -Latitude, -Longitude, -Samples,
-                   -Passed.QC,  -Contributor) %>% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %>% 
             filter(K %in% paste0(12:21))
 
 # Africa
 africa_pops = get_pops(meta_df, "Africa")
-p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), 
-                                   africa_pops, colset="Set3", label_size=5) +
-           ggtitle("Africa") + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %>% 
+                                   filter(Region == "Africa"), 
+                                   colset="Set3",
+                                   facet_levels=africa_pops,
+                                   facet_grp="Simple.Population.ID", 
+                                   label_size=5) +
+           ggtitle("Africa") + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, "America")
-p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), 
-                                    america_pops, colset="Set3", label_size=5) + 
-            ggtitle("America") + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "America"), 
+                                    colset="Set3",
+                                    facet_levels=america_pops,
+                                    facet_grp="Simple.Population.ID", 
+                                    label_size=5) + 
+            ggtitle("America") + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
-p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), 
-                                                 central_asia_siberia_pops, colset="Set3", label_size=5) + 
-                         ggtitle("CentralAsiaSiberia") + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                                 filter(Region == "CentralAsiaSiberia"), 
+                                                 colset="Set3",
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp="Simple.Population.ID",
+                                                 label_size=5) + 
+                         ggtitle("CentralAsiaSiberia") + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, "EastAsia")
-p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), 
-                                      east_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("EastAsia") + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "EastAsia"), 
+                                      colset="Set3",
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("EastAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, "SouthAsia")
-p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"),
-                                      south_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("SouthAsia") + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "SouthAsia"),
+                                      colset="Set3",
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("SouthAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), 
-                                         west_eurasia_pops, colset="Set3", label_size=5) + 
-                 ggtitle("WestEurasia") + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "WestEurasia"), 
+                                         colset="Set3",
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=5) + 
+                 ggtitle("WestEurasia") + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, "Oceania")
-p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), 
-                                    oceania_pops, colset="Set3", label_size=5) + 
-            ggtitle("Oceania") + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "Oceania"), 
+                                    colset="Set3",
+                                    facet_levels=oceania_pops, 
+                                    facet_grp="Simple.Population.ID",
+                                    label_size=5) + 
+            ggtitle("Oceania") + 
+            theme(plot.title = element_text(size=6))
 
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = "v") 
 p
@@ -268,7 +422,27 @@ p
 
 Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors. 
 
-### ADMIXTURE
+# Drift Event Loadings Local False Sign Rates
+
+```{r flash-lfsr-loadings-viz}
+l_lfsr_gath_df = l_lfsr_df %>% 
+                 gather(K, value) %>%
+                 filter(K %in% paste0(2:21))
+
+p_lfsr = ggplot(l_lfsr_gath_df, aes(x=value)) + 
+         geom_histogram() + 
+         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+         labs(fill="K") + 
+         scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+         scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+         theme_bw() + 
+         xlab("Local False Sign Rate")
+p_lfsr
+```
+
+Its very intersting to see that the lfsr seem very bi-model for the loadings for many of the drift events.
+
+# ADMIXTURE
 
 Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. `FLASH` with 2,...,11 (be careful: there is no connection to the colors in the last plot):
 
@@ -289,47 +463,84 @@ l_gath_df = l_df %>%
 
 # Africa
 africa_pops = get_pops(meta_df, "Africa")
-p_africa = positive_structure_plot(l_gath_df %>% filter(Region == "Africa"), 
-                                   africa_pops, colset="Set3", label_size=5) +
-           ggtitle("Africa") + theme(plot.title = element_text(size=6))
+p_africa = positive_structure_plot(gath_df=l_gath_df %>% 
+                                   filter(Region == "Africa"), 
+                                   colset="Set3",
+                                   facet_levels=africa_pops,
+                                   facet_grp="Simple.Population.ID", 
+                                   label_size=5) +
+           ggtitle("Africa") + 
+           theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, "America")
-p_america = positive_structure_plot(l_gath_df %>% filter(Region == "America"), 
-                                    america_pops, colset="Set3", label_size=5) + 
-            ggtitle("America") + theme(plot.title = element_text(size=6))
+p_america = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "America"), 
+                                    colset="Set3",
+                                    facet_levels=america_pops,
+                                    facet_grp="Simple.Population.ID", 
+                                    label_size=5) + 
+            ggtitle("America") + 
+            theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
-p_central_asia_siberia = positive_structure_plot(l_gath_df %>% filter(Region == "CentralAsiaSiberia"), 
-                                                 central_asia_siberia_pops, colset="Set3", label_size=5) + 
-                         ggtitle("CentralAsiaSiberia") + theme(plot.title = element_text(size=6))
+p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                                 filter(Region == "CentralAsiaSiberia"), 
+                                                 colset="Set3",
+                                                 facet_levels=central_asia_siberia_pops,  
+                                                 facet_grp="Simple.Population.ID",
+                                                 label_size=5) + 
+                         ggtitle("CentralAsiaSiberia") + 
+                         theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, "EastAsia")
-p_east_asia = positive_structure_plot(l_gath_df %>% filter(Region == "EastAsia"), 
-                                      east_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("EastAsia") + theme(plot.title = element_text(size=6))
+p_east_asia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "EastAsia"), 
+                                      colset="Set3",
+                                      facet_levels=east_asia_pops,  
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("EastAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, "SouthAsia")
-p_south_asia= positive_structure_plot(l_gath_df %>% filter(Region == "SouthAsia"),
-                                      south_asia_pops, colset="Set3", label_size=5) + 
-              ggtitle("SouthAsia") + theme(plot.title = element_text(size=6))
+p_south_asia= positive_structure_plot(gath_df=l_gath_df %>% 
+                                      filter(Region == "SouthAsia"),
+                                      colset="Set3",
+                                      facet_levels=south_asia_pops, 
+                                      facet_grp="Simple.Population.ID",
+                                      label_size=5) + 
+              ggtitle("SouthAsia") + 
+              theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(l_gath_df %>% filter(Region == "WestEurasia"), 
-                                         west_eurasia_pops, colset="Set3", label_size=5) + 
-                 ggtitle("WestEurasia") + theme(plot.title = element_text(size=6))
+p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "WestEurasia"), 
+                                         colset="Set3",
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=5) + 
+                 ggtitle("WestEurasia") + 
+                 theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, "Oceania")
-p_oceania = positive_structure_plot(l_gath_df %>% filter(Region == "Oceania"), 
-                                    oceania_pops, colset="Set3", label_size=5) + 
-            ggtitle("Oceania") + theme(plot.title = element_text(size=6))
+p_oceania = positive_structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "Oceania"), 
+                                    colset="Set3",
+                                    facet_levels=oceania_pops, 
+                                    facet_grp="Simple.Population.ID",
+                                    label_size=5) + 
+            ggtitle("Oceania") + 
+            theme(plot.title = element_text(size=6))
+
 # Global
-p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia, p_america, p_east_asia, p_south_asia, p_oceania, 
+p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
+                       p_america, p_east_asia, p_south_asia, p_oceania, 
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = "v") 
 p
@@ -337,67 +548,97 @@ p
 
 There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions ...  ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result? 
 
-### SNP Weights
+# Outlier SNPs
 
 Lets take a closer look at the drift factors to see if they are clustering in particular regions of the genome. As a first pass I take the top 5% of SNPs weighted on each drift event (to be clear I ignore the sign of each SNP). I would like to use the lfsr here but I will return to later. I then made a Manhatten plot for each chromosome and factor:
 
 ```{r flash-ld-factors-chrom-viz, fig.width=8.5, fig.height=8}
-delta_thresh_df = delta_df %>%
-                  gather(K, value, -chrom, -pos, -rsid) %>%
-                  filter(K %in% paste0(2:11)) %>% 
-                  group_by(K) %>%
-                  summarise(t_95 = quantile(abs(value), probs = .95)[1],
-                            t_99 = quantile(abs(value), probs = .99)[1])
+manh_df = delta_lfsr_df %>% 
+          group_by(chrom) %>% 
+          summarise(chr_len=max(pos)) %>% 
+          mutate(tot=cumsum(chr_len)-chr_len) %>%
+          dplyr::select(-chr_len) %>%
+          left_join(delta_lfsr_df, ., by=c("chrom"="chrom")) %>%
+          arrange(chrom, pos) %>%
+          mutate(BPcum=pos+tot)
 
-# gather the data.frame for plotting
-delta_gath_df = delta_df %>% 
-                gather(K, value, -chrom, -pos, -rsid) %>%
-                filter(K %in% paste0(2:11)) %>% 
-                inner_join(delta_thresh_df, on="K") %>%
-                filter(abs(value) > t_95) %>%
-                filter(chrom %in% 1:22)
+manh_axis_df = manh_df %>% 
+               group_by(chrom) %>% 
+               summarize(center=(max(BPcum) + min(BPcum)) / 2)
 
-p = ggplot(delta_gath_df, aes(x=pos, y=abs(value), color=factor(K))) + geom_point(size=.5, alpha=.7) + 
-    scale_color_brewer(palette = "Set3") + 
-    facet_grid(factor(K, levels=2:11)~factor(chrom, levels = 1:22), scales="free") +
-    geom_hline(data=delta_gath_df %>% distinct(chrom, K, t_99), aes(yintercept = t_99), linetype="dashed") +
-    theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+manh_gath_df = manh_df %>% gather(K, value, -chrom, -pos, -rsid, -tot, -BPcum) %>% 
+               filter(K %in% paste0(2:11)) %>% 
+               filter(value < 1e-10) %>%
+               filter(chrom %in% 1:22)
+          
+p = ggplot(manh_gath_df, aes(x=BPcum, y=-log10(value))) +
+    geom_point(aes(color=as.factor(chrom)), alpha=.7, size=.5) +
+    scale_color_manual(values=rep(c("grey", "orange"), 22)) +
+    scale_x_continuous(label=manh_axis_df$chrom, breaks=manh_axis_df$center) +
+    scale_y_continuous(expand=c(0, 0)) +     
+    theme_bw() +
+    theme(axis.title.x=element_blank(), axis.ticks.x=element_blank(),
           panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-    guides(color=FALSE) +
-    xlab("Position") + 
-    ylab("|Factor|")
+    facet_grid(factor(K, levels=2:11)~., scales = "free") + 
+    ylab("-log10(lfsr)") + 
+    guides(alpha=F, color=F)
 p
 ```
 
 We can see there are some regions on the chromosomes that are peaky as well as some regions that have no "outliers" at all. I then took the top 5 outliers in each factor and annotated them with some functional information:
 
 ```{r tophits}
-grch37.snp = useMart(biomart="ENSEMBL_MART_SNP", host="grch37.ensembl.org", path="/biomart/martservice",dataset="hsapiens_snp")
-grch37 = useMart(biomart="ENSEMBL_MART_ENSEMBL", host="grch37.ensembl.org", path="/biomart/martservice", dataset="hsapiens_gene_ensembl")
+# SNP bioMart database
+grch37_snp = useMart(biomart="ENSEMBL_MART_SNP", 
+                     host="grch37.ensembl.org", 
+                     path="/biomart/martservice",
+                     dataset="hsapiens_snp")
 
+# GENE bioMart database
+grch37 = useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+                 host="grch37.ensembl.org", 
+                 path="/biomart/martservice", 
+                 dataset="hsapiens_gene_ensembl")
+
+# top rank SNPs per each drift event
 delta_tophit_df = delta_df %>%
                   gather(K, value, -chrom, -pos, -rsid) %>%
                   filter(K %in% paste0(2:21)) %>% 
                   group_by(K) %>%
-                  top_n(5, abs(value))
+                  top_n(5, value)
 
-table1 <- getBM(attributes=c('refsnp_id', 'chrom_start', 'minor_allele_freq', 'ensembl_gene_stable_id',
-                             'consequence_type_tv', "associated_gene"), 
+# SNP meta data
+table1 = getBM(attributes=c("refsnp_id", 
+                             "chrom_start", 
+                             "minor_allele_freq",
+                             "ensembl_gene_stable_id",
+                             "consequence_type_tv", 
+                             "associated_gene"), 
                 filters = "snp_filter", 
                 values = delta_tophit_df$rsid, 
-                mart = grch37.snp)
-
+                mart = grch37_snp)
 table1$ensembl_gene_id = table1$ensembl_gene_stable_id
-table2 <- getBM(attributes = c("ensembl_gene_id", "external_gene_name", "description"),
-                filters = "ensembl_gene_id", 
-                values =  table1$ensembl_gene_stable_id, 
-                mart = grch37)
 
-anno_df = table1 %>% left_join(table2, on="ensembl_gene_id") %>% mutate(rsid=refsnp_id) %>% 
+# GENE meta data
+table2 = getBM(attributes = c("ensembl_gene_id", "external_gene_name", "description"),
+               filters = "ensembl_gene_id", 
+               values =  table1$ensembl_gene_stable_id, 
+               mart = grch37)
+
+# annotation data
+anno_df = table1 %>% left_join(table2, on="ensembl_gene_id") %>% 
+          mutate(rsid=refsnp_id) %>% 
           inner_join(delta_tophit_df, on="rsid") 
 
+# unique genes
 print(unique(anno_df$external_gene_name))
-kable(anno_df %>% dplyr::select(rsid, chrom, pos, external_gene_name, K, value) %>% arrange(desc(K, value)))
+
+# formatted table
+d = anno_df %>% 
+    distinct(external_gene_name, .keep_all = T) %>% 
+    dplyr::select(external_gene_name, K, rsid, consequence_type_tv) %>% 
+    arrange(consequence_type_tv)
+kable(d)
 ```
 
 We can see many of these top outliers are in genes (but we have to consider the array design to know if this is unusual). Its cool to see a couple very interesting genes pop up including HERC2 (eye color) and SLC45A2 (skin color) which have been previously studied for their selection signatures. Its also fun to look at some of the `rsids` on `https://popgen.uchicago.edu/ggv/` to get a sense of what kind of allele frequency distributions define each factor.
