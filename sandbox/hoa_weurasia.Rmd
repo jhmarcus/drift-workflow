@@ -28,7 +28,7 @@ This is a subset of the Human Origins Array dataset with 770 sampled from across
 Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy-ld}
-flash_fit = readRDS("../output/flash_greedy/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.rds")
+flash_fit = readRDS("../output/flash_greedy/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_auto_ldprune.rds")
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
 n = nrow(flash_fit$loadings$normalized.loadings[[1]])
 p = nrow(flash_fit$loadings$normalized.loadings[[2]])
@@ -44,15 +44,21 @@ Lets now plot the distribution of factors for each drift event
 delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
 colnames(delta_df)[1:K] = 1:K 
 
+# add snp meta data
+bim_df = read.table("../data/datasets/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_auto_ldprune.bim", header=F)
+colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
+delta_df$chrom = bim_df$chrom
+delta_df$pos = bim_df$pos
+delta_df$rsid = bim_df$rsid
+
 # gather the data.frame for plotting
 delta_gath_df = delta_df %>% 
-                gather(K, value) %>%
+                gather(K, value, -chrom, -pos, -rsid) %>%
                 filter(K!=1)
 
 # plot the factors
 K_ = K
 p_fct = ggplot(delta_gath_df, aes(x=value)) + 
-        scale_fill_manual(values = getPalette(K_)) +
         geom_histogram() + 
         facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
         labs(fill="K") + 
@@ -75,12 +81,24 @@ I setup the `flashier` run so it estimates a SNP speficic precision term. Here i
 qplot(1/flash_fit$fit$est.tau) + xlab("Estiamted Variance") + ylab("Count") + theme_bw()
 ```
 
-This looks reasonable as each of the SNP variances should rougly be interpreted as the average heterozygosity $\approx 2p(1-p)$. The mean term should roughly be interpreted as the mean allele frequeny at the SNP and thus we should see a quadratic relationship with the estimated variance:
+Lets now look the the fitted means:
 
-```{r flash-greedy-ld-viz-mv}
-p_mv = qplot(delta_df$`1`, 1/flash_fit$fit$est.tau, alpha=.3) + 
+```{r flash-greedy-ld-viz-mean, warning=FALSE, message=FALSE}
+mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
+qplot(mu) + xlab("Estimated Mean") + ylab("Count") + theme_bw()
+```
+
+These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity $\approx 2p(1-p)$? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:
+
+```{r flash-greedy-ld-viz-mv, warning=FALSE, message=FALSE}
+d1 = flash_fit$loadings$scale.constant[1]
+mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
+p_mv = ggplot(mv_df, aes(x=mu, y=var)) + 
+       geom_point() + 
        xlab("Estimated Mean") + ylab("Estimated Variance") + 
        scale_alpha(guide = "none") + 
+       stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
+       xlim(0, .4) + 
        theme_bw()
 p_mv
 ```
@@ -89,20 +107,21 @@ Lets now take a look at the loadings. First we setup a data.frame that we can wo
 
 ```{r flash-greedy-ld-data-loadings, warning=FALSE, message=FALSE}
 # read the meta data
-meta_df = read.table("../data/meta/HumanOriginsPublic2068_weurasia_maf_geno_ldprune.meta", sep=" ", header=T)
+meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
+fam_df = read.table("../data/datasets/hoa_weurasia_ld/HumanOriginsPublic2068_weurasia_maf_geno_auto_ldprune.fam") %>% 
+         mutate(ID=V2) %>% select(ID)
 
 # setup loadings data.frame
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
-l_df$iid = as.vector(meta_df$iid) # individual ids
-l_df$clst = meta_df$clst # population labels
+l_df$ID = fam_df$ID
+K = ncol(l_df)
+l_df = l_df %>% inner_join(meta_df, on="ID")
+pops = unique(l_df$Simple.Population.ID) # all unique pop labels
 
 # join with the meta data
-l_df = l_df %>% inner_join(meta_df, on="clst")
-l_df = l_df %>% arrange(region, clst) # sort by region then by population
-l_df$iid = factor(l_df$iid, levels = l_df$iid) # make sure the ids are sorted
-colnames(l_df)[1:K] = 1:K
-
-pops = unique(l_df$clst)
+l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
+l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+colnames(l_df)[1:21] = 1:21
 
 head(l_df)
 ```
@@ -110,9 +129,11 @@ head(l_df)
 ```{r flash-greedy-ld-viz-loadings-2-10}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
-            gather(K, value, -iid, -clst, -region, -country, -lat, -lon, -clst2) %>% 
+            gather(K, value, -ID, -Verbose.Population.ID, -Simple.Population.ID, 
+                   -Region, -Country, -Latitude, -Longitude, -Samples,
+                   -Passed.QC,  -Contributor) %>% 
             filter(K %in% paste0(2:10))
-
 pops = get_pops(meta_df, "WestEurasia")
-p = positive_structure_plot(l_gath_df, pops, colset="Set3", label_size=5)
+p = positive_structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops, facet_grp="Simple.Population.ID", label_size=5)
+p
 ```

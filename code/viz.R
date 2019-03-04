@@ -14,7 +14,7 @@ get_pops = function(meta_df, region){
 }
 
 
-positive_structure_plot = function(gath_df, pops, colset, label_size=5){
+positive_structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Population.ID", label_size=5){
   
   library(ggplot2)
   library(tidyr)
@@ -26,7 +26,7 @@ positive_structure_plot = function(gath_df, pops, colset, label_size=5){
       scale_fill_brewer(palette = colset) + 
       scale_y_continuous(expand=c(0, 0)) +
       scale_x_discrete(expand=c(-1, 0)) +
-      facet_grid(. ~ factor(Simple.Population.ID, levels=pops), scales = "free", space="free", switch="both") + 
+      facet_grid(. ~ factor(get(facet_grp), levels=facet_levels), scales = "free", space="free", switch="both") + 
       theme_classic() +
       theme(panel.spacing = unit(0.2, "lines"), 
             strip.background = element_rect(colour="white", fill="white"),
