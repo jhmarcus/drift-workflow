@@ -146,7 +146,7 @@ It seems like there is some variation in the amount of missingness per pop and c
 Given the above results here are the `plink` commands I ran to filter the data:
 
 ```
-plink --bfile HumanOriginsPublic2068 --geno .005 --maf .05 --make-bed --autosome --out HumanOriginsPublic2068_auto_maf05_geno005```
+plink --bfile HumanOriginsPublic2068 --geno .005 --maf .05 --make-bed --autosome --out HumanOriginsPublic2068_auto_maf05_geno005
 ```
 
 These filtering steps take us from 616938 to 343758 SNPs ... which still likely contains a lot of information about population structure.
