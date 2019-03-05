@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree50b1ec0150d9720c34e0fe48d74888194b0f27d2targetblank50b1ec0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/50b1ec0150d9720c34e0fe48d74888194b0f27d2" target="_blank">50b1ec0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreed2573ea2a5c888721ba7ff05abea55e2f9027d75targetblankd2573eaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/d2573ea2a5c888721ba7ff05abea55e2f9027d75" target="_blank">d2573ea</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree50b1ec0150d9720c34e0fe48d74888194b0f27d2targetblank50b1ec0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreed2573ea2a5c888721ba7ff05abea55e2f9027d75targetblankd2573eaa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -583,6 +583,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e2a3abaac502e13c82c48278b8e11359f710591c/analysis/data_hoa_global.Rmd" target="_blank">e2a3aba</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+updated plink filtering command
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/e2a3abaac502e13c82c48278b8e11359f710591c/docs/data_hoa_global.html" target="_blank">e2a3aba</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+updated plink filtering command
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -742,9 +776,12 @@ p = ncol(Y)</code></pre>
 </div>
 <div id="missingness-per-snp" class="section level1">
 <h1>Missingness per SNP</h1>
+<p>Here I compute the missingness per SNP:</p>
 <pre class="r"><code>n_miss_snp = colSums(is.na(Y))
 p_snpmss = qplot(n_miss_snp / n, bins=100) + theme_bw() + 
-           scale_x_continuous(breaks = pretty(n_miss_snp / n, n = 10)) 
+           scale_x_continuous(breaks = pretty(n_miss_snp / n, n = 10)) +
+           xlab(&quot;Missingness Fraction&quot;) +
+           ylab(&quot;Count&quot;)
 
 p_snpmss</code></pre>
 <p><img src="figure/data_hoa_global.Rmd/miss-per-snp-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -800,8 +837,11 @@ jhmarcus
 </div>
 <div id="missingness-per-individual" class="section level1">
 <h1>Missingness per Individual</h1>
+<p>Here I compute the missingness per individual:</p>
 <pre class="r"><code>n_miss_ind = rowSums(is.na(Y))
-p_indmss = qplot(n_miss_ind) + theme_bw()
+p_indmss = qplot(n_miss_ind / p) + theme_bw() +
+           xlab(&quot;Missingness Fraction&quot;) +
+           ylab(&quot;Count&quot;)
 p_indmss</code></pre>
 <p><img src="figure/data_hoa_global.Rmd/miss-per-ind-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -853,6 +893,53 @@ jhmarcus
 </div>
 </div>
 <p>It seems like a few individuals are missing about 20000 of their SNPs which is a bit worrisome maybe they should be removed from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.</p>
+</div>
+<div id="missingness-per-population" class="section level1">
+<h1>Missingness per Population</h1>
+<p>Here I compute the missingness fraction per population:</p>
+<pre class="r"><code># meta data
+meta_df = read.table(&quot;../data/meta/HumanOriginsPublic2068.meta&quot;, sep=&quot;\t&quot;, header=T)
+meta_df$miss_frac = n_miss_ind / p
+
+# average missingness per pop for sorting
+avg_miss_df = meta_df %&gt;% 
+              group_by(Simple.Population.ID) %&gt;% 
+              summarise(avg_miss=mean(miss_frac)) %&gt;%
+              arrange(desc(avg_miss)) 
+
+# distribution of missingness per pop
+p_popmss = ggplot(meta_df, aes(x=factor(Simple.Population.ID, 
+                                        levels=avg_miss_df$Simple.Population.ID), 
+                               y=miss_frac)) + 
+           geom_boxplot() +
+           theme_classic() +
+           theme(axis.text.x = element_text(angle = 90, hjust = 1, size=6)) +
+           xlab(&quot;Population&quot;) +
+           ylab(&quot;Missingness Fraction&quot;)
+p_popmss</code></pre>
+<p><img src="figure/data_hoa_global.Rmd/miss-per-pop-1.png" width="1056" style="display: block; margin: auto;" /></p>
+</div>
+<div id="missingness-per-contributer" class="section level1">
+<h1>Missingness per Contributer</h1>
+<p>Here I compute the average missingness fraction per contributor:</p>
+<pre class="r"><code># average missingness per contributer for sorting
+avg_miss_df = meta_df %&gt;% 
+              group_by(Contributor) %&gt;% 
+              summarise(avg_miss=mean(miss_frac)) %&gt;%
+              arrange(desc(avg_miss)) 
+
+# distribution of missingness per contributer
+p_conmss = ggplot(meta_df, aes(x=factor(Contributor, 
+                                        levels=avg_miss_df$Contributor), 
+                               y=miss_frac)) + 
+           geom_boxplot() +
+           theme_classic() +
+           theme(axis.text.x = element_text(angle = 90, hjust = 1, size=6)) +
+           xlab(&quot;Contributer&quot;) +
+           ylab(&quot;Missingness Fraction&quot;)
+p_conmss</code></pre>
+<p><img src="figure/data_hoa_global.Rmd/miss-per-con-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>It seems like there is some variation in the amount of missingness per pop and contributor (there might be some confounding there) but the total amount of missingness is so low I think it can be ignored?</p>
 </div>
 <div id="filter" class="section level1">
 <h1>Filter</h1>

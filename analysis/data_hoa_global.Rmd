@@ -57,12 +57,18 @@ n = nrow(Y)
 p = ncol(Y)
 ```
 
+
+
 # Missingness per SNP
+
+Here I compute the missingness per SNP:
 
 ```{r miss-per-snp, warning=FALSE, message=FALSE}
 n_miss_snp = colSums(is.na(Y))
 p_snpmss = qplot(n_miss_snp / n, bins=100) + theme_bw() + 
-           scale_x_continuous(breaks = pretty(n_miss_snp / n, n = 10)) 
+           scale_x_continuous(breaks = pretty(n_miss_snp / n, n = 10)) +
+           xlab("Missingness Fraction") +
+           ylab("Count")
 
 p_snpmss
 ```
@@ -71,13 +77,69 @@ There are very few SNPs with high levels of missing data so we can use a very st
 
 # Missingness per Individual
 
+Here I compute the missingness per individual:
+
 ```{r miss-per-ind, warning=FALSE, message=FALSE}
 n_miss_ind = rowSums(is.na(Y))
-p_indmss = qplot(n_miss_ind) + theme_bw()
+p_indmss = qplot(n_miss_ind / p) + theme_bw() +
+           xlab("Missingness Fraction") +
+           ylab("Count")
 p_indmss
 ```
 
 It seems like a few individuals are missing about 20000 of their SNPs which is a bit worrisome maybe they should be removed from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.
+
+# Missingness per Population
+
+Here I compute the missingness fraction per population:
+
+```{r miss-per-pop, warning=FALSE, message=FALSE, fig.width=11, fig.height=7}
+# meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
+meta_df$miss_frac = n_miss_ind / p
+
+# average missingness per pop for sorting
+avg_miss_df = meta_df %>% 
+              group_by(Simple.Population.ID) %>% 
+              summarise(avg_miss=mean(miss_frac)) %>%
+              arrange(desc(avg_miss)) 
+
+# distribution of missingness per pop
+p_popmss = ggplot(meta_df, aes(x=factor(Simple.Population.ID, 
+                                        levels=avg_miss_df$Simple.Population.ID), 
+                               y=miss_frac)) + 
+           geom_boxplot() +
+           theme_classic() +
+           theme(axis.text.x = element_text(angle = 90, hjust = 1, size=6)) +
+           xlab("Population") +
+           ylab("Missingness Fraction")
+p_popmss
+```
+
+# Missingness per Contributer
+
+Here I compute the average missingness fraction per contributor:
+
+```{r miss-per-con, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=8.5}
+# average missingness per contributer for sorting
+avg_miss_df = meta_df %>% 
+              group_by(Contributor) %>% 
+              summarise(avg_miss=mean(miss_frac)) %>%
+              arrange(desc(avg_miss)) 
+
+# distribution of missingness per contributer
+p_conmss = ggplot(meta_df, aes(x=factor(Contributor, 
+                                        levels=avg_miss_df$Contributor), 
+                               y=miss_frac)) + 
+           geom_boxplot() +
+           theme_classic() +
+           theme(axis.text.x = element_text(angle = 90, hjust = 1, size=6)) +
+           xlab("Contributer") +
+           ylab("Missingness Fraction")
+p_conmss
+```
+
+It seems like there is some variation in the amount of missingness per pop and contributor (there might be some confounding there) but the total amount of missingness is so low I think it can be ignored?
 
 # Filter
 
