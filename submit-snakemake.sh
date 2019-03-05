@@ -15,7 +15,7 @@ snakemake \
         --tasks-per-node={cluster.tasks} \
         --partition=jnovembre \
         --job-name={cluster.name} \
+        --output={cluster.logfile} \
         --mail-user={cluster.email} \
-        --mail-type={cluster.emailtype} \
-	    --output={cluster.logfile}" \
+        --mail-type={cluster.emailtype}" \
     $*
