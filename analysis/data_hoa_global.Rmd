@@ -66,5 +66,13 @@ sum(n_miss_ind > 20000)
 
 It seems like a few individuals are missing about 3% of their SNPs which is a bit worrisome maybe they should be remove from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.
 
+# Plink
+
+Given the above here are the plink commands I ran to filter the data:
+
+```
+
+```
+
 
 
