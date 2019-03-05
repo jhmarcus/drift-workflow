@@ -70,7 +70,7 @@ positive_structure_plot = function(gath_df, pops, K_, label_size=5){
 I prepared a dataset described in [Lazaridis et al. 2016](https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/nature19310_article_0.pdf) which includes 2068 individuals and 621799 SNPs sampled from around the globe! This dataset is often referred to as the "Human Origins Array Dataset" (HoA) and is commonly used a reference panel to determine the ancestry of individuals from a new sample of human genetic variation. I removed all SNPs with allele frequency less than 5% and with sample missingness fraction greater than 1%. I then LD pruned the resulting genotype matrix using standard parameters in `plink`. This resulted in 167178 SNPs which will help us do some exploratory analysis more efficiently. First we read this filtered dataset:
 
 ```{r data-genotypes}
-X = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068_maf_geno_auto_ldprune"))
+X = t(lfa:::read.bed("../data/raw/NearEastPublic/03-4-2019/HumanOriginsPublic2068_maf_geno_auto_ldprune"))
 n = nrow(X)
 p = ncol(X)
 print(n)
@@ -81,12 +81,12 @@ Next we read in some meta data that includes population and regional labels for 
 
 ```{r data-meta}
 # read the meta data
-meta_df = read.table("../data/raw/NearEastPublic/HumanOriginsPublic2068_clst.tsv", sep="\t")
+meta_df = read.table("../data/raw/NearEastPublic/03-4-2019/HumanOriginsPublic2068_clst.tsv", sep="\t")
 colnames(meta_df) = c("iid", "clst")
 head(meta_df)
 
 # read the clst data
-clst_df = read.table("../data/raw/NearEastPublic/meta.tsv", sep="\t", header=TRUE)
+clst_df = read.table("../data/raw/NearEastPublic/meta/meta.tsv", sep="\t", header=TRUE)
 clst_df$clst = clst_df$Simple.Population.ID
 clst_df = clst_df %>% distinct(clst, .keep_all = TRUE) 
 head(clst_df)

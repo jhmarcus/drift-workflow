@@ -7,7 +7,7 @@ output:
     code_folding: show
 ---
 
-This an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 165468 SNPs.
+This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 165468 SNPs.
 
 # Imports
 

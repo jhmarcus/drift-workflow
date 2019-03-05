@@ -5,6 +5,33 @@ date: "2019-03-04"
 output: workflowr::wflow_html
 ---
 
+Here I explore basic features of the Human Origins Array dataset. I downloaded the data from:
+
+https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/NearEastPublic.tar.gz
+
+I subsequently converted the `eigenstrat` files to `plink` format using the following parameter file and `convertf` command:
+
+```
+genotypename:   HumanOriginsPublic2068.geno
+snpname:    HumanOriginsPublic2068.snp
+indivname:  HumanOriginsPublic2068.ind
+outputformat:   PACKEDPED
+genotypeoutname:    HumanOriginsPublic2068.bed
+snpoutname: HumanOriginsPublic2068.bim
+indivoutname:   HumanOriginsPublic2068.fam
+familynames:    NO
+```
+
+```
+convertf -p eig2plink.par
+```
+
+I then removed the sex chromosomes using the the following `plink` command:
+
+```
+plink --bfile HumanOriginsPublic2068 --make-bed --autosome --out HumanOriginsPublic2068_auto
+```
+
 # Imports
 
 Lets import some needed packages:
@@ -21,7 +48,7 @@ library(lfa)
 Here I read the full genotype matrix of the Human Origins dataset:
 
 ```{r genotypes, warning=FALSE, message=FALSE}
-Y = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068"))
+Y = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068_auto"))
 
 # number of individuals
 n = nrow(Y)
@@ -32,47 +59,32 @@ p = ncol(Y)
 
 # Missingness per SNP
 
-```{r miss-per-snp}
+```{r miss-per-snp, warning=FALSE, message=FALSE}
 n_miss_snp = colSums(is.na(Y))
-p_snpmss = qplot(n_miss_snp) + geom_histogram() + theme_bw()
+p_snpmss = qplot(n_miss_snp / n, bins=100) + theme_bw() + 
+           scale_x_continuous(breaks = pretty(n_miss_snp / n, n = 10)) 
+
 p_snpmss
 ```
 
 There are very few SNPs with high levels of missing data so we can use a very stringent missingness threshold without losing much information.
 
-```{r misssnp-thresh}
-sum(n_miss_snp==1)
-sum(n_miss_snp==2)
-sum(n_miss_snp==3)
-sum(n_miss_snp %in% 1:10)
-snp_idx = which(n_miss_snp <= 10)
-10 / n
-```
-
-It seems like .995% is reasonable cutoff for missingness.
-
 # Missingness per Individual
 
-```{r miss-per-ind}
+```{r miss-per-ind, warning=FALSE, message=FALSE}
 n_miss_ind = rowSums(is.na(Y))
-p_indmss = qplot(n_miss_ind) + geom_histogram() + theme_bw()
+p_indmss = qplot(n_miss_ind) + theme_bw()
 p_indmss
 ```
 
-```{r missind-thresh}
-sum(n_miss_ind > 20000)
-20000 / p
-```
+It seems like a few individuals are missing about 20000 of their SNPs which is a bit worrisome maybe they should be removed from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.
 
-It seems like a few individuals are missing about 3% of their SNPs which is a bit worrisome maybe they should be remove from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.
+# Filter
 
-# Plink
-
-Given the above here are the plink commands I ran to filter the data:
+Given the above results here are the `plink` commands I ran to filter the data:
 
 ```
-
+plink --bfile HumanOriginsPublic2068 --geno .999 --maf .05 --make-bed --autosome --out HumanOriginsPublic2068_auto_maf05_geno999
 ```
 
-
-
+This is what is used for downstream factorizations.
