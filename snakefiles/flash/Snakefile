@@ -35,6 +35,10 @@ rule run_flash_greedy:
         bed = "data/datasets/{dataset}/{prefix}"
     output:
         rds = "output/flash_greedy/{dataset}/{prefix}.rds"
+    log:
+        "output/log/{dataset}/{prefix}.log"
+    benchmark:
+        "output/bencmark/{dataset}/{prefix}.txt"
     run:
         R("""
           # read the genotype matrix
