@@ -10,12 +10,18 @@ Welcome to my research website.
 
 ## Exploration
 
-* [`FLASH` proof of principle](flash.html)
+These vignettes describe exploratory ideas:
+
+* [FLASH proof of principle](flash.html)
 
 ## Data
+
+These vignettes describe data preparation steps:
 
 * [Human Origins Array Global Data](data_hoa_global.html) 
 
 ## Results
+
+These vignettes describe results on simulated / empirical data:
 
 * [Human Origins Array Global](hoa_global.html) 
