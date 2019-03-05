@@ -12,6 +12,10 @@ Welcome to my research website.
 
 * [`FLASH` proof of principle](flash.html)
 
+## Data
+
+* [Human Origins Array Global Data](data_hoa_global.html) 
+
 ## Results
 
 * [Human Origins Array Global](hoa_global.html) 

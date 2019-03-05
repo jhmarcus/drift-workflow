@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="jhmarcus" />
 
+<meta name="date" content="2019-03-04" />
 
-<title>Home</title>
+<title>Human Origins Array Global Data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -266,6 +271,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -313,7 +413,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Human Origins Array Global Data</h1>
+<h4 class="author"><em>jhmarcus</em></h4>
+<h4 class="date"><em>2019-03-04</em></h4>
 
 </div>
 
@@ -341,7 +443,7 @@ div.section {
 <strong>Last updated:</strong> 2019-03-04
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -362,7 +464,55 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
 </div>
@@ -394,7 +544,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  analysis/data_hoa_global.Rmd
-    Untracked:  docs/figure/data_hoa_global.Rmd/
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
@@ -410,346 +559,136 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/index.html" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/index.html" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-<td>
-updated to autosomes and added manhatten plot
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/38a461d4a7d655238d6508eaf62f6daeee605252/docs/index.html" target="_blank">38a461d</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-<td>
-built all
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7644d40f17cc1940328c2c6ba40ff0b1817e667a/docs/index.html" target="_blank">7644d40</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-<td>
-updated index
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/analysis/index.Rmd" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-<td>
-simplified greedy flash global analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/403bc6becb8b3a3bf9c901aa0cb3b9df258ac14e/docs/index.html" target="_blank">403bc6b</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-added hide code blocks
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/b4749ac6e4cb22e7da9e07c2f03a1baacbf48cb2/docs/index.html" target="_blank">b4749ac</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-fixed some typos
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7a2b6c7d6a6827a391b617d74eb09098b1873a9a/docs/index.html" target="_blank">7a2b6c7</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-added backfit
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/analysis/index.Rmd" target="_blank">f5ef1af</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-added workflows for human origins datasets
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/index.html" target="_blank">f5ef1af</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-added workflows for human origins datasets
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/31a16c694bf65cba8fb598420548cc747aa27abc/docs/index.html" target="_blank">31a16c6</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-14
-</td>
-<td>
-added hists of factors
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/95385101c23660b8db007cd135b90085db6b22c3/docs/index.html" target="_blank">9538510</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-13
-</td>
-<td>
-switched to struct style plot
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/63c2b7528f4e2498d7fd7c795958509858a268ee/docs/index.html" target="_blank">63c2b75</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-13
-</td>
-<td>
-added softimpute
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7b6ecbcc9fbf6e03e40cd5ceb3c224b5ac18b44e/docs/index.html" target="_blank">7b6ecbc</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-12
-</td>
-<td>
-made fig size bigger
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/5c0f91aa44dadc88f2410d991fd5b8c215652340/analysis/index.Rmd" target="_blank">5c0f91a</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-12
-</td>
-<td>
-init flash proof of principle
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/5c0f91aa44dadc88f2410d991fd5b8c215652340/docs/index.html" target="_blank">5c0f91a</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-12
-</td>
-<td>
-init flash proof of principle
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/46105eea5be00db7743ec118652699f94fdea18a/analysis/index.Rmd" target="_blank">46105ee</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-11
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p>Welcome to my research website.</p>
-<div id="exploration" class="section level2">
-<h2>Exploration</h2>
-<ul>
-<li><a href="flash.html"><code>FLASH</code> proof of principle</a></li>
-</ul>
+<div id="imports" class="section level1">
+<h1>Imports</h1>
+<p>Lets import some needed packages:</p>
+<pre class="r"><code>library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(lfa)</code></pre>
 </div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<ul>
-<li><a href="data_hoa_global.html">Human Origins Array Global Data</a></li>
-</ul>
+<div id="read-genotypes" class="section level1">
+<h1>Read Genotypes</h1>
+<p>Here I read the full genotype matrix of the Human Origins dataset:</p>
+<pre class="r"><code>Y = t(lfa:::read.bed(&quot;../data/raw/NearEastPublic/HumanOriginsPublic2068&quot;))</code></pre>
+<pre><code>[1] &quot;reading in 2068 individuals&quot;
+[1] &quot;reading in 621799 snps&quot;
+[1] &quot;snp major mode&quot;
+[1] &quot;reading snp 20000&quot;
+[1] &quot;reading snp 40000&quot;
+[1] &quot;reading snp 60000&quot;
+[1] &quot;reading snp 80000&quot;
+[1] &quot;reading snp 100000&quot;
+[1] &quot;reading snp 120000&quot;
+[1] &quot;reading snp 140000&quot;
+[1] &quot;reading snp 160000&quot;
+[1] &quot;reading snp 180000&quot;
+[1] &quot;reading snp 200000&quot;
+[1] &quot;reading snp 220000&quot;
+[1] &quot;reading snp 240000&quot;
+[1] &quot;reading snp 260000&quot;
+[1] &quot;reading snp 280000&quot;
+[1] &quot;reading snp 300000&quot;
+[1] &quot;reading snp 320000&quot;
+[1] &quot;reading snp 340000&quot;
+[1] &quot;reading snp 360000&quot;
+[1] &quot;reading snp 380000&quot;
+[1] &quot;reading snp 400000&quot;
+[1] &quot;reading snp 420000&quot;
+[1] &quot;reading snp 440000&quot;
+[1] &quot;reading snp 460000&quot;
+[1] &quot;reading snp 480000&quot;
+[1] &quot;reading snp 500000&quot;
+[1] &quot;reading snp 520000&quot;
+[1] &quot;reading snp 540000&quot;
+[1] &quot;reading snp 560000&quot;
+[1] &quot;reading snp 580000&quot;
+[1] &quot;reading snp 600000&quot;
+[1] &quot;reading snp 620000&quot;</code></pre>
+<pre class="r"><code># number of individuals
+n = nrow(Y)
+
+# number of SNPs
+p = ncol(Y)</code></pre>
 </div>
-<div id="results" class="section level2">
-<h2>Results</h2>
-<ul>
-<li><a href="hoa_global.html">Human Origins Array Global</a></li>
-</ul>
+<div id="missingness-per-snp" class="section level1">
+<h1>Missingness per SNP</h1>
+<pre class="r"><code>n_miss_snp = colSums(is.na(Y))
+p_snpmss = qplot(n_miss_snp) + geom_histogram() + theme_bw()
+p_snpmss</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/data_hoa_global.Rmd/miss-per-snp-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>There are very few SNPs with high levels of missing data so we can use a very stringent missingness threshold without losing much information.</p>
+<pre class="r"><code>sum(n_miss_snp==1)</code></pre>
+<pre><code>[1] 74216</code></pre>
+<pre class="r"><code>sum(n_miss_snp==2)</code></pre>
+<pre><code>[1] 91135</code></pre>
+<pre class="r"><code>sum(n_miss_snp==3)</code></pre>
+<pre><code>[1] 86207</code></pre>
+<pre class="r"><code>sum(n_miss_snp %in% 1:10)</code></pre>
+<pre><code>[1] 481592</code></pre>
+<pre class="r"><code>snp_idx = which(n_miss_snp &lt;= 10)
+10 / n</code></pre>
+<pre><code>[1] 0.00483559</code></pre>
+<p>It seems like .995% is reasonable cutoff for missingness.</p>
+</div>
+<div id="missingness-per-individual" class="section level1">
+<h1>Missingness per Individual</h1>
+<pre class="r"><code>n_miss_ind = rowSums(is.na(Y))
+p_indmss = qplot(n_miss_ind) + geom_histogram() + theme_bw()
+p_indmss</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/data_hoa_global.Rmd/miss-per-ind-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>sum(n_miss_ind &gt; 20000)</code></pre>
+<pre><code>[1] 9</code></pre>
+<pre class="r"><code>20000 / p</code></pre>
+<pre><code>[1] 0.03216473</code></pre>
+<p>It seems like a few individuals are missing about 3% of their SNPs which is a bit worrisome maybe they should be remove from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.</p>
+<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS  10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] lfa_1.12.0    dplyr_0.8.0.1 tidyr_0.8.2   ggplot2_3.1.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0       compiler_3.5.1   pillar_1.3.1     git2r_0.23.0    
+ [5] plyr_1.8.4       workflowr_1.2.0  tools_3.5.1      digest_0.6.18   
+ [9] evaluate_0.12    tibble_2.0.1     gtable_0.2.0     pkgconfig_2.0.2 
+[13] rlang_0.3.1      yaml_2.2.0       xfun_0.4         withr_2.1.2     
+[17] stringr_1.4.0    knitr_1.21       fs_1.2.6         rprojroot_1.3-2 
+[21] grid_3.5.1       tidyselect_0.2.5 glue_1.3.0       R6_2.4.0        
+[25] rmarkdown_1.11   purrr_0.3.0      corpcor_1.6.9    magrittr_1.5    
+[29] backports_1.1.3  scales_1.0.0     htmltools_0.3.6  assertthat_0.2.0
+[33] colorspace_1.4-0 labeling_0.3     stringi_1.2.4    lazyeval_0.2.1  
+[37] munsell_0.5.0    crayon_1.3.4    </code></pre>
+</div>
 </div>
 
 
@@ -766,6 +705,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 

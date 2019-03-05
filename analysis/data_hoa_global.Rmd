@@ -1,0 +1,70 @@
+---
+title: "Human Origins Array Global Data"
+author: "jhmarcus"
+date: "2019-03-04"
+output: workflowr::wflow_html
+---
+
+# Imports
+
+Lets import some needed packages:
+
+```{r imports, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(lfa)
+```
+
+# Read Genotypes
+
+Here I read the full genotype matrix of the Human Origins dataset:
+
+```{r genotypes, warning=FALSE, message=FALSE}
+Y = t(lfa:::read.bed("../data/raw/NearEastPublic/HumanOriginsPublic2068"))
+
+# number of individuals
+n = nrow(Y)
+
+# number of SNPs
+p = ncol(Y)
+```
+
+# Missingness per SNP
+
+```{r miss-per-snp}
+n_miss_snp = colSums(is.na(Y))
+p_snpmss = qplot(n_miss_snp) + geom_histogram() + theme_bw()
+p_snpmss
+```
+
+There are very few SNPs with high levels of missing data so we can use a very stringent missingness threshold without losing much information.
+
+```{r misssnp-thresh}
+sum(n_miss_snp==1)
+sum(n_miss_snp==2)
+sum(n_miss_snp==3)
+sum(n_miss_snp %in% 1:10)
+snp_idx = which(n_miss_snp <= 10)
+10 / n
+```
+
+It seems like .995% is reasonable cutoff for missingness.
+
+# Missingness per Individual
+
+```{r miss-per-ind}
+n_miss_ind = rowSums(is.na(Y))
+p_indmss = qplot(n_miss_ind) + geom_histogram() + theme_bw()
+p_indmss
+```
+
+```{r missind-thresh}
+sum(n_miss_ind > 20000)
+20000 / p
+```
+
+It seems like a few individuals are missing about 3% of their SNPs which is a bit worrisome maybe they should be remove from the analysis? For now I will in include them and see if they pop up as any outliers in the PCs.
+
+
+
