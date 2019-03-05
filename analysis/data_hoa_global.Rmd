@@ -5,7 +5,7 @@ date: "2019-03-04"
 output: workflowr::wflow_html
 ---
 
-Here I explore basic features of the Human Origins Array dataset. I downloaded the data from:
+Here I explore basic properties of the Human Origins Array dataset. I downloaded the data from:
 
 https://reich.hms.harvard.edu/sites/reich.hms.harvard.edu/files/inline-files/NearEastPublic.tar.gz
 
@@ -84,7 +84,7 @@ It seems like a few individuals are missing about 20000 of their SNPs which is a
 Given the above results here are the `plink` commands I ran to filter the data:
 
 ```
-plink --bfile HumanOriginsPublic2068 --geno .999 --maf .05 --make-bed --autosome --out HumanOriginsPublic2068_auto_maf05_geno999
+plink --bfile HumanOriginsPublic2068 --geno .005 --maf .05 --make-bed --autosome --out HumanOriginsPublic2068_auto_maf05_geno005```
 ```
 
-This is what is used for downstream factorizations.
+These filtering steps take us from 616938 to 343758 SNPs ... which still likely contains a lot of information about population structure.
