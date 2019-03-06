@@ -439,7 +439,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -448,7 +448,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -460,7 +460,7 @@ div.section {
 <strong>Last updated:</strong> 2019-03-05
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -476,12 +476,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -536,10 +536,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefb4c571e2dcbd977007215ab3f81fe59aaf182b3targetblankfb4c571a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/fb4c571e2dcbd977007215ab3f81fe59aaf182b3" target="_blank">fb4c571</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree689153a9f7779482142f309a00a93a263397022etargetblank689153aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/689153a9f7779482142f309a00a93a263397022e" target="_blank">689153a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefb4c571e2dcbd977007215ab3f81fe59aaf182b3targetblankfb4c571a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree689153a9f7779482142f309a00a93a263397022etargetblank689153aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -548,7 +548,6 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
     Ignored:    data/datasets/
@@ -561,9 +560,6 @@ Ignored files:
     Ignored:    output/log/
     Ignored:    output/pca/
     Ignored:    output/sim/
-
-Unstaged changes:
-    Modified:   analysis/hoa_global.Rmd
 
 </code></pre>
 <p>
@@ -602,6 +598,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/analysis/hoa_global.Rmd" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+added PCA to analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/hoa_global.html" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+added PCA to analysis
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1051,7 +1081,7 @@ init hoa global analysis
 </div>
 </div>
 </div>
-<p>This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs … see <a href="data_hoa_global.html">Human Origins Array Global Data</a> for details on the data pre-processing.</p>
+<p>This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness fraction greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs … see <a href="data_hoa_global.html">Human Origins Array Global Data</a> for details on the data pre-processing.</p>
 <div id="imports" class="section level1">
 <h1>Imports</h1>
 <p>Lets import some needed packages:</p>
@@ -1158,6 +1188,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-pve-1.png" target="_blank">c203e00</a>
 </td>
 <td>
@@ -1210,6 +1251,43 @@ jhmarcus
         theme_bw()
 p_var</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-var-1">
+Past versions of flash-greedy-viz-var-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-var-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-var-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Lets now look the the fitted means:</p>
 <pre class="r"><code>mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
 p_mu = qplot(mu) + 
@@ -1218,7 +1296,44 @@ p_mu = qplot(mu) +
        theme_bw()
 p_mu</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The mean term should roughly be interpreted as the mean minor allele frequency at the SNP:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-mean-1">
+Past versions of flash-greedy-viz-mean-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-mean-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The mean term should roughly be interpreted as the minor allele frequency each SNP. I estimated the minor allele frequency using the raw genotypes an compared it to the fitted mean:</p>
 <pre class="r"><code>maf_df = read.table(&quot;../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.frq&quot;, 
                     stringsAsFactors=F, 
                     header=T)
@@ -1236,6 +1351,43 @@ p_mu_maf = ggplot(maf_df %&gt;% sample_n(10000), aes(x=MAF, y=mu)) +
 
 p_mu_maf</code></pre>
 <p><img src="figure/hoa_global.Rmd/mean-vs-maf-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean-vs-maf-1">
+Past versions of mean-vs-maf-1.png
+</button>
+</p>
+<div id="fig-mean-vs-maf-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/mean-vs-maf-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Its looks like the estimated mean is matching the MAF but is biased … it tends to be underestimating the MAF. We should see a quadratic relationship with the estimated variance:</p>
 <pre class="r"><code>d1 = flash_fit$loadings$scale.constant[1]
 mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
@@ -1249,6 +1401,43 @@ p_mv = ggplot(mv_df, aes(x=mu, y=var)) +
 
 p_mv</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-mv-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-mv-1">
+Past versions of flash-greedy-viz-mv-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-mv-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-mv-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. I wonder if there is anything “special” going on with the high variance SNP (will explore this later). I’m not sure why there is a sharp cuttof at ~.35.</p>
 </div>
 <div id="drift-event-distributions" class="section level1">
@@ -1271,6 +1460,43 @@ p_de = ggplot(delta_gath_df, aes(x=value)) +
 
 p_de</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-factors-1">
+Past versions of flash-greedy-viz-factors-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-factors-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-factors-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can see the lower PVE drift events tend to get sparser!</p>
 </div>
 <div id="drift-event-local-false-sign-rates" class="section level1">
@@ -1313,6 +1539,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-lfsr-factors-viz-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-lfsr-factors-viz-1.png" target="_blank">c203e00</a>
@@ -1491,6 +1728,43 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-loadings-2-11-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-loadings-2-11-1">
+Past versions of flash-greedy-viz-loadings-2-11-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-loadings-2-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-loadings-2-11-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="drift-event-loadings-12-21" class="section level1">
 <h1>Drift Event Loadings (12-21)</h1>
@@ -1593,7 +1867,44 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-greedy-viz-loadings-12-21-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-viz-loadings-12-21-1">
+Past versions of flash-greedy-viz-loadings-12-21-1.png
+</button>
+</p>
+<div id="fig-flash-greedy-viz-loadings-12-21-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-greedy-viz-loadings-12-21-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors. There is a light purple loading that seems to appear in many populations that don’t obviously seem connected. I need to follow up on this.</p>
 </div>
 <div id="drift-event-loadings-local-false-sign-rates" class="section level1">
 <h1>Drift Event Loadings Local False Sign Rates</h1>
@@ -1636,6 +1947,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-lfsr-loadings-viz-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-lfsr-loadings-viz-1.png" target="_blank">c203e00</a>
 </td>
 <td>
@@ -1664,6 +1986,43 @@ p_pve = qplot(x=1:length(lamb2), y=lamb2 / sum(lamb2)) +
         
 p_pve</code></pre>
 <p><img src="figure/hoa_global.Rmd/pca-viz-pves-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-viz-pves-1">
+Past versions of pca-viz-pves-1.png
+</button>
+</p>
+<div id="fig-pca-viz-pves-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/pca-viz-pves-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Lets plot the PC loadings</p>
 <pre class="r"><code>l_df = cbind(data.frame(pca_fit$v), meta_df)
 colnames(l_df)[1:20] = 1:20
@@ -1707,7 +2066,44 @@ p_pca = ggplot(pc_df, aes(x=value.x, y=value.y, label=lab.x, color=Region)) +
         ylab(&quot;PCy&quot;)
         
 p_pca</code></pre>
-<p><img src="figure/hoa_global.Rmd/pca-viz-loadings-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/hoa_global.Rmd/pca-viz-loadings-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-viz-loadings-1">
+Past versions of pca-viz-loadings-1.png
+</button>
+</p>
+<div id="fig-pca-viz-loadings-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/pca-viz-loadings-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The classic horseshoe pattern is obtained that we often see for PCA on global populations … then different regions and populations have high loadings in subsequent PCs i.e. PC3~Ocenica, PC4~Americas, etc. I now see the advantage of the bar plot for visualizing lower PVE factors. Its “OK” if we only focus on PC1 / PC2 but the bar plot has a massive advantage when trying to compare many factors.</p>
 </div>
 <div id="admixture" class="section level1">
@@ -1811,6 +2207,43 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
 <p><img src="figure/hoa_global.Rmd/admixture-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-viz-loadings-9-1">
+Past versions of admixture-viz-loadings-9-1.png
+</button>
+</p>
+<div id="fig-admixture-viz-loadings-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/admixture-viz-loadings-9-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result?</p>
 </div>
 <div id="outlier-snps" class="section level1">
@@ -1849,6 +2282,43 @@ p</code></pre>
 <pre><code>Warning in FUN(X[[i]], ...): NaNs produced</code></pre>
 <pre><code>Warning: Removed 5767 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/hoa_global.Rmd/flash-factors-chrom-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-factors-chrom-viz-1">
+Past versions of flash-factors-chrom-viz-1.png
+</button>
+</p>
+<div id="fig-flash-factors-chrom-viz-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8db7b321a7038527b3a4629f08683ef905bf51e0/docs/figure/hoa_global.Rmd/flash-factors-chrom-viz-1.png" target="_blank">8db7b32</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can see there are some regions on the chromosomes that are peaky as well as some regions that have no “outliers” at all. I then took the top 5 outliers in each factor and annotated them with some functional information:</p>
 <pre class="r"><code># SNP bioMart database
 grch37_snp = useMart(biomart=&quot;ENSEMBL_MART_SNP&quot;, 
