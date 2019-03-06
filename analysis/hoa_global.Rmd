@@ -7,7 +7,7 @@ output:
     code_folding: show
 ---
 
-This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs ... see [Human Origins Array Global Data](data_hoa_global.html) for details on the data pre-processing.
+This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness fraction greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs ... see [Human Origins Array Global Data](data_hoa_global.html) for details on the data pre-processing.
 
 # Imports
 
@@ -127,7 +127,7 @@ p_mu = qplot(mu) +
 p_mu
 ```
 
-The mean term should roughly be interpreted as the mean minor allele frequency at the SNP:
+The mean term should roughly be interpreted as the minor allele frequency each SNP. I estimated the minor allele frequency using the raw genotypes an compared it to the fitted mean:
 
 ```{r mean-vs-maf, warning=FALSE, message=FALSE}
 maf_df = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.frq", 
@@ -443,7 +443,7 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
 p
 ```
 
-Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors. 
+Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors. There is a light purple loading that seems to appear in many populations that don't obviously seem connected. I need to follow up on this.
 
 # Drift Event Loadings Local False Sign Rates
 
@@ -483,7 +483,7 @@ p_pve
 
 Lets plot the PC loadings
 
-```{r pca-viz-loadings, warning=FALSE, message=FALSE, fig.width=9, fig.height=7}
+```{r pca-viz-loadings, warning=FALSE, message=FALSE, fig.width=10, fig.height=7}
 l_df = cbind(data.frame(pca_fit$v), meta_df)
 colnames(l_df)[1:20] = 1:20
 l_df = l_df %>% rowwise() %>% mutate(lab=substr(Simple.Population.ID, 1, 3))
