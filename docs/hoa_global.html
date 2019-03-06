@@ -439,7 +439,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -448,7 +448,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -460,7 +460,7 @@ div.section {
 <strong>Last updated:</strong> 2019-03-05
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -476,12 +476,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -536,10 +536,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree17bb44232c274e9c03d926e5eed30021026033datargetblank17bb442a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/17bb44232c274e9c03d926e5eed30021026033da" target="_blank">17bb442</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefb4c571e2dcbd977007215ab3f81fe59aaf182b3targetblankfb4c571a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/fb4c571e2dcbd977007215ab3f81fe59aaf182b3" target="_blank">fb4c571</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree17bb44232c274e9c03d926e5eed30021026033datargetblank17bb442a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefb4c571e2dcbd977007215ab3f81fe59aaf182b3targetblankfb4c571a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -548,6 +548,7 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
     Ignored:    data/datasets/
@@ -558,10 +559,11 @@ Ignored files:
     Ignored:    output/benchmark/
     Ignored:    output/flash_greedy/
     Ignored:    output/log/
+    Ignored:    output/pca/
     Ignored:    output/sim/
 
 Unstaged changes:
-    Modified:   analysis/data_hoa_global.Rmd
+    Modified:   analysis/hoa_global.Rmd
 
 </code></pre>
 <p>
@@ -600,6 +602,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/fb4c571e2dcbd977007215ab3f81fe59aaf182b3/docs/hoa_global.html" target="_blank">fb4c571</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+fixed md formatting;
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1032,7 +1051,7 @@ init hoa global analysis
 </div>
 </div>
 </div>
-<p>This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in <code>plink</code>, resulting in 165468 SNPs.</p>
+<p>This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs … see <a href="data_hoa_global.html">Human Origins Array Global Data</a> for details on the data pre-processing.</p>
 <div id="imports" class="section level1">
 <h1>Imports</h1>
 <p>Lets import some needed packages:</p>
@@ -1067,10 +1086,10 @@ source(&quot;../code/viz.R&quot;)</code></pre>
           saveRDS(flash_fit, &#39;{output.rds}&#39;)</code></pre>
 <p>Lets first read the greedy <code>flashier</code> fit</p>
 <pre class="r"><code># read the flash fit output by snakemake
-flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.rds&quot;)
+flash_fit = readRDS(&quot;../output/flash_greedy/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.rds&quot;)
 
 # read the snp meta data
-bim_df = read.table(&quot;../data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim&quot;, header=F)
+bim_df = read.table(&quot;../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.bim&quot;, header=F)
 colnames(bim_df) = c(&quot;chrom&quot;, &quot;rsid&quot;, &quot;cm&quot;, &quot;pos&quot;, &quot;a1&quot;, &quot;a2&quot;)
 
 # drift event loadings lfsr
@@ -1104,7 +1123,7 @@ print(K)</code></pre>
 <pre class="r"><code>print(n)</code></pre>
 <pre><code>[1] 2068</code></pre>
 <pre class="r"><code>print(p)</code></pre>
-<pre><code>[1] 165468</code></pre>
+<pre><code>[1] 343758</code></pre>
 </div>
 <div id="pves" class="section level1">
 <h1>PVEs</h1>
@@ -1175,11 +1194,11 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
-<pre><code> [1] 0.4758928191 0.0180430938 0.0221910986 0.0102953222 0.0025186497
- [6] 0.0045329056 0.0015651404 0.0014220784 0.0011824621 0.0008636509
-[11] 0.0007593062 0.0006714457 0.0005026230 0.0002140494 0.0001931981
-[16] 0.0002269361 0.0001832276 0.0002904277 0.0002626722 0.0001573182
-[21] 0.0001179608</code></pre>
+<pre><code> [1] 0.4698466181 0.0195673554 0.0212183760 0.0110132180 0.0026319565
+ [6] 0.0047422304 0.0016326107 0.0015178954 0.0012378907 0.0008897922
+[11] 0.0007602681 0.0006964420 0.0005662946 0.0002224860 0.0002020599
+[16] 0.0003186703 0.0002843464 0.0001670124 0.0002173951 0.0001456609
+[21] 0.0001285236</code></pre>
 <p>It looks like the PVE drops off at around 14 or so?</p>
 </div>
 <div id="fitted-mean-and-variance" class="section level1">
@@ -1190,66 +1209,7 @@ jhmarcus
         ylab(&quot;Count&quot;) + 
         theme_bw()
 p_var</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-var-1">
-Past versions of flash-greedy-ld-viz-var-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-var-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-var-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-var-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Lets now look the the fitted means:</p>
 <pre class="r"><code>mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
 p_mu = qplot(mu) + 
@@ -1257,67 +1217,26 @@ p_mu = qplot(mu) +
        ylab(&quot;Count&quot;) + 
        theme_bw()
 p_mu</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-mean-1">
-Past versions of flash-greedy-ld-viz-mean-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-mean-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mean-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity <span class="math inline">\(\approx 2p(1-p)\)</span>? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:</p>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The mean term should roughly be interpreted as the mean minor allele frequency at the SNP:</p>
+<pre class="r"><code>maf_df = read.table(&quot;../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.frq&quot;, 
+                    stringsAsFactors=F, 
+                    header=T)
+
+maf_df$mu = mu
+
+p_mu_maf = ggplot(maf_df %&gt;% sample_n(10000), aes(x=MAF, y=mu)) + 
+           geom_point() +
+           xlab(&quot;MAF&quot;) + 
+           ylab(&quot;Estimated Mean&quot;) + 
+           theme_bw() +
+           xlim(0.0, .5) +
+           ylim(0.0, .5) +
+           geom_abline(slope=1, intercept=0)
+
+p_mu_maf</code></pre>
+<p><img src="figure/hoa_global.Rmd/mean-vs-maf-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Its looks like the estimated mean is matching the MAF but is biased … it tends to be underestimating the MAF. We should see a quadratic relationship with the estimated variance:</p>
 <pre class="r"><code>d1 = flash_fit$loadings$scale.constant[1]
 mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
 p_mv = ggplot(mv_df, aes(x=mu, y=var)) + 
@@ -1327,79 +1246,10 @@ p_mv = ggplot(mv_df, aes(x=mu, y=var)) +
        stat_function(fun = function(x){return(2*x*(1-x))}, color=&quot;red&quot;) + 
        xlim(0, .5) + 
        theme_bw()
+
 p_mv</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-mv-1">
-Past versions of flash-greedy-ld-viz-mv-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-mv-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/63e7173f9a33d2a087e6f16d90cd929eb422bb6b/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">63e7173</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-mv-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. I wonder if there is anything “special” going on with the high variance SNP (will explore this later). I’m not sure why there is a sharp cuttof at .45.</p>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-mv-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. <span class="math inline">\(y_{ij} \sim Binomial(2, p_{ij})\)</span>. I wonder if there is anything “special” going on with the high variance SNP (will explore this later). I’m not sure why there is a sharp cuttof at ~.35.</p>
 </div>
 <div id="drift-event-distributions" class="section level1">
 <h1>Drift Event Distributions</h1>
@@ -1412,84 +1262,15 @@ delta_gath_df = delta_df %&gt;%
 # plot the factors
 K_ = K
 p_de = ggplot(delta_gath_df, aes(x=value)) + 
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
-        labs(fill=&quot;K&quot;) + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
-        theme_bw()
+       geom_histogram() + 
+       facet_wrap(~factor(K, levels=2:K_), scales = &quot;free&quot;) + 
+       labs(fill=&quot;K&quot;) + 
+       scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+       scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+       theme_bw()
+
 p_de</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-factors-1">
-Past versions of flash-greedy-ld-viz-factors-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-factors-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/f5ef1af4d17d9469ed52811c88166186d0c3c993/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-factors-1.png" target="_blank">f5ef1af</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-15
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-factors-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>We can see the lower PVE drift events tend to get sparser!</p>
 </div>
 <div id="drift-event-local-false-sign-rates" class="section level1">
@@ -1547,7 +1328,7 @@ jhmarcus
 </table>
 </div>
 </div>
-<p>It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainity of the sign of the drift event.</p>
+<p>It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainty of the sign of the drift event.</p>
 </div>
 <div id="drift-event-loadings-2-11" class="section level1">
 <h1>Drift Event Loadings (2-11)</h1>
@@ -1570,47 +1351,47 @@ colnames(l_df)[1:K] = 1:K
 
 head(l_df)</code></pre>
 <pre><code>           1            2           3          4            5            6
-1 0.02198997 1.562440e-10 0.009748510 0.02224623 7.496723e-07 5.564681e-07
-2 0.02198997 1.498617e-10 0.009740473 0.02269808 1.389697e-06 4.160829e-07
-3 0.02198997 1.450794e-10 0.006494890 0.02497461 4.110090e-07 1.022280e-06
-4 0.02198997 1.467553e-10 0.009433912 0.02314688 4.900230e-07 7.339584e-07
-5 0.02198997 1.483937e-10 0.009868851 0.02290795 1.023726e-06 1.243865e-06
-6 0.02198997 1.557400e-10 0.009509020 0.02230823 4.839558e-07 9.636279e-07
-            7            8            9         10           11
-1 0.011864108 1.950983e-06 2.134680e-08 0.05518295 1.998480e-06
-2 0.010896971 2.218510e-06 2.596953e-08 0.04932135 4.235657e-06
-3 0.010882016 8.834097e-07 1.532842e-08 0.05498083 3.759938e-06
-4 0.011011579 1.021461e-06 1.829201e-08 0.05974476 1.691153e-06
-5 0.008335442 1.722933e-06 1.676397e-08 0.05778697 1.862318e-06
-6 0.011669452 7.847559e-07 2.056824e-08 0.05614764 1.171816e-06
-           12           13           14         15           16
-1 0.014841288 2.475559e-06 1.196299e-06 0.06257501 3.574080e-06
-2 0.009671195 1.735489e-05 1.307078e-06 0.04815442 5.286249e-06
-3 0.011501083 8.012301e-06 1.163721e-06 0.06577732 4.371689e-06
-4 0.016477949 4.847320e-06 6.057587e-07 0.07252450 6.484941e-06
-5 0.016029848 1.854048e-06 7.768784e-07 0.07805249 5.937048e-06
-6 0.015462082 3.375407e-06 1.009148e-06 0.06144209 4.287258e-06
-            17           18           19           20           21
-1 3.231384e-05 3.686193e-04 2.768013e-05 1.201701e-05 2.821169e-06
-2 4.278782e-05 2.089317e-04 4.289490e-04 4.107142e-05 2.684191e-06
-3 2.555584e-03 2.272919e-04 3.728350e-05 1.835738e-04 2.204598e-06
-4 5.754635e-05 5.062869e-05 2.207929e-05 7.701641e-04 1.574267e-06
-5 2.230132e-05 8.553066e-05 1.794721e-04 7.282639e-03 2.575973e-06
-6 5.395636e-05 5.777995e-04 1.192646e-05 1.745599e-05 2.016293e-06
-             ID Simple.Population.ID Verbose.Population.ID Region Country
-1 Algerian43A22             Algerian              Algerian Africa Algeria
-2 Algerian43A21             Algerian              Algerian Africa Algeria
-3 Algerian43A34             Algerian              Algerian Africa Algeria
-4 Algerian43A13             Algerian              Algerian Africa Algeria
-5 Algerian43A24             Algerian              Algerian Africa Algeria
-6 Algerian43A32             Algerian              Algerian Africa Algeria
-  Latitude Longitude Samples Passed.QC Contributor
-1     36.8         3       7         7 David Comas
-2     36.8         3       7         7 David Comas
-3     36.8         3       7         7 David Comas
-4     36.8         3       7         7 David Comas
-5     36.8         3       7         7 David Comas
-6     36.8         3       7         7 David Comas</code></pre>
+1 0.02198997 3.344880e-11 0.009957689 0.02220615 3.206359e-07 2.177500e-07
+2 0.02198997 3.092709e-11 0.009454017 0.02319302 5.477147e-07 1.330105e-07
+3 0.02198997 2.875096e-11 0.006741585 0.02582431 1.623606e-07 3.339426e-07
+4 0.02198997 2.939241e-11 0.009538174 0.02405254 1.030657e-07 4.949653e-07
+5 0.02198997 2.955584e-11 0.010435541 0.02369975 1.748882e-07 8.876189e-07
+6 0.02198997 3.338298e-11 0.010010116 0.02221653 1.824629e-07 3.673969e-07
+            7            8            9         10           11         12
+1 0.009714513 3.894804e-07 6.901002e-09 0.05180365 4.698266e-07 0.01754951
+2 0.010167281 3.028628e-07 1.073222e-08 0.04694396 2.341897e-06 0.01181955
+3 0.009951402 1.618942e-07 5.953407e-09 0.05151676 1.361510e-06 0.01284319
+4 0.007536562 2.554642e-07 7.551714e-09 0.05886751 4.496300e-07 0.01684531
+5 0.005643071 3.048893e-07 6.285200e-09 0.05447787 5.993484e-07 0.01786413
+6 0.010378956 1.590768e-07 7.388866e-09 0.05291977 3.552595e-07 0.01761416
+            13           14         15           16           17
+1 2.003361e-06 2.147565e-07 0.06517419 0.0015261431 0.0016538921
+2 4.600137e-03 1.131473e-07 0.04171043 0.0060590808 0.0049734659
+3 8.890164e-06 1.486041e-07 0.06591569 0.0049143357 0.0004319419
+4 1.135608e-04 9.539378e-08 0.06514533 0.0047344501 0.0002431952
+5 6.119798e-06 1.062652e-07 0.07251071 0.0008047695 0.0010858248
+6 4.957157e-06 1.422404e-07 0.05927887 0.0004251974 0.0000393936
+            18           19           20           21            ID
+1 9.852204e-06 1.654588e-06 1.900904e-06 6.540409e-07 Algerian43A22
+2 3.790969e-06 1.970198e-06 7.016039e-06 1.386323e-06 Algerian43A21
+3 2.049506e-03 1.821203e-06 7.141382e-06 5.548505e-07 Algerian43A34
+4 6.631587e-06 1.336589e-06 2.237992e-05 3.818413e-07 Algerian43A13
+5 6.361275e-06 2.150546e-06 4.261356e-04 4.396811e-07 Algerian43A24
+6 2.049671e-05 2.222535e-06 2.644428e-06 4.196996e-07 Algerian43A32
+  Simple.Population.ID Verbose.Population.ID Region Country Latitude
+1             Algerian              Algerian Africa Algeria     36.8
+2             Algerian              Algerian Africa Algeria     36.8
+3             Algerian              Algerian Africa Algeria     36.8
+4             Algerian              Algerian Africa Algeria     36.8
+5             Algerian              Algerian Africa Algeria     36.8
+6             Algerian              Algerian Africa Algeria     36.8
+  Longitude Samples Passed.QC Contributor
+1         3       7         7 David Comas
+2         3       7         7 David Comas
+3         3       7         7 David Comas
+4         3       7         7 David Comas
+5         3       7         7 David Comas
+6         3       7         7 David Comas</code></pre>
 <p>Its hard to find a color scale that can sufficiently visualize all of the loadings in a single plot. Instead I just split the loadings up into two plots (K=2,…,11) and (K=12,…,21). Lets first visualize loadings 2 through 12:</p>
 <pre class="r"><code># gather the data.frame for plotting
 l_gath_df = l_df %&gt;% 
@@ -1709,66 +1490,7 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-loadings-2-11-1">
-Past versions of flash-greedy-ld-viz-loadings-2-11-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-loadings-2-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-2-11-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-loadings-2-11-1.png" width="816" style="display: block; margin: auto;" /></p>
 </div>
 <div id="drift-event-loadings-12-21" class="section level1">
 <h1>Drift Event Loadings (12-21)</h1>
@@ -1870,66 +1592,7 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-greedy-ld-viz-loadings-12-21-1">
-Past versions of flash-greedy-ld-viz-loadings-12-21-1.png
-</button>
-</p>
-<div id="fig-flash-greedy-ld-viz-loadings-12-21-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/38b57c54997e44c495298de7423104f1749299a1/docs/figure/hoa_global.Rmd/flash-greedy-ld-viz-loadings-12-21-1.png" target="_blank">38b57c5</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/hoa_global.Rmd/flash-greedy-viz-loadings-12-21-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>Its kinda interesting to see that some populations have zero loading on later factors. Its also interesting to see a lot of population specific factors arising. This would be difficult to visualize see if using a single plot for all the factors.</p>
 </div>
 <div id="drift-event-loadings-local-false-sign-rates" class="section level1">
@@ -1986,12 +1649,71 @@ jhmarcus
 </table>
 </div>
 </div>
-<p>Its very intersting to see that the lfsr seem very bi-model for the loadings for many of the drift events.</p>
+<p>Its very interesting to see that the lfsr seem very bi-model for the loadings for many of the drift events.</p>
+</div>
+<div id="pca" class="section level1">
+<h1>PCA</h1>
+<p>Here are proportions of variances explained by each PC:</p>
+<pre class="r"><code>pca_fit = readRDS(&quot;../output/pca/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.rds&quot;)
+lamb2 = pca_fit$d^2
+
+p_pve = qplot(x=1:length(lamb2), y=lamb2 / sum(lamb2)) + 
+        xlab(&quot;PC&quot;) +
+        ylab(&quot;PVE&quot;) +
+        theme_bw()
+        
+p_pve</code></pre>
+<p><img src="figure/hoa_global.Rmd/pca-viz-pves-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Lets plot the PC loadings</p>
+<pre class="r"><code>l_df = cbind(data.frame(pca_fit$v), meta_df)
+colnames(l_df)[1:20] = 1:20
+l_df = l_df %&gt;% rowwise() %&gt;% mutate(lab=substr(Simple.Population.ID, 1, 3))
+
+# gather the data.frame for plotting
+l_gath_df = l_df %&gt;% 
+            gather(K, value, 
+                   -ID, 
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region,
+                   -Country, 
+                   -Latitude, 
+                   -Longitude, 
+                   -Samples,
+                   -Passed.QC,  
+                   -Contributor, 
+                   -lab) 
+
+pc_df = l_gath_df %&gt;% 
+        inner_join(l_gath_df, by=&quot;ID&quot;) %&gt;% 
+        filter((K.x == &quot;1&quot; &amp; K.y == &quot;2&quot;) | 
+               (K.x == &quot;3&quot; &amp; K.y == &quot;4&quot;) |
+               (K.x == &quot;5&quot; &amp; K.y == &quot;6&quot;) |
+               (K.x == &quot;7&quot; &amp; K.y == &quot;8&quot;) |
+               (K.x == &quot;9&quot; &amp; K.y == &quot;10&quot;) |
+               (K.x == &quot;11&quot; &amp; K.y == &quot;12&quot;) |
+               (K.x == &quot;13&quot; &amp; K.y == &quot;14&quot;) |
+               (K.x == &quot;15&quot; &amp; K.y == &quot;16&quot;) |
+               (K.x == &quot;17&quot; &amp; K.y == &quot;18&quot;) |
+               (K.x == &quot;19&quot; &amp; K.y == &quot;20&quot;)) %&gt;%
+        mutate(Region=Region.x)
+
+p_pca = ggplot(pc_df, aes(x=value.x, y=value.y, label=lab.x, color=Region)) +
+        geom_text(size=2) +
+        scale_color_brewer(palette = &quot;Set1&quot;) + 
+        facet_wrap(factor(K.x, levels=seq(1,20,2))~factor(K.y, levels=seq(2,20,2)), scales=&quot;free&quot;) + 
+        theme_bw() + 
+        xlab(&quot;PCx&quot;) +
+        ylab(&quot;PCy&quot;)
+        
+p_pca</code></pre>
+<p><img src="figure/hoa_global.Rmd/pca-viz-loadings-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>The classic horseshoe pattern is obtained that we often see for PCA on global populations … then different regions and populations have high loadings in subsequent PCs i.e. PC3~Ocenica, PC4~Americas, etc. I now see the advantage of the bar plot for visualizing lower PVE factors. Its “OK” if we only focus on PC1 / PC2 but the bar plot has a massive advantage when trying to compare many factors.</p>
 </div>
 <div id="admixture" class="section level1">
 <h1>ADMIXTURE</h1>
 <p>Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. <code>FLASH</code> with 2,…,11 (be careful: there is no connection to the colors in the last plot):</p>
-<pre class="r"><code>l_df = read.table(&quot;../output/admixture/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.K9r1.Q&quot;, sep=&quot; &quot;, header=F)
+<pre class="r"><code>l_df = read.table(&quot;../output/admixture/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.K9r1.Q&quot;, sep=&quot; &quot;, header=F)
 K = ncol(l_df)
 l_df = cbind(l_df, meta_df)
 pops = unique(l_df$Simple.Population.ID) # all unique pop labels
@@ -2088,44 +1810,7 @@ p = cowplot::plot_grid(p_africa, p_west_eurasia, p_central_asia_siberia,
                        rel_heights = c(1.2, 1.3, 1, 1, 1, 1, 1.1),
                        nrow = 7, align = &quot;v&quot;) 
 p</code></pre>
-<p><img src="figure/hoa_global.Rmd/admixture-ld-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-ld-viz-loadings-9-1">
-Past versions of admixture-ld-viz-loadings-9-1.png
-</button>
-</p>
-<div id="fig-admixture-ld-viz-loadings-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/admixture-ld-viz-loadings-9-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/hoa_global.Rmd/admixture-viz-loadings-9-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>There is a lot that one can compare between the ADMIXTURE and FLASH results. A high level observation seems that the ADMIXTURE results look a bit more clustered i.e. the Americas and East Asia look like they are explained mostly by 1 or 2 factors whereas FLASH uses 3-4. Its hard to tell be it seems that this is true in many of the super regions … ADMIXTURE tends use fewer factors to explain population structure in each region, leading to a more clustered result?</p>
 </div>
 <div id="outlier-snps" class="section level1">
@@ -2162,56 +1847,8 @@ p = ggplot(manh_gath_df, aes(x=BPcum, y=-log10(value))) +
     guides(alpha=F, color=F)
 p</code></pre>
 <pre><code>Warning in FUN(X[[i]], ...): NaNs produced</code></pre>
-<pre><code>Warning: Removed 1344 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/hoa_global.Rmd/flash-ld-factors-chrom-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-flash-ld-factors-chrom-viz-1">
-Past versions of flash-ld-factors-chrom-viz-1.png
-</button>
-</p>
-<div id="fig-flash-ld-factors-chrom-viz-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/c203e00bbb6ad84d71308321e6e3b9e609c2ae21/docs/figure/hoa_global.Rmd/flash-ld-factors-chrom-viz-1.png" target="_blank">c203e00</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/90a0a0229a2e71016ddb9c88e8fd607ce92a567a/docs/figure/hoa_global.Rmd/flash-ld-factors-chrom-viz-1.png" target="_blank">90a0a02</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-02-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<pre><code>Warning: Removed 5767 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/hoa_global.Rmd/flash-factors-chrom-viz-1.png" width="816" style="display: block; margin: auto;" /></p>
 <p>We can see there are some regions on the chromosomes that are peaky as well as some regions that have no “outliers” at all. I then took the top 5 outliers in each factor and annotated them with some functional information:</p>
 <pre class="r"><code># SNP bioMart database
 grch37_snp = useMart(biomart=&quot;ENSEMBL_MART_SNP&quot;, 
@@ -2260,23 +1897,20 @@ anno_df = table1 %&gt;% left_join(table2, on=&quot;ensembl_gene_id&quot;) %&gt;%
 character vector</code></pre>
 <pre class="r"><code># unique genes
 print(unique(anno_df$external_gene_name))</code></pre>
-<pre><code> [1] &quot;CCNL2&quot;          &quot;CRYZ&quot;           &quot;SLC22A15&quot;       NA              
- [5] &quot;RP11-280O1.2&quot;   &quot;KIAA1614&quot;       &quot;C1orf132&quot;       &quot;CD34&quot;          
- [9] &quot;FRMD4A&quot;         &quot;MPP7&quot;           &quot;SGPL1&quot;          &quot;CCSER2&quot;        
-[13] &quot;RBM20&quot;          &quot;NAV2&quot;           &quot;SLC22A10&quot;       &quot;STT3A-AS1&quot;     
-[17] &quot;STT3A&quot;          &quot;HOXC13-AS&quot;      &quot;CNOT2&quot;          &quot;RP11-114H23.1&quot; 
-[21] &quot;APPL2&quot;          &quot;LINC00641&quot;      &quot;HERC2&quot;          &quot;RP11-109D20.1&quot; 
-[25] &quot;SORD&quot;           &quot;RP11-266O8.1&quot;   &quot;PRKCB&quot;          &quot;PKD1L2&quot;        
-[29] &quot;RP11-1407O15.2&quot; &quot;CACNB1&quot;         &quot;RP11-515E23.1&quot;  &quot;RP11-1055B8.4&quot; 
-[33] &quot;LINC01119&quot;      &quot;IL1R1&quot;          &quot;RAB3GAP1&quot;       &quot;ZRANB3&quot;        
-[37] &quot;ITGB6&quot;          &quot;TLK1&quot;           &quot;PARD3B&quot;         &quot;SF3A1&quot;         
-[41] &quot;DRG1&quot;           &quot;TEF&quot;            &quot;KAT2B&quot;          &quot;SEMA3F&quot;        
-[45] &quot;FRMD4B&quot;         &quot;MYH15&quot;          &quot;CRMP1&quot;          &quot;EVC&quot;           
-[49] &quot;RP11-103J17.1&quot;  &quot;RP11-696N14.1&quot;  &quot;SLC45A2&quot;        &quot;NDUFAF2&quot;       
-[53] &quot;CTB-35F21.1&quot;    &quot;DPYSL3&quot;         &quot;UNC5A&quot;          &quot;FLOT1&quot;         
-[57] &quot;AKAP12&quot;         &quot;TIAM2&quot;          &quot;TMEM248&quot;        &quot;SMKR1&quot;         
-[61] &quot;RP11-150O12.1&quot;  &quot;SMARCA2&quot;        &quot;GLIS3&quot;          &quot;RCL1&quot;          
-[65] &quot;PTPN3&quot;         </code></pre>
+<pre><code> [1] NA              &quot;ANXA7&quot;         &quot;NAV2&quot;          &quot;SLC22A10&quot;     
+ [5] &quot;APPL2&quot;         &quot;LINC00523&quot;     &quot;HERC2&quot;         &quot;RP11-109D20.1&quot;
+ [9] &quot;SORD&quot;          &quot;FBXL22&quot;        &quot;USP3-AS1&quot;      &quot;PRKCB&quot;        
+[13] &quot;EPN2&quot;          &quot;CACNB1&quot;        &quot;RP11-515E23.1&quot; &quot;RP11-1055B8.4&quot;
+[17] &quot;ARHGAP28&quot;      &quot;KIF3C&quot;         &quot;EXOC6B&quot;        &quot;IL1R1&quot;        
+[21] &quot;EDAR&quot;          &quot;CCNT2&quot;         &quot;UBXN4&quot;         &quot;PLA2R1&quot;       
+[25] &quot;TLK1&quot;          &quot;KIF16B&quot;        &quot;LINC00478&quot;     &quot;NHP2L1&quot;       
+[29] &quot;MEI1&quot;          &quot;KAT2B&quot;         &quot;FRMD4B&quot;        &quot;ROBO2&quot;        
+[33] &quot;RP11-103J17.1&quot; &quot;TBC1D1&quot;        &quot;RP11-696N14.1&quot; &quot;ADH4&quot;         
+[37] &quot;ADH1B&quot;         &quot;SLC45A2&quot;       &quot;PDE4D&quot;         &quot;STK32A&quot;       
+[41] &quot;DPYSL3&quot;        &quot;RP11-267A15.1&quot; &quot;RP1-179N16.6&quot;  &quot;FOXP4&quot;        
+[45] &quot;AKAP12&quot;        &quot;GS1-124K5.12&quot;  &quot;TMEM248&quot;       &quot;MAGI2&quot;        
+[49] &quot;CYP7B1&quot;        &quot;RP11-1D12.2&quot;   &quot;SMARCA2&quot;       &quot;GLIS3&quot;        
+[53] &quot;RCL1&quot;         </code></pre>
 <pre class="r"><code># formatted table
 d = anno_df %&gt;% 
     distinct(external_gene_name, .keep_all = T) %&gt;% 
@@ -2295,56 +1929,20 @@ kable(d)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">NA</td>
-<td align="left">3</td>
-<td align="left">rs6428891</td>
+<td align="left">9</td>
+<td align="left">rs4382718</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">CRYZ</td>
+<td align="left">ADH1B</td>
+<td align="left">7</td>
+<td align="left">rs1042026</td>
+<td align="left">3_prime_UTR_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">ANXA7</td>
 <td align="left">11</td>
-<td align="left">rs10890141</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">SLC22A15</td>
-<td align="left">16</td>
-<td align="left">rs17035177</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
-<td align="left">KIAA1614</td>
-<td align="left">15</td>
-<td align="left">rs7545466</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">FRMD4A</td>
-<td align="left">8</td>
-<td align="left">rs201874034</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
-<td align="left">MPP7</td>
-<td align="left">4</td>
-<td align="left">rs10826403</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">SGPL1</td>
-<td align="left">8</td>
-<td align="left">rs7083883</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
-<td align="left">CCSER2</td>
-<td align="left">21</td>
-<td align="left">rs56347056</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">RBM20</td>
-<td align="left">19</td>
-<td align="left">rs11598929</td>
+<td align="left">rs56967412</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
@@ -2354,21 +1952,21 @@ kable(d)</code></pre>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">CNOT2</td>
-<td align="left">7</td>
-<td align="left">rs11178168</td>
+<td align="left">HERC2</td>
+<td align="left">12</td>
+<td align="left">rs12913832</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">HERC2</td>
-<td align="left">12</td>
-<td align="left">rs7494942</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
 <td align="left">SORD</td>
 <td align="left">5</td>
 <td align="left">rs2470686</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">FBXL22</td>
+<td align="left">2</td>
+<td align="left">rs4247077</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
@@ -2378,33 +1976,57 @@ kable(d)</code></pre>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
+<td align="left">EPN2</td>
+<td align="left">4</td>
+<td align="left">rs11652784</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
 <td align="left">CACNB1</td>
 <td align="left">15</td>
 <td align="left">rs16531</td>
 <td align="left">intron_variant</td>
 </tr>
+<tr class="odd">
+<td align="left">ARHGAP28</td>
+<td align="left">19</td>
+<td align="left">rs11663962</td>
+<td align="left">intron_variant</td>
+</tr>
 <tr class="even">
-<td align="left">LINC01119</td>
-<td align="left">13</td>
-<td align="left">rs6713911</td>
+<td align="left">KIF3C</td>
+<td align="left">2</td>
+<td align="left">rs11126303</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
+<td align="left">EXOC6B</td>
+<td align="left">3</td>
+<td align="left">rs7420667</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
 <td align="left">IL1R1</td>
 <td align="left">13</td>
 <td align="left">rs3755295</td>
 <td align="left">intron_variant</td>
 </tr>
+<tr class="odd">
+<td align="left">EDAR</td>
+<td align="left">2</td>
+<td align="left">rs922452</td>
+<td align="left">intron_variant</td>
+</tr>
 <tr class="even">
-<td align="left">RAB3GAP1</td>
-<td align="left">12</td>
-<td align="left">rs6730157</td>
+<td align="left">UBXN4</td>
+<td align="left">10</td>
+<td align="left">rs6732236</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">ITGB6</td>
+<td align="left">PLA2R1</td>
 <td align="left">8</td>
-<td align="left">rs12987602</td>
+<td align="left">rs17830904</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
@@ -2414,39 +2036,27 @@ kable(d)</code></pre>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">PARD3B</td>
-<td align="left">10</td>
-<td align="left">rs1207425</td>
+<td align="left">KIF16B</td>
+<td align="left">20</td>
+<td align="left">rs6044020</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">SF3A1</td>
-<td align="left">5</td>
-<td align="left">rs5749071</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">DRG1</td>
-<td align="left">16</td>
-<td align="left">rs2273248</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
-<td align="left">TEF</td>
+<td align="left">NHP2L1</td>
 <td align="left">6</td>
-<td align="left">rs9611566</td>
+<td align="left">rs5758406</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
+<td align="left">MEI1</td>
+<td align="left">6</td>
+<td align="left">rs126092</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="even">
 <td align="left">KAT2B</td>
 <td align="left">14</td>
 <td align="left">rs2929402</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
-<td align="left">SEMA3F</td>
-<td align="left">9</td>
-<td align="left">rs11717349</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
@@ -2456,118 +2066,82 @@ kable(d)</code></pre>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">MYH15</td>
-<td align="left">2</td>
-<td align="left">rs6437783</td>
+<td align="left">ROBO2</td>
+<td align="left">17</td>
+<td align="left">rs77908466</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">EVC</td>
-<td align="left">9</td>
-<td align="left">rs4689306</td>
+<td align="left">TBC1D1</td>
+<td align="left">11</td>
+<td align="left">rs62298552</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
 <td align="left">SLC45A2</td>
 <td align="left">4</td>
-<td align="left">rs185146</td>
+<td align="left">rs35397</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">NDUFAF2</td>
-<td align="left">11</td>
-<td align="left">rs1841504</td>
+<td align="left">PDE4D</td>
+<td align="left">5</td>
+<td align="left">rs173591</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
-<td align="left">DPYSL3</td>
-<td align="left">18</td>
-<td align="left">rs17106725</td>
+<td align="left">FOXP4</td>
+<td align="left">15</td>
+<td align="left">rs2148342</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">UNC5A</td>
-<td align="left">3</td>
-<td align="left">rs692713</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="even">
 <td align="left">AKAP12</td>
-<td align="left">16</td>
+<td align="left">19</td>
 <td align="left">rs17081009</td>
-<td align="left">intron_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">TIAM2</td>
-<td align="left">6</td>
-<td align="left">rs6916552</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
 <td align="left">TMEM248</td>
 <td align="left">8</td>
-<td align="left">rs10264873</td>
+<td align="left">rs10234322</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">SMKR1</td>
+<td align="left">MAGI2</td>
 <td align="left">14</td>
-<td align="left">rs11771549</td>
+<td align="left">rs2364341</td>
 <td align="left">intron_variant</td>
 </tr>
 <tr class="even">
+<td align="left">CYP7B1</td>
+<td align="left">17</td>
+<td align="left">rs4236936</td>
+<td align="left">intron_variant</td>
+</tr>
+<tr class="odd">
 <td align="left">SMARCA2</td>
 <td align="left">20</td>
 <td align="left">rs7035991</td>
 <td align="left">intron_variant</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">GLIS3</td>
 <td align="left">14</td>
 <td align="left">rs10974315</td>
 <td align="left">intron_variant</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RCL1</td>
 <td align="left">3</td>
 <td align="left">rs172447</td>
 <td align="left">intron_variant</td>
 </tr>
-<tr class="odd">
-<td align="left">PTPN3</td>
-<td align="left">18</td>
-<td align="left">rs12336101</td>
-<td align="left">intron_variant</td>
-</tr>
 <tr class="even">
-<td align="left">CCNL2</td>
-<td align="left">4</td>
-<td align="left">rs1240747</td>
-<td align="left">NMD_transcript_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">RP11-1407O15.2</td>
+<td align="left">CCNT2</td>
 <td align="left">10</td>
-<td align="left">rs8066255</td>
+<td align="left">rs41521049</td>
 <td align="left">NMD_transcript_variant</td>
-</tr>
-<tr class="even">
-<td align="left">C1orf132</td>
-<td align="left">21</td>
-<td align="left">rs2235767</td>
-<td align="left">non_coding_transcript_exon_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">LINC00641</td>
-<td align="left">6</td>
-<td align="left">rs12184962</td>
-<td align="left">non_coding_transcript_exon_variant</td>
-</tr>
-<tr class="even">
-<td align="left">PKD1L2</td>
-<td align="left">19</td>
-<td align="left">rs16954698</td>
-<td align="left">non_coding_transcript_exon_variant</td>
 </tr>
 <tr class="odd">
 <td align="left">RP11-1055B8.4</td>
@@ -2576,39 +2150,15 @@ kable(d)</code></pre>
 <td align="left">non_coding_transcript_exon_variant</td>
 </tr>
 <tr class="even">
-<td align="left">RP11-280O1.2</td>
-<td align="left">2</td>
-<td align="left">rs4657449</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">CD34</td>
-<td align="left">21</td>
-<td align="left">rs3820521</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="even">
 <td align="left">SLC22A10</td>
 <td align="left">13</td>
-<td align="left">rs6591765</td>
+<td align="left">rs12804561</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">STT3A-AS1</td>
-<td align="left">20</td>
-<td align="left">rs503288</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="even">
-<td align="left">HOXC13-AS</td>
-<td align="left">5</td>
-<td align="left">rs2366148</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">RP11-114H23.1</td>
-<td align="left">14</td>
-<td align="left">rs3847673</td>
+<td align="left">LINC00523</td>
+<td align="left">4</td>
+<td align="left">rs12881700</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="even">
@@ -2618,9 +2168,9 @@ kable(d)</code></pre>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">RP11-266O8.1</td>
-<td align="left">4</td>
-<td align="left">rs7163903</td>
+<td align="left">USP3-AS1</td>
+<td align="left">2</td>
+<td align="left">rs4247077</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="even">
@@ -2630,62 +2180,74 @@ kable(d)</code></pre>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">ZRANB3</td>
-<td align="left">12</td>
-<td align="left">rs6730157</td>
+<td align="left">LINC00478</td>
+<td align="left">3</td>
+<td align="left">rs2823880</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="even">
-<td align="left">CRMP1</td>
-<td align="left">9</td>
-<td align="left">rs4689306</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="odd">
 <td align="left">RP11-103J17.1</td>
 <td align="left">9</td>
 <td align="left">rs11733992</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">RP11-696N14.1</td>
 <td align="left">7</td>
-<td align="left">rs1229966</td>
-<td align="left">non_coding_transcript_variant</td>
-</tr>
-<tr class="odd">
-<td align="left">CTB-35F21.1</td>
-<td align="left">15</td>
-<td align="left">rs10067965</td>
+<td align="left">rs17028609</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="even">
-<td align="left">FLOT1</td>
-<td align="left">15</td>
-<td align="left">rs3094127</td>
+<td align="left">ADH4</td>
+<td align="left">7</td>
+<td align="left">rs17028609</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="odd">
-<td align="left">RP11-150O12.1</td>
-<td align="left">11</td>
-<td align="left">rs2407278</td>
+<td align="left">STK32A</td>
+<td align="left">16</td>
+<td align="left">rs114085738</td>
 <td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="even">
-<td align="left">STT3A</td>
-<td align="left">20</td>
-<td align="left">rs503288</td>
-<td align="left">splice_region_variant</td>
+<td align="left">RP11-267A15.1</td>
+<td align="left">19</td>
+<td align="left">rs2936935</td>
+<td align="left">non_coding_transcript_variant</td>
 </tr>
 <tr class="odd">
+<td align="left">RP1-179N16.6</td>
+<td align="left">9</td>
+<td align="left">rs10447375</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
+<td align="left">GS1-124K5.12</td>
+<td align="left">8</td>
+<td align="left">rs3757419</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="odd">
+<td align="left">RP11-1D12.2</td>
+<td align="left">17</td>
+<td align="left">rs6472154</td>
+<td align="left">non_coding_transcript_variant</td>
+</tr>
+<tr class="even">
 <td align="left">APPL2</td>
 <td align="left">20</td>
 <td align="left">rs12303948</td>
 <td align="left">synonymous_variant</td>
 </tr>
+<tr class="odd">
+<td align="left">DPYSL3</td>
+<td align="left">16</td>
+<td align="left">rs17106709</td>
+<td align="left">synonymous_variant</td>
+</tr>
 </tbody>
 </table>
-We can see many of these top outliers are in genes (but we have to consider the array design to know if this is unusual). Its cool to see a couple very interesting genes pop up including HERC2 (eye color) and SLC45A2 (skin color) which have been previously studied for their selection signatures. Its also fun to look at some of the <code>rsids</code> on <code>https://popgen.uchicago.edu/ggv/</code> to get a sense of what kind of allele frequency distributions define each factor. <br> <br>
+We can see many of these top outliers are in genes (but we have to consider the array design to know if this is unusual). Its cool to see a couple very interesting genes pop up including HERC2 (eye color) and SLC45A2 (skin color), EDAR (hair), ADH4 (alcohol dehydrogenase), ADH1B (alcohol dehydrogenase), which have been previously studied for their selection signatures. Its also fun to look at some of the <code>rsids</code> on <code>https://popgen.uchicago.edu/ggv/</code> to get a sense of what kind of allele frequency distributions define each factor. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information

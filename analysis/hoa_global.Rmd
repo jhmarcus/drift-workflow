@@ -7,7 +7,7 @@ output:
     code_folding: show
 ---
 
-This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 1%, and removed any SNPs on the sex chromosomes. I then LD pruned the SNPs using standard parameters in `plink`, resulting in 165468 SNPs.
+This is an analysis of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness level greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs ... see [Human Origins Array Global Data](data_hoa_global.html) for details on the data pre-processing.
 
 # Imports
 
@@ -50,12 +50,12 @@ Here is the `snakemake` rule I used for running `flashier`:
 
 Lets first read the greedy `flashier` fit
 
-```{r flash-greedy-ld}
+```{r flash-greedy}
 # read the flash fit output by snakemake
-flash_fit = readRDS("../output/flash_greedy/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.rds")
+flash_fit = readRDS("../output/flash_greedy/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.rds")
 
 # read the snp meta data
-bim_df = read.table("../data/datasets/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.bim", header=F)
+bim_df = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.bim", header=F)
 colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
 
 # drift event loadings lfsr
@@ -108,7 +108,7 @@ It looks like the PVE drops off at around 14 or so?
 
 I setup the `flashier` run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:
 
-```{r flash-greedy-ld-viz-var, warning=FALSE, message=FALSE}
+```{r flash-greedy-viz-var, warning=FALSE, message=FALSE}
 p_var = qplot(1/flash_fit$fit$est.tau) + 
         xlab("Estimated Variance") + 
         ylab("Count") + 
@@ -118,7 +118,7 @@ p_var
 
 Lets now look the the fitted means:
 
-```{r flash-greedy-ld-viz-mean, warning=FALSE, message=FALSE}
+```{r flash-greedy-viz-mean, warning=FALSE, message=FALSE}
 mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
 p_mu = qplot(mu) + 
        xlab("Estimated Mean") + 
@@ -127,9 +127,30 @@ p_mu = qplot(mu) +
 p_mu
 ```
 
-These plots looks about reasonable as each of the SNP variances should roughly be interpreted as average heterozygosity $\approx 2p(1-p)$? The mean term should roughly be interpreted as the mean minor allele frequency at the SNP and thus we should see a quadratic relationship with the estimated variance:
+The mean term should roughly be interpreted as the mean minor allele frequency at the SNP:
 
-```{r flash-greedy-ld-viz-mv, warning=FALSE, message=FALSE}
+```{r mean-vs-maf, warning=FALSE, message=FALSE}
+maf_df = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.frq", 
+                    stringsAsFactors=F, 
+                    header=T)
+
+maf_df$mu = mu
+
+p_mu_maf = ggplot(maf_df %>% sample_n(10000), aes(x=MAF, y=mu)) + 
+           geom_point() +
+           xlab("MAF") + 
+           ylab("Estimated Mean") + 
+           theme_bw() +
+           xlim(0.0, .5) +
+           ylim(0.0, .5) +
+           geom_abline(slope=1, intercept=0)
+
+p_mu_maf
+```
+
+Its looks like the estimated mean is matching the MAF but is biased ... it tends to be underestimating the MAF. We should see a quadratic relationship with the estimated variance:
+
+```{r flash-greedy-viz-mv, warning=FALSE, message=FALSE}
 d1 = flash_fit$loadings$scale.constant[1]
 mv_df = data.frame(var=1/flash_fit$fit$est.tau, mu=mu, chrom=bim_df$chrom)
 p_mv = ggplot(mv_df, aes(x=mu, y=var)) + 
@@ -139,16 +160,17 @@ p_mv = ggplot(mv_df, aes(x=mu, y=var)) +
        stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
        xlim(0, .5) + 
        theme_bw()
+
 p_mv
 ```
 
-Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. $y_{ij} \sim Binomial(2, p_{ij})$. I wonder if there is anything "special" going on with the high variance SNP (will explore this later). I'm not sure why there is a sharp cuttof at .45.
+Most of the SNPs have a mean-variance relationship expected under a simple Binomial model for the genotypes i.e. $y_{ij} \sim Binomial(2, p_{ij})$. I wonder if there is anything "special" going on with the high variance SNP (will explore this later). I'm not sure why there is a sharp cuttof at ~.35.
 
 # Drift Event Distributions
 
 Lets now plot the distribution of drift events:
 
-```{r flash-greedy-ld-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
+```{r flash-greedy-viz-factors, warning=FALSE, message=FALSE, fig.width=8, fig.height=6}
 # gather the data.frame for plotting
 delta_gath_df = delta_df %>% 
                 gather(K, value, -chrom, -pos, -rsid) %>%
@@ -157,12 +179,13 @@ delta_gath_df = delta_df %>%
 # plot the factors
 K_ = K
 p_de = ggplot(delta_gath_df, aes(x=value)) + 
-        geom_histogram() + 
-        facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
-        labs(fill="K") + 
-        scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
-        theme_bw()
+       geom_histogram() + 
+       facet_wrap(~factor(K, levels=2:K_), scales = "free") + 
+       labs(fill="K") + 
+       scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+       scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+       theme_bw()
+
 p_de
 ```
 
@@ -188,13 +211,13 @@ p_lfsr = ggplot(delta_lfsr_gath_df, aes(x=value)) +
 p_lfsr
 ```
 
-It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainity of the sign of the drift event.
+It is interesting to see the lower PVE factors (around 13 onwards) shift to having many SNPs with high uncertainty of the sign of the drift event.
 
 # Drift Event Loadings (2-11)
 
 Lets now take a look at the drift event loadings. First we setup the data:
 
-```{r flash-greedy-ld-data-loadings, warning=FALSE, message=FALSE}
+```{r flash-greedy-data-loadings, warning=FALSE, message=FALSE}
 # read the meta data
 meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
 
@@ -216,7 +239,7 @@ head(l_df)
 
 Its hard to find a color scale that can sufficiently visualize all of the loadings in a single plot. Instead I just split the loadings up into two plots (K=2,...,11) and (K=12,...,21). Lets first visualize loadings 2 through 12:
 
-```{r flash-greedy-ld-viz-loadings-2-11, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
+```{r flash-greedy-viz-loadings-2-11, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
             gather(K, value, 
@@ -320,7 +343,7 @@ p
 
 Lets now visualize loadings 12 to 21 (be careful: there is no connection to the colors in the last plot):
 
-```{r flash-greedy-ld-viz-loadings-12-21, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
+```{r flash-greedy-viz-loadings-12-21, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 # gather the data.frame for plotting
 l_gath_df = l_df %>% 
             gather(K, value, 
@@ -440,14 +463,79 @@ p_lfsr = ggplot(l_lfsr_gath_df, aes(x=value)) +
 p_lfsr
 ```
 
-Its very intersting to see that the lfsr seem very bi-model for the loadings for many of the drift events.
+Its very interesting to see that the lfsr seem very bi-model for the loadings for many of the drift events.
+
+# PCA
+
+Here are proportions of variances explained by each PC:
+
+```{r pca-viz-pves, warning=FALSE, message=FALSE}
+pca_fit = readRDS("../output/pca/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.rds")
+lamb2 = pca_fit$d^2
+
+p_pve = qplot(x=1:length(lamb2), y=lamb2 / sum(lamb2)) + 
+        xlab("PC") +
+        ylab("PVE") +
+        theme_bw()
+        
+p_pve
+```
+
+Lets plot the PC loadings
+
+```{r pca-viz-loadings, warning=FALSE, message=FALSE, fig.width=9, fig.height=7}
+l_df = cbind(data.frame(pca_fit$v), meta_df)
+colnames(l_df)[1:20] = 1:20
+l_df = l_df %>% rowwise() %>% mutate(lab=substr(Simple.Population.ID, 1, 3))
+
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, 
+                   -ID, 
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region,
+                   -Country, 
+                   -Latitude, 
+                   -Longitude, 
+                   -Samples,
+                   -Passed.QC,  
+                   -Contributor, 
+                   -lab) 
+
+pc_df = l_gath_df %>% 
+        inner_join(l_gath_df, by="ID") %>% 
+        filter((K.x == "1" & K.y == "2") | 
+               (K.x == "3" & K.y == "4") |
+               (K.x == "5" & K.y == "6") |
+               (K.x == "7" & K.y == "8") |
+               (K.x == "9" & K.y == "10") |
+               (K.x == "11" & K.y == "12") |
+               (K.x == "13" & K.y == "14") |
+               (K.x == "15" & K.y == "16") |
+               (K.x == "17" & K.y == "18") |
+               (K.x == "19" & K.y == "20")) %>%
+        mutate(Region=Region.x)
+
+p_pca = ggplot(pc_df, aes(x=value.x, y=value.y, label=lab.x, color=Region)) +
+        geom_text(size=2) +
+        scale_color_brewer(palette = "Set1") + 
+        facet_wrap(factor(K.x, levels=seq(1,20,2))~factor(K.y, levels=seq(2,20,2)), scales="free") + 
+        theme_bw() + 
+        xlab("PCx") +
+        ylab("PCy")
+        
+p_pca
+```
+
+The classic horseshoe pattern is obtained that we often see for PCA on global populations ... then different regions and populations have high loadings in subsequent PCs i.e. PC3~Ocenica, PC4~Americas, etc. I now see the advantage of the bar plot for visualizing lower PVE factors. Its "OK" if we only focus on PC1 / PC2 but the bar plot has a massive advantage when trying to compare many factors.
 
 # ADMIXTURE
 
 Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. `FLASH` with 2,...,11 (be careful: there is no connection to the colors in the last plot):
 
-```{r admixture-ld-viz-loadings-9, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
-l_df = read.table("../output/admixture/hoa_global_ld/HumanOriginsPublic2068_maf_geno_auto_ldprune.K9r1.Q", sep=" ", header=F)
+```{r admixture-viz-loadings-9, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
+l_df = read.table("../output/admixture/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.K9r1.Q", sep=" ", header=F)
 K = ncol(l_df)
 l_df = cbind(l_df, meta_df)
 pops = unique(l_df$Simple.Population.ID) # all unique pop labels
@@ -552,7 +640,7 @@ There is a lot that one can compare between the ADMIXTURE and FLASH results. A h
 
 Lets take a closer look at the drift factors to see if they are clustering in particular regions of the genome. As a first pass I take the top 5% of SNPs weighted on each drift event (to be clear I ignore the sign of each SNP). I would like to use the lfsr here but I will return to later. I then made a Manhatten plot for each chromosome and factor:
 
-```{r flash-ld-factors-chrom-viz, fig.width=8.5, fig.height=8}
+```{r flash-factors-chrom-viz, fig.width=8.5, fig.height=8}
 manh_df = delta_lfsr_df %>% 
           group_by(chrom) %>% 
           summarise(chr_len=max(pos)) %>% 
@@ -641,4 +729,4 @@ d = anno_df %>%
 kable(d)
 ```
 
-We can see many of these top outliers are in genes (but we have to consider the array design to know if this is unusual). Its cool to see a couple very interesting genes pop up including HERC2 (eye color) and SLC45A2 (skin color) which have been previously studied for their selection signatures. Its also fun to look at some of the `rsids` on `https://popgen.uchicago.edu/ggv/` to get a sense of what kind of allele frequency distributions define each factor.
+We can see many of these top outliers are in genes (but we have to consider the array design to know if this is unusual). Its cool to see a couple very interesting genes pop up including HERC2 (eye color) and SLC45A2 (skin color), EDAR (hair), ADH4 (alcohol dehydrogenase), ADH1B (alcohol dehydrogenase), which have been previously studied for their selection signatures. Its also fun to look at some of the `rsids` on `https://popgen.uchicago.edu/ggv/` to get a sense of what kind of allele frequency distributions define each factor.
