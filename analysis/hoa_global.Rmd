@@ -465,6 +465,54 @@ p_lfsr
 
 Its very interesting to see that the lfsr seem very bi-model for the loadings for many of the drift events.
 
+# LFSR Tree
+
+Here I visualize the processed lfsr data that would go into constructing a tree from the loadings. I construct a binary matrix whose elements are 1 if the the fraction of individuals with lfsr < .05 for a given drift event is > 20% and 0 otherwise. In otherwords the matrix gives a sense if the drift event is present / absent in each population. I organize this matrix so that its sorted in a similar way to the above bar charts:
+
+```{r flash-lfsr-tree-viz, warning=FALSE, message=FALSE, fig.width=12, fig.height=10}
+# add meta data to lsfr
+l_lfsr_df = cbind(l_lfsr_df, meta_df)
+
+# gather the data.frame for plotting
+l_lfsr_gath_df = l_lfsr_df %>% 
+                 gather(K, value, 
+                        -ID,
+                        -Verbose.Population.ID, 
+                        -Simple.Population.ID, 
+                        -Region, -Country,
+                        -Latitude,
+                        -Longitude,
+                        -Samples,
+                        -Passed.QC,
+                        -Contributor) %>%
+                    filter(K!="1")
+
+# construct binary indicator df 
+lfsr_thresh = .05
+lfsr_pop_frac = .2
+b_df = l_lfsr_gath_df %>% 
+       group_by(Simple.Population.ID, K) %>% 
+       summarise(I=ifelse((sum(value <= lfsr_thresh) / n()) <= lfsr_pop_frac, 0, 1),
+                 Region = unique(Region), 
+                 Longitude=unique(Longitude), 
+                 Latitude=unique(Latitude)) 
+
+# plot the raw indicator matrix organized by region
+p = ggplot(b_df, aes(x=factor(K, paste0(2:21)), 
+                     y=reorder(Simple.Population.ID,
+                             desc(Latitude)), fill=factor(I))) + 
+    scale_fill_manual(values=c("white", "black")) + 
+    geom_tile() + 
+    facet_wrap(Region~., scales="free") + 
+    theme_bw() +
+    theme(axis.text.y=element_text(size=5), 
+          axis.text.x=element_text(size=8)) + 
+    xlab("K") +
+    ylab("Population") +
+    labs(fill="LFSR Indicator")
+p
+```
+
 # PCA
 
 Here are proportions of variances explained by each PC:
