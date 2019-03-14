@@ -67,25 +67,25 @@ with(hoa,plot.response.by.label(factor2,Simple.Population.ID,Region))
 
 ### Factor 3
 
-```{r plot-factor-3, fig.width=4.5, fig.height=4}
+```{r plot-factor-3, fig.width=4.5, fig.height=3.5}
 with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
 ```
 
 ### Factor 4
 
-```{r plot-factor-4, fig.width=4.5, fig.height=6}
+```{r plot-factor-4, fig.width=4.5, fig.height=7}
 with(hoa,plot.response.by.label(factor4,Simple.Population.ID,Region))
 ```
 
 ### Factor 5
 
-```{r plot-factor-5, fig.width=4.5, fig.height=6}
+```{r plot-factor-5, fig.width=4.5, fig.height=4}
 with(hoa,plot.response.by.label(factor5,Simple.Population.ID,Region))
 ```
 
 ### Factor 6
 
-```{r plot-factor-6, fig.width=4.5, fig.height=6}
+```{r plot-factor-6, fig.width=4.5, fig.height=3.5}
 with(hoa,plot.response.by.label(factor6,Simple.Population.ID,Region))
 ```
 
@@ -103,12 +103,12 @@ with(hoa,plot.response.by.label(factor8,Simple.Population.ID,Region))
 
 ### Factor 9
 
-```{r plot-factor-9, fig.width=4.5, fig.height=6}
+```{r plot-factor-9, fig.width=4.5, fig.height=5.5}
 with(hoa,plot.response.by.label(factor9,Simple.Population.ID,Region))
 ```
 
 ### Factor 10
 
-```{r plot-factor-10, fig.width=4.5, fig.height=6}
+```{r plot-factor-10, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor10,Simple.Population.ID,Region))
 ```
