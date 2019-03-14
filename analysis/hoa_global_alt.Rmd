@@ -186,7 +186,7 @@ with(hoa,plot.response.by.label(factor16,Simple.Population.ID,Region))
 
 Factor 17 captures the Biaka ancestral population.
 
-```{r plot-factor-17, fig.width=4.5, fig.height=3}
+```{r plot-factor-17, fig.width=4.5, fig.height=2.5}
 with(hoa,plot.response.by.label(factor17,Simple.Population.ID,Region))
 ```
 
@@ -194,7 +194,7 @@ with(hoa,plot.response.by.label(factor17,Simple.Population.ID,Region))
 
 Factor 18 picks out people with Karitianan origins.
 
-```{r plot-factor-18, fig.width=4.5, fig.height=3}
+```{r plot-factor-18, fig.width=4.5, fig.height=2.5}
 with(hoa,plot.response.by.label(factor18,Simple.Population.ID,Region))
 ```
 
