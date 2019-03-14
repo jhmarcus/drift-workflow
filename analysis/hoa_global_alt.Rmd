@@ -8,8 +8,7 @@ Following from [the initial analysis](hoa_global.html), this analysis
 presents an alternative view of the factors.
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,
-                      results = "hold",fig.align = "center")
+knitr::opts_chunk$set(fig.align = "center")
 ```
 
 ## Analysis settings
@@ -68,16 +67,48 @@ with(hoa,plot.response.by.label(factor2,Simple.Population.ID,Region))
 
 ### Factor 3
 
+```{r plot-factor-3, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
+
 ### Factor 4
+
+```{r plot-factor-4, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
 
 ### Factor 5
 
+```{r plot-factor-5, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
+
 ### Factor 6
+
+```{r plot-factor-6, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
 
 ### Factor 7
 
+```{r plot-factor-7, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
+
 ### Factor 8
+
+```{r plot-factor-8, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
 
 ### Factor 9
 
+```{r plot-factor-9, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
+
 ### Factor 10
+
+```{r plot-factor-10, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor3,Simple.Population.ID,Region))
+```
