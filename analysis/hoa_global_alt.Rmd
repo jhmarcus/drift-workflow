@@ -9,12 +9,30 @@ presents an alternative view of the factor loadings.
 
 ## Analysis settings
 
+This is the file with a large data frame containing the factor
+loadings and other sample information.
+
+```{r set-input-file-names}
+loadings.file <- file.path("..","sandbox","loadings-forpeter-03-12-2019.rds")
+```
+
 ## Set up environment
+
+Load several R packages and function definitions used in the code
+chunks below.
 
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(cowplot)
-source(file.path("..","code","hoa_global_alt_functions."))
+source(file.path("..","code","hoa_global_alt_functions.R"))
+```
+
+## Load results
+
+Load the data frame containing the factor loadings and population labels.
+
+```{r load-results}
+dat <- load.results(loadings.file)
 ```
 
 ## Factors 2--21
