@@ -5,6 +5,7 @@
 # other information about the samples.
 load.results <- function (filename = "loadings-forpeter-03-12-2019.rds") {
   out <- readRDS(filename)$df
+  levels(out$Simple.Population.ID)[62] <- "Ignore_Adygei"
   rownames(out) <- out$ID
   names(out)[1:21] <- paste0("factor",1:21)
   return(out[c(23:26,1:21)])
