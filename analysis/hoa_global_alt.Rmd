@@ -178,7 +178,7 @@ with(hoa,plot.response.by.label(factor15,Simple.Population.ID,Region))
 
 Factor 16 captures individuals of Surui origin.
 
-```{r plot-factor-16, fig.width=4.5, fig.height=3}
+```{r plot-factor-16, fig.width=4.5, fig.height=2}
 with(hoa,plot.response.by.label(factor16,Simple.Population.ID,Region))
 ```
 
@@ -186,23 +186,30 @@ with(hoa,plot.response.by.label(factor16,Simple.Population.ID,Region))
 
 Factor 17 captures the Biaka ancestral population.
 
-```{r plot-factor-17, fig.width=4.5, fig.height=4}
+```{r plot-factor-17, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor17,Simple.Population.ID,Region))
 ```
 
 ### Factor 18
 
-```{r plot-factor-18, fig.width=4.5, fig.height=3.5}
+Factor 18 picks out people with Karitianan origins.
+
+```{r plot-factor-18, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor18,Simple.Population.ID,Region))
 ```
 
 ### Factor 19
 
-```{r plot-factor-19, fig.width=4.5, fig.height=3}
+Factor 19 captures the Pima ancestral population.
+
+```{r plot-factor-19, fig.width=4.5, fig.height=2}
 with(hoa,plot.response.by.label(factor19,Simple.Population.ID,Region))
 ```
 
 ### Factor 20
+
+Factor 20 captures a small subset of central Asian populations,
+including Itelmen and Koryak.
 
 ```{r plot-factor-20, fig.width=4.5, fig.height=7}
 with(hoa,plot.response.by.label(factor20,Simple.Population.ID,Region))
@@ -210,6 +217,8 @@ with(hoa,plot.response.by.label(factor20,Simple.Population.ID,Region))
 
 ### Factor 21
 
-```{r plot-factor-21, fig.width=4.5, fig.height=3}
+Factor 21 picks out the Mbuti.
+
+```{r plot-factor-21, fig.width=4.5, fig.height=2}
 with(hoa,plot.response.by.label(factor21,Simple.Population.ID,Region))
 ```
