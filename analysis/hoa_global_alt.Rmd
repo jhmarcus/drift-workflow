@@ -4,8 +4,8 @@ author: "Peter Carbonetto"
 output: workflowr::wflow_html
 ---
 
-Following from [this analysis](hoa_global.html), this analysis
-presents an alternative view of the factor loadings.
+Following from [the initial analysis](hoa_global.html), this analysis
+presents an alternative view of the factors.
 
 ## Analysis settings
 
@@ -23,6 +23,7 @@ chunks below.
 
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 library(ggplot2)
+library(ggstance)
 library(cowplot)
 source(file.path("..","code","hoa_global_alt_functions.R"))
 ```
@@ -32,10 +33,18 @@ source(file.path("..","code","hoa_global_alt_functions.R"))
 Load the data frame containing the factor loadings and population labels.
 
 ```{r load-results}
-dat <- load.results(loadings.file)
+hoa <- load.results(loadings.file)
+```
+
+This data frame should contain information on 2,018 genotype samples:
+
+```{r inspect-results-data-frame}
+nrow(hoa)
 ```
 
 ## Factors 2--21
+
+*Add text here.*
 
 ### Factor 2
 

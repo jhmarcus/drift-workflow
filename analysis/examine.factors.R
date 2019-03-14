@@ -1,22 +1,6 @@
 library(ggplot2)
 library(cowplot)
 
-# Load the factor analysis (FLASH) results.
-out <- readRDS("loadings-forpeter-03-12-2019.rds")
-dat <- out$df
-pve <- out$pve
-rownames(dat) <- dat$ID
-names(dat)[1:21] <- paste0("factor",1:21)
-dat <- dat[c(23:31,1:21)]
-rm(out)
-
-# Load the plink --het output. (Not actually used here.)
-het <- read.table("HumanOriginsPublic2068_auto_maf05_geno005_mind02.het",
-                  sep = " ",header = TRUE,stringsAsFactors = FALSE,
-                  check.names = FALSE)
-rows <- match(rownames(dat),het$IID)
-dat  <- cbind(dat,het[rows,3:6])
-
 for (i in 2:21) {
 
   # Sort the populations by mean loading, and split evenly into two
