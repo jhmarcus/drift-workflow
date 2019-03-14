@@ -134,17 +134,25 @@ with(hoa,plot.response.by.label(factor10,Simple.Population.ID,Region))
 
 ### Factor 11
 
+Factor 11 is capturing some subset of Saharan and Middle Eastern
+populations.
+
 ```{r plot-factor-11, fig.width=4.5, fig.height=6}
 with(hoa,plot.response.by.label(factor11,Simple.Population.ID,Region))
 ```
 
 ### Factor 12
 
-```{r plot-factor-12, fig.width=4.5, fig.height=6}
+Factor 12 seems to distinguish European populations.
+
+```{r plot-factor-12, fig.width=4.5, fig.height=8}
 with(hoa,plot.response.by.label(factor12,Simple.Population.ID,Region))
 ```
 
 ### Factor 13
+
+Interpreting Factor 13 requires some better understanding of the
+Nganasan, Dolgan and other groups.
 
 ```{r plot-factor-13, fig.width=4.5, fig.height=6}
 with(hoa,plot.response.by.label(factor13,Simple.Population.ID,Region))
@@ -152,11 +160,15 @@ with(hoa,plot.response.by.label(factor13,Simple.Population.ID,Region))
 
 ### Factor 14
 
+Factor 14 is difficult to interpret.
+
 ```{r plot-factor-14, fig.width=4.5, fig.height=6}
 with(hoa,plot.response.by.label(factor14,Simple.Population.ID,Region))
 ```
 
 ### Factor 15
+
+Factor 15 is also difficult to interpret.
 
 ```{r plot-factor-15, fig.width=4.5, fig.height=6}
 with(hoa,plot.response.by.label(factor15,Simple.Population.ID,Region))
@@ -164,36 +176,40 @@ with(hoa,plot.response.by.label(factor15,Simple.Population.ID,Region))
 
 ### Factor 16
 
-```{r plot-factor-16, fig.width=4.5, fig.height=6}
+Factor 16 captures individuals of Surui origin.
+
+```{r plot-factor-16, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor16,Simple.Population.ID,Region))
 ```
 
 ### Factor 17
 
-```{r plot-factor-17, fig.width=4.5, fig.height=6}
+Factor 17 captures the Biaka ancestral population.
+
+```{r plot-factor-17, fig.width=4.5, fig.height=4}
 with(hoa,plot.response.by.label(factor17,Simple.Population.ID,Region))
 ```
 
 ### Factor 18
 
-```{r plot-factor-18, fig.width=4.5, fig.height=6}
+```{r plot-factor-18, fig.width=4.5, fig.height=3.5}
 with(hoa,plot.response.by.label(factor18,Simple.Population.ID,Region))
 ```
 
 ### Factor 19
 
-```{r plot-factor-19, fig.width=4.5, fig.height=6}
+```{r plot-factor-19, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor19,Simple.Population.ID,Region))
 ```
 
 ### Factor 20
 
-```{r plot-factor-20, fig.width=4.5, fig.height=6}
+```{r plot-factor-20, fig.width=4.5, fig.height=7}
 with(hoa,plot.response.by.label(factor20,Simple.Population.ID,Region))
 ```
 
 ### Factor 21
 
-```{r plot-factor-21, fig.width=4.5, fig.height=6}
+```{r plot-factor-21, fig.width=4.5, fig.height=3}
 with(hoa,plot.response.by.label(factor21,Simple.Population.ID,Region))
 ```
