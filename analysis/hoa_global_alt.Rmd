@@ -1,0 +1,14 @@
+---
+title: "Alternative view of Human Origins factors"
+author: "Peter Carbonetto"
+output: workflowr::wflow_html
+---
+
+Following from [this analysis](hoa_global.html), this analysis
+presents an alternative view of the factor loadings.
+
+Analysis settings
+-----------------
+
+Set up environment
+------------------
