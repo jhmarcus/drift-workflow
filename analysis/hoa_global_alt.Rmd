@@ -7,6 +7,11 @@ output: workflowr::wflow_html
 Following from [the initial analysis](hoa_global.html), this analysis
 presents an alternative view of the factors.
 
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,
+                      results = "hold",fig.align = "center")
+```
+
 ## Analysis settings
 
 This is the file with a large data frame containing the factor
@@ -44,9 +49,22 @@ nrow(hoa)
 
 ## Factors 2--21
 
-*Add text here.*
+The following plots are intended to help interpret the factors by
+relating them to the provided population labels.
 
 ### Factor 2
+
+This plot shows the median loading by assigned population label, with
+error bars capturing the 5th and 95th percentiles. Colours represent
+broad geographic groups. Populations in which the largest loading is
+less than 0.01 are not shown.
+
+The second factor appears to capture east Asian, Oceanian and American
+populations, among others.
+
+```{r plot-factor-2, fig.width=4.5, fig.height=6}
+with(hoa,plot.response.by.label(factor2,Simple.Population.ID,Region))
+```
 
 ### Factor 3
 

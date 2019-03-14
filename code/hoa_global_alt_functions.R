@@ -43,6 +43,7 @@ plot.response.by.label <- function (x, label, group, threshold = 0.01) {
          theme_cowplot(font_size = 11) +
          theme(axis.ticks  = element_blank(),
                axis.line   = element_blank(),
-               axis.text.y = element_text(size = 8)))
+               axis.text.y = element_text(size = 8)) +
+         labs(x = "",y = ""))
 }
 
