@@ -24,4 +24,6 @@ These vignettes describe data preparation steps:
 
 These vignettes describe results on simulated / empirical data:
 
-* [Human Origins Array Global](hoa_global.html) 
+* [Human Origins Array Global](hoa_global.html)
+
+* [Alternative view of Human Origins factors](hoa_global_alt.html)
