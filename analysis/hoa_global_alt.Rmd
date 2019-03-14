@@ -7,8 +7,32 @@ output: workflowr::wflow_html
 Following from [this analysis](hoa_global.html), this analysis
 presents an alternative view of the factor loadings.
 
-Analysis settings
------------------
+## Analysis settings
 
-Set up environment
-------------------
+## Set up environment
+
+```{r load-pkgs, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(cowplot)
+source(file.path("..","code","hoa_global_alt_functions."))
+```
+
+## Factors 2--21
+
+### Factor 2
+
+### Factor 3
+
+### Factor 4
+
+### Factor 5
+
+### Factor 6
+
+### Factor 7
+
+### Factor 8
+
+### Factor 9
+
+### Factor 10
