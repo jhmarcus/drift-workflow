@@ -6,27 +6,27 @@ import pandas as pd
 import math
 import msprime
 
-ooa_sim_plink = ["data/datasets/ooa_sim/ooa_sim_maf_ldprune.bed",
-                 "data/datasets/ooa_sim/ooa_sim_maf_ldprune.bim", 
-                 "data/datasets/ooa_sim/ooa_sim_maf_ldprune.fam"]
+ooa_sim_plink = ["data/datasets/ooa_sim/ooa_sim_maf.bed",
+                 "data/datasets/ooa_sim/ooa_sim_maf.bim", 
+                 "data/datasets/ooa_sim/ooa_sim_maf.fam"]
 
-tree_sim_plink = ["data/datasets/tree_sim/tree_sim_maf_ldprune.bed",
-                  "data/datasets/tree_sim/tree_sim_maf_ldprune.bim", 
-                  "data/datasets/tree_sim/tree_sim_maf_ldprune.fam"]
+tree_sim_plink = ["data/datasets/tree_sim/tree_sim_maf.bed",
+                  "data/datasets/tree_sim/tree_sim_maf.bim", 
+                  "data/datasets/tree_sim/tree_sim_maf.fam"]
 
-tree_longbranch_sim_plink = ["data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.bed",
-                             "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.bim", 
-                             "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.fam"]
+tree_longbranch_sim_plink = ["data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf.bed",
+                             "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf.bim", 
+                             "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf.fam"]
 
-migration_sim_plink = ["data/datasets/migration_sim/migration_sim_maf_ldprune.bed",
-                       "data/datasets/migration_sim/migration_sim_maf_ldprune.bim", 
-                       "data/datasets/migration_sim/migration_sim_maf_ldprune.fam"]
+migration_sim_plink = ["data/datasets/migration_sim/migration_sim_maf.bed",
+                       "data/datasets/migration_sim/migration_sim_maf.bim", 
+                       "data/datasets/migration_sim/migration_sim_maf.fam"]
 
 rule coalsim_all:
     """Runs all coalescent simulations
     """
     input:
-        ooa_sim_plink,
+#        ooa_sim_plink,
         tree_sim_plink,
         tree_longbranch_sim_plink,
         migration_sim_plink
@@ -146,138 +146,77 @@ rule run_ooa_sim:
         shell("rm {params.path}/*.log {params.path}/*.nosex")
 
 
-rule run_tree_sim:
-    """Run simple tree simulation from Pickrell et al. 2012 with short branch lengths
+rule run_ms_sim:
+    """Runs ms coalescent simulation commandline using scrm
+    and outputs filtered plink files which can be used for downstream
+    matrix decomp
     """
     input:
     params:
-        path = "data/datasets/tree_sim",
-        vcfgz = "data/datasets/tree_sim/tree_sim.vcf.gz",
-        prune = "data/datasets/tree_sim/tree_sim_maf.prune.in",
-        bed_prefix_0 = "data/datasets/tree_sim/tree_sim_maf",
-        bed_prefix_1 = "data/datasets/tree_sim/tree_sim_maf_ldprune",
+        scenario = "{scenario}",
+        path = "data/datasets/{scenario}_sim",
+        vcfgz = "data/datasets/{scenario}_sim/{scenario}_sim.vcf.gz",
+        bed_prefix = "data/datasets/{scenario}_sim/{scenario}_sim_maf",
     output:
-        bed = "data/datasets/tree_sim/tree_sim_maf_ldprune.bed",
-        bim = "data/datasets/tree_sim/tree_sim_maf_ldprune.bim",
-        fam = "data/datasets/tree_sim/tree_sim_maf_ldprune.fam"
+        bed = "data/datasets/{scenario}_sim/{scenario}_sim_maf.bed",
+        bim = "data/datasets/{scenario}_sim/{scenario}_sim_maf.bim",
+        fam = "data/datasets/{scenario}_sim/{scenario}_sim_maf.fam"
     run:
         # Modified from Pickrell et al. 2012
-        shell("scrm 400 22 -t 200 -r 200 500000 " \ 
-              "-I 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 " \
-              "-en 0.135 20 0.025 -ej 0.1375 20 19 -en 0.2725 19 0.025 " \ 
-              "-ej 0.275 19 18 -en 0.41 18 0.025 -ej 0.4125 18 17 -en 0.5475 17 0.025 " \
-              "-ej 0.55 17 16 -en 0.685 16 0.025 -ej 0.6875 16 15 -en 0.8225 15 0.025 " \
-              "-ej 0.825 15 14 -en 0.96 14 0.025 -ej 0.9625 14 13 -en 1.0975 13 0.025 " \
-              "-ej 1.1 13 12 -en 1.235 12 0.025 -ej 1.2375 12 11 -en 1.3725 11 0.025 " \
-              "-ej 1.375 11 10 -en 1.51 10 0.025 -ej 1.5125 10 9 -en 1.6475 9 0.025 " \
-              "-ej 1.65 9 8 -en 1.785 8 0.025 -ej 1.7875 8 7 -en 1.9225 7 0.025 " \
-              "-ej 1.925 7 6 -en 2.06 6 0.025 -ej 2.0625 6 5 -en 2.1975 5 0.025 " \
-              "-ej 2.2 5 4 -en 2.335 4 0.025 -ej 2.3375 4 3 -en 2.4725 3 0.025 " \
-              "-ej 2.475 3 2 -en 2.61 2 0.025 -ej 2.6125 2 1 " \ 
-              "--transpose-segsites --SC abs -p 14 | " \ 
-              "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
-              )
+        if params.scenario == "tree":
+            shell("scrm 400 400 -t 200 -r 200 500000 " \ 
+                  "-I 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 " \
+                  "-en 0.135 20 0.025 -ej 0.1375 20 19 -en 0.2725 19 0.025 " \ 
+                  "-ej 0.275 19 18 -en 0.41 18 0.025 -ej 0.4125 18 17 -en 0.5475 17 0.025 " \
+                  "-ej 0.55 17 16 -en 0.685 16 0.025 -ej 0.6875 16 15 -en 0.8225 15 0.025 " \
+                  "-ej 0.825 15 14 -en 0.96 14 0.025 -ej 0.9625 14 13 -en 1.0975 13 0.025 " \
+                  "-ej 1.1 13 12 -en 1.235 12 0.025 -ej 1.2375 12 11 -en 1.3725 11 0.025 " \
+                  "-ej 1.375 11 10 -en 1.51 10 0.025 -ej 1.5125 10 9 -en 1.6475 9 0.025 " \
+                  "-ej 1.65 9 8 -en 1.785 8 0.025 -ej 1.7875 8 7 -en 1.9225 7 0.025 " \
+                  "-ej 1.925 7 6 -en 2.06 6 0.025 -ej 2.0625 6 5 -en 2.1975 5 0.025 " \
+                  "-ej 2.2 5 4 -en 2.335 4 0.025 -ej 2.3375 4 3 -en 2.4725 3 0.025 " \
+                  "-ej 2.475 3 2 -en 2.61 2 0.025 -ej 2.6125 2 1 " \ 
+                  "--transpose-segsites --SC abs -p 14 | " \ 
+                  "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
+                 )
+        elif params.scenario == "tree_longbranch":
+            shell("scrm 400 400 -t 200 -r 200 500000 -I 20 20 20 20 20 20 20 20 20 20 " \
+                  "20 20 20 20 20 20 20 20 20 20 20 -en 0.135 20 0.025 -ej 0.1375 " \
+                  "20 19 -en 0.2725 19 0.025 -ej 0.275 19 18 -en 0.41 18 0.025 -ej " \
+                  "0.4125 18 17 -en 0.5475 17 0.025 -ej 0.55 17 16 -en 0.685 16 " \
+                  "0.025 -ej 0.6875 16 15 -en 0.8225 15 0.025 -ej 0.825 15 14 -en " \
+                  "0.96 14 0.025 -ej 0.9625 14 13 -en 1.0975 13 0.025 -ej 1.1 13 12 " \
+                  "-en 1.235 12 0.025 -ej 1.2375 12 11 -en 1.3725 11 0.025 -ej " \
+                  "1.375 11 10 -en 1.51 10 0.025 -ej 1.5125 10 9 -en 1.6475 9 0.025 " \
+                  "-ej 1.65 9 8 -en 1.785 8 0.025 -ej 1.7875 8 7 -en 1.9225 7 0.025 " \
+                  "-ej 1.925 7 6 -en 2.06 6 0.025 -ej 2.0625 6 5 -en 2.1975 5 0.025 " \
+                  "-ej 2.2 5 4 -en 2.335 4 0.025 -ej 2.3375 4 3 -en 2.4725 3 0.025 " \
+                  "-ej 2.475 3 2 -en 2.61 2 0.025 -ej 2.6125 2 1 " \ 
+                  "--transpose-segsites --SC abs -p 14 | " \ 
+                  "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
+                 )
+        elif params.scenario == "migration":
+            shell("scrm 400 400 -t 200 -r 200 500000 -I 20 20 20 20 20 20 20 20 20 20 " \
+                  "20 20 20 20 20 20 20 20 20 20 20 -em 0.002675 10 1 4000 -en " \
+                  "0.00270 20 0.025 -em 0.00270 10 1 0 -ej 0.00275 20 19 -en " \
+                  "0.00545 19 0.025 -ej 0.00550 19 18 -en 0.00820 18 0.025 -ej " \
+                  "0.00825 18 17 -en 0.01095 17 0.025 -ej 0.011 17 16 -en 0.01370 " \
+                  "16 0.025 -ej 0.01375 16 15 -en 0.01645 15 0.025 -ej 0.01650 15 " \
+                  "14 -en 0.01920 14 0.025 -ej 0.01925 14 13 -en 0.02195 13 0.025 " \
+                  "-ej 0.02200 13 12 -en 0.02470 12 0.025 -ej 0.02475 12 11 -en " \
+                  "0.02745 11 0.025 -ej 0.02750 11 10 -en 0.03020 10 0.025 -ej " \
+                  "0.03025 10 9 -en 0.03295 9 0.025 -ej 0.03300 9 8 -en 0.03570 8 " \
+                  "0.025 -ej 0.03575 8 7 -en 0.03845 7 0.025 -ej 0.03850 7 6 -en " \
+                  "0.04120 6 0.025 -ej 0.04125 6 5 -en 0.04395 5 0.025 -ej 0.04400 " \
+                  "5 4 -en 0.04670 4 0.025 -ej 0.04675 4 3 -en 0.04945 3 0.025 -ej " \
+                  "0.04950 3 2 -en 0.05220 2 0.025 -ej 0.05225 2 1 " \
+                  "--transpose-segsites --SC abs -p 14 | " \ 
+                  "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
+                 )
 
         # filter on maf
-        shell("plink --vcf {params.vcfgz} --chr-set 95 --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
-
-        # ld prune snps
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --indep-pairwise 200 25 0.4 --out {params.bed_prefix_0}")
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --extract {params.prune} --make-bed --out {params.bed_prefix_1}")
+        shell("plink --vcf {params.vcfgz} --double-id --maf .05 --out {params.bed_prefix} --make-bed")
 
         # remove intermediate files
         shell("rm {params.vcfgz}")
-        shell("rm {params.bed_prefix_0}.*")
-        shell("rm {params.path}/*.log {params.path}/*.nosex")
-
-
-rule run_tree_longbranch_sim:
-    """Runs simple tree simulation from Pickrell et al. 2012 with long branch lengths
-    """
-    input:
-    params:
-        path = "data/datasets/tree_longbranch_sim",
-        vcfgz = "data/datasets/tree_longbranch_sim/tree_longbranch_sim.vcf.gz",
-        prune = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf.prune.in",
-        bed_prefix_0 = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf",
-        bed_prefix_1 = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune",
-    output:
-        bed = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.bed",
-        bim = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.bim",
-        fam = "data/datasets/tree_longbranch_sim/tree_longbranch_sim_maf_ldprune.fam"
-    run:
-        # Modified from Pickrell et al. 2012
-        shell("scrm 400 22 -t 200 -r 200 500000 -I 20 20 20 20 20 20 20 20 20 20 " \
-              "20 20 20 20 20 20 20 20 20 20 20 -en 0.135 20 0.025 -ej 0.1375 " \
-              "20 19 -en 0.2725 19 0.025 -ej 0.275 19 18 -en 0.41 18 0.025 -ej " \
-              "0.4125 18 17 -en 0.5475 17 0.025 -ej 0.55 17 16 -en 0.685 16 " \
-              "0.025 -ej 0.6875 16 15 -en 0.8225 15 0.025 -ej 0.825 15 14 -en " \
-              "0.96 14 0.025 -ej 0.9625 14 13 -en 1.0975 13 0.025 -ej 1.1 13 12 " \
-              "-en 1.235 12 0.025 -ej 1.2375 12 11 -en 1.3725 11 0.025 -ej " \
-              "1.375 11 10 -en 1.51 10 0.025 -ej 1.5125 10 9 -en 1.6475 9 0.025 " \
-              "-ej 1.65 9 8 -en 1.785 8 0.025 -ej 1.7875 8 7 -en 1.9225 7 0.025 " \
-              "-ej 1.925 7 6 -en 2.06 6 0.025 -ej 2.0625 6 5 -en 2.1975 5 0.025 " \
-              "-ej 2.2 5 4 -en 2.335 4 0.025 -ej 2.3375 4 3 -en 2.4725 3 0.025 " \
-              "-ej 2.475 3 2 -en 2.61 2 0.025 -ej 2.6125 2 1 " \ 
-              "--transpose-segsites --SC abs -p 14 | " \ 
-              "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
-             )
-
-        # filter on maf
-        shell("plink --vcf {params.vcfgz} --chr-set 95 --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
-
-        # ld prune snps
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --indep-pairwise 200 25 0.4 --out {params.bed_prefix_0}")
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --extract {params.prune} --make-bed --out {params.bed_prefix_1}")
-
-        # remove intermediate files
-        shell("rm {params.vcfgz}")
-        shell("rm {params.bed_prefix_0}.*")
-        shell("rm {params.path}/*.log {params.path}/*.nosex")
-
-
-rule run_migration_sim:
-    """Runs simple admixture graph simulation from Pickrell et al. 2012
-    """
-    input:
-    params:
-        path = "data/datasets/migration_sim",
-        vcfgz = "data/datasets/migration_sim/migration_sim.vcf.gz",
-        prune = "data/datasets/migration_sim/migration_sim_maf.prune.in",
-        bed_prefix_0 = "data/datasets/migration_sim/migration_sim_maf",
-        bed_prefix_1 = "data/datasets/migration_sim/migration_sim_maf_ldprune",
-    output:
-        bed = "data/datasets/migration_sim/migration_sim_maf_ldprune.bed",
-        bim = "data/datasets/migration_sim/migration_sim_maf_ldprune.bim",
-        fam = "data/datasets/migration_sim/migration_sim_maf_ldprune.fam"
-    run:
-        # Modified from Pickrell et al. 2012
-        shell("scrm 400 95 -t 200 -r 200 500000 -I 20 20 20 20 20 20 20 20 20 20 " \
-              "20 20 20 20 20 20 20 20 20 20 20 -em 0.002675 10 1 4000 -en " \
-              "0.00270 20 0.025 -em 0.00270 10 1 0 -ej 0.00275 20 19 -en " \
-              "0.00545 19 0.025 -ej 0.00550 19 18 -en 0.00820 18 0.025 -ej " \
-              "0.00825 18 17 -en 0.01095 17 0.025 -ej 0.011 17 16 -en 0.01370 " \
-              "16 0.025 -ej 0.01375 16 15 -en 0.01645 15 0.025 -ej 0.01650 15 " \
-              "14 -en 0.01920 14 0.025 -ej 0.01925 14 13 -en 0.02195 13 0.025 " \
-              "-ej 0.02200 13 12 -en 0.02470 12 0.025 -ej 0.02475 12 11 -en " \
-              "0.02745 11 0.025 -ej 0.02750 11 10 -en 0.03020 10 0.025 -ej " \
-              "0.03025 10 9 -en 0.03295 9 0.025 -ej 0.03300 9 8 -en 0.03570 8 " \
-              "0.025 -ej 0.03575 8 7 -en 0.03845 7 0.025 -ej 0.03850 7 6 -en " \
-              "0.04120 6 0.025 -ej 0.04125 6 5 -en 0.04395 5 0.025 -ej 0.04400 " \
-              "5 4 -en 0.04670 4 0.025 -ej 0.04675 4 3 -en 0.04945 3 0.025 -ej " \
-              "0.04950 3 2 -en 0.05220 2 0.025 -ej 0.05225 2 1 " \
-              "--transpose-segsites --SC abs -p 14 | " \ 
-              "python code/scrm2vcf.py | bgzip -c > {params.vcfgz}"
-             )
-
-        # filter on maf
-        shell("plink --vcf {params.vcfgz} --chr-set 95 --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
-
-        # ld prune snps
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --indep-pairwise 200 25 0.4 --out {params.bed_prefix_0}")
-        shell("plink --bfile {params.bed_prefix_0} --chr-set 95 --extract {params.prune} --make-bed --out {params.bed_prefix_1}")
-
-        # remove intermediate files
-        shell("rm {params.vcfgz}")
-        shell("rm {params.bed_prefix_0}.*")
         shell("rm {params.path}/*.log {params.path}/*.nosex")
