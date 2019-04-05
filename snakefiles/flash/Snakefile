@@ -12,16 +12,22 @@ for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
     bed_lst = glob.glob("{}/*.bed".format(dataset_path))
     if len(bed_lst) > 0:
+
         bed_path = bed_lst[0]
         prefix = os.path.basename(bed_path).split(".")[0]
         rds_greedy.append("output/flash_greedy/{}/{}.rds".format(dataset, prefix))
+        
+        if dataset not in ["hoa_global", "ooa_sim"]: 
+            rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
+
 
 
 rule flash_all:
     """Runs all the flash rules
     """
     input:
-        rds_greedy
+        rds_greedy,
+        rds_backfit
 
 
 rule run_flash_greedy:
@@ -45,7 +51,7 @@ rule run_flash_greedy:
           
           # run greedy flash
           flash_fit = flashier::flashier(Y,
-                                         greedy.Kmax=20,
+                                         greedy.Kmax=40,
                                          ash.param=list(method='fdr'),
                                          prior.type=c('nonnegative', 'normal.mixture'),
                                          var.type=2,
@@ -56,3 +62,42 @@ rule run_flash_greedy:
           # save the rds
           saveRDS(flash_fit, '{output.rds}')
           """)
+
+
+rule run_flash_backfit:
+    """Runs non-negative flash using backfitting with a greedy flash fit
+    as intialization
+    """
+    input:
+        bed = "data/datasets/{dataset}/{prefix}.bed",
+        rds = "output/flash_greedy/{dataset}/{prefix}.rds"
+    params:
+        bed = "data/datasets/{dataset}/{prefix}"
+    output:
+        rds = "output/flash_backfit/{dataset}/{prefix}.rds"
+    run:
+        R("""
+          Y = t(lfa:::read.bed('{params.bed}'))
+
+          # read greedy flash fit
+          greedy_flash_fit = readRDS('{input.rds}')
+
+          # number of individuals
+          n = nrow(Y)
+
+          # run greedy flash
+          flash_fit = flashier::flashier(Y,
+                                         prior.type=c('nonnegative', 'point.normal'),
+                                         var.type=0,
+                                         fix.dim=list(1),
+                                         fix.idx=list(1:n),
+                                         fix.vals=list(rep(1, n)),
+                                         flash.init=greedy_flash_fit,
+                                         backfit = 'only',
+                                         backfit.order = 'dropout',
+                                         backfit.reltol = 10)
+
+          # save the rds
+          saveRDS(flash_fit, '{output.rds}')
+          """)
+
