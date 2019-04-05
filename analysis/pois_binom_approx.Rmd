@@ -1,0 +1,62 @@
+---
+title: "Poisson Approximation to Binomial Genotypes"
+author: "jhmarcus"
+date: "2019-04-05"
+output: workflowr::wflow_html
+---
+
+I'm curious if I can use non-negative Poisson matrix factorization to visualize population structure. Particularly, I'm interested in the context of modeling rare variants i.e. instead of filtering all rare variants out of the dataset to run PCA we can filter out all common variants and perform Poisson matrix factorization to reveal recent population structure. This will become increasingly relevant as larger whole genome sequencing datasets come online. The second relevant point is when focusing on modeling rare variants the genotype matrix will be very sparse. One can use properties of the Poisson likelihood to fit a matrix factorization model taking advantage of the sparsity of the matrix. This provides massive advantages for memory and speed. 
+
+To assess the possibility of fitting such a model and what kind portion of the frequency spectrum would provide decent approximation accuracy, here I visualize the assumptions of a typical model for genotypes compared to an approximation. Letting $y$ be the genotype of a single SNP and individual:
+
+$$
+y \sim \text{Binomial}(2, p)
+$$
+We can approximate the Binomial distribution with the Poisson, which is typically appropriate when $n$ (the number of trials) is large and $p$ is small: 
+
+$$
+y \sim \text{Poisson}(2p)
+$$
+As a baseline lets also consider the Normal approximation to the Binomial distribution:
+
+$$
+y \sim \text{Normal}\Big(2p, 2p(1-p)\Big)
+$$
+Lets see how these densities look:
+
+```{r dens, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+ps = c(.001, .005, .01, .02, .03, .04, .05, .1, .15, .2, .3, .5)
+df = data.frame()
+for(p in ps){
+  x = seq(0, 2, .05)
+  row_df = data.frame(x=x, 
+                      p=rep(p, length(x)), 
+                      Poisson=dpois(x, lambda=2*p),
+                      Binomial=dbinom(x, size=2, prob=p),
+                      Normal=dnorm(x, mean=2*p, sd=sqrt(2*p*(1-p))))
+  df = bind_rows(df, row_df)
+  df = df %>% 
+       mutate(Poisson=ifelse(Poisson==0, NA, Poisson), 
+              Binomial=ifelse(Binomial==0, NA, Binomial))
+}
+
+gath_df = df %>% gather(variable, value, -p, -x)
+
+p_dens = ggplot(gath_df, aes(x=x, y=value, 
+                color=factor(variable, levels=c("Binomial", "Poisson", "Normal")),
+                shape=factor(variable, levels=c("Binomial", "Poisson", "Normal")))) + 
+         geom_point(alpha=.7) + 
+         facet_wrap(~p, scales="free") +
+         labs(color="Model") + 
+         guides(shape=FALSE) + 
+         theme_bw() + 
+         xlab("Genotype") + 
+         ylab("Density")
+p_dens
+```
+
+We can see the Poisson approximation to the "Hardy-Weinberg"" Binomial model for genotypes is an excellent approximation across the frequency spectrum up until relatively common variants but it actually looks pretty decent even for high frequencies, relative to the Normal approximation. Perhaps SNPs with minor allele frequency 15% or less is a reasonable cutoff to perform sparse Poisson matrix factorization.
