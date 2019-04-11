@@ -27,8 +27,8 @@ rule coalsim_all:
     """
     input:
 #        ooa_sim_plink,
-        tree_sim_plink,
-        tree_longbranch_sim_plink,
+#        tree_sim_plink,
+#        tree_longbranch_sim_plink,
         migration_sim_plink
 
 

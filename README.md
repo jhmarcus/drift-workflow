@@ -7,8 +7,10 @@ A workflow for visualizing population structure with Empirical Bayes factor anal
 ```
 conda create -n=drift_e python=3
 source activate drift_e
-conda install numpy pandas scipy snakemake rpy2 matplotlib cython
-pip install msprime hpfrec
+conda install numpy pandas scipy snakemake rpy2 matplotlib cython seaborn
+conda install -c bioconda cyvcf2 pysam
+conda install jupyter jupyterlab
+pip install msprime
 ```
 
 In `R` session:
