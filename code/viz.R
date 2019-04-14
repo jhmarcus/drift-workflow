@@ -1,5 +1,3 @@
-
-
 get_pops = function(meta_df, region){
     
   library(dplyr)
@@ -11,17 +9,24 @@ get_pops = function(meta_df, region){
          pull(Simple.Population.ID)
     
     return(pops)
+  
 }
 
 
-positive_structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Population.ID", label_size=5){
+structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Population.ID", label_size=5, fact_type){
   
   library(ggplot2)
   library(tidyr)
   library(dplyr)
   library(RColorBrewer)
     
-  p = ggplot(data=gath_df, aes(x=reorder(ID, desc(value)), y=value, fill=factor(K))) + 
+  if(fact_type=="structure"){
+    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, fill=factor(K)))
+  } else if(fact_type=="nonnegative"){
+    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, fill=factor(K)))
+  }
+  
+  p = p_init + 
       geom_bar(stat="identity", width=1) +  
       scale_fill_brewer(palette = colset) + 
       scale_y_continuous(expand=c(0, 0)) +
@@ -39,6 +44,81 @@ positive_structure_plot = function(gath_df, colset, facet_levels, facet_grp="Sim
       ylab("") + 
       xlab("") + 
       guides(fill=F)
+  
+  return(p)
+  
+}
+
+
+plot_pve = function(flash_fit){
+  
+  p = qplot(2:K, pves) + 
+      ylab("Proportion of Varaince Explained") + 
+      xlab("K") + 
+      theme_bw()
+  
+  return(p)
+  
+}
+
+
+plot_factors = function(snp_df, rel_size=.5){
+  
+  gath_snp_df = snp_df %>% 
+                gather(variable, value, -chrom, -pos, -rsid, -mu, -tau) %>%
+                filter(variable!="1")
+  
+  p = ggplot(gath_snp_df, aes(x=value)) +
+      geom_histogram() +
+      facet_wrap(factor(variable, levels=paste0(2:K))~., scales="free") +
+      scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
+      scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) + 
+      theme_bw() + 
+      xlab("Factor") + 
+      ylab("Count") + 
+      theme(axis.text.x=element_text(size=rel(rel_size)), 
+            axis.text.y=element_text(size=rel(rel_size))
+      )
+  
+  return(p)
+  
+}
+
+
+plot_variance = function(snp_df){
+  
+  p = qplot(1/snp_df$tau) + 
+      xlab("Estimated Variance") + 
+      ylab("Count") + 
+      theme_bw()
+  
+  return(p)
+  
+}
+
+
+plot_mean = function(snp_df){
+  
+  p = qplot(snp_df$mu) + 
+      xlab("Estimated Mean") + 
+      ylab("Count") + 
+      theme_bw()
+  
+  return(p)
+  
+}
+
+
+plot_mean_variance = function(snp_df){
+  
+  p = ggplot(snp_df, aes(x=mu, y=1/tau)) + 
+      geom_point() + 
+      xlab("Estimated Mean") + 
+      ylab("Estimated Variance") + 
+      scale_alpha(guide = "none") + 
+      stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
+      xlim(0, .5) + 
+      theme_bw()
   
   return(p)
   

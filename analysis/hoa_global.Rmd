@@ -21,6 +21,7 @@ library(RColorBrewer)
 library(biomaRt)
 library(knitr)
 source("../code/viz.R")
+source("../code/flash_prep.R")
 ```
 
 # FLASH-Greedy
@@ -52,29 +53,20 @@ Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy}
 # read the flash fit output by snakemake
-flash_fit = readRDS("../output/flash_greedy/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.rds")
+flash_fit = readRDS("../output/flash_greedy/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.rds")
 
-# read the snp meta data
-bim_df = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.bim", header=F)
-colnames(bim_df) = c("chrom", "rsid", "cm", "pos", "a1", "a2")
+snp_df = prepare_snp_data(flash_fit, "../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.bim")
 
 # drift event loadings lfsr
-l_lfsr_df = data.frame(flash_fit$lfsr[[1]])
-colnames(l_lfsr_df) = 1:21
+#l_lfsr_df = data.frame(flash_fit$lfsr[[1]])
+#colnames(l_lfsr_df) = 1:21
 
 # drift event lfsr
-delta_lfsr_df = data.frame(flash_fit$lfsr[[2]])
-colnames(delta_lfsr_df) = 1:21
-delta_lfsr_df$chrom = bim_df$chrom
-delta_lfsr_df$pos = bim_df$pos
-delta_lfsr_df$rsid = bim_df$rsid
-
-# drift events
-delta_df = as.data.frame(flash_fit$loadings$normalized.loadings[[2]])
-colnames(delta_df) = 1:21
-delta_df$chrom = bim_df$chrom
-delta_df$pos = bim_df$pos
-delta_df$rsid = bim_df$rsid
+#delta_lfsr_df = data.frame(flash_fit$lfsr[[2]])
+#colnames(delta_lfsr_df) = 1:21
+#delta_lfsr_df$chrom = bim_df$chrom
+#delta_lfsr_df$pos = bim_df$pos
+#delta_lfsr_df$rsid = bim_df$rsid
 
 # number of drift events
 K = ncol(flash_fit$loadings$normalized.loadings[[1]]) 
@@ -223,8 +215,12 @@ meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", heade
 
 # setup loadings data.frame
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+inds = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
+                  header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df = l_df %>% inner_join(meta_df, by="ID")
 K = ncol(l_df)
-l_df = cbind(l_df, meta_df)
+#l_df = cbind(l_df, meta_df)
 
 # all unique pop labels
 pops = unique(l_df$Simple.Population.ID) 
@@ -583,9 +579,12 @@ The classic horseshoe pattern is obtained that we often see for PCA on global po
 Lets visualize ADMIXTURE with 9 factors which should roughly align to the first plot i.e. `FLASH` with 2,...,11 (be careful: there is no connection to the colors in the last plot):
 
 ```{r admixture-viz-loadings-9, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
-l_df = read.table("../output/admixture/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005.K9r1.Q", sep=" ", header=F)
+l_df = read.table("../output/admixture/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.K9r1.Q", sep=" ", header=F)
 K = ncol(l_df)
-l_df = cbind(l_df, meta_df)
+inds = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
+                  header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df = l_df %>% inner_join(meta_df, by="ID")
 pops = unique(l_df$Simple.Population.ID) # all unique pop labels
 l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
 l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
@@ -599,78 +598,85 @@ l_gath_df = l_df %>%
 
 # Africa
 africa_pops = get_pops(meta_df, "Africa")
-p_africa = positive_structure_plot(gath_df=l_gath_df %>% 
+p_africa = structure_plot(gath_df=l_gath_df %>% 
                                    filter(Region == "Africa"), 
                                    colset="Set3",
                                    facet_levels=africa_pops,
                                    facet_grp="Simple.Population.ID", 
-                                   label_size=5) +
+                                   label_size=5, 
+                                   fact_type="structure") +
            ggtitle("Africa") + 
            theme(plot.title = element_text(size=6))
 
 # America
 america_pops = get_pops(meta_df, "America")
-p_america = positive_structure_plot(gath_df=l_gath_df %>% 
+p_america = structure_plot(gath_df=l_gath_df %>% 
                                     filter(Region == "America"), 
                                     colset="Set3",
                                     facet_levels=america_pops,
                                     facet_grp="Simple.Population.ID", 
-                                    label_size=5) + 
+                                    label_size=5,
+                                    fact_type="structure") + 
             ggtitle("America") + 
             theme(plot.title = element_text(size=6))
 
 # Central Asia Siberia
 central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
-p_central_asia_siberia = positive_structure_plot(gath_df=l_gath_df %>% 
+p_central_asia_siberia = structure_plot(gath_df=l_gath_df %>% 
                                                  filter(Region == "CentralAsiaSiberia"), 
                                                  colset="Set3",
                                                  facet_levels=central_asia_siberia_pops,  
                                                  facet_grp="Simple.Population.ID",
-                                                 label_size=5) + 
+                                                 label_size=5,
+                                                 fact_type="structure") + 
                          ggtitle("CentralAsiaSiberia") + 
                          theme(plot.title = element_text(size=6))
 
 # East Asia
 east_asia_pops = get_pops(meta_df, "EastAsia")
-p_east_asia = positive_structure_plot(gath_df=l_gath_df %>% 
+p_east_asia = structure_plot(gath_df=l_gath_df %>% 
                                       filter(Region == "EastAsia"), 
                                       colset="Set3",
                                       facet_levels=east_asia_pops,  
                                       facet_grp="Simple.Population.ID",
-                                      label_size=5) + 
+                                      label_size=5,
+                                      fact_type="structure") + 
               ggtitle("EastAsia") + 
               theme(plot.title = element_text(size=6))
 
 # South Asia
 south_asia_pops = get_pops(meta_df, "SouthAsia")
-p_south_asia= positive_structure_plot(gath_df=l_gath_df %>% 
+p_south_asia= structure_plot(gath_df=l_gath_df %>% 
                                       filter(Region == "SouthAsia"),
                                       colset="Set3",
                                       facet_levels=south_asia_pops, 
                                       facet_grp="Simple.Population.ID",
-                                      label_size=5) + 
+                                      label_size=5,
+                                      fact_type="structure") + 
               ggtitle("SouthAsia") + 
               theme(plot.title = element_text(size=6))
 
 # West Eurasia
 west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = positive_structure_plot(gath_df=l_gath_df %>% 
+p_west_eurasia = structure_plot(gath_df=l_gath_df %>% 
                                          filter(Region == "WestEurasia"), 
                                          colset="Set3",
                                          facet_levels=west_eurasia_pops, 
                                          facet_grp="Simple.Population.ID",
-                                         label_size=5) + 
+                                         label_size=5,
+                                         fact_type="structure") + 
                  ggtitle("WestEurasia") + 
                  theme(plot.title = element_text(size=6))
 
 # Oceania
 oceania_pops = get_pops(meta_df, "Oceania")
-p_oceania = positive_structure_plot(gath_df=l_gath_df %>% 
+p_oceania = structure_plot(gath_df=l_gath_df %>% 
                                     filter(Region == "Oceania"), 
                                     colset="Set3",
                                     facet_levels=oceania_pops, 
                                     facet_grp="Simple.Population.ID",
-                                    label_size=5) + 
+                                    label_size=5,
+                                    fact_type="structure") + 
             ggtitle("Oceania") + 
             theme(plot.title = element_text(size=6))
 
