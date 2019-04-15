@@ -1,0 +1,365 @@
+---
+title: "Simple Tree Simulations"
+author: "jhmarcus"
+date: "2019-04-14"
+output: workflowr::wflow_html
+---
+
+# Introduction
+
+Here I explore `FLASH` applied to simulations under a simple population tree, as described in Pickrell et al 2012. Specifically I use a multivariate normal approximation to allele frequencies under a fixed tree and generate genotype data given these allele frequencies. See Figure 1 from [Pickrell and Pritchard 2012](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967) that shows the parameterization of the tree:
+
+
+# Import
+
+Here I import the some required packages:
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(flashier)
+```
+
+# Functions
+
+Here are a couple functions to help with the simulations and plotting:
+
+```{r functions}
+#' @title Simple Graph Simulation
+#'
+#' @description Simulates genotypes under a simple population 
+#'              tree as described in Pickrell and Pritchard 2012:
+#'
+#'              https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967
+#'
+#' @param n_per_pop number of individuals per population
+#' @param p number of SNPs
+#' @param w admixture weight from population 2 --> 3
+#' @param c1 branch length 1
+#' @param c2 branch length 2
+#' @param c3 branch length 3
+#' @param c4 branch length 4
+#' @param c5 branch length 5
+#' @param c6 branch length 6
+#' @param c7 branch length 7
+#' @param mu_a mean allele frequency of the ancestral population
+#' @sigma_e std. deviation of the allele frequency 
+#'          in the ancestral population
+#'
+#' @return list of matrix genotypes and allele frequencies 
+#'         allele frequencies in the ancestral population
+#'
+simple_graph_simulation = function(n_per_pop=10, 
+                                   p=1000, 
+                                   w=0.0,
+                                   c1=.1, 
+                                   c2=.1, 
+                                   c3=.1,
+                                   c4=.1, 
+                                   c5=.05, 
+                                   c6=.1, 
+                                   c7=.05,
+                                   mu_a=.5, 
+                                   sigma_e=.05){
+  
+  # number of populations
+  n_pops = 4
+  
+  # simulate ancestral allele freqeuncy
+  p_a = mu_a + rnorm(p, 0, sigma_e)
+  
+  # ancestral variance
+  sigma_a = p_a * (1.0 - p_a)  
+  
+  # covariance matrix specified by the tree
+  V = matrix(NA, nrow=4, ncol=4)
+  V[1, 1] = c2 + c6
+  V[2, 1] = c2 
+  V[2, 2] = c2 + c5 + c7
+  V[3, 1] = w * c2
+  V[3, 2] = w * (c2 + c5)
+  V[3, 3] = (w^2 * (c2 + c5)) + ((1 - w)^2 * (c1 + c3))
+  V[4, 1] = 0.0
+  V[4, 2] = 0.0
+  V[4, 3] = (1.0 - w) * c1
+  V[4, 4] = c1 + c4
+  
+  # make symmetric 
+  V[upper.tri(V)] = V[lower.tri(V)]
+  
+  # simulate allele frequencies
+  P = matrix(NA, nrow=p, ncol=n_pops)
+  for(j in 1:p){
+    
+    # simulate from truncated multivariate normal
+    P[j, ] = tmvtnorm::rtmvnorm(1, rep(p_a[j], n_pops), sigma_a[j] * V,
+                                lower=rep(1e-4, n_pops), 
+                                upper=rep(1.0-1e-4, n_pops)
+                                )    
+  }
+  
+  
+  # simulate genotypes
+  Y = matrix(rbinom(n_per_pop * p, 2, P[,1]), nrow=p, ncol=n_per_pop)
+  for(i in 2:n_pops){
+    Y_i = matrix(rbinom(n_per_pop * p, 2, P[,i]), nrow=p, ncol=n_per_pop)
+    Y = cbind(Y, Y_i)
+  }
+ 
+  return(list(Y=t(Y), P=t(P), p_a=p_a))
+  
+}
+
+plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+  colnames(l_df) = paste0("K", 1:ncol(l_df))
+  l_df$iid = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+               rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+  gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+  p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+      geom_point() +
+      facet_wrap(K~., scale="free") +
+      theme_bw() 
+  
+  return(p)
+  
+}
+```
+
+# Tree Simulation
+
+Here I simulate under a tree model by setting the admixture weight $w=0.0$. I simulate 10 individuals per population and 10000 SNPs.
+
+```{r tree-simulation}
+set.seed(1990)
+
+# number of individuals per pop
+n_per_pop = 20
+
+# set w = 0.0 to just simulate from a tree
+sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
+
+# data matrix
+Y = sim$Y
+
+# centered data matrix
+Y_c = scale(Y, center=TRUE, scale=FALSE)
+
+# centered scaled data matrix
+Y_cs = scale(Y, center=TRUE, scale=TRUE)
+
+# number of individuals
+n = nrow(Y)
+
+# number of SNPs
+p = ncol(Y)
+
+# number of factors
+K = 20
+```
+
+## PCA
+
+Here I apply PCA to the centered and scaled genotype matrix:
+
+```{r tree-simulation-pca-scree}
+svd_fit = lfa:::trunc.svd(Y_cs, K)
+lamb = svd_fit$d^2
+p = qplot(1:K, lamb / sum(lamb)) +  
+    xlab("PC") +
+    ylab("PVE") + 
+    theme_bw()
+p
+```
+
+From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:
+
+```{r tree-simulation-pca-lodaings}
+l_df = data.frame(svd_fit$u[,1:3])
+colnames(l_df) = paste0("PC", 1:3)
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(PC, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(PC~., scale="free") +
+    theme_bw()
+p
+```
+
+It looks like PC1 represents the first split on the tree. PC2 and PC3 represent the subsequent splits.
+
+## FLASH (Drift)
+
+Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors:
+
+### Fix Loadings Greedy
+
+Here I fix the first loadings vector to the 1 vector and only run the greedy algorithm:
+
+```{r tree-simulation-flash-drift-fixloadings-greedy}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)))
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+Very cool ... K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 represent the leaves i.e. population specific factors.
+
+### Fix Loadings Final Backfit
+
+Here I fix the first loadings vector to the 1 vector, run the greedy algorithm to pick out $K$ from the data and then run a final backfit to clean up the greedy solution:
+
+```{r tree-simulation-flash-drift-fixloadings-finalbackfit}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit = "final",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+Hmm it seems like the final backfit removes the nice signal we had in the greedy run and it zeros out some of the factors.
+
+### Fix Loadings Alternating Backfit
+
+Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:
+
+```{r tree-simulation-flash-drift-fixloadings-alternatingbackfit}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit = "alternating",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+      
+Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.
+                             
+### Mean Center Greedy
+
+Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift):
+
+```{r tree-simulation-flash-drift-meancenter-greedy}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+Mean centering gives a similar solution to fixing the factors.
+
+### Mean Center Final Backfit
+
+Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift) with a final backfit:
+
+```{r tree-simulation-flash-drift-meancenter-finalbackfit}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0,                               
+                               backfit = "final",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+Now we only see the population specific factors.
+
+### Mean Center Alternating Backfit
+
+Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift) with alternating backfits:
+
+```{r tree-simulation-flash-drift-meancenter-alternatingbackfit}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "normal.mixture"), 
+                               var.type=0,                               
+                               backfit = "alternating",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+ 
+Again we see only population specific factors but not shared factors.
+
+## FLASH
+
+Here I run `FLASH` with no sign constraints on the loadings or factors:
+
+### Mean Center Greedy
+
+Here I mean center the data matrix before running greedy `FLASH`:
+
+```{r tree-simulation-flash-meancenter-greedybackfit}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("normal.mixture", "normal.mixture"), 
+                               var.type=0)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+Here we get a pretty nice solution similar to PCA but with a more interpretable sparsity pattern. K1 cleanly represents the first split in the tree and K2 and K3 cleanly represent the subsequent splits.
+
+### Mean Center Final Backfit
+
+Here I mean center the data matrix before running greedy `FLASH` with a final backfit:
+
+```{r tree-simulation-flash-meancenter-finalbackfit}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("normal.mixture", "normal.mixture"), 
+                               var.type=0,                               
+                               backfit = "final",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+This solution looks very similar to the greedy solution.
+
+### Mean Center Alternating Backfit
+
+Here I mean center the data matrix before running greedy `FLASH` with alternating backfits:
+
+```{r tree-simulation-flash-meancenter-alternatingbackfit}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("normal.mixture", "normal.mixture"), 
+                               var.type=0,                               
+                               backfit = "alternating",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+```
+
+This solution also looks very similar to the greedy / final back solutions.

@@ -27,3 +27,7 @@ These vignettes describe results on simulated / empirical data:
 * [Human Origins Array Global](hoa_global.html)
 
 * [Alternative view of Human Origins factors](hoa_global_alt.html)
+
+## Simulations
+
+* [Simple Tree Simulation](simple_tree_simulation.html)
