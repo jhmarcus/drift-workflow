@@ -1,0 +1,123 @@
+---
+title: "badmixture"
+author: "jhmarcus"
+date: "2019-04-16"
+output: workflowr::wflow_html
+---
+
+TODO: Introduction
+
+# Imports
+
+Lets import some needed packages:
+
+```{r imports, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(ggridges)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(biomaRt)
+library(knitr)
+source("../code/viz.R")
+source("../code/prep.R")
+```
+
+# FLASH-Greedy
+
+Lets first read the greedy `flashier` fit
+
+```{r flash-greedy}
+# read the flash fit output by snakemake
+flash_fit = readRDS("../output/flash_greedy/marginalisation_sim/Marginalisation_admix_geno_maf.rds")
+K = flash_fit$n.factors
+n = nrow(flash_fit$loadings$normalized.loadings[[1]])
+p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+
+snp_df = prepare_snp_data(flash_fit, "../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.bim")
+pves = flash_fit$pve[2:K]
+
+print(K)
+print(n)
+print(p)
+```
+
+# PVEs
+ 
+Here is a plot of the proportion of variance (PVE) explained by each drift event:
+
+```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
+plot_pve(flash_fit)
+```
+
+# Distribution of Factors
+
+```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
+plot_factors(snp_df, rel_size=.7) 
+```
+
+# Fitted Mean and Variance
+
+I setup the `flashier` run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:
+
+```{r flash-greedy-viz-var, warning=FALSE, message=FALSE}
+plot_variance(snp_df)
+```
+
+Lets now look the the fitted means:
+
+```{r flash-greedy-viz-mean, warning=FALSE, message=FALSE}
+p_m = plot_mean(snp_df)
+p_v = plot_variance(snp_df)
+p_mv = plot_mean_variance(snp_df)
+
+cowplot::plot_grid(p_m, p_v, p_mv, nrow = 2)
+```
+
+It looks like many of the SNPs are on the rarer side. We should see a quadratic relationship with the estimated variance:
+
+```{r flash-greedy-viz-mv, warning=FALSE, message=FALSE}
+plot_mean_variance(snp_df)
+```
+
+```{r flash-viz-loadings, warning=FALSE, message=FALSE}
+# setup loadings data.frame
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+colnames(l_df)[1:31] = 1:31
+ind_df = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", 
+                    sep=" ", 
+                    stringsAsFactors = F)
+colnames(ind_df) = c("iid", "clst", "a", "b", "c", "d")
+l_df = cbind(l_df, ind_df)
+pops = paste0("Pop", 1:13)
+
+factors = paste0(2:10)
+
+gath_df = l_df %>%
+          select_if(~sum(!is.na(.)) > 0) %>%
+          gather(K, value, -iid, -clst, -a, -b, -c, -d) %>%
+          filter(K %in% factors)
+          
+colourCount = length(unique(gath_df$K))
+getPalette = colorRampPalette(brewer.pal(9, "Set3"))
+p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=factors))) + 
+      geom_bar(stat="identity", width=1) +  
+      scale_fill_manual(values = getPalette(colourCount)) + 
+      scale_y_continuous(expand=c(0, 0)) +
+      scale_x_discrete(expand=c(0, 0)) +
+      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
+      theme_classic() +
+      theme(panel.spacing = unit(0.2, "lines"), 
+            strip.background = element_rect(colour="white", fill="white"),
+            strip.text.x = element_text(colour = "black", angle = 90, hjust = 1.1), 
+            strip.placement = "outside", 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            axis.text.x=element_blank(), 
+            axis.ticks.x=element_blank()) + 
+            ylab("") + 
+            xlab("") +
+            labs(fill="K") +
+            theme(legend.position="bottom")
+p
+```

@@ -440,7 +440,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-15
+<strong>Last updated:</strong> 2019-04-17
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -464,7 +464,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree9e510d94fd1dc88b5be6f4be3859a05b51ca6472targetblank9e510d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/9e510d94fd1dc88b5be6f4be3859a05b51ca6472" target="_blank">9e510d9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0a3374d13d31b6d57bf7d7b2eb473696c240d87ctargetblank0a3374da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/0a3374d13d31b6d57bf7d7b2eb473696c240d87c" target="_blank">0a3374d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree9e510d94fd1dc88b5be6f4be3859a05b51ca6472targetblank9e510d9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0a3374d13d31b6d57bf7d7b2eb473696c240d87ctargetblank0a3374da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,18 +534,20 @@ Ignored files:
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
     Ignored:    output.tar.gz
+    Ignored:    output/
 
 Untracked files:
-    Untracked:  analysis/simple_tree_simulation.Rmd
-    Untracked:  docs/figure/simple_tree_simulation.Rmd/
+    Untracked:  analysis/badmixture.Rmd
+    Untracked:  analysis/convex_nmf.Rmd
+    Untracked:  analysis/temp_debug.RDS
+    Untracked:  code/nmf.R
+    Untracked:  data/
+    Untracked:  docs/assets/
+    Untracked:  temp_debug.RDS
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Deleted:    data/README.md
-    Deleted:    data/meta/HumanOriginsPublic2068.meta
-    Deleted:    data/meta/sgdp_total_merged.meta
-    Deleted:    data/meta/write_meta_HumanOriginsPublic2068.R
-    Deleted:    output/README.md
+    Modified:   analysis/simple_tree_simulation.Rmd
+    Modified:   code/prep.R
 
 </code></pre>
 <p>
@@ -558,17 +560,77 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/analysis/simple_tree_simulation.Rmd" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+<td>
+added simple sim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/simple_tree_simulation.html" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+<td>
+added simple sim
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Here I explore <code>FLASH</code> applied to simulations under a simple population tree, as described in Pickrell et al 2012. Specifically I use a multivariate normal approximation to allele frequencies under a fixed tree and generate genotype data given these allele frequencies. Here is a figure from Pickrell and Pritchard 2012 that shows the parameterization of the tree:</p>
-<p><img src="treemix.png"></p>
+<p>Here I explore <code>FLASH</code> applied to simulations under a simple population tree, as described in Pickrell et al 2012. Specifically I use a multivariate normal approximation to allele frequencies under a fixed tree and generate genotype data given these allele frequencies. See Figure 1 from <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967">Pickrell and Pritchard 2012</a> that shows the parameterization of the tree:</p>
+<p><img src="../docs/assets/treemix.png" /></p>
 </div>
 <div id="import" class="section level1">
 <h1>Import</h1>
@@ -576,7 +638,10 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <pre class="r"><code>library(ggplot2)
 library(dplyr)
 library(tidyr)
-library(flashier)</code></pre>
+library(flashier)
+library(alstructure)
+source(&quot;../code/nmf.R&quot;)
+source(&quot;../code/viz.R&quot;)</code></pre>
 </div>
 <div id="functions" class="section level1">
 <h1>Functions</h1>
@@ -630,18 +695,15 @@ simple_graph_simulation = function(n_per_pop=10,
   # covariance matrix specified by the tree
   V = matrix(NA, nrow=4, ncol=4)
   V[1, 1] = c2 + c6
-  V[2, 1] = c2 
+  V[2, 1] = V[1, 2] = c2 
   V[2, 2] = c2 + c5 + c7
-  V[3, 1] = w * c2
-  V[3, 2] = w * (c2 + c5)
+  V[3, 1] = V[1, 3] =  w * c2
+  V[3, 2] = V[2, 3] = w * (c2 + c5)
   V[3, 3] = (w^2 * (c2 + c5)) + ((1 - w)^2 * (c1 + c3))
-  V[4, 1] = 0.0
-  V[4, 2] = 0.0
-  V[4, 3] = (1.0 - w) * c1
+  V[4, 1] = V[1, 4] = 0.0
+  V[4, 2] = V[2, 4] = 0.0
+  V[4, 3] = V[3, 4] = (1.0 - w) * c1
   V[4, 4] = c1 + c4
-  
-  # make symmetric 
-  V[upper.tri(V)] = V[lower.tri(V)]
   
   # simulate allele frequencies
   P = matrix(NA, nrow=p, ncol=n_pops)
@@ -685,14 +747,14 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 </div>
 <div id="tree-simulation" class="section level1">
 <h1>Tree Simulation</h1>
-<p>Here I simulate under a tree model by setting the admixture weight <span class="math inline">\(w=0.0\)</span>. I simulate 10 individuals per population and 10000 SNPs.</p>
+<p>Here I simulate under a tree model by setting the admixture weight <span class="math inline">\(w=0.0\)</span>. I simulate 10 individuals per population and 10,000 SNPs. I also made the branch lengths of the internal branches to be 5 times longer then the external branches.</p>
 <pre class="r"><code>set.seed(1990)
 
 # number of individuals per pop
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -722,6 +784,43 @@ p = qplot(1:K, lamb / sum(lamb)) +
     theme_bw()
 p</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-pca-scree-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-pca-scree-1">
+Past versions of tree-simulation-pca-scree-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-pca-scree-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-scree-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:</p>
 <pre class="r"><code>l_df = data.frame(svd_fit$u[,1:3])
 colnames(l_df) = paste0(&quot;PC&quot;, 1:3)
@@ -736,782 +835,206 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     theme_bw()
 p</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-pca-lodaings-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-pca-lodaings-1">
+Past versions of tree-simulation-pca-lodaings-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-pca-lodaings-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-lodaings-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>It looks like PC1 represents the first split on the tree. PC2 and PC3 represent the subsequent splits.</p>
+</div>
+<div id="psd-alstructure" class="section level2">
+<h2>PSD (alstructure)</h2>
+<p>Here I fit the Pritchard, Stephens, and Donnelly model using <code>alstructure</code> for K=2,…,6:</p>
+<pre class="r"><code>K = 6
+for(k in 2:K){
+  al_fit = alstructure(t(Y), d_hat = k)
+  Q = t(al_fit$Q_hat)
+  l_df = as.data.frame(Q)
+  colnames(l_df) = 1:k
+  l_df$ID = 1:n
+  l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+               rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+  gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop)
+  p = structure_plot(gath_l_df, 
+                     colset=&quot;Set3&quot;, 
+                     facet_grp=&quot;pop&quot;, 
+                     facet_levels=paste0(&quot;Pop&quot;, 1:4),
+                     fact_type=&quot;structure&quot;) +
+                     ggtitle(paste0(&quot;K=&quot;, k))
+  print(p)
+}</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It looks like for <span class="math inline">\(K=2\)</span> we see the deeper split in the tree, <span class="math inline">\(K=4\)</span> assigns population specific factors, and all the other K runs are less interpretable.</p>
 </div>
 <div id="flash-drift" class="section level2">
 <h2>FLASH (Drift)</h2>
-<p>Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors:</p>
+<p>Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors. I fixed the factors to come from a normal prior with mean 0 and variance 1:</p>
 <div id="fix-loadings-greedy" class="section level3">
 <h3>Fix Loadings Greedy</h3>
 <p>Here I fix the first loadings vector to the 1 vector and only run the greedy algorithm:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
-                               fix.vals=list(rep(1, n)))</code></pre>
+                               fix.vals=list(rep(1, n))) </code></pre>
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
-Adding factor 2 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 3 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
 Adding factor 4 to flash object...
-Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 6 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 7 to flash object...
-Adding factor 8 to flash object...
-Adding factor 9 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 7 factors...
-Factor 6 removed, increasing objective by 3.860e+02.
-Adding factor 9 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 7 factors...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-greedy-1">
+Past versions of tree-simulation-flash-drift-fixloadings-greedy-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-fixloadings-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -835440.7</code></pre>
 <p>Very cool … K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 represent the leaves i.e. population specific factors.</p>
 </div>
 <div id="fix-loadings-final-backfit" class="section level3">
 <h3>Fix Loadings Final Backfit</h3>
 <p>Here I fix the first loadings vector to the 1 vector, run the greedy algorithm to pick out <span class="math inline">\(K\)</span> from the data and then run a final backfit to clean up the greedy solution:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y, 
-                               greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
+                               flash.init = flash_fit,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
                                fix.vals=list(rep(1, n)),
-                               backfit = &quot;final&quot;,
-                               backfit.order = &quot;dropout&quot;,
-                               backfit.reltol = 10)</code></pre>
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
 <pre><code>Initializing flash object...
-Adding factor 1 to flash object...
-Adding factor 2 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 3 to flash object...
-Adding factor 4 to flash object...
-Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 6 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 7 to flash object...
 Adding factor 8 to flash object...
-Adding factor 9 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 8 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 7 factors...
-Factor 2 removed, increasing objective by 3.208e-04.
-Factor 3 removed, increasing objective by 2.884e-04.
-Adding factor 9 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 8 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 7 factors...
-Factor 6 removed, increasing objective by 4.651e-03.
-Adding factor 9 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 8 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 7 factors...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 7 factors...
+An update to factor 7 decreased the objective by 2.125e+00.
+Nullchecking 6 factors...
+Factor 4 removed, increasing objective by 9.223e-02.
+Factor 6 removed, increasing objective by 1.000e-01.
+Adding factor 8 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 7 factors...
+Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-finalbackfit-1">
+Past versions of tree-simulation-flash-drift-fixloadings-finalbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-fixloadings-finalbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -823427.8</code></pre>
 <p>Hmm it seems like the final backfit removes the nice signal we had in the greedy run and it zeros out some of the factors.</p>
 </div>
 <div id="fix-loadings-alternating-backfit" class="section level3">
@@ -1519,7 +1042,8 @@ Done.</code></pre>
 <p>Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
@@ -1529,286 +1053,59 @@ Done.</code></pre>
                                backfit.reltol = 10)</code></pre>
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
-Adding factor 2 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Backfitting 2 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 3 to flash object...
-Backfitting 3 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 4 to flash object...
-Backfitting 4 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
+Adding factor 2 to flash object...
+Backfitting 2 factors...
+Adding factor 3 to flash object...
+Backfitting 3 factors...
+Adding factor 4 to flash object...
+Backfitting 4 factors...
+An update to factor 4 decreased the objective by 2.541e+00.
+Adding factor 5 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-alternatingbackfit-1">
+Past versions of tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-fixloadings-alternatingbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -818422.4</code></pre>
 <p>Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.</p>
 </div>
 <div id="mean-center-greedy" class="section level3">
@@ -1816,820 +1113,204 @@ Done.</code></pre>
 <p>Here I don’t fix the first loadings vector and just mean center the data matrix before running greedy <code>FLASH</code> (Drift):</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
                                greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)</code></pre>
 <pre><code>Initializing flash object...
-Adding factor 1 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 2 to flash object...
-Adding factor 3 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 6 to flash object...
-Adding factor 7 to flash object...
-Adding factor 8 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 7 factors...
-Factor 3 removed, increasing objective by 4.883e+02.
-Adding factor 8 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 7 factors...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Mean centering gives a similar solution to fixing the factors.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-greedy-1">
+Past versions of tree-simulation-flash-drift-meancenter-greedy-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-meancenter-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Mean centering gives a similar solution to fixing the first factor.</p>
 </div>
 <div id="mean-center-final-backfit" class="section level3">
 <h3>Mean Center Final Backfit</h3>
 <p>Here I don’t fix the first loadings vector and just mean center the data matrix before running greedy <code>FLASH</code> (Drift) with a final backfit:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
-                               var.type=0,                               
-                               backfit = &quot;final&quot;,
-                               backfit.order = &quot;dropout&quot;,
-                               backfit.reltol = 10)</code></pre>
+                               flash.init = flash_fit,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
 <pre><code>Initializing flash object...
-Adding factor 1 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 2 to flash object...
-Adding factor 3 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 6 to flash object...
 Adding factor 7 to flash object...
-Adding factor 8 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 7 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 7 factors...
-Factor 2 removed, increasing objective by 1.556e-04.
-Factor 3 removed, increasing objective by 2.671e-03.
-Factor 7 removed, increasing objective by 7.662e-04.
-Adding factor 8 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 7 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 7 factors...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+An update to factor 5 decreased the objective by 5.046e+00.
+An update to factor 4 decreased the objective by 6.916e+00.
+Nullchecking 5 factors...
+Factor 3 removed, increasing objective by 9.369e-02.
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+An update to factor 4 decreased the objective by 6.958e+00.
+Nullchecking 5 factors...
+Factor 5 removed, increasing objective by 1.009e-01.
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 5 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Now we only see the population specific factors.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-finalbackfit-1">
+Past versions of tree-simulation-flash-drift-meancenter-finalbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-meancenter-finalbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We seem to be missing a few of the population specific factors?</p>
 </div>
 <div id="mean-center-alternating-backfit" class="section level3">
 <h3>Mean Center Alternating Backfit</h3>
 <p>Here I don’t fix the first loadings vector and just mean center the data matrix before running greedy <code>FLASH</code> (Drift) with alternating backfits:</p>
-<pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c(&quot;nonnegative&quot;, &quot;normal.mixture&quot;), 
-                               var.type=0,                               
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
                                backfit = &quot;alternating&quot;,
                                backfit.order = &quot;dropout&quot;,
                                backfit.reltol = 10)</code></pre>
 <pre><code>Initializing flash object...
-Adding factor 1 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 2 to flash object...
-Backfitting 2 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 3 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Backfitting 3 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Backfitting 4 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 5 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 4 factors...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Backfitting 2 factors...
+Adding factor 3 to flash object...
+Backfitting 3 factors...
+Adding factor 4 to flash object...
+Backfitting 4 factors...
+An update to factor 4 decreased the objective by 2.541e+00.
+Adding factor 5 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-alternatingbackfit-1">
+Past versions of tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-drift-meancenter-alternatingbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -818422.4</code></pre>
 <p>Again we see only population specific factors but not shared factors.</p>
 </div>
 </div>
@@ -2641,147 +1322,526 @@ Done.</code></pre>
 <p>Here I mean center the data matrix before running greedy <code>FLASH</code>:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
                                greedy.Kmax=K, 
-                               prior.type=c(&quot;normal.mixture&quot;, &quot;normal.mixture&quot;), 
+                               prior.type=c(&quot;normal.mixture&quot;, &quot;point.normal&quot;), 
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)</code></pre>
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
 Adding factor 3 to flash object...
-Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
+Adding factor 4 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-greedybackfit-1">
+Past versions of tree-simulation-flash-meancenter-greedybackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-meancenter-greedybackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here we get a pretty nice solution similar to PCA but with a more interpretable sparsity pattern. K1 cleanly represents the first split in the tree and K2 and K3 cleanly represent the subsequent splits.</p>
 </div>
 <div id="mean-center-final-backfit-1" class="section level3">
 <h3>Mean Center Final Backfit</h3>
 <p>Here I mean center the data matrix before running greedy <code>FLASH</code> with a final backfit:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c(&quot;normal.mixture&quot;, &quot;normal.mixture&quot;), 
+                               flash.init=flash_fit,
+                               prior.type=c(&quot;normal.mixture&quot;, &quot;point.normal&quot;), 
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,                               
                                backfit = &quot;final&quot;,
                                backfit.order = &quot;dropout&quot;,
                                backfit.reltol = 10)</code></pre>
 <pre><code>Initializing flash object...
-Adding factor 1 to flash object...
-Adding factor 2 to flash object...
-Adding factor 3 to flash object...
-Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 3 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Nullchecking 3 factors...
+Adding factor 4 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 3 factors...
+An update to factor 1 decreased the objective by 7.966e+00.
+Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-finalbackfit-1">
+Past versions of tree-simulation-flash-meancenter-finalbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-meancenter-finalbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This solution looks very similar to the greedy solution.</p>
 </div>
 <div id="mean-center-alternating-backfit-1" class="section level3">
 <h3>Mean Center Alternating Backfit</h3>
 <p>Here I mean center the data matrix before running greedy <code>FLASH</code> with alternating backfits:</p>
 <pre class="r"><code>flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c(&quot;normal.mixture&quot;, &quot;normal.mixture&quot;), 
-                               var.type=0,                               
+                               greedy.Kmax=K,
+                               prior.type=c(&quot;normal.mixture&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
                                backfit = &quot;alternating&quot;,
                                backfit.order = &quot;dropout&quot;,
                                backfit.reltol = 10)</code></pre>
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
-Backfitting 2 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 3 to flash object...
-Backfitting 3 factors...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Adding factor 4 to flash object...</code></pre>
-<pre><code>Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.
-
-Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-= control, : Optimization failed to converge. Results may be unreliable.
-Try increasing maxiter and rerunning.</code></pre>
-<pre><code>Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 2 factors...
+An update to factor 1 decreased the objective by 1.294e+00.
+Adding factor 3 to flash object...
+Backfitting 3 factors...
+An update to factor 1 decreased the objective by 7.966e+00.
+Adding factor 4 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
-This solution also looks very similar to the greedy / final back solutions. <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-alternatingbackfit-1">
+Past versions of tree-simulation-flash-meancenter-alternatingbackfit-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-flash-meancenter-alternatingbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" target="_blank">0a3374d</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This solution also looks very similar to the greedy / final back solutions.</p>
+</div>
+</div>
+<div id="convex-nmf" class="section level2">
+<h2>Convex-NMF</h2>
+<p>I implemented convex non-negative matrix factorization from <a href="https://people.eecs.berkeley.edu/~jordan/papers/ding-li-jordan-pami.pdf">Ding et al 2012</a> see <code>code/nmf.R</code>. I wanted to see if the greedy approach using another nmf algorithm would lead to a similar result to semi-negative <code>FLASH</code>:</p>
+<div id="greedy" class="section level3">
+<h3>Greedy</h3>
+<pre class="r"><code>Z = t(Y)
+K = 6
+Znew = Z
+L = matrix(NA, nrow=n, ncol=K)
+for(k in 1:K){
+  
+  print(paste0(&quot;Running K=&quot;, k))
+  res = convex_nmf(Znew, 1, init=&quot;kmeans&quot;, n_iter=5000, eps=1e-4, n_print=200)
+  G = res$G
+  F = res$F
+  L[,k] = G[,1]
+  Znew = Znew - res$Xhat
+  
+}</code></pre>
+<pre><code>[1] &quot;Running K=1&quot;
+[1] &quot;iteration=200 | delta_rss=0.000307712412904948&quot;
+[1] &quot;Running K=2&quot;
+[1] &quot;Running K=3&quot;
+[1] &quot;iteration=200 | delta_rss=0.00267128960695118&quot;
+[1] &quot;iteration=400 | delta_rss=0.000111632572952658&quot;
+[1] &quot;Running K=4&quot;
+[1] &quot;iteration=200 | delta_rss=0.0176454830216244&quot;
+[1] &quot;iteration=400 | delta_rss=0.00117226445581764&quot;
+[1] &quot;iteration=600 | delta_rss=0.000648038927465677&quot;
+[1] &quot;iteration=800 | delta_rss=0.000413901463616639&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000318053993396461&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000316710502374917&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000341458071488887&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000334837124682963&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000307496055029333&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000276727427262813&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000246031733695418&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000216541695408523&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000189068436156958&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000164072669576854&quot;
+[1] &quot;iteration=3000 | delta_rss=0.00014174246462062&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000122082477901131&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000104979786556214&quot;
+[1] &quot;Running K=5&quot;
+[1] &quot;iteration=200 | delta_rss=0.00040846667252481&quot;
+[1] &quot;Running K=6&quot;</code></pre>
+<pre class="r"><code>l_df = data.frame(L)
+colnames(l_df) = paste0(&quot;K&quot;, 1:K)
+l_df$iid = 1:n
+l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+             rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+
+gath_l_df = l_df %&gt;% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale=&quot;free&quot;) +
+    theme_bw()
+p</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The first factor looks like the mean then the following two look similar to greedy FLASH. The following 3 are less interpretable.</p>
+</div>
+<div id="greedy-remove-ancestral-mean" class="section level3">
+<h3>Greedy (remove ancestral mean)</h3>
+<pre class="r"><code>Z = t(Y) - (2*sim$p_a)
+K = 6
+Znew = Z
+L = matrix(NA, nrow=n, ncol=K)
+for(k in 1:K){
+  
+  print(paste0(&quot;Running K=&quot;, k))
+  res = convex_nmf(Znew, 1, init=&quot;kmeans&quot;, n_iter=5000, eps=1e-4, n_print=200)
+  G = res$G
+  F = res$F
+  L[,k] = G[,1]
+  Znew = Znew - res$Xhat
+  
+}</code></pre>
+<pre><code>[1] &quot;Running K=1&quot;
+[1] &quot;iteration=200 | delta_rss=0.038165882404428&quot;
+[1] &quot;Running K=2&quot;
+[1] &quot;Running K=3&quot;
+[1] &quot;iteration=200 | delta_rss=0.0193374897935428&quot;
+[1] &quot;iteration=400 | delta_rss=0.00135371158830822&quot;
+[1] &quot;iteration=600 | delta_rss=0.000302112894132733&quot;
+[1] &quot;Running K=4&quot;
+[1] &quot;iteration=200 | delta_rss=0.00983678991906345&quot;
+[1] &quot;iteration=400 | delta_rss=0.00161215773550794&quot;
+[1] &quot;iteration=600 | delta_rss=0.00111764576286077&quot;
+[1] &quot;iteration=800 | delta_rss=0.000982423196546733&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000902152387425303&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000837642524857074&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000780722009949386&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000729036459233612&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000681623059790581&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000637932971585542&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000597573525737971&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000560227606911212&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000525624142028391&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000493524828925729&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000463717442471534&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000436011527199298&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000410235545132309&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000386234081815928&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000363866449333727&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000343004532624036&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000323532032780349&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000305342546198517&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000288339098915458&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000272432982455939&quot;
+[1] &quot;iteration=5000 | delta_rss=0.000257542997132987&quot;
+[1] &quot;Running K=5&quot;
+[1] &quot;iteration=200 | delta_rss=0.00570639106445014&quot;
+[1] &quot;iteration=400 | delta_rss=0.00183307699626312&quot;
+[1] &quot;iteration=600 | delta_rss=0.00145148171577603&quot;
+[1] &quot;iteration=800 | delta_rss=0.00125598645536229&quot;
+[1] &quot;iteration=1000 | delta_rss=0.00110427790787071&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000977315939962864&quot;
+[1] &quot;iteration=1400 | delta_rss=0.00086888181976974&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000775410851929337&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000694358721375465&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000623753992840648&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000562010216526687&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000507824996020645&quot;
+[1] &quot;iteration=2600 | delta_rss=0.00046011689119041&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000417980481870472&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000380654237233102&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000347494380548596&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000317954632919282&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000291570089757442&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000267943425569683&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000246734241954982&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000227649812586606&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000210437865462154&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000194880121853203&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000180787581484765&quot;
+[1] &quot;iteration=5000 | delta_rss=0.000167995691299438&quot;
+[1] &quot;Running K=6&quot;
+[1] &quot;iteration=200 | delta_rss=0.00401343387784436&quot;
+[1] &quot;iteration=400 | delta_rss=0.000489717465825379&quot;
+[1] &quot;iteration=600 | delta_rss=0.000220007786992937&quot;
+[1] &quot;iteration=800 | delta_rss=0.000161810661666095&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000139431154821068&quot;
+[1] &quot;iteration=1200 | delta_rss=0.00012649194104597&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000116988958325237&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000109126151073724&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000102238438557833&quot;</code></pre>
+<pre class="r"><code>l_df = data.frame(L)
+colnames(l_df) = paste0(&quot;K&quot;, 1:K)
+l_df$iid = 1:n
+l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+             rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+
+gath_l_df = l_df %&gt;% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale=&quot;free&quot;) +
+    theme_bw()
+p</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-aa-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This has a similar solution to greedy semi-negative <code>FLASH</code> except the first factor is way less sparse and the other factors are less sparse in general. This makes it clear how important it is to estimate the mean parameter in the model correctly.</p>
+</div>
+</div>
+</div>
+<div id="admixture-graph-simulation-in-progress" class="section level1">
+<h1>Admixture Graph Simulation (<code>in progress</code>)</h1>
+<p>Here I simulate under an admixture event on the tree from population 2 to population 3 by setting the admixture weight <span class="math inline">\(w=0.4\)</span>. I simulate 10 individuals per population and 10,000 SNPs:</p>
+<pre class="r"><code>set.seed(1990)
+
+# number of individuals per pop
+n_per_pop = 20
+
+# set w = 0.0 to just simulate from a tree
+sim = simple_graph_simulation(w=0.4, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
+
+# data matrix
+Y = sim$Y
+
+# centered data matrix
+Y_c = scale(Y, center=TRUE, scale=FALSE)
+
+# centered scaled data matrix
+Y_cs = scale(Y, center=TRUE, scale=TRUE)
+
+# number of individuals
+n = nrow(Y)
+
+# number of SNPs
+p = ncol(Y)
+
+# number of factors
+K = 20</code></pre>
+<div id="pca-1" class="section level2">
+<h2>PCA</h2>
+<p>Here I apply PCA to the centered and scaled genotype matrix:</p>
+<pre class="r"><code>svd_fit = lfa:::trunc.svd(Y_cs, K)
+lamb = svd_fit$d^2
+p = qplot(1:K, lamb / sum(lamb)) +  
+    xlab(&quot;PC&quot;) +
+    ylab(&quot;PVE&quot;) + 
+    theme_bw()
+p</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-pca-scree-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:</p>
+<pre class="r"><code>l_df = data.frame(svd_fit$u[,1:3])
+colnames(l_df) = paste0(&quot;PC&quot;, 1:3)
+l_df$iid = 1:n
+l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+             rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+
+gath_l_df = l_df %&gt;% gather(PC, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(PC~., scale=&quot;free&quot;) +
+    theme_bw()
+p</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-pca-lodaings-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>There is some signal of the admixture event in PC1 … we see a shift of population 2 to 0.0 in PC1 rather than being cluster with population 4.</p>
+</div>
+<div id="psd-alstructure-1" class="section level2">
+<h2>PSD (alstructure)</h2>
+<p>Here I fit the Pritchard, Stephens, and Donnelly model using <code>alstructure</code> for K=2,…,6:</p>
+<pre class="r"><code>K = 6
+for(k in 2:K){
+  al_fit = alstructure(t(Y), d_hat = k)
+  Q = t(al_fit$Q_hat)
+  l_df = as.data.frame(Q)
+  colnames(l_df) = 1:k
+  l_df$ID = 1:n
+  l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+               rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+  gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop)
+  p = structure_plot(gath_l_df, 
+                     colset=&quot;Set3&quot;, 
+                     facet_grp=&quot;pop&quot;, 
+                     facet_levels=paste0(&quot;Pop&quot;, 1:4),
+                     fact_type=&quot;structure&quot;) +
+                     ggtitle(paste0(&quot;K=&quot;, k))
+  print(p)
+}</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here maybe <span class="math inline">\(K=3\)</span> is the most interpretable? We see some signature of the split and admixture? This is already showing the difficulty of interpreting PSD fits in simple population genetic model. It also emphasizes thats the admixture gallery of many K plots needs to be shown to really understand what is going on not just a single one.</p>
+</div>
+<div id="flash-drift-1" class="section level2">
+<h2>FLASH (Drift)</h2>
+<p>Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors:</p>
+<div id="fix-loadings-greedy-1" class="section level3">
+<h3>Fix Loadings Greedy</h3>
+<p>Here I fix the first loadings vector to the 1 vector and only run the greedy algorithm:</p>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n))) </code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Nullchecking 5 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -832532.2</code></pre>
+<p>Hmm we are missing the population specific factor for population 4? We also see population 3 not being as strongly loaded on factor 3 which maybe is a signature of the admixture event?</p>
+</div>
+<div id="fix-loadings-final-backfit-1" class="section level3">
+<h3>Fix Loadings Final Backfit</h3>
+<p>Here I fix the first loadings vector to the 1 vector, run the greedy algorithm to pick out <span class="math inline">\(K\)</span> from the data and then run a final backfit to clean up the greedy solution:</p>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               flash.init = flash_fit,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 5 factors...
+Factor 4 removed, increasing objective by 5.117e+00.
+Factor 5 removed, increasing objective by 8.135e-02.
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 5 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -821414.6</code></pre>
+<p>This is not very interpretable.</p>
+</div>
+<div id="fix-loadings-alternating-backfit-1" class="section level3">
+<h3>Fix Loadings Alternating Backfit</h3>
+<p>Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:</p>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit = &quot;alternating&quot;,
+                               backfit.order = &quot;dropout&quot;,
+                               backfit.reltol = 10)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Backfitting 2 factors...
+Adding factor 3 to flash object...
+Backfitting 3 factors...
+An update to factor 3 decreased the objective by 2.473e+00.
+Adding factor 4 to flash object...
+Backfitting 4 factors...
+An update to factor 3 decreased the objective by 1.644e+00.
+Adding factor 5 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Nullchecking 3 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -821709.7</code></pre>
+This is not very interpretable. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
@@ -2803,29 +1863,31 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] flashier_0.1.1 tidyr_0.8.2    dplyr_0.8.0.1  ggplot2_3.1.0 
+[1] RColorBrewer_1.1-2 alstructure_0.1.0  flashier_0.1.1    
+[4] tidyr_0.8.2        dplyr_0.8.0.1      ggplot2_3.1.0     
 
 loaded via a namespace (and not attached):
  [1] zoo_1.8-4         tidyselect_0.2.5  xfun_0.4         
- [4] purrr_0.3.0       ashr_2.2-32       lattice_0.20-38  
- [7] gmm_1.6-2         colorspace_1.4-0  htmltools_0.3.6  
-[10] stats4_3.5.1      yaml_2.2.0        rlang_0.3.1      
-[13] mixsqp_0.1-109    pillar_1.3.1      glue_1.3.0       
-[16] withr_2.1.2       foreach_1.4.4     plyr_1.8.4       
-[19] stringr_1.4.0     munsell_0.5.0     gtable_0.2.0     
-[22] workflowr_1.2.0   mvtnorm_1.0-10    lfa_1.12.0       
-[25] codetools_0.2-16  evaluate_0.12     labeling_0.3     
-[28] knitr_1.21        doParallel_1.0.14 pscl_1.5.2       
-[31] parallel_3.5.1    Rcpp_1.0.0        corpcor_1.6.9    
-[34] scales_1.0.0      backports_1.1.3   tmvtnorm_1.4-10  
-[37] truncnorm_1.0-8   fs_1.2.6          digest_0.6.18    
-[40] stringi_1.2.4     grid_3.5.1        rprojroot_1.3-2  
-[43] tools_3.5.1       sandwich_2.5-1    magrittr_1.5     
-[46] lazyeval_0.2.1    tibble_2.0.1      crayon_1.3.4     
-[49] pkgconfig_2.0.2   MASS_7.3-51.1     Matrix_1.2-15    
-[52] SQUAREM_2017.10-1 assertthat_0.2.0  rmarkdown_1.11   
-[55] iterators_1.0.10  R6_2.4.0          git2r_0.23.0     
-[58] compiler_3.5.1   </code></pre>
+ [4] purrr_0.3.0       reshape2_1.4.3    ashr_2.2-35      
+ [7] lattice_0.20-38   gmm_1.6-2         colorspace_1.4-0 
+[10] htmltools_0.3.6   stats4_3.5.1      yaml_2.2.0       
+[13] rlang_0.3.1       mixsqp_0.1-109    pillar_1.3.1     
+[16] glue_1.3.0        withr_2.1.2       foreach_1.4.4    
+[19] plyr_1.8.4        stringr_1.4.0     munsell_0.5.0    
+[22] gtable_0.2.0      workflowr_1.2.0   mvtnorm_1.0-10   
+[25] lfa_1.12.0        codetools_0.2-16  evaluate_0.12    
+[28] labeling_0.3      knitr_1.21        pscl_1.5.2       
+[31] doParallel_1.0.14 parallel_3.5.1    Rcpp_1.0.0       
+[34] corpcor_1.6.9     scales_1.0.0      backports_1.1.3  
+[37] tmvtnorm_1.4-10   truncnorm_1.0-8   fs_1.2.6         
+[40] digest_0.6.18     stringi_1.2.4     ebnm_0.1-17      
+[43] grid_3.5.1        rprojroot_1.3-2   tools_3.5.1      
+[46] sandwich_2.5-1    magrittr_1.5      lazyeval_0.2.1   
+[49] tibble_2.0.1      crayon_1.3.4      whisker_0.3-2    
+[52] pkgconfig_2.0.2   MASS_7.3-51.1     Matrix_1.2-15    
+[55] SQUAREM_2017.10-1 assertthat_0.2.0  rmarkdown_1.11   
+[58] iterators_1.0.10  R6_2.4.0          git2r_0.23.0     
+[61] compiler_3.5.1   </code></pre>
 </div>
 </div>
 </div>

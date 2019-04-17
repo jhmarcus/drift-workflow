@@ -9,6 +9,8 @@ output: workflowr::wflow_html
 
 Here I explore `FLASH` applied to simulations under a simple population tree, as described in Pickrell et al 2012. Specifically I use a multivariate normal approximation to allele frequencies under a fixed tree and generate genotype data given these allele frequencies. See Figure 1 from [Pickrell and Pritchard 2012](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967) that shows the parameterization of the tree:
 
+![](../docs/assets/treemix.png)
+
 
 # Import
 
@@ -19,6 +21,9 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(flashier)
+library(alstructure)
+source("../code/nmf.R")
+source("../code/viz.R")
 ```
 
 # Functions
@@ -75,18 +80,15 @@ simple_graph_simulation = function(n_per_pop=10,
   # covariance matrix specified by the tree
   V = matrix(NA, nrow=4, ncol=4)
   V[1, 1] = c2 + c6
-  V[2, 1] = c2 
+  V[2, 1] = V[1, 2] = c2 
   V[2, 2] = c2 + c5 + c7
-  V[3, 1] = w * c2
-  V[3, 2] = w * (c2 + c5)
+  V[3, 1] = V[1, 3] =  w * c2
+  V[3, 2] = V[2, 3] = w * (c2 + c5)
   V[3, 3] = (w^2 * (c2 + c5)) + ((1 - w)^2 * (c1 + c3))
-  V[4, 1] = 0.0
-  V[4, 2] = 0.0
-  V[4, 3] = (1.0 - w) * c1
+  V[4, 1] = V[1, 4] = 0.0
+  V[4, 2] = V[2, 4] = 0.0
+  V[4, 3] = V[3, 4] = (1.0 - w) * c1
   V[4, 4] = c1 + c4
-  
-  # make symmetric 
-  V[upper.tri(V)] = V[lower.tri(V)]
   
   # simulate allele frequencies
   P = matrix(NA, nrow=p, ncol=n_pops)
@@ -131,7 +133,7 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 
 # Tree Simulation
 
-Here I simulate under a tree model by setting the admixture weight $w=0.0$. I simulate 10 individuals per population and 10000 SNPs.
+Here I simulate under a tree model by setting the admixture weight $w=0.0$. I simulate 10 individuals per population and 10,000 SNPs. I also made the branch lengths of the internal branches to be 5 times longer then the external branches.
 
 ```{r tree-simulation}
 set.seed(1990)
@@ -140,7 +142,7 @@ set.seed(1990)
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -194,24 +196,53 @@ p
 
 It looks like PC1 represents the first split on the tree. PC2 and PC3 represent the subsequent splits.
 
+## PSD (alstructure)
+
+Here I fit the Pritchard, Stephens, and Donnelly model using `alstructure` for K=2,...,6:
+
+```{r tree-simulation-psd, warning=F}
+K = 6
+for(k in 2:K){
+  al_fit = alstructure(t(Y), d_hat = k)
+  Q = t(al_fit$Q_hat)
+  l_df = as.data.frame(Q)
+  colnames(l_df) = 1:k
+  l_df$ID = 1:n
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+               rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop)
+  p = structure_plot(gath_l_df, 
+                     colset="Set3", 
+                     facet_grp="pop", 
+                     facet_levels=paste0("Pop", 1:4),
+                     fact_type="structure") +
+                     ggtitle(paste0("K=", k))
+  print(p)
+}
+```
+
+It looks like for $K=2$ we see the deeper split in the tree, $K=4$ assigns population specific factors, and all the other K runs are less interpretable.
+
 ## FLASH (Drift)
 
-Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors:
+Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors. I fixed the factors to come from a normal prior with mean 0 and variance 1:
 
 ### Fix Loadings Greedy
 
 Here I fix the first loadings vector to the 1 vector and only run the greedy algorithm:
 
-```{r tree-simulation-flash-drift-fixloadings-greedy}
+```{r tree-simulation-flash-drift-fixloadings-greedy, warning = FALSE}
 flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
-                               fix.vals=list(rep(1, n)))
+                               fix.vals=list(rep(1, n))) 
 
 plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
 ```
 
 Very cool ... K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 represent the leaves i.e. population specific factors.
@@ -220,19 +251,21 @@ Very cool ... K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 rep
 
 Here I fix the first loadings vector to the 1 vector, run the greedy algorithm to pick out $K$ from the data and then run a final backfit to clean up the greedy solution:
 
-```{r tree-simulation-flash-drift-fixloadings-finalbackfit}
+```{r tree-simulation-flash-drift-fixloadings-finalbackfit, warning = FALSE}
 flash_fit = flashier::flashier(Y, 
-                               greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
                                fix.vals=list(rep(1, n)),
-                               backfit = "final",
-                               backfit.order = "dropout",
-                               backfit.reltol = 10)
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
 
 plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
 ```
 
 Hmm it seems like the final backfit removes the nice signal we had in the greedy run and it zeros out some of the factors.
@@ -241,10 +274,11 @@ Hmm it seems like the final backfit removes the nice signal we had in the greedy
 
 Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:
 
-```{r tree-simulation-flash-drift-fixloadings-alternatingbackfit}
+```{r tree-simulation-flash-drift-fixloadings-alternatingbackfit, warning = FALSE}
 flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
                                fix.dim=list(1), 
                                fix.idx=list(1:n), 
@@ -254,6 +288,7 @@ flash_fit = flashier::flashier(Y,
                                backfit.reltol = 10)
 
 plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
 ```
       
 Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.
@@ -262,49 +297,58 @@ Again this leads to an odd solution with only two population specific factors an
 
 Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift):
 
-```{r tree-simulation-flash-drift-meancenter-greedy}
+```{r tree-simulation-flash-drift-meancenter-greedy, warning = FALSE}
 flash_fit = flashier::flashier(Y_c, 
                                greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)
-
 plot_flash_loadings(flash_fit, n_per_pop)
 ```
 
-Mean centering gives a similar solution to fixing the factors.
+Mean centering gives a similar solution to fixing the first factor.
 
 ### Mean Center Final Backfit
 
 Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift) with a final backfit:
 
-```{r tree-simulation-flash-drift-meancenter-finalbackfit}
+```{r tree-simulation-flash-drift-meancenter-finalbackfit, warning=FALSE}
 flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
-                               var.type=0,                               
-                               backfit = "final",
-                               backfit.order = "dropout",
-                               backfit.reltol = 10)
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
 
 plot_flash_loadings(flash_fit, n_per_pop)
 ```
 
-Now we only see the population specific factors.
+We seem to be missing a few of the population specific factors?
 
 ### Mean Center Alternating Backfit
 
 Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift) with alternating backfits:
 
-```{r tree-simulation-flash-drift-meancenter-alternatingbackfit}
-flash_fit = flashier::flashier(Y_c, 
+```{r tree-simulation-flash-drift-meancenter-alternatingbackfit, warning = FALSE}
+flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=K, 
-                               prior.type=c("nonnegative", "normal.mixture"), 
-                               var.type=0,                               
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
                                backfit = "alternating",
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
 plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
 ```
  
 Again we see only population specific factors but not shared factors.
@@ -317,10 +361,11 @@ Here I run `FLASH` with no sign constraints on the loadings or factors:
 
 Here I mean center the data matrix before running greedy `FLASH`:
 
-```{r tree-simulation-flash-meancenter-greedybackfit}
+```{r tree-simulation-flash-meancenter-greedybackfit, warning = FALSE}
 flash_fit = flashier::flashier(Y_c, 
                                greedy.Kmax=K, 
-                               prior.type=c("normal.mixture", "normal.mixture"), 
+                               prior.type=c("normal.mixture", "point.normal"), 
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)
 
 plot_flash_loadings(flash_fit, n_per_pop)
@@ -332,10 +377,11 @@ Here we get a pretty nice solution similar to PCA but with a more interpretable 
 
 Here I mean center the data matrix before running greedy `FLASH` with a final backfit:
 
-```{r tree-simulation-flash-meancenter-finalbackfit}
+```{r tree-simulation-flash-meancenter-finalbackfit, warning = FALSE}
 flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c("normal.mixture", "normal.mixture"), 
+                               flash.init=flash_fit,
+                               prior.type=c("normal.mixture", "point.normal"), 
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,                               
                                backfit = "final",
                                backfit.order = "dropout",
@@ -350,11 +396,12 @@ This solution looks very similar to the greedy solution.
 
 Here I mean center the data matrix before running greedy `FLASH` with alternating backfits:
 
-```{r tree-simulation-flash-meancenter-alternatingbackfit}
+```{r tree-simulation-flash-meancenter-alternatingbackfit, warning = FALSE}
 flash_fit = flashier::flashier(Y_c, 
-                               greedy.Kmax=K, 
-                               prior.type=c("normal.mixture", "normal.mixture"), 
-                               var.type=0,                               
+                               greedy.Kmax=K,
+                               prior.type=c("normal.mixture", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
                                backfit = "alternating",
                                backfit.order = "dropout",
                                backfit.reltol = 10)
@@ -363,3 +410,237 @@ plot_flash_loadings(flash_fit, n_per_pop)
 ```
 
 This solution also looks very similar to the greedy / final back solutions.
+
+## Convex-NMF
+
+I implemented convex non-negative matrix factorization from [Ding et al 2012](https://people.eecs.berkeley.edu/~jordan/papers/ding-li-jordan-pami.pdf) see `code/nmf.R`. I wanted to see if the greedy approach using another nmf algorithm would lead to a similar result to semi-negative `FLASH`:
+
+### Greedy
+
+```{r tree-simulation-convexnmf-greedy, warning=FALSE, message=FALSE}
+Z = t(Y)
+K = 6
+Znew = Z
+L = matrix(NA, nrow=n, ncol=K)
+for(k in 1:K){
+  
+  print(paste0("Running K=", k))
+  res = convex_nmf(Znew, 1, init="kmeans", n_iter=5000, eps=1e-4, n_print=200)
+  G = res$G
+  F = res$F
+  L[,k] = G[,1]
+  Znew = Znew - res$Xhat
+  
+}
+
+l_df = data.frame(L)
+colnames(l_df) = paste0("K", 1:K)
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw()
+p
+```
+
+The first factor looks like the mean then the following two look similar to greedy FLASH. The following 3 are less interpretable.
+
+### Greedy (remove ancestral mean)
+
+```{r tree-simulation-convexnmf-greedy-aa, warning=FALSE, message=FALSE}
+Z = t(Y) - (2*sim$p_a)
+K = 6
+Znew = Z
+L = matrix(NA, nrow=n, ncol=K)
+for(k in 1:K){
+  
+  print(paste0("Running K=", k))
+  res = convex_nmf(Znew, 1, init="kmeans", n_iter=5000, eps=1e-4, n_print=200)
+  G = res$G
+  F = res$F
+  L[,k] = G[,1]
+  Znew = Znew - res$Xhat
+  
+}
+
+l_df = data.frame(L)
+colnames(l_df) = paste0("K", 1:K)
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw()
+p
+```
+
+This has a similar solution to greedy semi-negative `FLASH` except the first factor is way less sparse and the other factors are less sparse in general. This makes it clear how important it is to estimate the mean parameter in the model correctly.
+
+# Admixture Graph Simulation (`in progress`)
+
+Here I simulate under an admixture event on the tree from population 2 to population 3 by setting the admixture weight $w=0.4$. I simulate 10 individuals per population and 10,000 SNPs:
+
+```{r admixture-simulation}
+set.seed(1990)
+
+# number of individuals per pop
+n_per_pop = 20
+
+# set w = 0.0 to just simulate from a tree
+sim = simple_graph_simulation(w=0.4, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
+
+# data matrix
+Y = sim$Y
+
+# centered data matrix
+Y_c = scale(Y, center=TRUE, scale=FALSE)
+
+# centered scaled data matrix
+Y_cs = scale(Y, center=TRUE, scale=TRUE)
+
+# number of individuals
+n = nrow(Y)
+
+# number of SNPs
+p = ncol(Y)
+
+# number of factors
+K = 20
+```
+
+## PCA
+
+Here I apply PCA to the centered and scaled genotype matrix:
+
+```{r admixture-pca-scree}
+svd_fit = lfa:::trunc.svd(Y_cs, K)
+lamb = svd_fit$d^2
+p = qplot(1:K, lamb / sum(lamb)) +  
+    xlab("PC") +
+    ylab("PVE") + 
+    theme_bw()
+p
+```
+
+From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:
+
+```{r admixture-pca-lodaings}
+l_df = data.frame(svd_fit$u[,1:3])
+colnames(l_df) = paste0("PC", 1:3)
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(PC, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(PC~., scale="free") +
+    theme_bw()
+p
+```
+
+There is some signal of the admixture event in PC1 ... we see a shift of population 2 to 0.0 in PC1 rather than being cluster with population 4.
+
+## PSD (alstructure)
+
+Here I fit the Pritchard, Stephens, and Donnelly model using `alstructure` for K=2,...,6:
+
+```{r admixture-psd, warning=F}
+K = 6
+for(k in 2:K){
+  al_fit = alstructure(t(Y), d_hat = k)
+  Q = t(al_fit$Q_hat)
+  l_df = as.data.frame(Q)
+  colnames(l_df) = 1:k
+  l_df$ID = 1:n
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+               rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop)
+  p = structure_plot(gath_l_df, 
+                     colset="Set3", 
+                     facet_grp="pop", 
+                     facet_levels=paste0("Pop", 1:4),
+                     fact_type="structure") +
+                     ggtitle(paste0("K=", k))
+  print(p)
+}
+```
+
+Here maybe $K=3$ is the most interpretable? We see some signature of the split and admixture? This is already showing the difficulty of interpreting PSD fits in simple population genetic model. It also emphasizes thats the admixture gallery of many K plots needs to be shown to really understand what is going on not just a single one.
+
+## FLASH (Drift)
+
+Here I apply Empirical Bayes matrix factorization with non-negative loadings and unconstrained factors:
+
+### Fix Loadings Greedy
+
+Here I fix the first loadings vector to the 1 vector and only run the greedy algorithm:
+
+```{r admixture-flash-drift-fixloadings-greedy, warning = FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n))) 
+
+plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
+```
+
+Hmm we are missing the population specific factor for population 4? We also see population 3 not being as strongly loaded on factor 3 which maybe is a signature of the admixture event?
+
+### Fix Loadings Final Backfit
+
+Here I fix the first loadings vector to the 1 vector, run the greedy algorithm to pick out $K$ from the data and then run a final backfit to clean up the greedy solution:
+
+```{r admixture-simulation-flash-drift-fixloadings-finalbackfit, warning = FALSE}
+flash_fit = flashier::flashier(Y, 
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
+```
+
+This is not very interpretable.
+
+### Fix Loadings Alternating Backfit
+
+Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:
+
+```{r admixture-flash-drift-fixloadings-alternatingbackfit, warning = FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=K, 
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:n), 
+                               fix.vals=list(rep(1, n)),
+                               backfit = "alternating",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+plot_flash_loadings(flash_fit, n_per_pop)
+print(flash_fit$objective)
+```
+
+This is not very interpretable.

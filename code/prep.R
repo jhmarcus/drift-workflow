@@ -12,7 +12,7 @@ prepare_snp_data = function(flash_fit, bim_path){
   df$rsid = bim_df$rsid
   
   # add mean and precision estimates
-  df$mu = sqrt(flash_fit$loadings$scale.constant[1]) * delta_df$`1`
+  df$mu = sqrt(flash_fit$loadings$scale.constant[1]) * df$`1`
   df$tau = flash_fit$fit$est.tau
 
   return(df)
