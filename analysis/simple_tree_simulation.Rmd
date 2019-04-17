@@ -117,16 +117,23 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 
   l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
   colnames(l_df) = paste0("K", 1:ncol(l_df))
-  l_df$iid = 1:nrow(l_df)
+  l_df$ID = 1:nrow(l_df)
   l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
                rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
-  gath_l_df = l_df %>% gather(K, value, -iid, -pop)
-  p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
-      geom_point() +
-      facet_wrap(K~., scale="free") +
-      theme_bw() 
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) %>% filter(K != "K1")
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale="free") +
+       theme_bw() 
   
-  return(p)
+  p2 = structure_plot(gath_l_df, 
+                      colset="Set3", 
+                      facet_grp="pop", 
+                      facet_levels=paste0("Pop", 1:4),
+                      fact_type="nonnegative") 
+
+  return(list(p1=p1, p2=p2))
   
 }
 ```
@@ -142,7 +149,7 @@ set.seed(1990)
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -241,7 +248,9 @@ flash_fit = flashier::flashier(Y,
                                fix.idx=list(1:n), 
                                fix.vals=list(rep(1, n))) 
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
 
@@ -264,7 +273,9 @@ flash_fit = flashier::flashier(Y,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
 
@@ -287,7 +298,9 @@ flash_fit = flashier::flashier(Y,
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
       
@@ -303,7 +316,11 @@ flash_fit = flashier::flashier(Y_c,
                                prior.type=c("nonnegative", "point.normal"),
                                ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)
-plot_flash_loadings(flash_fit, n_per_pop)
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
 
 Mean centering gives a similar solution to fixing the first factor.
@@ -325,7 +342,10 @@ flash_fit = flashier::flashier(Y_c,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
 
 We seem to be missing a few of the population specific factors?
@@ -347,7 +367,9 @@ flash_fit = flashier::flashier(Y,
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
  
@@ -368,7 +390,10 @@ flash_fit = flashier::flashier(Y_c,
                                ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
 
 Here we get a pretty nice solution similar to PCA but with a more interpretable sparsity pattern. K1 cleanly represents the first split in the tree and K2 and K3 cleanly represent the subsequent splits.
@@ -387,7 +412,10 @@ flash_fit = flashier::flashier(Y_c,
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
 
 This solution looks very similar to the greedy solution.
@@ -406,7 +434,10 @@ flash_fit = flashier::flashier(Y_c,
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
 
 This solution also looks very similar to the greedy / final back solutions.
@@ -444,7 +475,8 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(K~., scale="free") +
     theme_bw()
-p
+
+print(p)
 ```
 
 The first factor looks like the mean then the following two look similar to greedy FLASH. The following 3 are less interpretable.
@@ -478,7 +510,8 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(K~., scale="free") +
     theme_bw()
-p
+
+print(p)
 ```
 
 This has a similar solution to greedy semi-negative `FLASH` except the first factor is way less sparse and the other factors are less sparse in general. This makes it clear how important it is to estimate the mean parameter in the model correctly.
@@ -526,7 +559,8 @@ p = qplot(1:K, lamb / sum(lamb)) +
     xlab("PC") +
     ylab("PVE") + 
     theme_bw()
-p
+
+print(p)
 ```
 
 From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:
@@ -543,7 +577,8 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(PC~., scale="free") +
     theme_bw()
-p
+
+print(p)
 ```
 
 There is some signal of the admixture event in PC1 ... we see a shift of population 2 to 0.0 in PC1 rather than being cluster with population 4.
@@ -569,6 +604,7 @@ for(k in 2:K){
                      facet_levels=paste0("Pop", 1:4),
                      fact_type="structure") +
                      ggtitle(paste0("K=", k))
+  
   print(p)
 }
 ```
@@ -593,7 +629,9 @@ flash_fit = flashier::flashier(Y,
                                fix.idx=list(1:n), 
                                fix.vals=list(rep(1, n))) 
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
 
@@ -616,7 +654,9 @@ flash_fit = flashier::flashier(Y,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
 
@@ -639,7 +679,9 @@ flash_fit = flashier::flashier(Y,
                                backfit.order = "dropout",
                                backfit.reltol = 10)
 
-plot_flash_loadings(flash_fit, n_per_pop)
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
 

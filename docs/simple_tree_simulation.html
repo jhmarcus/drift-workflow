@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0a3374d13d31b6d57bf7d7b2eb473696c240d87ctargetblank0a3374da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/0a3374d13d31b6d57bf7d7b2eb473696c240d87c" target="_blank">0a3374d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree1a21d43fb1c4fb7f07b6d597600eca9610b577d6targetblank1a21d43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/1a21d43fb1c4fb7f07b6d597600eca9610b577d6" target="_blank">1a21d43</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0a3374d13d31b6d57bf7d7b2eb473696c240d87ctargetblank0a3374da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree1a21d43fb1c4fb7f07b6d597600eca9610b577d6targetblank1a21d43a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -533,21 +533,14 @@ Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
+    Ignored:    data/datasets/
+    Ignored:    data/raw/
     Ignored:    output.tar.gz
     Ignored:    output/
 
-Untracked files:
-    Untracked:  analysis/badmixture.Rmd
-    Untracked:  analysis/convex_nmf.Rmd
-    Untracked:  analysis/temp_debug.RDS
-    Untracked:  code/nmf.R
-    Untracked:  data/
-    Untracked:  docs/assets/
-    Untracked:  temp_debug.RDS
-
 Unstaged changes:
     Modified:   analysis/simple_tree_simulation.Rmd
-    Modified:   code/prep.R
+    Modified:   code/viz.R
 
 </code></pre>
 <p>
@@ -586,6 +579,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/analysis/simple_tree_simulation.Rmd" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+<td>
+updated simple tree doc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/simple_tree_simulation.html" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+<td>
+updated simple tree doc
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -732,16 +759,23 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 
   l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
   colnames(l_df) = paste0(&quot;K&quot;, 1:ncol(l_df))
-  l_df$iid = 1:nrow(l_df)
+  l_df$ID = 1:nrow(l_df)
   l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
                rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
-  gath_l_df = l_df %&gt;% gather(K, value, -iid, -pop)
-  p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
-      geom_point() +
-      facet_wrap(K~., scale=&quot;free&quot;) +
-      theme_bw() 
+  gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(K != &quot;K1&quot;)
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale=&quot;free&quot;) +
+       theme_bw() 
   
-  return(p)
+  p2 = structure_plot(gath_l_df, 
+                      colset=&quot;Set3&quot;, 
+                      facet_grp=&quot;pop&quot;, 
+                      facet_levels=paste0(&quot;Pop&quot;, 1:4),
+                      fact_type=&quot;nonnegative&quot;) 
+
+  return(list(p1=p1, p2=p2))
   
 }</code></pre>
 </div>
@@ -754,7 +788,7 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, c1=.5, c2=.5, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -808,6 +842,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-scree-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-scree-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -859,6 +904,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-lodaings-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-pca-lodaings-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -895,7 +951,196 @@ for(k in 2:K){
                      ggtitle(paste0(&quot;K=&quot;, k))
   print(p)
 }</code></pre>
-<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-psd-1">
+Past versions of tree-simulation-psd-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-psd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-psd-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-psd-2">
+Past versions of tree-simulation-psd-2.png
+</button>
+</p>
+<div id="fig-tree-simulation-psd-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-psd-2.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-psd-3">
+Past versions of tree-simulation-psd-3.png
+</button>
+</p>
+<div id="fig-tree-simulation-psd-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-psd-3.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-psd-4">
+Past versions of tree-simulation-psd-4.png
+</button>
+</p>
+<div id="fig-tree-simulation-psd-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-psd-4.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-psd-5">
+Past versions of tree-simulation-psd-5.png
+</button>
+</p>
+<div id="fig-tree-simulation-psd-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-psd-5.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>It looks like for <span class="math inline">\(K=2\)</span> we see the deeper split in the tree, <span class="math inline">\(K=4\)</span> assigns population specific factors, and all the other K runs are less interpretable.</p>
 </div>
 <div id="flash-drift" class="section level2">
@@ -923,7 +1168,8 @@ Adding factor 7 to flash object...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-greedy-1">
@@ -949,6 +1195,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -962,8 +1219,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -835440.7</code></pre>
+<pre><code>[1] -863108.4</code></pre>
 <p>Very cool … K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 represent the leaves i.e. population specific factors.</p>
 </div>
 <div id="fix-loadings-final-backfit" class="section level3">
@@ -984,17 +1243,20 @@ jhmarcus
 Adding factor 8 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 7 factors...
-An update to factor 7 decreased the objective by 2.125e+00.
+An update to factor 7 decreased the objective by 3.531e+00.
+An update to factor 2 decreased the objective by 6.613e+00.
 Nullchecking 6 factors...
-Factor 4 removed, increasing objective by 9.223e-02.
-Factor 6 removed, increasing objective by 1.000e-01.
+Factor 3 removed, increasing objective by 1.413e-01.
+Factor 5 removed, increasing objective by 7.832e-02.
 Adding factor 8 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 7 factors...
+An update to factor 7 decreased the objective by 7.263e+00.
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-finalbackfit-1">
@@ -1020,6 +1282,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1033,8 +1306,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -823427.8</code></pre>
+<pre><code>[1] -851287</code></pre>
 <p>Hmm it seems like the final backfit removes the nice signal we had in the greedy run and it zeros out some of the factors.</p>
 </div>
 <div id="fix-loadings-alternating-backfit" class="section level3">
@@ -1055,17 +1330,19 @@ jhmarcus
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
 Backfitting 2 factors...
+An update to factor 2 decreased the objective by 7.768e+00.
 Adding factor 3 to flash object...
 Backfitting 3 factors...
 Adding factor 4 to flash object...
 Backfitting 4 factors...
-An update to factor 4 decreased the objective by 2.541e+00.
+An update to factor 3 decreased the objective by 4.801e+00.
 Adding factor 5 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-fixloadings-alternatingbackfit-1">
@@ -1091,6 +1368,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1104,8 +1392,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -818422.4</code></pre>
+<pre><code>[1] -848845.9</code></pre>
 <p>Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.</p>
 </div>
 <div id="mean-center-greedy" class="section level3">
@@ -1126,7 +1416,8 @@ Adding factor 6 to flash object...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-greedy-1">
@@ -1152,6 +1443,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1165,6 +1467,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -831565</code></pre>
 <p>Mean centering gives a similar solution to fixing the first factor.</p>
 </div>
 <div id="mean-center-final-backfit" class="section level3">
@@ -1185,23 +1491,17 @@ jhmarcus
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
-An update to factor 5 decreased the objective by 5.046e+00.
-An update to factor 4 decreased the objective by 6.916e+00.
 Nullchecking 5 factors...
-Factor 3 removed, increasing objective by 9.369e-02.
-Adding factor 7 to flash object...
-Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 6 factors...
-An update to factor 4 decreased the objective by 6.958e+00.
-Nullchecking 5 factors...
-Factor 5 removed, increasing objective by 1.009e-01.
+Factor 2 removed, increasing objective by 1.402e-01.
+Factor 6 removed, increasing objective by 7.608e-02.
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
 Nullchecking 5 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-finalbackfit-1">
@@ -1227,6 +1527,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1240,6 +1551,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -823596.8</code></pre>
 <p>We seem to be missing a few of the population specific factors?</p>
 </div>
 <div id="mean-center-alternating-backfit" class="section level3">
@@ -1260,17 +1575,19 @@ jhmarcus
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
 Backfitting 2 factors...
+An update to factor 2 decreased the objective by 7.768e+00.
 Adding factor 3 to flash object...
 Backfitting 3 factors...
 Adding factor 4 to flash object...
 Backfitting 4 factors...
-An update to factor 4 decreased the objective by 2.541e+00.
+An update to factor 3 decreased the objective by 4.801e+00.
 Adding factor 5 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-drift-meancenter-alternatingbackfit-1">
@@ -1296,6 +1613,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1309,8 +1637,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -818422.4</code></pre>
+<pre><code>[1] -848845.9</code></pre>
 <p>Again we see only population specific factors but not shared factors.</p>
 </div>
 </div>
@@ -1334,7 +1664,8 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-greedybackfit-1">
@@ -1360,6 +1691,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1373,6 +1715,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -809486.8</code></pre>
 <p>Here we get a pretty nice solution similar to PCA but with a more interpretable sparsity pattern. K1 cleanly represents the first split in the tree and K2 and K3 cleanly represent the subsequent splits.</p>
 </div>
 <div id="mean-center-final-backfit-1" class="section level3">
@@ -1390,11 +1736,11 @@ jhmarcus
 Adding factor 4 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 3 factors...
-An update to factor 1 decreased the objective by 7.966e+00.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-finalbackfit-1">
@@ -1420,6 +1766,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1433,6 +1790,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -809448.4</code></pre>
 <p>This solution looks very similar to the greedy solution.</p>
 </div>
 <div id="mean-center-alternating-backfit-1" class="section level3">
@@ -1450,16 +1811,15 @@ jhmarcus
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
 Backfitting 2 factors...
-An update to factor 1 decreased the objective by 1.294e+00.
 Adding factor 3 to flash object...
 Backfitting 3 factors...
-An update to factor 1 decreased the objective by 7.966e+00.
 Adding factor 4 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-flash-meancenter-alternatingbackfit-1">
@@ -1485,6 +1845,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/0a3374d13d31b6d57bf7d7b2eb473696c240d87c/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" target="_blank">0a3374d</a>
 </td>
 <td>
@@ -1498,6 +1869,10 @@ jhmarcus
 </table>
 </div>
 </div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(flash_fit$objective)</code></pre>
+<pre><code>[1] -809448.3</code></pre>
 <p>This solution also looks very similar to the greedy / final back solutions.</p>
 </div>
 </div>
@@ -1521,32 +1896,83 @@ for(k in 1:K){
   
 }</code></pre>
 <pre><code>[1] &quot;Running K=1&quot;
-[1] &quot;iteration=200 | delta_rss=0.000307712412904948&quot;
+[1] &quot;iteration=200 | delta_rss=0.000214369792956859&quot;
 [1] &quot;Running K=2&quot;
 [1] &quot;Running K=3&quot;
-[1] &quot;iteration=200 | delta_rss=0.00267128960695118&quot;
-[1] &quot;iteration=400 | delta_rss=0.000111632572952658&quot;
+[1] &quot;iteration=200 | delta_rss=0.000158286478836089&quot;
 [1] &quot;Running K=4&quot;
-[1] &quot;iteration=200 | delta_rss=0.0176454830216244&quot;
-[1] &quot;iteration=400 | delta_rss=0.00117226445581764&quot;
-[1] &quot;iteration=600 | delta_rss=0.000648038927465677&quot;
-[1] &quot;iteration=800 | delta_rss=0.000413901463616639&quot;
-[1] &quot;iteration=1000 | delta_rss=0.000318053993396461&quot;
-[1] &quot;iteration=1200 | delta_rss=0.000316710502374917&quot;
-[1] &quot;iteration=1400 | delta_rss=0.000341458071488887&quot;
-[1] &quot;iteration=1600 | delta_rss=0.000334837124682963&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000307496055029333&quot;
-[1] &quot;iteration=2000 | delta_rss=0.000276727427262813&quot;
-[1] &quot;iteration=2200 | delta_rss=0.000246031733695418&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000216541695408523&quot;
-[1] &quot;iteration=2600 | delta_rss=0.000189068436156958&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000164072669576854&quot;
-[1] &quot;iteration=3000 | delta_rss=0.00014174246462062&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000122082477901131&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000104979786556214&quot;
+[1] &quot;iteration=200 | delta_rss=0.15425558865536&quot;
+[1] &quot;iteration=400 | delta_rss=0.0260007910546847&quot;
+[1] &quot;iteration=600 | delta_rss=0.0150750136235729&quot;
+[1] &quot;iteration=800 | delta_rss=0.0103306274977513&quot;
+[1] &quot;iteration=1000 | delta_rss=0.00728529569460079&quot;
+[1] &quot;iteration=1200 | delta_rss=0.00523876002989709&quot;
+[1] &quot;iteration=1400 | delta_rss=0.00383262085961178&quot;
+[1] &quot;iteration=1600 | delta_rss=0.00284782325616106&quot;
+[1] &quot;iteration=1800 | delta_rss=0.00214615417644382&quot;
+[1] &quot;iteration=2000 | delta_rss=0.00163837859872729&quot;
+[1] &quot;iteration=2200 | delta_rss=0.00126567838015035&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000988550134934485&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000780007394496351&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000621327024418861&quot;
+[1] &quot;iteration=3000 | delta_rss=0.00049933441914618&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000404637889005244&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000330461596604437&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000271862430963665&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000225196417886764&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000187751196790487&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000157488917466253&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000132865563500673&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000112701382022351&quot;
 [1] &quot;Running K=5&quot;
-[1] &quot;iteration=200 | delta_rss=0.00040846667252481&quot;
-[1] &quot;Running K=6&quot;</code></pre>
+[1] &quot;iteration=200 | delta_rss=0.00327718106564134&quot;
+[1] &quot;iteration=400 | delta_rss=0.00257390743354335&quot;
+[1] &quot;iteration=600 | delta_rss=0.0020490403403528&quot;
+[1] &quot;iteration=800 | delta_rss=0.00165133021073416&quot;
+[1] &quot;iteration=1000 | delta_rss=0.00134574202820659&quot;
+[1] &quot;iteration=1200 | delta_rss=0.00110790698090568&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000920604856219143&quot;
+[1] &quot;iteration=1600 | delta_rss=0.00077148579293862&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000651568523608148&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000554236699827015&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000474555941764265&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000408804742619395&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000354146060999483&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000308395712636411&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000269856071099639&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000237196451053023&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000209364865440875&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000185523473192006&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000164999801199883&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000147250830195844&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000131834880448878&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000118390482384712&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000106620485894382&quot;
+[1] &quot;Running K=6&quot;
+[1] &quot;iteration=200 | delta_rss=0.00080844247713685&quot;
+[1] &quot;iteration=400 | delta_rss=0.000725734047591686&quot;
+[1] &quot;iteration=600 | delta_rss=0.000652785762213171&quot;
+[1] &quot;iteration=800 | delta_rss=0.000588317634537816&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000531231053173542&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000480581889860332&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000435557274613529&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000395456328988075&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000359673576895148&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000327685207594186&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000299037026707083&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000273334793746471&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000250235374551266&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000229439756367356&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000210686994250864&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000193748681340367&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000178424816112965&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000164539844263345&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000151939457282424&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000140487623866647&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000130064552649856&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000120564131066203&quot;
+[1] &quot;iteration=4600 | delta_rss=0.00011189270298928&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000103967089671642&quot;</code></pre>
 <pre class="r"><code>l_df = data.frame(L)
 colnames(l_df) = paste0(&quot;K&quot;, 1:K)
 l_df$iid = 1:n
@@ -1558,8 +1984,46 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(K~., scale=&quot;free&quot;) +
     theme_bw()
-p</code></pre>
+
+print(p)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-convexnmf-greedy-1">
+Past versions of tree-simulation-convexnmf-greedy-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-convexnmf-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The first factor looks like the mean then the following two look similar to greedy FLASH. The following 3 are less interpretable.</p>
 </div>
 <div id="greedy-remove-ancestral-mean" class="section level3">
@@ -1579,74 +2043,45 @@ for(k in 1:K){
   
 }</code></pre>
 <pre><code>[1] &quot;Running K=1&quot;
-[1] &quot;iteration=200 | delta_rss=0.038165882404428&quot;
+[1] &quot;iteration=200 | delta_rss=2.36968607478775&quot;
+[1] &quot;iteration=400 | delta_rss=0.0060401774244383&quot;
 [1] &quot;Running K=2&quot;
+[1] &quot;iteration=200 | delta_rss=0.00163709180196747&quot;
+[1] &quot;iteration=400 | delta_rss=0.000119189149700105&quot;
 [1] &quot;Running K=3&quot;
-[1] &quot;iteration=200 | delta_rss=0.0193374897935428&quot;
-[1] &quot;iteration=400 | delta_rss=0.00135371158830822&quot;
-[1] &quot;iteration=600 | delta_rss=0.000302112894132733&quot;
+[1] &quot;iteration=200 | delta_rss=0.04010079219006&quot;
+[1] &quot;iteration=400 | delta_rss=0.0202493721735664&quot;
+[1] &quot;iteration=600 | delta_rss=0.0143762896186672&quot;
+[1] &quot;iteration=800 | delta_rss=0.0110623084474355&quot;
+[1] &quot;iteration=1000 | delta_rss=0.00925089360680431&quot;
+[1] &quot;iteration=1200 | delta_rss=0.0130199669511057&quot;
+[1] &quot;iteration=1400 | delta_rss=0.00450576079310849&quot;
+[1] &quot;iteration=1600 | delta_rss=0.00477232271805406&quot;
+[1] &quot;iteration=1800 | delta_rss=0.0017393262241967&quot;
+[1] &quot;iteration=2000 | delta_rss=0.00260783830890432&quot;
+[1] &quot;iteration=2200 | delta_rss=0.00664551596855745&quot;
+[1] &quot;iteration=2400 | delta_rss=0.00521458004368469&quot;
+[1] &quot;iteration=2600 | delta_rss=0.00119250547140837&quot;
+[1] &quot;iteration=2800 | delta_rss=0.00106901105027646&quot;
+[1] &quot;iteration=3000 | delta_rss=0.003095222346019&quot;
+[1] &quot;iteration=3200 | delta_rss=0.0031730595510453&quot;
+[1] &quot;iteration=3400 | delta_rss=0.00107647129334509&quot;
+[1] &quot;iteration=3600 | delta_rss=0.0020170253701508&quot;
+[1] &quot;iteration=3800 | delta_rss=0.00611454120371491&quot;
+[1] &quot;iteration=4000 | delta_rss=0.00127147982129827&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000384099257644266&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000260173401329666&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000228660472203046&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000226207368541509&quot;
+[1] &quot;iteration=5000 | delta_rss=0.000741485739126801&quot;
 [1] &quot;Running K=4&quot;
-[1] &quot;iteration=200 | delta_rss=0.00983678991906345&quot;
-[1] &quot;iteration=400 | delta_rss=0.00161215773550794&quot;
-[1] &quot;iteration=600 | delta_rss=0.00111764576286077&quot;
-[1] &quot;iteration=800 | delta_rss=0.000982423196546733&quot;
-[1] &quot;iteration=1000 | delta_rss=0.000902152387425303&quot;
-[1] &quot;iteration=1200 | delta_rss=0.000837642524857074&quot;
-[1] &quot;iteration=1400 | delta_rss=0.000780722009949386&quot;
-[1] &quot;iteration=1600 | delta_rss=0.000729036459233612&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000681623059790581&quot;
-[1] &quot;iteration=2000 | delta_rss=0.000637932971585542&quot;
-[1] &quot;iteration=2200 | delta_rss=0.000597573525737971&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000560227606911212&quot;
-[1] &quot;iteration=2600 | delta_rss=0.000525624142028391&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000493524828925729&quot;
-[1] &quot;iteration=3000 | delta_rss=0.000463717442471534&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000436011527199298&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000410235545132309&quot;
-[1] &quot;iteration=3600 | delta_rss=0.000386234081815928&quot;
-[1] &quot;iteration=3800 | delta_rss=0.000363866449333727&quot;
-[1] &quot;iteration=4000 | delta_rss=0.000343004532624036&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000323532032780349&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000305342546198517&quot;
-[1] &quot;iteration=4600 | delta_rss=0.000288339098915458&quot;
-[1] &quot;iteration=4800 | delta_rss=0.000272432982455939&quot;
-[1] &quot;iteration=5000 | delta_rss=0.000257542997132987&quot;
+[1] &quot;iteration=200 | delta_rss=0.0571316437562928&quot;
 [1] &quot;Running K=5&quot;
-[1] &quot;iteration=200 | delta_rss=0.00570639106445014&quot;
-[1] &quot;iteration=400 | delta_rss=0.00183307699626312&quot;
-[1] &quot;iteration=600 | delta_rss=0.00145148171577603&quot;
-[1] &quot;iteration=800 | delta_rss=0.00125598645536229&quot;
-[1] &quot;iteration=1000 | delta_rss=0.00110427790787071&quot;
-[1] &quot;iteration=1200 | delta_rss=0.000977315939962864&quot;
-[1] &quot;iteration=1400 | delta_rss=0.00086888181976974&quot;
-[1] &quot;iteration=1600 | delta_rss=0.000775410851929337&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000694358721375465&quot;
-[1] &quot;iteration=2000 | delta_rss=0.000623753992840648&quot;
-[1] &quot;iteration=2200 | delta_rss=0.000562010216526687&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000507824996020645&quot;
-[1] &quot;iteration=2600 | delta_rss=0.00046011689119041&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000417980481870472&quot;
-[1] &quot;iteration=3000 | delta_rss=0.000380654237233102&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000347494380548596&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000317954632919282&quot;
-[1] &quot;iteration=3600 | delta_rss=0.000291570089757442&quot;
-[1] &quot;iteration=3800 | delta_rss=0.000267943425569683&quot;
-[1] &quot;iteration=4000 | delta_rss=0.000246734241954982&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000227649812586606&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000210437865462154&quot;
-[1] &quot;iteration=4600 | delta_rss=0.000194880121853203&quot;
-[1] &quot;iteration=4800 | delta_rss=0.000180787581484765&quot;
-[1] &quot;iteration=5000 | delta_rss=0.000167995691299438&quot;
 [1] &quot;Running K=6&quot;
-[1] &quot;iteration=200 | delta_rss=0.00401343387784436&quot;
-[1] &quot;iteration=400 | delta_rss=0.000489717465825379&quot;
-[1] &quot;iteration=600 | delta_rss=0.000220007786992937&quot;
-[1] &quot;iteration=800 | delta_rss=0.000161810661666095&quot;
-[1] &quot;iteration=1000 | delta_rss=0.000139431154821068&quot;
-[1] &quot;iteration=1200 | delta_rss=0.00012649194104597&quot;
-[1] &quot;iteration=1400 | delta_rss=0.000116988958325237&quot;
-[1] &quot;iteration=1600 | delta_rss=0.000109126151073724&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000102238438557833&quot;</code></pre>
+[1] &quot;iteration=200 | delta_rss=0.00926272809738293&quot;
+[1] &quot;iteration=400 | delta_rss=0.000970086606685072&quot;
+[1] &quot;iteration=600 | delta_rss=0.000281919375993311&quot;
+[1] &quot;iteration=800 | delta_rss=0.000139113748446107&quot;</code></pre>
 <pre class="r"><code>l_df = data.frame(L)
 colnames(l_df) = paste0(&quot;K&quot;, 1:K)
 l_df$iid = 1:n
@@ -1658,8 +2093,46 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(K~., scale=&quot;free&quot;) +
     theme_bw()
-p</code></pre>
+
+print(p)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-aa-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree-simulation-convexnmf-greedy-aa-1">
+Past versions of tree-simulation-convexnmf-greedy-aa-1.png
+</button>
+</p>
+<div id="fig-tree-simulation-convexnmf-greedy-aa-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/tree-simulation-convexnmf-greedy-aa-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This has a similar solution to greedy semi-negative <code>FLASH</code> except the first factor is way less sparse and the other factors are less sparse in general. This makes it clear how important it is to estimate the mean parameter in the model correctly.</p>
 </div>
 </div>
@@ -1701,8 +2174,46 @@ p = qplot(1:K, lamb / sum(lamb)) +
     xlab(&quot;PC&quot;) +
     ylab(&quot;PVE&quot;) + 
     theme_bw()
-p</code></pre>
+
+print(p)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/admixture-pca-scree-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-pca-scree-1">
+Past versions of admixture-pca-scree-1.png
+</button>
+</p>
+<div id="fig-admixture-pca-scree-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-pca-scree-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From the PVE plot we can see there is a large drop off after the first 3 PCs so lets just visualize them:</p>
 <pre class="r"><code>l_df = data.frame(svd_fit$u[,1:3])
 colnames(l_df) = paste0(&quot;PC&quot;, 1:3)
@@ -1715,8 +2226,46 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
     geom_point() +
     facet_wrap(PC~., scale=&quot;free&quot;) +
     theme_bw()
-p</code></pre>
+
+print(p)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/admixture-pca-lodaings-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-pca-lodaings-1">
+Past versions of admixture-pca-lodaings-1.png
+</button>
+</p>
+<div id="fig-admixture-pca-lodaings-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-pca-lodaings-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>There is some signal of the admixture event in PC1 … we see a shift of population 2 to 0.0 in PC1 rather than being cluster with population 4.</p>
 </div>
 <div id="psd-alstructure-1" class="section level2">
@@ -1738,9 +2287,199 @@ for(k in 2:K){
                      facet_levels=paste0(&quot;Pop&quot;, 1:4),
                      fact_type=&quot;structure&quot;) +
                      ggtitle(paste0(&quot;K=&quot;, k))
+  
   print(p)
 }</code></pre>
-<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/simple_tree_simulation.Rmd/admixture-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-psd-1">
+Past versions of admixture-psd-1.png
+</button>
+</p>
+<div id="fig-admixture-psd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-psd-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-psd-2">
+Past versions of admixture-psd-2.png
+</button>
+</p>
+<div id="fig-admixture-psd-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-psd-2.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-psd-3">
+Past versions of admixture-psd-3.png
+</button>
+</p>
+<div id="fig-admixture-psd-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-psd-3.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-psd-4">
+Past versions of admixture-psd-4.png
+</button>
+</p>
+<div id="fig-admixture-psd-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-psd-4.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-psd-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-psd-5">
+Past versions of admixture-psd-5.png
+</button>
+</p>
+<div id="fig-admixture-psd-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-psd-5.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here maybe <span class="math inline">\(K=3\)</span> is the most interpretable? We see some signature of the split and admixture? This is already showing the difficulty of interpreting PSD fits in simple population genetic model. It also emphasizes thats the admixture gallery of many K plots needs to be shown to really understand what is going on not just a single one.</p>
 </div>
 <div id="flash-drift-1" class="section level2">
@@ -1769,8 +2508,48 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 5 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-flash-drift-fixloadings-greedy-1">
+Past versions of admixture-flash-drift-fixloadings-greedy-1.png
+</button>
+</p>
+<div id="fig-admixture-flash-drift-fixloadings-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
 <pre><code>[1] -832532.2</code></pre>
 <p>Hmm we are missing the population specific factor for population 4? We also see population 3 not being as strongly loaded on factor 3 which maybe is a signature of the admixture event?</p>
@@ -1802,8 +2581,48 @@ Backfitting 6 factors...
 Nullchecking 5 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-simulation-flash-drift-fixloadings-finalbackfit-1">
+Past versions of admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png
+</button>
+</p>
+<div id="fig-admixture-simulation-flash-drift-fixloadings-finalbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
 <pre><code>[1] -821414.6</code></pre>
 <p>This is not very interpretable.</p>
@@ -1837,8 +2656,48 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 3 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_flash_loadings(flash_fit, n_per_pop)</code></pre>
+<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admixture-flash-drift-fixloadings-alternatingbackfit-1">
+Past versions of admixture-flash-drift-fixloadings-alternatingbackfit-1.png
+</button>
+</p>
+<div id="fig-admixture-flash-drift-fixloadings-alternatingbackfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">1a21d43</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
 <pre><code>[1] -821709.7</code></pre>
 This is not very interpretable. <br> <br>

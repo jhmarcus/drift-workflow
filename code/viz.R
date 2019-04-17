@@ -23,7 +23,7 @@ structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Popul
   if(fact_type=="structure"){
     p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, fill=factor(K)))
   } else if(fact_type=="nonnegative"){
-    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, fill=factor(K)))
+    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value), y=value, fill=factor(K)))
   }
   
   p = p_init + 
