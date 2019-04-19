@@ -1,11 +1,17 @@
 ---
-title: "badmixture"
+title: "badMIXTURE"
 author: "jhmarcus"
 date: "2019-04-16"
 output: workflowr::wflow_html
 ---
 
-TODO: Introduction
+*Take this with a grain of salt for now as I'm still debugging / following up with some issues with the simulation data the authors of badMIXTURE provided from the paper*:
+
+Here I perform simulations from [Lawson et al. 2018](https://www.nature.com/articles/s41467-018-05257-7). These simulations are specifically designed to illustrate challenges with interpreting admixture coefficients from PSD models as population genetic parameters. Specifically they ran `ADMIXTURE` (K=11) on three challenging simulation scenarios which are inspired by human demographic histories. They find `ADMIXTURE` generates the same coefficients under these three different scenarios. The figure below and found in the supplement of the badMIXTURE paper visually describes the simulation settings:
+
+![](../docs/assets/badMIXTURE-history.png)
+
+Here I attempt to replicate their findings by running `ADMIXTURE` on the same datasets simulated in the paper as well as running `FLASH (Drift)` to see if it can distinguish these models. Note, I downloaded the plink files from their simulations from [here](https://people.maths.bris.ac.uk/~madjl/finestructure/badmixture/). I then filtered on any missingness and removed variants with minor allele frequency less than 5%. *One odd feature of the data is there are 12 populations in the `plink` files but 13 in their supplementary figure. I will have to follow up to see if this is the exact simulation data they used. I'm following up with Daniel Lawson about this issue.*
 
 # Imports
 
@@ -13,111 +19,232 @@ Lets import some needed packages:
 
 ```{r imports, warning=FALSE, message=FALSE}
 library(ggplot2)
-library(ggridges)
 library(tidyr)
 library(dplyr)
 library(RColorBrewer)
-library(biomaRt)
 library(knitr)
 source("../code/viz.R")
 source("../code/prep.R")
 ```
 
-# FLASH-Greedy
+# ADMIXTURE
 
-Lets first read the greedy `flashier` fit
+Here the colors of the factors between the three `ADMIXTURE` runs changes (I need to work on factor color matching code) but sitting with the results one can see the similarities in the highlighted 4 populations. 
 
-```{r flash-greedy}
-# read the flash fit output by snakemake
-flash_fit = readRDS("../output/flash_greedy/marginalisation_sim/Marginalisation_admix_geno_maf.rds")
-K = flash_fit$n.factors
-n = nrow(flash_fit$loadings$normalized.loadings[[1]])
-p = nrow(flash_fit$loadings$normalized.loadings[[2]])
+## Recent (Recent	Admixture)
 
-snp_df = prepare_snp_data(flash_fit, "../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.bim")
-pves = flash_fit$pve[2:K]
+```{r}
+l_df = read.table("../output/admixture/recent_sim/Recent_admix_geno_maf.K11r1.Q", sep=" ", header=F)
+K = ncol(l_df)
+colnames(l_df) = 1:K
+inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
+pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+l_df$ID = inds
+l_df$pop = factor(pops, levels=paste0("Pop", 1:13))
+pops = paste0("Pop", 1:13) # all unique pop labels
+l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
 
-print(K)
-print(n)
+l_gath_df = l_df %>% gather(K, value, -ID, -pop)
+l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                      facet_grp="pop", label_size=5, fact_type="structure") +
+       theme(plot.title = element_text(size=6))
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="structure") +
+      theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p47, nrow = 2, align = "v") 
 print(p)
 ```
 
-# PVEs
- 
-Here is a plot of the proportion of variance (PVE) explained by each drift event:
+## Marginalisation (Recent Bottleneck)
 
-```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
+```{r}
+l_df = read.table("../output/admixture/marginalisation_sim/Marginalisation_admix_geno_maf.K11r1.Q", sep=" ", header=F)
+K = ncol(l_df)
+colnames(l_df) = 1:K
+inds = read.table("../data/datasets//marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% 
+       pull(V1)
+pops = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% 
+       pull(V2)
+l_df$ID = inds
+l_df$pop = pops
+pops = paste0("Pop", 1:13) # all unique pop labels
+l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+
+l_gath_df = l_df %>% gather(K, value, -ID, -pop)
+l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                   facet_grp="pop", label_size=5, fact_type="structure") +
+           theme(plot.title = element_text(size=6))
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="structure") +
+      theme(plot.title = element_text(size=6))
+
+p = cowplot::plot_grid(pall, p47, nrow = 2) 
+print(p)
+```
+
+## Remnants (Ghost Admixture)
+
+There is something very funky about the Remnants simulation. See populations 8-13.
+
+```{r}
+l_df = read.table("../output/admixture/remnants_sim/Remnants_admix_geno_maf.K11r1.Q", sep=" ", header=F)
+K = ncol(l_df)
+colnames(l_df) = 1:K
+inds = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+pops = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df$pop = pops
+pops = paste0("Pop", 1:13)# all unique pop labels
+l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+
+l_gath_df = l_df %>% gather(K, value, -ID, -pop)
+l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                   facet_grp="pop", label_size=5, fact_type="structure") +
+           theme(plot.title = element_text(size=6))
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="structure") +
+      theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p47, nrow = 2) 
+print(p)
+```
+
+# FLASH-Greedy
+
+## Recent (Recent	Admixture)
+
+```{r}
+flash_fit = readRDS("../output/flash_greedy/recent_sim/Recent_admix_geno_maf.rds")
 plot_pve(flash_fit)
+print(flash_fit$pve)
 ```
 
-# Distribution of Factors
+It looks like the pve drops off at around 10 factors so lets go with visualizing the top 10:
 
-```{r flash-greedy-ld-viz-pve, warning=FALSE, message=FALSE}
-plot_factors(snp_df, rel_size=.7) 
-```
-
-# Fitted Mean and Variance
-
-I setup the `flashier` run so it estimates a SNP specific precision term. Here is a histogram of fitted variances:
-
-```{r flash-greedy-viz-var, warning=FALSE, message=FALSE}
-plot_variance(snp_df)
-```
-
-Lets now look the the fitted means:
-
-```{r flash-greedy-viz-mean, warning=FALSE, message=FALSE}
-p_m = plot_mean(snp_df)
-p_v = plot_variance(snp_df)
-p_mv = plot_mean_variance(snp_df)
-
-cowplot::plot_grid(p_m, p_v, p_mv, nrow = 2)
-```
-
-It looks like many of the SNPs are on the rarer side. We should see a quadratic relationship with the estimated variance:
-
-```{r flash-greedy-viz-mv, warning=FALSE, message=FALSE}
-plot_mean_variance(snp_df)
-```
-
-```{r flash-viz-loadings, warning=FALSE, message=FALSE}
-# setup loadings data.frame
+```{r}
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 colnames(l_df)[1:31] = 1:31
-ind_df = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", 
-                    sep=" ", 
-                    stringsAsFactors = F)
-colnames(ind_df) = c("iid", "clst", "a", "b", "c", "d")
-l_df = cbind(l_df, ind_df)
+inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
+pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+l_df$ID = inds
+l_df$pop = pops
 pops = paste0("Pop", 1:13)
 
-factors = paste0(2:10)
+factors_incl = paste0(2:10)
+l_gath_df = l_df %>%          
+            select_if(~sum(!is.na(.)) > 0) %>%
+            gather(K, value, -ID, -pop) %>%
+            filter(K %in% factors_incl)
 
-gath_df = l_df %>%
-          select_if(~sum(!is.na(.)) > 0) %>%
-          gather(K, value, -iid, -clst, -a, -b, -c, -d) %>%
-          filter(K %in% factors)
-          
-colourCount = length(unique(gath_df$K))
-getPalette = colorRampPalette(brewer.pal(9, "Set3"))
-p = ggplot(data=gath_df, aes(x=reorder(iid, desc(value)), y=value, fill=factor(K, levels=factors))) + 
-      geom_bar(stat="identity", width=1) +  
-      scale_fill_manual(values = getPalette(colourCount)) + 
-      scale_y_continuous(expand=c(0, 0)) +
-      scale_x_discrete(expand=c(0, 0)) +
-      facet_grid(. ~ factor(clst, levels=pops), scales = "free", space="free", switch="both") + 
-      theme_classic() +
-      theme(panel.spacing = unit(0.2, "lines"), 
-            strip.background = element_rect(colour="white", fill="white"),
-            strip.text.x = element_text(colour = "black", angle = 90, hjust = 1.1), 
-            strip.placement = "outside", 
-            panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank(),
-            axis.text.x=element_blank(), 
-            axis.ticks.x=element_blank()) + 
-            ylab("") + 
-            xlab("") +
-            labs(fill="K") +
-            theme(legend.position="bottom")
-p
+l_gath_df47 = l_df %>%          
+              filter(pop %in% paste0("Pop", 4:7)) %>%
+              select_if(~sum(!is.na(.)) > 0) %>%
+              gather(K, value, -ID, -pop) %>%
+              filter(K %in% factors_incl)
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                   facet_grp="pop", label_size=5, fact_type="nonnegative") +
+           theme(plot.title = element_text(size=6))
+
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+      theme(plot.title = element_text(size=6))
+
+p = cowplot::plot_grid(pall, p47, nrow = 2) 
+print(p)
+```
+
+Looks pretty clean!
+
+## Marginalisation (Recent Bottleneck)
+
+```{r}
+flash_fit = readRDS("../output/flash_greedy/marginalisation_sim/Marginalisation_admix_geno_maf.rds")
+plot_pve(flash_fit)
+print(flash_fit$pve)
+```
+
+This also seems to drop off at 10 factors so lets visualize that:
+
+```{r}
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+colnames(l_df)[1:31] = 1:31
+inds = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+pops = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df$pop = pops
+pops = paste0("Pop", 1:13)
+
+factors_incl = paste0(2:10)
+l_gath_df = l_df %>%          
+            select_if(~sum(!is.na(.)) > 0) %>%
+            gather(K, value, -ID, -pop) %>%
+            filter(K %in% factors_incl)
+
+l_gath_df47 = l_df %>%          
+              filter(pop %in% paste0("Pop", 4:7)) %>%
+              select_if(~sum(!is.na(.)) > 0) %>%
+              gather(K, value, -ID, -pop) %>%
+              filter(K %in% factors_incl)
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                   facet_grp="pop", label_size=5, fact_type="nonnegative") +
+           theme(plot.title = element_text(size=6))
+
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+      theme(plot.title = element_text(size=6))
+
+p = cowplot::plot_grid(pall, p47, nrow = 2) 
+print(p)
+```
+
+## Remnants (Ghost Admixture)
+
+```{r}
+flash_fit = readRDS("../output/flash_greedy/remnants_sim/Remnants_admix_geno_maf.rds")
+plot_pve(flash_fit)
+print(flash_fit$pve)
+```
+
+Yet again seems to drop off at 10 factors:
+
+```{r}
+flash_fit = readRDS("../output/flash_greedy/remnants_sim/Remnants_admix_geno_maf.rds")
+
+l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+colnames(l_df)[1:31] = 1:31
+inds = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+pops = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df$pop = pops
+pops = paste0("Pop", 1:13)
+
+factors_incl = paste0(2:10)
+l_gath_df = l_df %>%          
+            select_if(~sum(!is.na(.)) > 0) %>%
+            gather(K, value, -ID, -pop) %>%
+            filter(K %in% factors_incl)
+
+l_gath_df47 = l_df %>%          
+              filter(pop %in% paste0("Pop", 4:7)) %>%
+              select_if(~sum(!is.na(.)) > 0) %>%
+              gather(K, value, -ID, -pop) %>%
+              filter(K %in% factors_incl)
+
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+                   facet_grp="pop", label_size=5, fact_type="nonnegative") +
+           theme(plot.title = element_text(size=6))
+
+p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+      theme(plot.title = element_text(size=6))
+
+p = cowplot::plot_grid(pall, p47, nrow = 2) 
+print(p)
 ```

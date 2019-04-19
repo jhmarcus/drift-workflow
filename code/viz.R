@@ -52,7 +52,7 @@ structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Popul
 
 plot_pve = function(flash_fit){
   
-  p = qplot(2:K, pves) + 
+  p = qplot(1:flash_fit$n.factors, flash_fit$pve) + 
       ylab("Proportion of Varaince Explained") + 
       xlab("K") + 
       theme_bw()

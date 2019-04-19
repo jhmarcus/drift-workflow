@@ -286,8 +286,9 @@ Hmm it seems like the final backfit removes the nice signal we had in the greedy
 Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:
 
 ```{r tree-simulation-flash-drift-fixloadings-alternatingbackfit, warning = FALSE}
+Yhat = flash_fit$fit$EF[[1]] %*% t(flash_fit$fit$EF[[2]])
 flash_fit = flashier::flashier(Y, 
-                               greedy.Kmax=K, 
+                               greedy.Kmax=1, 
                                prior.type=c("nonnegative", "point.normal"),
                                ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
                                var.type=0,
@@ -300,7 +301,7 @@ flash_fit = flashier::flashier(Y,
 
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
-print(p_res$p2)
+#print(p_res$p2)
 print(flash_fit$objective)
 ```
       
