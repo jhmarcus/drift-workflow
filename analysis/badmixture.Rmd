@@ -5,13 +5,11 @@ date: "2019-04-16"
 output: workflowr::wflow_html
 ---
 
-*Take this with a grain of salt for now as I'm still debugging / following up with some issues with the simulation data the authors of badMIXTURE provided from the paper*:
+Here I perform simulations from [Lawson et al. 2018](https://www.nature.com/articles/s41467-018-05257-7). These simulations are specifically designed to illustrate challenges with interpreting admixture coefficients from PSD models as population genetic parameters. Specifically they ran `ADMIXTURE` (K=11) on three challenging simulation scenarios which are inspired by human demographic histories. They find `ADMIXTURE` generates the same coefficients under these three different scenarios. The figure below and found in the supplement of the `badMIXTURE` paper visually describes the simulation settings:
 
-Here I perform simulations from [Lawson et al. 2018](https://www.nature.com/articles/s41467-018-05257-7). These simulations are specifically designed to illustrate challenges with interpreting admixture coefficients from PSD models as population genetic parameters. Specifically they ran `ADMIXTURE` (K=11) on three challenging simulation scenarios which are inspired by human demographic histories. They find `ADMIXTURE` generates the same coefficients under these three different scenarios. The figure below and found in the supplement of the badMIXTURE paper visually describes the simulation settings:
+![](https://www.dropbox.com/s/pb9wmi3lolyhly9/badMIXTURE-history.png?raw=1)
 
-![](../docs/assets/badMIXTURE-history.png)
-
-Here I attempt to replicate their findings by running `ADMIXTURE` on the same datasets simulated in the paper as well as running `FLASH (Drift)` to see if it can distinguish these models. Note, I downloaded the plink files from their simulations from [here](https://people.maths.bris.ac.uk/~madjl/finestructure/badmixture/). I then filtered on any missingness and removed variants with minor allele frequency less than 5%. *One odd feature of the data is there are 12 populations in the `plink` files but 13 in their supplementary figure. I will have to follow up to see if this is the exact simulation data they used. I'm following up with Daniel Lawson about this issue.*
+Here I attempt to replicate their findings by running `ADMIXTURE` on the same datasets simulated in the paper as well as running `FLASH (Drift)` to see if it can distinguish these models. Note, I downloaded the plink files from their simulations from [here](https://people.maths.bris.ac.uk/~madjl/finestructure/badmixture/). I then filtered on any missingness and removed variants with minor allele frequency less than 5%.
 
 # Imports
 
@@ -27,9 +25,25 @@ source("../code/viz.R")
 source("../code/prep.R")
 ```
 
+# Data
+
+It took some communication with the authors of `badMIXTURE` to hunt this information down i.e. how the population ids in the plink file map to the supplementary figure 1 from the `badMIXTURE` paper. Note that Pop10 / MidE1 is simulated but not sampled in the plink files.
+
+```{r}
+pops_old = c("Pop1", "Pop2", "Pop3", "Pop4", 
+             "Pop7", "Pop5", "Pop6", "Pop13",
+             "Pop8", "Pop9", "Pop11", "Pop12")
+pops = c("Afr1", "Afr2", "Afr3", "Afr4", 
+         "P1", "P2", "P3", "P4",
+         "Eur1", "Eur2", "EA1", "EA2")
+pop_df = data.frame(pop_o=pops_old, pop=pops)
+pops4 = paste0("P", 1:4)
+pop_df %>% head()
+```
+
 # ADMIXTURE
 
-Here the colors of the factors between the three `ADMIXTURE` runs changes (I need to work on factor color matching code) but sitting with the results one can see the similarities in the highlighted 4 populations. 
+Here the colors of the factors between the three `ADMIXTURE` runs changes (I need to work on factor color matching code) but one can see the similarities in the highlighted 4 populations. 
 
 ## Recent (Recent	Admixture)
 
@@ -40,22 +54,25 @@ colnames(l_df) = 1:K
 inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
 l_df$ID = inds
-l_df$pop = factor(pops, levels=paste0("Pop", 1:13))
-pops = paste0("Pop", 1:13) # all unique pop labels
+l_df$pop_o = pops
+
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
-
 l_gath_df = l_df %>% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+l_gath_df4 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
                       facet_grp="pop", label_size=5, fact_type="structure") +
        theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="structure") +
-      theme(plot.title = element_text(size=6))
-p = cowplot::plot_grid(pall, p47, nrow = 2, align = "v") 
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = "v") 
 print(p)
 ```
+
+The data here sees to be pretty clustered for instance essentially a single factor explains Afr1, Afr4, P1, P4. Thus there is no why to really discern the hierarchical nature of the data. 
 
 ## Marginalisation (Recent Bottleneck)
 
@@ -63,28 +80,28 @@ print(p)
 l_df = read.table("../output/admixture/marginalisation_sim/Marginalisation_admix_geno_maf.K11r1.Q", sep=" ", header=F)
 K = ncol(l_df)
 colnames(l_df) = 1:K
-inds = read.table("../data/datasets//marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% 
-       pull(V1)
-pops = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% 
-       pull(V2)
+inds = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+pops = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0("Pop", 1:13) # all unique pop labels
+l_df$pop_o = pops
+
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
-
 l_gath_df = l_df %>% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+l_gath_df4 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
-                   facet_grp="pop", label_size=5, fact_type="structure") +
-           theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
+                      facet_grp="pop", label_size=5, fact_type="structure") +
+       theme(plot.title = element_text(size=6))
+
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="structure") +
-      theme(plot.title = element_text(size=6))
-
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = "v") 
 print(p)
 ```
+
+Interestingly the results look essentially the same (but with different colors). In some sense its good that the results are the same for the pops not P1-P4 but its troubling we generate the same admixture proportions under a different model.
 
 ## Remnants (Ghost Admixture)
 
@@ -97,22 +114,25 @@ colnames(l_df) = 1:K
 inds = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
 pops = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0("Pop", 1:13)# all unique pop labels
+l_df$pop_o = pops
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
 
 l_gath_df = l_df %>% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% paste0("Pop", 4:7)) 
+l_gath_df4 = l_df %>% gather(K, value, -ID, -pop) %>% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
-                   facet_grp="pop", label_size=5, fact_type="structure") +
-           theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
+                      facet_grp="pop", label_size=5, fact_type="structure") +
+       theme(plot.title = element_text(size=6))
+
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="structure") +
-      theme(plot.title = element_text(size=6))
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = "v") 
 print(p)
 ```
+
+There is something wrong with this simulation ... I need to follow up with the authors b/c this is way nosier then I expected.
 
 # FLASH-Greedy
 
@@ -132,8 +152,8 @@ colnames(l_df)[1:31] = 1:31
 inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0("Pop", 1:13)
+l_df$pop_o = pops
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 
 factors_incl = paste0(2:10)
 l_gath_df = l_df %>%          
@@ -141,25 +161,25 @@ l_gath_df = l_df %>%
             gather(K, value, -ID, -pop) %>%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %>%          
-              filter(pop %in% paste0("Pop", 4:7)) %>%
+l_gath_df4 = l_df %>%          
+              filter(pop %in% pops4) %>%
               select_if(~sum(!is.na(.)) > 0) %>%
               gather(K, value, -ID, -pop) %>%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
                    facet_grp="pop", label_size=5, fact_type="nonnegative") +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)
 ```
 
-Looks pretty clean!
+Looks pretty clean! It is much easier to observe some hierarchical structure to the data i.e. the purple factor is in all African populations, the yellow factor is in out of Africa populations, the green factor is only in East Asian populations, the red factor is only in European populations, and then there are population / sub-population specific-ish factors i.e. pink, orange, gray. The ability to extract this type of hierarchical structure is incredibly cool. I need to think more about how "recent admixture" is represented in P1-P4.
 
 ## Marginalisation (Recent Bottleneck)
 
@@ -177,8 +197,8 @@ colnames(l_df)[1:31] = 1:31
 inds = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
 pops = read.table("../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0("Pop", 1:13)
+l_df$pop_o = pops
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 
 factors_incl = paste0(2:10)
 l_gath_df = l_df %>%          
@@ -186,23 +206,25 @@ l_gath_df = l_df %>%
             gather(K, value, -ID, -pop) %>%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %>%          
-              filter(pop %in% paste0("Pop", 4:7)) %>%
+l_gath_df4 = l_df %>%          
+              filter(pop %in% pops4) %>%
               select_if(~sum(!is.na(.)) > 0) %>%
               gather(K, value, -ID, -pop) %>%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
                    facet_grp="pop", label_size=5, fact_type="nonnegative") +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)
 ```
+
+There are a lot of similarities to the past results but there are differences as well! I need to think more about how P1-P4 reflect a recent bottleneck.
 
 ## Remnants (Ghost Admixture)
 
@@ -215,15 +237,13 @@ print(flash_fit$pve)
 Yet again seems to drop off at 10 factors:
 
 ```{r}
-flash_fit = readRDS("../output/flash_greedy/remnants_sim/Remnants_admix_geno_maf.rds")
-
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 colnames(l_df)[1:31] = 1:31
 inds = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
 pops = read.table("../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0("Pop", 1:13)
+l_df$pop_o = pops
+l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
 
 factors_incl = paste0(2:10)
 l_gath_df = l_df %>%          
@@ -231,20 +251,22 @@ l_gath_df = l_df %>%
             gather(K, value, -ID, -pop) %>%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %>%          
-              filter(pop %in% paste0("Pop", 4:7)) %>%
+l_gath_df4 = l_df %>%          
+              filter(pop %in% pops4) %>%
               select_if(~sum(!is.na(.)) > 0) %>%
               gather(K, value, -ID, -pop) %>%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
                    facet_grp="pop", label_size=5, fact_type="nonnegative") +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset="Set3", facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
                      facet_grp="pop", label_size=5, fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)
 ```
+
+Again I'm taking this simulation with a grain of salt as the `ADMIXTURE` results looked really funky as well.

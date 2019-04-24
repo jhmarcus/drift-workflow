@@ -440,7 +440,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-19
+<strong>Last updated:</strong> 2019-04-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree146bedf1c40e8323996bee1595ef3e3221c34064targetblank146bedfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/146bedf1c40e8323996bee1595ef3e3221c34064" target="_blank">146bedf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee32adcc3bf6603fab2b354fdf71854872bed18batargetblanke32adcca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/e32adcc3bf6603fab2b354fdf71854872bed18ba" target="_blank">e32adcc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree146bedf1c40e8323996bee1595ef3e3221c34064targetblank146bedfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee32adcc3bf6603fab2b354fdf71854872bed18batargetblanke32adcca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -538,14 +538,9 @@ Ignored files:
     Ignored:    output.tar.gz
     Ignored:    output/
 
-Untracked files:
-    Untracked:  docs/figure/badmixture.Rmd/
-
 Unstaged changes:
     Modified:   analysis/badmixture.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/simple_tree_simulation.Rmd
-    Modified:   code/viz.R
 
 </code></pre>
 <p>
@@ -589,6 +584,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/analysis/badmixture.Rmd" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+<td>
+init badmixture sim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/badmixture.html" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+<td>
+init badmixture sim
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1a21d43fb1c4fb7f07b6d597600eca9610b577d6/analysis/badmixture.Rmd" target="_blank">1a21d43</a>
 </td>
 <td>
@@ -608,10 +637,9 @@ updated simple tree doc
 </div>
 </div>
 </div>
-<p><em>Take this with a grain of salt for now as I’m still debugging / following up with some issues with the simulation data the authors of badMIXTURE provided from the paper</em>:</p>
-<p>Here I perform simulations from <a href="https://www.nature.com/articles/s41467-018-05257-7">Lawson et al. 2018</a>. These simulations are specifically designed to illustrate challenges with interpreting admixture coefficients from PSD models as population genetic parameters. Specifically they ran <code>ADMIXTURE</code> (K=11) on three challenging simulation scenarios which are inspired by human demographic histories. They find <code>ADMIXTURE</code> generates the same coefficients under these three different scenarios. The figure below and found in the supplement of the badMIXTURE paper visually describes the simulation settings:</p>
-<p><img src="../docs/assets/badMIXTURE-history.png" /></p>
-<p>Here I attempt to replicate their findings by running <code>ADMIXTURE</code> on the same datasets simulated in the paper as well as running <code>FLASH (Drift)</code> to see if it can distinguish these models. Note, I downloaded the plink files from their simulations from <a href="https://people.maths.bris.ac.uk/~madjl/finestructure/badmixture/">here</a>. I then filtered on any missingness and removed variants with minor allele frequency less than 5%. <em>One odd feature of the data is there are 12 populations in the <code>plink</code> files but 13 in their supplementary figure. I will have to follow up to see if this is the exact simulation data they used. I’m following up with Daniel Lawson about this issue.</em></p>
+<p>Here I perform simulations from <a href="https://www.nature.com/articles/s41467-018-05257-7">Lawson et al. 2018</a>. These simulations are specifically designed to illustrate challenges with interpreting admixture coefficients from PSD models as population genetic parameters. Specifically they ran <code>ADMIXTURE</code> (K=11) on three challenging simulation scenarios which are inspired by human demographic histories. They find <code>ADMIXTURE</code> generates the same coefficients under these three different scenarios. The figure below and found in the supplement of the <code>badMIXTURE</code> paper visually describes the simulation settings:</p>
+<p><img src="https://www.dropbox.com/s/pb9wmi3lolyhly9/badMIXTURE-history.png?raw=1" /></p>
+<p>Here I attempt to replicate their findings by running <code>ADMIXTURE</code> on the same datasets simulated in the paper as well as running <code>FLASH (Drift)</code> to see if it can distinguish these models. Note, I downloaded the plink files from their simulations from <a href="https://people.maths.bris.ac.uk/~madjl/finestructure/badmixture/">here</a>. I then filtered on any missingness and removed variants with minor allele frequency less than 5%.</p>
 <div id="imports" class="section level1">
 <h1>Imports</h1>
 <p>Lets import some needed packages:</p>
@@ -623,9 +651,29 @@ library(knitr)
 source(&quot;../code/viz.R&quot;)
 source(&quot;../code/prep.R&quot;)</code></pre>
 </div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>It took some communication with the authors of <code>badMIXTURE</code> to hunt this information down i.e. how the population ids in the plink file map to the supplementary figure 1 from the <code>badMIXTURE</code> paper. Note that Pop10 / MidE1 is simulated but not sampled in the plink files.</p>
+<pre class="r"><code>pops_old = c(&quot;Pop1&quot;, &quot;Pop2&quot;, &quot;Pop3&quot;, &quot;Pop4&quot;, 
+             &quot;Pop7&quot;, &quot;Pop5&quot;, &quot;Pop6&quot;, &quot;Pop13&quot;,
+             &quot;Pop8&quot;, &quot;Pop9&quot;, &quot;Pop11&quot;, &quot;Pop12&quot;)
+pops = c(&quot;Afr1&quot;, &quot;Afr2&quot;, &quot;Afr3&quot;, &quot;Afr4&quot;, 
+         &quot;P1&quot;, &quot;P2&quot;, &quot;P3&quot;, &quot;P4&quot;,
+         &quot;Eur1&quot;, &quot;Eur2&quot;, &quot;EA1&quot;, &quot;EA2&quot;)
+pop_df = data.frame(pop_o=pops_old, pop=pops)
+pops4 = paste0(&quot;P&quot;, 1:4)
+pop_df %&gt;% head()</code></pre>
+<pre><code>  pop_o  pop
+1  Pop1 Afr1
+2  Pop2 Afr2
+3  Pop3 Afr3
+4  Pop4 Afr4
+5  Pop7   P1
+6  Pop5   P2</code></pre>
+</div>
 <div id="admixture" class="section level1">
 <h1>ADMIXTURE</h1>
-<p>Here the colors of the factors between the three <code>ADMIXTURE</code> runs changes (I need to work on factor color matching code) but sitting with the results one can see the similarities in the highlighted 4 populations.</p>
+<p>Here the colors of the factors between the three <code>ADMIXTURE</code> runs changes (I need to work on factor color matching code) but one can see the similarities in the highlighted 4 populations.</p>
 <div id="recent-recent-admixture" class="section level2">
 <h2>Recent (Recent Admixture)</h2>
 <pre class="r"><code>l_df = read.table(&quot;../output/admixture/recent_sim/Recent_admix_geno_maf.K11r1.Q&quot;, sep=&quot; &quot;, header=F)
@@ -634,53 +682,137 @@ colnames(l_df) = 1:K
 inds = read.table(&quot;../data/datasets/recent_sim/Recent_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 pops = read.table(&quot;../data/datasets/recent_sim/Recent_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
 l_df$ID = inds
-l_df$pop = factor(pops, levels=paste0(&quot;Pop&quot;, 1:13))
-pops = paste0(&quot;Pop&quot;, 1:13) # all unique pop labels
-l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+l_df$pop_o = pops
 
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
 l_gath_df = l_df %&gt;% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) 
+l_gath_df4 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
                       facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
        theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
-      theme(plot.title = element_text(size=6))
-p = cowplot::plot_grid(pall, p47, nrow = 2, align = &quot;v&quot;) </code></pre>
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = &quot;v&quot;) </code></pre>
 <pre><code>Warning in align_plots(plotlist = plots, align = align, axis = axis):
 Complex graphs cannot be vertically aligned unless axis parameter is set
 properly. Placing graphs unaligned.</code></pre>
 <pre class="r"><code>print(p)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-2-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The data here sees to be pretty clustered for instance essentially a single factor explains Afr1, Afr4, P1, P4. Thus there is no why to really discern the hierarchical nature of the data.</p>
 </div>
 <div id="marginalisation-recent-bottleneck" class="section level2">
 <h2>Marginalisation (Recent Bottleneck)</h2>
 <pre class="r"><code>l_df = read.table(&quot;../output/admixture/marginalisation_sim/Marginalisation_admix_geno_maf.K11r1.Q&quot;, sep=&quot; &quot;, header=F)
 K = ncol(l_df)
 colnames(l_df) = 1:K
-inds = read.table(&quot;../data/datasets//marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% 
-       pull(V1)
-pops = read.table(&quot;../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% 
-       pull(V2)
+inds = read.table(&quot;../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
+pops = read.table(&quot;../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0(&quot;Pop&quot;, 1:13) # all unique pop labels
-l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+l_df$pop_o = pops
 
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
 l_gath_df = l_df %&gt;% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) 
+l_gath_df4 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
-                   facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
-           theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
+                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
+       theme(plot.title = element_text(size=6))
+
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
-      theme(plot.title = element_text(size=6))
-
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
-print(p)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = &quot;v&quot;) </code></pre>
+<pre><code>Warning in align_plots(plotlist = plots, align = align, axis = axis):
+Complex graphs cannot be vertically aligned unless axis parameter is set
+properly. Placing graphs unaligned.</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-3-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Interestingly the results look essentially the same (but with different colors). In some sense its good that the results are the same for the pops not P1-P4 but its troubling we generate the same admixture proportions under a different model.</p>
 </div>
 <div id="remnants-ghost-admixture" class="section level2">
 <h2>Remnants (Ghost Admixture)</h2>
@@ -691,22 +823,67 @@ colnames(l_df) = 1:K
 inds = read.table(&quot;../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
 pops = read.table(&quot;../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0(&quot;Pop&quot;, 1:13)# all unique pop labels
-l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
+l_df$pop_o = pops
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>l_df$ID = factor(l_df$ID, levels = l_df$ID) # make sure the ids are sorted
 
 l_gath_df = l_df %&gt;% gather(K, value, -ID, -pop)
-l_gath_df47 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) 
+l_gath_df4 = l_df %&gt;% gather(K, value, -ID, -pop) %&gt;% filter(pop %in% pops4) 
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
-                   facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
-           theme(plot.title = element_text(size=6))
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
+                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
+       theme(plot.title = element_text(size=6))
+
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;structure&quot;) +
-      theme(plot.title = element_text(size=6))
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
-print(p)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+     theme(plot.title = element_text(size=6))
+p = cowplot::plot_grid(pall, p4, nrow = 2, align = &quot;v&quot;) </code></pre>
+<pre><code>Warning in align_plots(plotlist = plots, align = align, axis = axis):
+Complex graphs cannot be vertically aligned unless axis parameter is set
+properly. Placing graphs unaligned.</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-4-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>There is something wrong with this simulation … I need to follow up with the authors b/c this is way nosier then I expected.</p>
 </div>
 </div>
 <div id="flash-greedy" class="section level1">
@@ -715,7 +892,44 @@ print(p)</code></pre>
 <h2>Recent (Recent Admixture)</h2>
 <pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/recent_sim/Recent_admix_geno_maf.rds&quot;)
 plot_pve(flash_fit)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-5-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
 <pre><code> [1] 4.644314e-01 3.672962e-02 3.293419e-02 1.533617e-02 3.460167e-03
  [6] 4.380101e-03 2.193011e-03 2.220532e-03 1.516786e-03 7.452720e-04
@@ -730,39 +944,115 @@ colnames(l_df)[1:31] = 1:31
 inds = read.table(&quot;../data/datasets/recent_sim/Recent_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 pops = read.table(&quot;../data/datasets/recent_sim/Recent_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0(&quot;Pop&quot;, 1:13)
-
-factors_incl = paste0(2:10)
+l_df$pop_o = pops
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>factors_incl = paste0(2:10)
 l_gath_df = l_df %&gt;%          
             select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
             gather(K, value, -ID, -pop) %&gt;%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %&gt;%          
-              filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) %&gt;%
+l_gath_df4 = l_df %&gt;%          
+              filter(pop %in% pops4) %&gt;%
               select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
               gather(K, value, -ID, -pop) %&gt;%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
                    facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Looks pretty clean!</p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-6-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Looks pretty clean! It is much easier to observe some hierarchical structure to the data i.e. the purple factor is in all African populations, the yellow factor is in out of Africa populations, the green factor is only in East Asian populations, the red factor is only in European populations, and then there are population / sub-population specific-ish factors i.e. pink, orange, gray. The ability to extract this type of hierarchical structure is incredibly cool. I need to think more about how “recent admixture” is represented in P1-P4.</p>
 </div>
 <div id="marginalisation-recent-bottleneck-1" class="section level2">
 <h2>Marginalisation (Recent Bottleneck)</h2>
 <pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/marginalisation_sim/Marginalisation_admix_geno_maf.rds&quot;)
 plot_pve(flash_fit)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-7-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
 <pre><code> [1] 4.650849e-01 3.675585e-02 3.233046e-02 1.511297e-02 4.308358e-03
  [6] 2.896828e-03 2.464024e-03 2.282352e-03 6.153068e-04 5.829713e-04
@@ -777,38 +1067,115 @@ colnames(l_df)[1:31] = 1:31
 inds = read.table(&quot;../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
 pops = read.table(&quot;../data/datasets/marginalisation_sim/Marginalisation_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0(&quot;Pop&quot;, 1:13)
-
-factors_incl = paste0(2:10)
+l_df$pop_o = pops
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>factors_incl = paste0(2:10)
 l_gath_df = l_df %&gt;%          
             select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
             gather(K, value, -ID, -pop) %&gt;%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %&gt;%          
-              filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) %&gt;%
+l_gath_df4 = l_df %&gt;%          
+              filter(pop %in% pops4) %&gt;%
               select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
               gather(K, value, -ID, -pop) %&gt;%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
                    facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-8-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>There are a lot of similarities to the past results but there are differences as well! I need to think more about how P1-P4 reflect a recent bottleneck.</p>
 </div>
 <div id="remnants-ghost-admixture-1" class="section level2">
 <h2>Remnants (Ghost Admixture)</h2>
 <pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/remnants_sim/Remnants_admix_geno_maf.rds&quot;)
 plot_pve(flash_fit)</code></pre>
-<p><img src="figure/badmixture.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e32adcc3bf6603fab2b354fdf71854872bed18ba/docs/figure/badmixture.Rmd/unnamed-chunk-9-1.png" target="_blank">e32adcc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-04-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(flash_fit$pve)</code></pre>
 <pre><code> [1] 4.650896e-01 3.224806e-02 3.719610e-02 1.446442e-02 3.490551e-03
  [6] 2.377310e-03 1.795288e-03 2.196230e-03 2.981648e-03 8.615182e-04
@@ -818,39 +1185,40 @@ plot_pve(flash_fit)</code></pre>
 [26] 1.982314e-04 1.477614e-04 1.569933e-04 7.707317e-05 8.636696e-05
 [31] 1.029189e-04</code></pre>
 <p>Yet again seems to drop off at 10 factors:</p>
-<pre class="r"><code>flash_fit = readRDS(&quot;../output/flash_greedy/remnants_sim/Remnants_admix_geno_maf.rds&quot;)
-
-l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+<pre class="r"><code>l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 colnames(l_df)[1:31] = 1:31
 inds = read.table(&quot;../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V1)
 pops = read.table(&quot;../data/datasets/remnants_sim/Remnants_admix_geno_maf.fam&quot;, header=F, stringsAsFactors=F) %&gt;% pull(V2)
 l_df$ID = inds
-l_df$pop = pops
-pops = paste0(&quot;Pop&quot;, 1:13)
-
-factors_incl = paste0(2:10)
+l_df$pop_o = pops
+l_df = l_df %&gt;% inner_join(pop_df, on=&quot;pop_o&quot;) %&gt;% select(-pop_o)</code></pre>
+<pre><code>Joining, by = &quot;pop_o&quot;</code></pre>
+<pre><code>Warning: Column `pop_o` joining character vector and factor, coercing into
+character vector</code></pre>
+<pre class="r"><code>factors_incl = paste0(2:10)
 l_gath_df = l_df %&gt;%          
             select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
             gather(K, value, -ID, -pop) %&gt;%
             filter(K %in% factors_incl)
 
-l_gath_df47 = l_df %&gt;%          
-              filter(pop %in% paste0(&quot;Pop&quot;, 4:7)) %&gt;%
+l_gath_df4 = l_df %&gt;%          
+              filter(pop %in% pops4) %&gt;%
               select_if(~sum(!is.na(.)) &gt; 0) %&gt;%
               gather(K, value, -ID, -pop) %&gt;%
               filter(K %in% factors_incl)
 
-pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pops,
+pall = structure_plot(gath_df=l_gath_df, colset=&quot;Set3&quot;, facet_levels=pop_df$pop,
                    facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
            theme(plot.title = element_text(size=6))
 
-p47 = structure_plot(gath_df=l_gath_df47, colset=&quot;Set3&quot;, facet_levels=pops,
+p4 = structure_plot(gath_df=l_gath_df4, colset=&quot;Set3&quot;, facet_levels=pops4,
                      facet_grp=&quot;pop&quot;, label_size=5, fact_type=&quot;nonnegative&quot;) +
       theme(plot.title = element_text(size=6))
 
-p = cowplot::plot_grid(pall, p47, nrow = 2) 
+p = cowplot::plot_grid(pall, p4, nrow = 2) 
 print(p)</code></pre>
-<img src="figure/badmixture.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /> <br> <br>
+<p><img src="figure/badmixture.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+Again I’m taking this simulation with a grain of salt as the <code>ADMIXTURE</code> results looked really funky as well. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
