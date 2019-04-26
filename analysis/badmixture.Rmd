@@ -149,8 +149,10 @@ It looks like the pve drops off at around 10 factors so lets go with visualizing
 ```{r}
 l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
 colnames(l_df)[1:31] = 1:31
-inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V2)
-pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% pull(V1)
+inds = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>%   
+       pull(V2)
+pops = read.table("../data/datasets/recent_sim/Recent_admix_geno_maf.fam", header=F, stringsAsFactors=F) %>% 
+       pull(V1)
 l_df$ID = inds
 l_df$pop_o = pops
 l_df = l_df %>% inner_join(pop_df, on="pop_o") %>% select(-pop_o)
@@ -172,7 +174,8 @@ pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
            theme(plot.title = element_text(size=6))
 
 p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
-                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+                    facet_grp="pop", label_size=5, keep_leg=TRUE, 
+                    fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
 p = cowplot::plot_grid(pall, p4, nrow = 2) 
@@ -217,7 +220,7 @@ pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
            theme(plot.title = element_text(size=6))
 
 p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
-                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+                     facet_grp="pop", label_size=5, keep_leg=TRUE, fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
 p = cowplot::plot_grid(pall, p4, nrow = 2) 
@@ -262,7 +265,7 @@ pall = structure_plot(gath_df=l_gath_df, colset="Set3", facet_levels=pop_df$pop,
            theme(plot.title = element_text(size=6))
 
 p4 = structure_plot(gath_df=l_gath_df4, colset="Set3", facet_levels=pops4,
-                     facet_grp="pop", label_size=5, fact_type="nonnegative") +
+                     facet_grp="pop", label_size=5, keep_leg=TRUE, fact_type="nonnegative") +
       theme(plot.title = element_text(size=6))
 
 p = cowplot::plot_grid(pall, p4, nrow = 2) 

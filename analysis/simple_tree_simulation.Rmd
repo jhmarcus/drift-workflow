@@ -9,7 +9,7 @@ output: workflowr::wflow_html
 
 Here I explore `FLASH` applied to simulations under a simple population tree, as described in Pickrell et al 2012. Specifically I use a multivariate normal approximation to allele frequencies under a fixed tree and generate genotype data given these allele frequencies. See Figure 1 from [Pickrell and Pritchard 2012](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967) that shows the parameterization of the tree:
 
-![](../docs/assets/treemix.png)
+![](https://www.dropbox.com/s/atw1xuuzavxf1ce/treemix.png?raw=1)
 
 
 # Import
@@ -116,11 +116,11 @@ simple_graph_simulation = function(n_per_pop=10,
 plot_flash_loadings = function(flash_fit, n_per_pop){
 
   l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
-  colnames(l_df) = paste0("K", 1:ncol(l_df))
+  colnames(l_df) = 1:ncol(l_df)
   l_df$ID = 1:nrow(l_df)
   l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
                rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
-  gath_l_df = l_df %>% gather(K, value, -ID, -pop) %>% filter(K != "K1")
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) %>% filter(K != 1)
 
   p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
        geom_point() +
@@ -131,8 +131,9 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
                       colset="Set3", 
                       facet_grp="pop", 
                       facet_levels=paste0("Pop", 1:4),
+                      keep_leg=TRUE,
                       fact_type="nonnegative") 
-
+  
   return(list(p1=p1, p2=p2))
   
 }
@@ -207,7 +208,7 @@ It looks like PC1 represents the first split on the tree. PC2 and PC3 represent 
 
 Here I fit the Pritchard, Stephens, and Donnelly model using `alstructure` for K=2,...,6:
 
-```{r tree-simulation-psd, warning=F}
+```{r tree-simulation-psd, warning=FALSE}
 K = 6
 for(k in 2:K){
   al_fit = alstructure(t(Y), d_hat = k)
@@ -286,7 +287,6 @@ Hmm it seems like the final backfit removes the nice signal we had in the greedy
 Here I fix the first loadings vector to the 1 vector and run a scheme where backfitting is performed after greedily adding each factor:
 
 ```{r tree-simulation-flash-drift-fixloadings-alternatingbackfit, warning = FALSE}
-Yhat = flash_fit$fit$EF[[1]] %*% t(flash_fit$fit$EF[[2]])
 flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=1, 
                                prior.type=c("nonnegative", "point.normal"),
@@ -301,7 +301,7 @@ flash_fit = flashier::flashier(Y,
 
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
-#print(p_res$p2)
+print(p_res$p2)
 print(flash_fit$objective)
 ```
       
@@ -588,7 +588,7 @@ There is some signal of the admixture event in PC1 ... we see a shift of populat
 
 Here I fit the Pritchard, Stephens, and Donnelly model using `alstructure` for K=2,...,6:
 
-```{r admixture-psd, warning=F}
+```{r admixture-psd, warning=FALSE}
 K = 6
 for(k in 2:K){
   al_fit = alstructure(t(Y), d_hat = k)
@@ -603,7 +603,8 @@ for(k in 2:K){
                      colset="Set3", 
                      facet_grp="pop", 
                      facet_levels=paste0("Pop", 1:4),
-                     fact_type="structure") +
+                     fact_type="structure",
+                     keep_leg=FALSE) +
                      ggtitle(paste0("K=", k))
   
   print(p)
@@ -688,12 +689,45 @@ print(flash_fit$objective)
 
 This is not very interpretable.
 
-# ONMF
+## FLASH
 
-```{r}
-library(MatrixFact)
+Here I run `FLASH` with no sign constraints on the loadings or factors:
 
+### Mean Center Greedy
 
+Here I mean center the data matrix before running greedy `FLASH`:
 
+```{r, warning = FALSE}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K, 
+                               prior.type=c("normal.mixture", "point.normal"), 
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0)
 
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
 ```
+
+### Mean Center Alternating Backfit
+
+Here I mean center the data matrix before running greedy `FLASH` with alternating backfits:
+
+```{r, warning = FALSE}
+flash_fit = flashier::flashier(Y_c, 
+                               greedy.Kmax=K,
+                               prior.type=c("normal.mixture", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0)),
+                               var.type=0,
+                               backfit = "alternating",
+                               backfit.order = "dropout",
+                               backfit.reltol = 10)
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+This solution also looks very similar to the greedy / final back solutions.

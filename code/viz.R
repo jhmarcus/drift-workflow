@@ -13,7 +13,7 @@ get_pops = function(meta_df, region){
 }
 
 
-structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Population.ID", label_size=5, fact_type){
+structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Population.ID", label_size=5, keep_leg=F, fact_type){
   
   library(ggplot2)
   library(tidyr)
@@ -21,9 +21,11 @@ structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Popul
   library(RColorBrewer)
     
   if(fact_type=="structure"){
-    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, fill=factor(K)))
+    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value, function(x){max(x)}), y=value, 
+                                      fill=reorder(K, sort(as.integer(K)))))
   } else if(fact_type=="nonnegative"){
-    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value), y=value, fill=factor(K)))
+    p_init = ggplot(data=gath_df, aes(x=reorder(ID, value), y=value, 
+                                      fill=reorder(K, sort(as.integer(K)))))
   }
   
   p = p_init + 
@@ -41,9 +43,15 @@ structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Popul
             panel.grid.minor = element_blank(),
             axis.text.x=element_blank(), 
             axis.ticks.x=element_blank()) + 
+      theme(legend.position="bottom") +
       ylab("") + 
       xlab("") + 
-      guides(fill=F)
+      labs(fill="K") 
+
+  if(keep_leg==FALSE){
+    p = p + guides(fill=F) 
+
+  }
   
   return(p)
   
