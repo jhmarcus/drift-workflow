@@ -20,6 +20,7 @@ Here I import the some required packages:
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(flashr)
 library(flashier)
 library(alstructure)
 source("../code/nmf.R")
@@ -306,7 +307,78 @@ print(flash_fit$objective)
 ```
       
 Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.
-                             
+                 
+### Fix Loadings Greedy `FLASHR`
+
+Here I use a different implementation of FLASH in `FLASHR` for the greedy run
+
+```{r warning=FALSE, message=FALSE}
+data = flash_set_data(Y)
+f = flash_add_fixed_loadings(data, LL=cbind(rep(1, n)), backfit=TRUE, verbose=FALSE)
+f = flash(data,
+          f_init=f,
+          Kmax=10,
+          var_type="constant",
+          ebnm_fn=list(l="ebnm_ash", f="ebnm_pn"),
+          ebnm_param=list(l=list(mixcompdist="+uniform", method="fdr"),
+                          f=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0))),
+          backfit=FALSE)
+
+l_df = data.frame(f$ldf$l)
+colnames(l_df) = paste0("K", 1:ncol(l_df))
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw()
+p
+```
+  
+This looks very similar ot the greedy solution of `flashier`
+    
+### Fix Loadings Final Backfit `FLASHR`
+
+Here I use a different implementation of FLASH in `FLASHR` for a final backfit
+
+```{r message=FALSE, warning=FALSE}
+f = flash_add_fixed_loadings(data, LL=cbind(rep(1, n)), backfit=TRUE, verbose=FALSE)
+f = flash(data,
+          f_init=f,
+          Kmax=10,
+          var_type="constant",
+          ebnm_fn=list(l="ebnm_ash", f="ebnm_pn"),
+          ebnm_param=list(l=list(mixcompdist="+uniform", method="fdr"),
+                          f=list(fixg=TRUE, g=list(pi0 = 0, a=1, mu=0))),
+          backfit=TRUE)
+
+l_df = data.frame(f$ldf$l)
+colnames(l_df) = paste0("K", 1:ncol(l_df))
+l_df$iid = 1:n
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw()
+p
+```
+
+This looks different from the `flasier` final backfit solution but it does not capture the tree strucutre like the greedy solutions. 
+      
+### Intialize with Tree
+
+*In progress*
+
+```{r message=FALSE, warning=FALSE}
+
+```
+                            
 ### Mean Center Greedy
 
 Here I don't fix the first loadings vector and just mean center the data matrix before running greedy `FLASH` (Drift):
