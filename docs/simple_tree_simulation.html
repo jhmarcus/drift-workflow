@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreecb90c1797261b958fc1da32680daf9ddba50b1bftargetblankcb90c17a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/cb90c1797261b958fc1da32680daf9ddba50b1bf" target="_blank">cb90c17</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree2fcfa81da1b6959ebf8200c916e602e9a279bd88targetblank2fcfa81a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/2fcfa81da1b6959ebf8200c916e602e9a279bd88" target="_blank">2fcfa81</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreecb90c1797261b958fc1da32680daf9ddba50b1bftargetblankcb90c17a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree2fcfa81da1b6959ebf8200c916e602e9a279bd88targetblank2fcfa81a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -578,6 +578,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/analysis/simple_tree_simulation.Rmd" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+<td>
+added flashr sim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/simple_tree_simulation.html" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+<td>
+added flashr sim
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -891,7 +925,7 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, p=10000, c1=.5, c2=.5, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -1353,6 +1387,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-1.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -1425,6 +1470,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-greedy-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -1450,7 +1506,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -863110</code></pre>
+<pre><code>[1] -835444.8</code></pre>
 <p>Very cool … K2,K3 represent the internal nodes of the tree and K4,K5,K6,K7 represent the leaves i.e. population specific factors.</p>
 </div>
 <div id="fix-loadings-final-backfit" class="section level3">
@@ -1472,8 +1528,9 @@ Adding factor 8 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 7 factors...
 Nullchecking 6 factors...
-Factor 3 removed, increasing objective by 1.412e-01.
-Factor 5 removed, increasing objective by 7.600e-02.
+Factor 2 removed, increasing objective by 1.488e+02.
+Factor 4 removed, increasing objective by 9.215e-02.
+Factor 6 removed, increasing objective by 9.954e-02.
 Adding factor 8 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 7 factors...
@@ -1505,6 +1562,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">cb90c17</a>
@@ -1579,6 +1647,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-finalbackfit-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -1604,7 +1683,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -850956.1</code></pre>
+<pre><code>[1] -818372.4</code></pre>
 <p>Hmm it seems like the final backfit removes the nice signal we had in the greedy run and it zeros out some of the factors.</p>
 </div>
 <div id="fix-loadings-alternating-backfit" class="section level3">
@@ -1653,6 +1732,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">cb90c17</a>
@@ -1727,6 +1817,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-fixloadings-alternatingbackfit-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -1752,7 +1853,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -868636.7</code></pre>
+<pre><code>[1] -837946.4</code></pre>
 <p>Again this leads to an odd solution with only two population specific factors and its not obvious what K2 represents.</p>
 </div>
 <div id="fix-loadings-greedy-flashr" class="section level3">
@@ -1804,6 +1905,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-1-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-1-1.png" target="_blank">cb90c17</a>
@@ -1871,6 +1983,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-2-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-2-1.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -1884,7 +2007,7 @@ jhmarcus
 </table>
 </div>
 </div>
-<p>This looks different from the <code>flasier</code> final backfit solution but it does not capture the tree strucutre like the greedy solutions.</p>
+<p>This looks roughly similar to the <code>flashier</code> solution expect the populations are switched.</p>
 </div>
 <div id="intialize-with-tree" class="section level3">
 <h3>Intialize with Tree</h3>
@@ -1933,6 +2056,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-1.png" target="_blank">cb90c17</a>
@@ -2007,6 +2141,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-greedy-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -2032,7 +2177,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -831562.4</code></pre>
+<pre><code>[1] -803237.5</code></pre>
 <p>Mean centering gives a similar solution to fixing the first factor.</p>
 </div>
 <div id="mean-center-final-backfit" class="section level3">
@@ -2054,8 +2199,8 @@ Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
 Nullchecking 5 factors...
-Factor 2 removed, increasing objective by 1.402e-01.
-Factor 6 removed, increasing objective by 7.667e-02.
+Factor 3 removed, increasing objective by 9.357e-02.
+Factor 5 removed, increasing objective by 1.009e-01.
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
@@ -2087,6 +2232,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-1.png" target="_blank">cb90c17</a>
@@ -2161,6 +2317,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-finalbackfit-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -2186,7 +2353,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -823596.7</code></pre>
+<pre><code>[1] -795175.2</code></pre>
 <p>We seem to be missing a few of the population specific factors?</p>
 </div>
 <div id="mean-center-alternating-backfit" class="section level3">
@@ -2241,6 +2408,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-1.png" target="_blank">cb90c17</a>
@@ -2315,6 +2493,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-drift-meancenter-alternatingbackfit-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -2340,7 +2529,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -848844.4</code></pre>
+<pre><code>[1] -818378.6</code></pre>
 <p>Again we see only population specific factors but not shared factors.</p>
 </div>
 </div>
@@ -2389,6 +2578,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-greedybackfit-1.png" target="_blank">cb90c17</a>
@@ -2488,7 +2688,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -809486.8</code></pre>
+<pre><code>[1] -777672.7</code></pre>
 <p>Here we get a pretty nice solution similar to PCA but with a more interpretable sparsity pattern. K1 cleanly represents the first split in the tree and K2 and K3 cleanly represent the subsequent splits.</p>
 </div>
 <div id="mean-center-final-backfit-1" class="section level3">
@@ -2534,6 +2734,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-finalbackfit-1.png" target="_blank">cb90c17</a>
@@ -2633,7 +2844,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -809448.4</code></pre>
+<pre><code>[1] -777635.4</code></pre>
 <p>This solution looks very similar to the greedy solution.</p>
 </div>
 <div id="mean-center-alternating-backfit-1" class="section level3">
@@ -2683,6 +2894,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/tree-simulation-flash-meancenter-alternatingbackfit-1.png" target="_blank">cb90c17</a>
@@ -2782,7 +3004,7 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
-<pre><code>[1] -809448.3</code></pre>
+<pre><code>[1] -777635.4</code></pre>
 <p>This solution also looks very similar to the greedy / final back solutions.</p>
 </div>
 </div>
@@ -2806,83 +3028,32 @@ for(k in 1:K){
   
 }</code></pre>
 <pre><code>[1] &quot;Running K=1&quot;
-[1] &quot;iteration=200 | delta_rss=0.000214369792956859&quot;
+[1] &quot;iteration=200 | delta_rss=0.000307712412904948&quot;
 [1] &quot;Running K=2&quot;
 [1] &quot;Running K=3&quot;
-[1] &quot;iteration=200 | delta_rss=0.000158286478836089&quot;
+[1] &quot;iteration=200 | delta_rss=0.00267128960695118&quot;
+[1] &quot;iteration=400 | delta_rss=0.000111632572952658&quot;
 [1] &quot;Running K=4&quot;
-[1] &quot;iteration=200 | delta_rss=0.15425558865536&quot;
-[1] &quot;iteration=400 | delta_rss=0.0260007910546847&quot;
-[1] &quot;iteration=600 | delta_rss=0.0150750136235729&quot;
-[1] &quot;iteration=800 | delta_rss=0.0103306274977513&quot;
-[1] &quot;iteration=1000 | delta_rss=0.00728529569460079&quot;
-[1] &quot;iteration=1200 | delta_rss=0.00523876002989709&quot;
-[1] &quot;iteration=1400 | delta_rss=0.00383262085961178&quot;
-[1] &quot;iteration=1600 | delta_rss=0.00284782325616106&quot;
-[1] &quot;iteration=1800 | delta_rss=0.00214615417644382&quot;
-[1] &quot;iteration=2000 | delta_rss=0.00163837859872729&quot;
-[1] &quot;iteration=2200 | delta_rss=0.00126567838015035&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000988550134934485&quot;
-[1] &quot;iteration=2600 | delta_rss=0.000780007394496351&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000621327024418861&quot;
-[1] &quot;iteration=3000 | delta_rss=0.00049933441914618&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000404637889005244&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000330461596604437&quot;
-[1] &quot;iteration=3600 | delta_rss=0.000271862430963665&quot;
-[1] &quot;iteration=3800 | delta_rss=0.000225196417886764&quot;
-[1] &quot;iteration=4000 | delta_rss=0.000187751196790487&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000157488917466253&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000132865563500673&quot;
-[1] &quot;iteration=4600 | delta_rss=0.000112701382022351&quot;
+[1] &quot;iteration=200 | delta_rss=0.0176454830216244&quot;
+[1] &quot;iteration=400 | delta_rss=0.00117226445581764&quot;
+[1] &quot;iteration=600 | delta_rss=0.000648038927465677&quot;
+[1] &quot;iteration=800 | delta_rss=0.000413901463616639&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000318053993396461&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000316710502374917&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000341458071488887&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000334837124682963&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000307496055029333&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000276727427262813&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000246031733695418&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000216541695408523&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000189068436156958&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000164072669576854&quot;
+[1] &quot;iteration=3000 | delta_rss=0.00014174246462062&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000122082477901131&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000104979786556214&quot;
 [1] &quot;Running K=5&quot;
-[1] &quot;iteration=200 | delta_rss=0.00327718106564134&quot;
-[1] &quot;iteration=400 | delta_rss=0.00257390743354335&quot;
-[1] &quot;iteration=600 | delta_rss=0.0020490403403528&quot;
-[1] &quot;iteration=800 | delta_rss=0.00165133021073416&quot;
-[1] &quot;iteration=1000 | delta_rss=0.00134574202820659&quot;
-[1] &quot;iteration=1200 | delta_rss=0.00110790698090568&quot;
-[1] &quot;iteration=1400 | delta_rss=0.000920604856219143&quot;
-[1] &quot;iteration=1600 | delta_rss=0.00077148579293862&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000651568523608148&quot;
-[1] &quot;iteration=2000 | delta_rss=0.000554236699827015&quot;
-[1] &quot;iteration=2200 | delta_rss=0.000474555941764265&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000408804742619395&quot;
-[1] &quot;iteration=2600 | delta_rss=0.000354146060999483&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000308395712636411&quot;
-[1] &quot;iteration=3000 | delta_rss=0.000269856071099639&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000237196451053023&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000209364865440875&quot;
-[1] &quot;iteration=3600 | delta_rss=0.000185523473192006&quot;
-[1] &quot;iteration=3800 | delta_rss=0.000164999801199883&quot;
-[1] &quot;iteration=4000 | delta_rss=0.000147250830195844&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000131834880448878&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000118390482384712&quot;
-[1] &quot;iteration=4600 | delta_rss=0.000106620485894382&quot;
-[1] &quot;Running K=6&quot;
-[1] &quot;iteration=200 | delta_rss=0.00080844247713685&quot;
-[1] &quot;iteration=400 | delta_rss=0.000725734047591686&quot;
-[1] &quot;iteration=600 | delta_rss=0.000652785762213171&quot;
-[1] &quot;iteration=800 | delta_rss=0.000588317634537816&quot;
-[1] &quot;iteration=1000 | delta_rss=0.000531231053173542&quot;
-[1] &quot;iteration=1200 | delta_rss=0.000480581889860332&quot;
-[1] &quot;iteration=1400 | delta_rss=0.000435557274613529&quot;
-[1] &quot;iteration=1600 | delta_rss=0.000395456328988075&quot;
-[1] &quot;iteration=1800 | delta_rss=0.000359673576895148&quot;
-[1] &quot;iteration=2000 | delta_rss=0.000327685207594186&quot;
-[1] &quot;iteration=2200 | delta_rss=0.000299037026707083&quot;
-[1] &quot;iteration=2400 | delta_rss=0.000273334793746471&quot;
-[1] &quot;iteration=2600 | delta_rss=0.000250235374551266&quot;
-[1] &quot;iteration=2800 | delta_rss=0.000229439756367356&quot;
-[1] &quot;iteration=3000 | delta_rss=0.000210686994250864&quot;
-[1] &quot;iteration=3200 | delta_rss=0.000193748681340367&quot;
-[1] &quot;iteration=3400 | delta_rss=0.000178424816112965&quot;
-[1] &quot;iteration=3600 | delta_rss=0.000164539844263345&quot;
-[1] &quot;iteration=3800 | delta_rss=0.000151939457282424&quot;
-[1] &quot;iteration=4000 | delta_rss=0.000140487623866647&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000130064552649856&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000120564131066203&quot;
-[1] &quot;iteration=4600 | delta_rss=0.00011189270298928&quot;
-[1] &quot;iteration=4800 | delta_rss=0.000103967089671642&quot;</code></pre>
+[1] &quot;iteration=200 | delta_rss=0.00040846667252481&quot;
+[1] &quot;Running K=6&quot;</code></pre>
 <pre class="r"><code>l_df = data.frame(L)
 colnames(l_df) = paste0(&quot;K&quot;, 1:K)
 l_df$iid = 1:n
@@ -2964,45 +3135,74 @@ for(k in 1:K){
   
 }</code></pre>
 <pre><code>[1] &quot;Running K=1&quot;
-[1] &quot;iteration=200 | delta_rss=2.36968607478775&quot;
-[1] &quot;iteration=400 | delta_rss=0.0060401774244383&quot;
+[1] &quot;iteration=200 | delta_rss=0.038165882404428&quot;
 [1] &quot;Running K=2&quot;
-[1] &quot;iteration=200 | delta_rss=0.00163709180196747&quot;
-[1] &quot;iteration=400 | delta_rss=0.000119189149700105&quot;
 [1] &quot;Running K=3&quot;
-[1] &quot;iteration=200 | delta_rss=0.04010079219006&quot;
-[1] &quot;iteration=400 | delta_rss=0.0202493721735664&quot;
-[1] &quot;iteration=600 | delta_rss=0.0143762896186672&quot;
-[1] &quot;iteration=800 | delta_rss=0.0110623084474355&quot;
-[1] &quot;iteration=1000 | delta_rss=0.00925089360680431&quot;
-[1] &quot;iteration=1200 | delta_rss=0.0130199669511057&quot;
-[1] &quot;iteration=1400 | delta_rss=0.00450576079310849&quot;
-[1] &quot;iteration=1600 | delta_rss=0.00477232271805406&quot;
-[1] &quot;iteration=1800 | delta_rss=0.0017393262241967&quot;
-[1] &quot;iteration=2000 | delta_rss=0.00260783830890432&quot;
-[1] &quot;iteration=2200 | delta_rss=0.00664551596855745&quot;
-[1] &quot;iteration=2400 | delta_rss=0.00521458004368469&quot;
-[1] &quot;iteration=2600 | delta_rss=0.00119250547140837&quot;
-[1] &quot;iteration=2800 | delta_rss=0.00106901105027646&quot;
-[1] &quot;iteration=3000 | delta_rss=0.003095222346019&quot;
-[1] &quot;iteration=3200 | delta_rss=0.0031730595510453&quot;
-[1] &quot;iteration=3400 | delta_rss=0.00107647129334509&quot;
-[1] &quot;iteration=3600 | delta_rss=0.0020170253701508&quot;
-[1] &quot;iteration=3800 | delta_rss=0.00611454120371491&quot;
-[1] &quot;iteration=4000 | delta_rss=0.00127147982129827&quot;
-[1] &quot;iteration=4200 | delta_rss=0.000384099257644266&quot;
-[1] &quot;iteration=4400 | delta_rss=0.000260173401329666&quot;
-[1] &quot;iteration=4600 | delta_rss=0.000228660472203046&quot;
-[1] &quot;iteration=4800 | delta_rss=0.000226207368541509&quot;
-[1] &quot;iteration=5000 | delta_rss=0.000741485739126801&quot;
+[1] &quot;iteration=200 | delta_rss=0.0193374897935428&quot;
+[1] &quot;iteration=400 | delta_rss=0.00135371158830822&quot;
+[1] &quot;iteration=600 | delta_rss=0.000302112894132733&quot;
 [1] &quot;Running K=4&quot;
-[1] &quot;iteration=200 | delta_rss=0.0571316437562928&quot;
+[1] &quot;iteration=200 | delta_rss=0.00983678991906345&quot;
+[1] &quot;iteration=400 | delta_rss=0.00161215773550794&quot;
+[1] &quot;iteration=600 | delta_rss=0.00111764576286077&quot;
+[1] &quot;iteration=800 | delta_rss=0.000982423196546733&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000902152387425303&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000837642524857074&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000780722009949386&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000729036459233612&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000681623059790581&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000637932971585542&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000597573525737971&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000560227606911212&quot;
+[1] &quot;iteration=2600 | delta_rss=0.000525624142028391&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000493524828925729&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000463717442471534&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000436011527199298&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000410235545132309&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000386234081815928&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000363866449333727&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000343004532624036&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000323532032780349&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000305342546198517&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000288339098915458&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000272432982455939&quot;
+[1] &quot;iteration=5000 | delta_rss=0.000257542997132987&quot;
 [1] &quot;Running K=5&quot;
+[1] &quot;iteration=200 | delta_rss=0.00570639106445014&quot;
+[1] &quot;iteration=400 | delta_rss=0.00183307699626312&quot;
+[1] &quot;iteration=600 | delta_rss=0.00145148171577603&quot;
+[1] &quot;iteration=800 | delta_rss=0.00125598645536229&quot;
+[1] &quot;iteration=1000 | delta_rss=0.00110427790787071&quot;
+[1] &quot;iteration=1200 | delta_rss=0.000977315939962864&quot;
+[1] &quot;iteration=1400 | delta_rss=0.00086888181976974&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000775410851929337&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000694358721375465&quot;
+[1] &quot;iteration=2000 | delta_rss=0.000623753992840648&quot;
+[1] &quot;iteration=2200 | delta_rss=0.000562010216526687&quot;
+[1] &quot;iteration=2400 | delta_rss=0.000507824996020645&quot;
+[1] &quot;iteration=2600 | delta_rss=0.00046011689119041&quot;
+[1] &quot;iteration=2800 | delta_rss=0.000417980481870472&quot;
+[1] &quot;iteration=3000 | delta_rss=0.000380654237233102&quot;
+[1] &quot;iteration=3200 | delta_rss=0.000347494380548596&quot;
+[1] &quot;iteration=3400 | delta_rss=0.000317954632919282&quot;
+[1] &quot;iteration=3600 | delta_rss=0.000291570089757442&quot;
+[1] &quot;iteration=3800 | delta_rss=0.000267943425569683&quot;
+[1] &quot;iteration=4000 | delta_rss=0.000246734241954982&quot;
+[1] &quot;iteration=4200 | delta_rss=0.000227649812586606&quot;
+[1] &quot;iteration=4400 | delta_rss=0.000210437865462154&quot;
+[1] &quot;iteration=4600 | delta_rss=0.000194880121853203&quot;
+[1] &quot;iteration=4800 | delta_rss=0.000180787581484765&quot;
+[1] &quot;iteration=5000 | delta_rss=0.000167995691299438&quot;
 [1] &quot;Running K=6&quot;
-[1] &quot;iteration=200 | delta_rss=0.00926272809738293&quot;
-[1] &quot;iteration=400 | delta_rss=0.000970086606685072&quot;
-[1] &quot;iteration=600 | delta_rss=0.000281919375993311&quot;
-[1] &quot;iteration=800 | delta_rss=0.000139113748446107&quot;</code></pre>
+[1] &quot;iteration=200 | delta_rss=0.00401343387784436&quot;
+[1] &quot;iteration=400 | delta_rss=0.000489717465825379&quot;
+[1] &quot;iteration=600 | delta_rss=0.000220007786992937&quot;
+[1] &quot;iteration=800 | delta_rss=0.000161810661666095&quot;
+[1] &quot;iteration=1000 | delta_rss=0.000139431154821068&quot;
+[1] &quot;iteration=1200 | delta_rss=0.00012649194104597&quot;
+[1] &quot;iteration=1400 | delta_rss=0.000116988958325237&quot;
+[1] &quot;iteration=1600 | delta_rss=0.000109126151073724&quot;
+[1] &quot;iteration=1800 | delta_rss=0.000102238438557833&quot;</code></pre>
 <pre class="r"><code>l_df = data.frame(L)
 colnames(l_df) = paste0(&quot;K&quot;, 1:K)
 l_df$iid = 1:n
@@ -3523,6 +3723,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-1.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -3582,6 +3793,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-greedy-2.png" target="_blank">cb90c17</a>
@@ -3666,6 +3888,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-1.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -3725,6 +3958,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-simulation-flash-drift-fixloadings-finalbackfit-2.png" target="_blank">cb90c17</a>
@@ -3809,6 +4053,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-1.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -3870,6 +4125,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/cb90c1797261b958fc1da32680daf9ddba50b1bf/docs/figure/simple_tree_simulation.Rmd/admixture-flash-drift-fixloadings-alternatingbackfit-2.png" target="_blank">cb90c17</a>
 </td>
 <td>
@@ -3922,8 +4188,82 @@ Done.</code></pre>
 <pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-4-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(p_res$p2)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-4-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
 <pre><code>[1] -782260.6</code></pre>
 </div>
@@ -3954,8 +4294,82 @@ Done.</code></pre>
 <pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-5-1.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(p_res$p2)</code></pre>
 <p><img src="figure/simple_tree_simulation.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-2">
+Past versions of unnamed-chunk-5-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/2fcfa81da1b6959ebf8200c916e602e9a279bd88/docs/figure/simple_tree_simulation.Rmd/unnamed-chunk-5-2.png" target="_blank">2fcfa81</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(flash_fit$objective)</code></pre>
 <pre><code>[1] -782233.1</code></pre>
 This solution also looks very similar to the greedy / final back solutions. <br> <br>

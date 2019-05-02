@@ -151,7 +151,7 @@ set.seed(1990)
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, p=10000, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, p=10000, c1=.5, c2=.5, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y
@@ -369,7 +369,7 @@ p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) +
 p
 ```
 
-This looks different from the `flasier` final backfit solution but it does not capture the tree strucutre like the greedy solutions. 
+This looks roughly similar to the `flashier` solution expect the populations are switched.
       
 ### Intialize with Tree
 
