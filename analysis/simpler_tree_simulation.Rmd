@@ -1,0 +1,257 @@
+---
+title: "Simpler tree simulation"
+author: "jhmarcus"
+date: "2019-05-02"
+output: workflowr::wflow_html
+---
+
+In this analysis I simulate data from the same tree as described in [Simple Tree Simulation](simple_tree_simulation.html) (also see below) but parameterize the simulation as a factor analysis model i.e. simulating under the model we are fitting. I also removed the additional binomial sampling from the allele frequencies at the tips and just directly modeled Gaussian data. 
+
+![](https://www.dropbox.com/s/atw1xuuzavxf1ce/treemix.png?raw=1)
+
+# Import
+
+Here I import the some required packages:
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(flashier)
+source("../code/viz.R")
+```
+
+# Functions
+
+```{r}
+#' @title Simpler Tree Simulation
+#'
+#' @description Simulates genotypes under a simple population 
+#'              tree as described in Pickrell and Pritchard 2012 via 
+#'              a factor analysis model:
+#'
+#'              https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967
+#'
+#' @param n_per_pop number of individuals per population
+#' @param p number of SNPs
+#' @param sigma_e std. dev of noise
+simpler_tree_simulation = function(n_per_pop, p, sigma_e){
+  
+  n = n_per_pop * 4
+  L = matrix(0, nrow=4*n_per_pop, ncol=6)
+  L[1:n_per_pop, 2] = L[1:n_per_pop, 6] = 1
+  L[(n_per_pop + 1):(2*n_per_pop), 2] = L[(n_per_pop + 1):(2*n_per_pop), 5] = 1
+  L[(2*n_per_pop + 1):(3*n_per_pop), 1] = L[(2*n_per_pop + 1):(3*n_per_pop), 3] = 1
+  L[(3*n_per_pop + 1):(4*n_per_pop), 1] = L[(3*n_per_pop + 1):(4*n_per_pop), 4] = 1
+
+  Z = matrix(rnorm(p*6, 0, 1), nrow=p, ncol=6)
+  E = matrix(rnorm(n*p, 0, sigma_e), nrow=n, ncol=p)
+  Y = L %*% t(Z) + E
+
+  res = list(Y=Y, L=L, Z=Z)
+  
+  return(res)
+  
+}
+
+plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$loadings$normalized.loadings[[1]])
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+               rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+  
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale="free") +
+       theme_bw() 
+  
+  p2 = structure_plot(gath_l_df, 
+                      colset="Set3", 
+                      facet_grp="pop", 
+                      facet_levels=paste0("Pop", 1:4),
+                      keep_leg=TRUE,
+                      fact_type="nonnegative") 
+  
+  return(list(p1=p1, p2=p2))
+  
+}
+```
+
+# Low Noise 
+
+I display the true loadings matrix and population covariance matrix for a simulation of 20 individuals per population with 10000 independent SNPs.
+
+```{r}
+set.seed(1234)
+
+n_per_pop = 20
+sigma_e = .01
+p = 10000
+
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+L = sim_res$L
+LLt = L %*% t(L)
+plot_covmat(LLt)
+
+l_df = data.frame(L)
+colnames(l_df) = paste0("K", 1:6)
+l_df$iid = 1:nrow(L)
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+
+gath_l_df = l_df %>% gather(K, value, -iid, -pop)
+p = ggplot(gath_l_df, aes(x=iid, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw()
+p
+```
+
+Here we can see the block-like structure to the covariance matrix.
+
+## Greedy
+
+I fit greedy flash:
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="none")
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+We can see the loadings matrix is recovered pretty well.
+
+## Backfit
+
+I add a final backfitting step.
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run
+
+# Medium Noise
+
+Now I simulate data with a standard deviation of the errors set to be 5 times higher than the last simulation:
+
+```{r}
+n_per_pop = 20
+sigma_e = .5
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, 10000, sigma_e)
+Y = sim_res$Y
+```
+
+## Greedy
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="none")
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+The greedy solution recovers the loadings pretty well.
+
+## Backfit
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+The backfitting begins to get funky / noisy.
+
+# High Noise
+
+Now the standard deviation of the errors is 10 times higher than the original simulation
+
+```{r}
+n_per_pop = 20
+sigma_e = 1.0
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+```
+
+## Greedy
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="none")
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+The greedy solution still recovers the loadings well!
+
+## Backfit
+
+```{r, message=FALSE, warning=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               flash.init = flash_fit,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(flash_fit$objective)
+```
+
+Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise?

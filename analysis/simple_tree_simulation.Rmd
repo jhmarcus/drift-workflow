@@ -59,13 +59,13 @@ Here are a couple functions to help with the simulations and plotting:
 simple_graph_simulation = function(n_per_pop=10, 
                                    p=1000, 
                                    w=0.0,
-                                   c1=.1, 
-                                   c2=.1, 
-                                   c3=.1,
-                                   c4=.1, 
-                                   c5=.05, 
-                                   c6=.1, 
-                                   c7=.05,
+                                   c1=.01, 
+                                   c2=.01, 
+                                   c3=.01,
+                                   c4=.01, 
+                                   c5=.005, 
+                                   c6=.01, 
+                                   c7=.005,
                                    mu_a=.5, 
                                    sigma_e=.05){
   
@@ -76,7 +76,7 @@ simple_graph_simulation = function(n_per_pop=10,
   p_a = mu_a + rnorm(p, 0, sigma_e)
   
   # ancestral variance
-  sigma_a = p_a * (1.0 - p_a)  
+  sigma2_a = p_a * (1.0 - p_a)  
   
   # covariance matrix specified by the tree
   V = matrix(NA, nrow=4, ncol=4)
@@ -96,7 +96,7 @@ simple_graph_simulation = function(n_per_pop=10,
   for(j in 1:p){
     
     # simulate from truncated multivariate normal
-    P[j, ] = tmvtnorm::rtmvnorm(1, rep(p_a[j], n_pops), sigma_a[j] * V,
+    P[j, ] = tmvtnorm::rtmvnorm(1, rep(p_a[j], n_pops), sigma2_a[j] * V,
                                 lower=rep(1e-4, n_pops), 
                                 upper=rep(1.0-1e-4, n_pops)
                                 )    
@@ -151,7 +151,7 @@ set.seed(1990)
 n_per_pop = 20
 
 # set w = 0.0 to just simulate from a tree
-sim = simple_graph_simulation(w=0.0, p=10000, c1=.5, c2=.5, n_per_pop=n_per_pop)
+sim = simple_graph_simulation(w=0.0, p=10000, c1=.05, c2=.05, n_per_pop=n_per_pop)
 
 # data matrix
 Y = sim$Y

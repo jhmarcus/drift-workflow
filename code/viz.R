@@ -126,7 +126,23 @@ plot_mean_variance = function(snp_df){
       scale_alpha(guide = "none") + 
       stat_function(fun = function(x){return(2*x*(1-x))}, color="red") + 
       xlim(0, .5) + 
-      theme_bw()
+      theme_bw() 
+  
+  return(p)
+  
+}
+
+
+plot_covmat = function(S){
+  
+  s_df = reshape2::melt(LLt)
+  p = ggplot(s_df, aes(x=Var1, y=Var2, fill=value)) + 
+      geom_tile() +
+      viridis::scale_fill_viridis(option="D") +
+      theme_minimal() +
+      labs(fill="Covariance") +
+      xlab("") +
+      ylab("")
   
   return(p)
   
