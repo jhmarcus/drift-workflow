@@ -129,7 +129,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 We can see the loadings matrix is recovered pretty well.
@@ -151,7 +152,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run
@@ -181,7 +183,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 The greedy solution recovers the loadings pretty well.
@@ -201,7 +204,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 The backfitting begins to get funky / noisy.
@@ -231,7 +235,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 The greedy solution still recovers the loadings well!
@@ -251,7 +256,8 @@ flash_fit = flashier::flashier(Y,
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
-print(flash_fit$objective)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 ```
 
 Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise?
