@@ -77,7 +77,7 @@ The approach I took was to setup two grids:
 1. A "positive" mixture of uniforms ash prior with mode 0 and grange from 0 to 1
 2. A "negative" mixture of uniforms ash prior with mode 1 and grange from 0 to 1
 
-I adapted code from `ashr` to extract the grids in `../code/ebnm_bimodal.R`. Below is a sanity check that my helper function extracts the "correct" grids:
+I adapted code from `ashr` to extract the grids in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R). Below is a sanity check that my helper function extracts the "correct" grids:
 
 ```{r}
 # simulate data
@@ -103,7 +103,7 @@ res$fitted_g$a == grid1$a
 res$fitted_g$b == grid1$b
 ```
 
-It looks like the grids match the `ashr` implementation. I next wrote an additional helper function that estimates the prior $g$ using the the grid of "intervals" defined above (see `get_bimodal_g` in `../code/ebnm_bimodal.R`):
+It looks like the grids match the `ashr` implementation. I next wrote an additional helper function that estimates the prior $g$ using the the grid of "intervals" defined above (see `get_bimodal_g` in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R)):
 
 ```{r}
 # setup bimodal grid
@@ -117,7 +117,7 @@ print(a[idx_c])
 print(b[idx_c])
 ```
 
-We can see for this example only a few components get weight i.e. those with mass close to 0 and 1. Finally given this $g$ I wrote a `ebnm` function that computes the posterior with the fixed $g$ (see `ebnm_bimodal` in `../code/ebnm_bimodal.R`):
+We can see for this example only a few components get weight i.e. those with mass close to 0 and 1. Finally given this $g$ I wrote a `ebnm` function that computes the posterior with the fixed $g$ (see `ebnm_bimodal` in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R)):
 
 ```{r}
 df = fit(betahat, s, sim_res$beta)
