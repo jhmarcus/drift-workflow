@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree89ee55302b39718333058ebf93652f7fcfc7cc74targetblank89ee553a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/89ee55302b39718333058ebf93652f7fcfc7cc74" target="_blank">89ee553</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/280cc1f77b576ac58b34ab73dace71aedfe81df2" target="_blank">280cc1f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree89ee55302b39718333058ebf93652f7fcfc7cc74targetblank89ee553a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -578,6 +578,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/280cc1f77b576ac58b34ab73dace71aedfe81df2/analysis/simpler_tree_simulation.Rmd" target="_blank">280cc1f</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-03
+</td>
+<td>
+added printing of noise in simpler
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/280cc1f77b576ac58b34ab73dace71aedfe81df2/docs/simpler_tree_simulation.html" target="_blank">280cc1f</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-03
+</td>
+<td>
+added printing of noise in simpler
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -812,7 +846,8 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -895,6 +930,8 @@ jhmarcus
 <pre><code>[1] &quot;objective=72473.5307279732&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=0.188101535612845&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We can see the loadings matrix is recovered pretty well.</p>
 </div>
 <div id="backfit" class="section level2">
@@ -915,7 +952,8 @@ Backfitting 6 factors...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -998,6 +1036,8 @@ jhmarcus
 <pre><code>[1] &quot;objective=2169849.35240762&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=0.0101417353225806&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run</p>
 </div>
 </div>
@@ -1029,7 +1069,8 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1112,6 +1153,8 @@ jhmarcus
 <pre><code>[1] &quot;objective=-745056.156106639&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=0.538844063230669&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The greedy solution recovers the loadings pretty well.</p>
 </div>
 <div id="backfit-1" class="section level2">
@@ -1131,7 +1174,8 @@ Backfitting 6 factors...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1214,6 +1258,8 @@ jhmarcus
 <pre><code>[1] &quot;objective=-710595.815816299&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=0.501086281220637&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The backfitting begins to get funky / noisy.</p>
 </div>
 </div>
@@ -1245,7 +1291,8 @@ Factor doesn&#39;t increase objective and won&#39;t be added.
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1328,6 +1375,8 @@ jhmarcus
 <pre><code>[1] &quot;objective=-1238486.22414427&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=1.0288417142139&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The greedy solution still recovers the loadings well!</p>
 </div>
 <div id="backfit-2" class="section level2">
@@ -1357,7 +1406,8 @@ Backfitting 6 factors...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>p_res = plot_flash_loadings(flash_fit, n_per_pop)
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1440,7 +1490,9 @@ jhmarcus
 <pre><code>[1] &quot;objective=-1208183.23583764&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
 <pre><code>[1] &quot;est_sd=0.999720375541533&quot;</code></pre>
-Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in <a href="simple_tree_simulation.html">Simple Tree Simulation</a>. So perhaps backfitting is having a hard time in the face of “high” noise scenarios and somehow greedy is robust to this noise? <br> <br>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
+Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in <a href="simple_tree_simulation.html">Simple Tree Simulation</a>. So perhaps backfitting is having a hard time in the face of “high” noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to givea fitted covariance matrix that look very close to the truth accross all the simulations so it is indeed fitting the data well. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information

@@ -13,6 +13,7 @@ Welcome to my research website.
 These vignettes describe exploratory ideas:
 
 * [FLASH proof of principle](flash.html)
+* [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
 
 ## Data
 

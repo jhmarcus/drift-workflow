@@ -17,7 +17,9 @@ Here I import the some required packages:
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(ashr)
 library(flashier)
+source("../code/ebnm_beta.R")
 source("../code/viz.R")
 ```
 
@@ -114,6 +116,23 @@ p
 
 Here we can see the block-like structure to the covariance matrix.
 
+## Greedy (beta)
+
+```{r}
+library(flashr)
+source("../code/ebnm_beta.R")
+f = flash_add_fixed_loadings(data, LL=cbind(rep(1, nrow(Y))), backfit=TRUE, verbose=FALSE)
+data = flash_set_data(Y)
+f = flash(data,
+          f_init=f,
+          Kmax=10,
+          var_type="constant",
+          ebnm_fn=list(l="ebnm_beta", f="ebnm_pn"),
+          ebnm_param=list(l=list(),
+                          f=list(fix_pi0=TRUE, g=list(pi0 = 0))),
+          backfit=TRUE)
+```
+
 ## Greedy
 
 I fit greedy flash:
@@ -126,11 +145,14 @@ flash_fit = flashier::flashier(Y,
                                var.type=0,
                                backfit="none")
 
+
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 We can see the loadings matrix is recovered pretty well.
@@ -149,11 +171,13 @@ flash_fit = flashier::flashier(Y,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run
@@ -180,11 +204,13 @@ flash_fit = flashier::flashier(Y,
                                var.type=0,
                                backfit="none")
 
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 The greedy solution recovers the loadings pretty well.
@@ -201,11 +227,13 @@ flash_fit = flashier::flashier(Y,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 The backfitting begins to get funky / noisy.
@@ -232,11 +260,13 @@ flash_fit = flashier::flashier(Y,
                                var.type=0,
                                backfit="none")
 
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 The greedy solution still recovers the loadings well!
@@ -253,11 +283,13 @@ flash_fit = flashier::flashier(Y,
                                backfit.order="dropout",
                                backfit.reltol=10)
 
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(paste0("objective=", flash_fit$objective))
 print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
-Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise?
+Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to givea  fitted covariance matrix that look very close to the truth accross all the simulations so it is indeed fitting the data well.

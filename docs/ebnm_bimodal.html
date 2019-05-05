@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="jhmarcus" />
+
+<meta name="date" content="2019-05-05" />
+
+<title>Empircal Bayes Normal Means with Bimodal Priors</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Empircal Bayes Normal Means with Bimodal Priors</h1>
+<h4 class="author"><em>jhmarcus</em></h4>
+<h4 class="date"><em>2019-05-05</em></h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-05-05
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/280cc1f77b576ac58b34ab73dace71aedfe81df2" target="_blank">280cc1f</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/flash_cache/
+    Ignored:    data.tar.gz
+    Ignored:    data/datasets/
+    Ignored:    data/raw/
+    Ignored:    output.tar.gz
+    Ignored:    output/
+
+Untracked files:
+    Untracked:  analysis/ebnm_bimodal.Rmd
+    Untracked:  code/ebnm_bimodal.R
+    Untracked:  docs/figure/ebnm_bimodal.Rmd/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/simpler_tree_simulation.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>Here I explore the idea of “hacking” <code>ashr</code> to solve the Empirical Bayes Normal Means problem with a bimodal prior, specifically with the modes of the prior at 0 and 1. The idea is we’d like to “penalize” against estimating intermediate effects i.e. we shrink the effects to 1 if there large enough and 0 if their small enough, accounting for the precision of the estimate and learning the right level to shrink.</p>
+<div id="imports" class="section level1">
+<h1>Imports</h1>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(tidyr)
+source(&quot;../code/ebnm_bimodal.R&quot;)</code></pre>
+</div>
+<div id="functions" class="section level1">
+<h1>Functions</h1>
+<p>Here are some helper function for simulation, fitting, and plotting.</p>
+<pre class="r"><code>sim = function(n0, n1, sigma_e){
+  n = n0+n1
+  beta = c(rep(0, n0), rep(1, n1))
+  s = abs(rnorm(n, 0, sigma_e))
+  betahat = rnorm(n, beta, s)
+  
+  return(list(betahat=betahat, s=s, beta=beta, n=n))
+}
+
+
+fit = function(betahat, s, beta){
+  
+  n = length(betahat)
+  fit_res = ebnm_bimodal(betahat, s, list())
+  betapm = fit_res$postmean
+  df = data.frame(betahat=betahat, beta=beta, betapm=betapm, s=s, idx=1:n)  
+
+  return(df)
+}
+
+plot_sim = function(df, title){
+  
+  gath_df = df %&gt;% gather(variable, value, -idx, -s)
+  p0 = ggplot(gath_df, aes(x=idx, y=value, 
+                        color=factor(variable, levels=c(&quot;beta&quot;, &quot;betahat&quot;, &quot;betapm&quot;)))) + 
+      geom_point() + 
+      theme_bw() +
+      labs(color=&quot;&quot;) +
+      xlab(&quot;Variable&quot;) + 
+      ylab(&quot;Value&quot;) +
+      theme(legend.position=&quot;bottom&quot;)
+  
+  min_betahat = min(df$betahat)
+  max_betahat = max(df$betahat)
+  p1 = ggplot(df, aes(betahat, betapm, color=s)) + 
+       geom_point() + viridis::scale_color_viridis() + 
+       theme_bw() + 
+       theme(legend.position=&quot;bottom&quot;) +
+       xlim(c(min_betahat, max_betahat)) +
+       ylim(c(min_betahat, max_betahat)) + 
+       geom_abline() 
+
+  p = cowplot::plot_grid(p0, p1, nrow=1) 
+  title = cowplot::ggdraw() + cowplot::draw_label(title)
+  print(cowplot::plot_grid(title, p, ncol=1, rel_heights=c(0.1, 1)))
+
+}</code></pre>
+</div>
+<div id="approach" class="section level1">
+<h1>Approach</h1>
+<p>The approach I took was to setup two grids:</p>
+<ol style="list-style-type: decimal">
+<li>A “positive” mixture of uniforms ash prior with mode 0 and grange from 0 to 1</li>
+<li>A “negative” mixture of uniforms ash prior with mode 1 and grange from 0 to 1</li>
+</ol>
+<p>I adapted code from <code>ashr</code> to extract the grids in <code>../code/ebnm_bimodal.R</code>. Below is a sanity check that my helper function extracts the “correct” grids:</p>
+<pre class="r"><code># simulate data
+sim_res = sim(40, 40, .1)
+betahat = sim_res$betahat
+s = sim_res$s
+data = ashr:::set_data(as.vector(betahat), as.vector(s), ashr:::add_etruncFUN(ashr::lik_normal()), 0)
+
+# get grid for mode 0 (my helper function)
+grid0 = get_bimodal_grid(data, 0, &quot;+uniform&quot;)
+
+# get grid for mode 0 (ashr)
+res = ashr::ash(betahat, s, mixcompdist=&quot;+uniform&quot;, mode=0, grange=c(0, 1))
+res$fitted_g$a == grid0$a</code></pre>
+<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[29] TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>res$fitted_g$b == grid0$b</code></pre>
+<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[29] TRUE TRUE TRUE</code></pre>
+<pre class="r"><code># get grid for mode 1 (my helper function)
+grid1 = get_bimodal_grid(data, 1, &quot;-uniform&quot;)
+
+# get grid for mode 1 (ashr)
+res = ashr::ash(betahat, s, mixcompdist=&quot;-uniform&quot;, mode=1, grange=c(0, 1))
+res$fitted_g$a == grid1$a</code></pre>
+<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[29] TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>res$fitted_g$b == grid1$b</code></pre>
+<pre><code> [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+[29] TRUE TRUE TRUE</code></pre>
+<p>It looks like the grids match the <code>ashr</code> implementation. I next wrote an additional helper function that estimates the prior <span class="math inline">\(g\)</span> using the the grid of “intervals” defined above (see <code>get_bimodal_g</code> in <code>../code/ebnm_bimodal.R</code>):</p>
+<pre class="r"><code># setup bimodal grid
+a = c(grid0$a, grid1$a)
+b = c(grid0$b, grid1$b)
+
+# estimate prior
+ghat = get_bimodal_g(data, a, b)
+idx_c = which(ghat$pi &gt; 1e-5)
+print(a[idx_c])</code></pre>
+<pre><code>[1] 0.0000000 1.0000000 0.9724091</code></pre>
+<pre class="r"><code>print(b[idx_c])</code></pre>
+<pre><code>[1] 0 1 1</code></pre>
+<p>We can see for this example only a few components get weight i.e. those with mass close to 0 and 1. Finally given this <span class="math inline">\(g\)</span> I wrote a <code>ebnm</code> function that computes the posterior with the fixed <span class="math inline">\(g\)</span> (see <code>ebnm_bimodal</code> in <code>../code/ebnm_bimodal.R</code>):</p>
+<pre class="r"><code>df = fit(betahat, s, sim_res$beta)
+plot_sim(df, &quot;&quot;)</code></pre>
+<p><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Pretty cool! Effects close to 0 are shrunk to 0 while effects close to 1 are shrunk to 1.</p>
+</div>
+<div id="simulations" class="section level1">
+<h1>Simulations</h1>
+<p>Next I simulated a bunch of normal means scenarios where the true <span class="math inline">\(\beta\)</span>s are set to 0 or 1. In each simulation I specify the number of zeros <code>n0</code> the number of ones <code>n1</code> and standard deviation used to simulate std. errors.</p>
+<pre class="r"><code>n0 = c(rep(40, 3), rep(25, 3), rep(10, 3), rep(0, 3))
+n1 = c(rep(40, 3), rep(55, 3), rep(70, 3), rep(80, 3))
+sigma_e = rep(c(.05, .1, .25), 4)
+
+for(i in 1:length(n0)){
+  sim_res = sim(n0[i], n1[i], sigma_e[i])
+  betahat = sim_res$betahat
+  s = sim_res$s
+  beta = sim_res$beta
+  df = fit(betahat, s, beta)
+  title = paste0(&quot;n0=&quot;,n0[i], &quot;,n1=&quot;, n1[i], &quot;,sigma_e=&quot;, sigma_e[i])
+  plot_sim(df, title)
+}</code></pre>
+<p><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-8.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-10.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/ebnm_bimodal.Rmd/unnamed-chunk-6-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I think the idea roughly works! The most interesting scenarios to compare are when the std. errors of the estmates are high but the number of zeros and ones are different. Maybe we can define a term “bimodality” which I’m thinking is how bimodal the distribution is. When the bimodality is low (i.e. the prior distribution is closer to unimodal) the effects seem to be more correctly estimated. As we can see estimating more bimodal effects is a more difficult problem than unimodal effects.</p>
+I’d like to think more about the setting the prior grid but this was a relatively easily implementable first pass. It would also be interesting to think more about how to weight the prior mixture proportions if that would be helpful. <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS  10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] tidyr_0.8.2   dplyr_0.8.0.1 ggplot2_3.1.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0        compiler_3.5.1    pillar_1.3.1     
+ [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.2.0  
+ [7] viridis_0.5.1     iterators_1.0.10  tools_3.5.1      
+[10] digest_0.6.18     viridisLite_0.3.0 evaluate_0.12    
+[13] tibble_2.0.1      gtable_0.2.0      lattice_0.20-38  
+[16] pkgconfig_2.0.2   rlang_0.3.1       foreach_1.4.4    
+[19] Matrix_1.2-15     parallel_3.5.1    yaml_2.2.0       
+[22] xfun_0.4          gridExtra_2.3     withr_2.1.2      
+[25] stringr_1.4.0     knitr_1.21        fs_1.2.6         
+[28] cowplot_0.9.4     rprojroot_1.3-2   grid_3.5.1       
+[31] tidyselect_0.2.5  glue_1.3.0        R6_2.4.0         
+[34] rmarkdown_1.11    mixsqp_0.1-115    purrr_0.3.0      
+[37] ashr_2.2-37       magrittr_1.5      MASS_7.3-51.1    
+[40] codetools_0.2-16  backports_1.1.3   scales_1.0.0     
+[43] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
+[46] labeling_0.3      stringi_1.2.4     pscl_1.5.2       
+[49] doParallel_1.0.14 lazyeval_0.2.1    munsell_0.5.0    
+[52] truncnorm_1.0-8   SQUAREM_2017.10-1 crayon_1.3.4     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
