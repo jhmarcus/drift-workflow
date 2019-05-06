@@ -19,8 +19,14 @@ library(dplyr)
 library(tidyr)
 library(ashr)
 library(flashier)
-source("../code/ebnm_beta.R")
+library(flashr)
 source("../code/viz.R")
+
+# bimodal g prior list used throughout
+m = 20
+b = seq(1.0, 0.0, length=m)
+a = seq(0.0, 1.0, length=m)
+bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m),b), c(a, rep(1,m)))
 ```
 
 # Functions
@@ -116,23 +122,6 @@ p
 
 Here we can see the block-like structure to the covariance matrix.
 
-## Greedy (beta)
-
-```{r}
-library(flashr)
-source("../code/ebnm_beta.R")
-f = flash_add_fixed_loadings(data, LL=cbind(rep(1, nrow(Y))), backfit=TRUE, verbose=FALSE)
-data = flash_set_data(Y)
-f = flash(data,
-          f_init=f,
-          Kmax=10,
-          var_type="constant",
-          ebnm_fn=list(l="ebnm_beta", f="ebnm_pn"),
-          ebnm_param=list(l=list(),
-                          f=list(fix_pi0=TRUE, g=list(pi0 = 0))),
-          backfit=TRUE)
-```
-
 ## Greedy
 
 I fit greedy flash:
@@ -144,7 +133,6 @@ flash_fit = flashier::flashier(Y,
                                ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
                                var.type=0,
                                backfit="none")
-
 
 Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
@@ -181,6 +169,30 @@ print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
 The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run
+
+## Backfit (bimodal)
+
+I add a final backfitting step to a flash model with a bimodal family of prior distributions for the loadings with modes at 0 and 1 and the factors have normal priors with a scale for each factor to be estimated.
+
+```{r warning=FALSE, message=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               var.type=0,
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
+```
 
 # Medium Noise
 
@@ -238,6 +250,28 @@ print(plot_covmat(Lhat %*% t(Lhat)))
 
 The backfitting begins to get funky / noisy.
 
+## Backfit (bimodal)
+
+```{r warning=FALSE, message=FALSE}
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               var.type=0,
+                               backfit="final",
+                               backfit.order="dropout",
+                               backfit.reltol=10)
+
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
+```
+
 # High Noise
 
 Now the standard deviation of the errors is 10 times higher than the original simulation
@@ -292,4 +326,58 @@ print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
 print(plot_covmat(Lhat %*% t(Lhat)))
 ```
 
-Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to givea  fitted covariance matrix that look very close to the truth accross all the simulations so it is indeed fitting the data well.
+Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in [Simple Tree Simulation](simple_tree_simulation.html). So perhaps backfitting is having a hard time in the face of "high" noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to give a  fitted covariance matrix that look very close to the truth across all the simulations so it is indeed fitting the data well.
+
+## Backfit (bimodal)
+
+```
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c("nonnegative", "point.normal"),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                               var.type=0,
+                               backfit="final")
+
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(paste0("objective=", flash_fit$objective))
+print(paste0("est_sd=", sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))
+```
+
+This throws this error so I don't evaluate it:
+
+```
+Error in if (!all(nonzero_cols)) { : 
+  missing value where TRUE/FALSE needed
+```
+
+## Backfit (bimodal, `FLASHR`) 
+
+```{r, warning=FALSE, message=FALSE}
+data = flash_set_data(Y)
+f = flash(data,
+          Kmax=10,
+          var_type="constant",
+          ebnm_fn=list(l="ebnm_ash", f="ebnm_pn"),
+          ebnm_param=list(l=list(fixg=FALSE, g=bimodal_g),
+                          f=list(fix_pi0=TRUE, g=list(pi0 = 0))),
+          backfit=TRUE)
+
+l_df = as.data.frame(f$fit$EL)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw() 
+p
+```
+
+This seems to be ignoring the constraint in $g$.

@@ -440,7 +440,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-05-03
+<strong>Last updated:</strong> 2019-05-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -519,10 +519,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/280cc1f77b576ac58b34ab73dace71aedfe81df2" target="_blank">280cc1f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree39cad419039f21e71432ba0e8a5595040e051539targetblank39cad41a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/39cad419039f21e71432ba0e8a5595040e051539" target="_blank">39cad41</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree280cc1f77b576ac58b34ab73dace71aedfe81df2targetblank280cc1fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree39cad419039f21e71432ba0e8a5595040e051539targetblank39cad41a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -539,7 +539,9 @@ Ignored files:
     Ignored:    output/
 
 Unstaged changes:
+    Modified:   analysis/ebnm_bimodal.Rmd
     Modified:   analysis/simpler_tree_simulation.Rmd
+    Deleted:    code/ebnm_bimodal.R
 
 </code></pre>
 <p>
@@ -578,6 +580,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/analysis/simpler_tree_simulation.Rmd" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+<td>
+added bimodal ash exploration
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/docs/simpler_tree_simulation.html" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+<td>
+added bimodal ash exploration
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -661,8 +697,16 @@ added simpler tree sim
 <pre class="r"><code>library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(ashr)
 library(flashier)
-source(&quot;../code/viz.R&quot;)</code></pre>
+library(flashr)
+source(&quot;../code/viz.R&quot;)
+
+# bimodal g prior list used throughout
+m = 20
+b = seq(1.0, 0.0, length=m)
+a = seq(0.0, 1.0, length=m)
+bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m),b), c(a, rep(1,m)))</code></pre>
 </div>
 <div id="functions" class="section level1">
 <h1>Functions</h1>
@@ -932,6 +976,43 @@ jhmarcus
 <pre><code>[1] &quot;est_sd=0.188101535612845&quot;</code></pre>
 <pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-3">
+Past versions of unnamed-chunk-3-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-3-3.png" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can see the loadings matrix is recovered pretty well.</p>
 </div>
 <div id="backfit" class="section level2">
@@ -1038,7 +1119,82 @@ jhmarcus
 <pre><code>[1] &quot;est_sd=0.0101417353225806&quot;</code></pre>
 <pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-3">
+Past versions of unnamed-chunk-4-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-4-3.png" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The loadings matrix is recovered pretty well and also looks pretty similar to the greedy run</p>
+</div>
+<div id="backfit-bimodal" class="section level2">
+<h2>Backfit (bimodal)</h2>
+<p>I add a final backfitting step to a flash model with a bimodal family of prior distributions for the loadings with modes at 0 and 1 and the factors have normal priors with a scale for each factor to be estimated.</p>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               var.type=0,
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
+<pre><code>[1] &quot;objective=2171002.56418703&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
+<pre><code>[1] &quot;est_sd=0.0101417265735237&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="medium-noise" class="section level1">
@@ -1066,111 +1222,6 @@ Adding factor 5 to flash object...
 Adding factor 6 to flash object...
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
-Nullchecking 6 factors...
-Wrapping up...
-Done.</code></pre>
-<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
-p_res = plot_flash_loadings(flash_fit, n_per_pop)
-print(p_res$p1)</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/912c5ff2981ec251497e3f5b95a5e7a3afbf2a7a/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-1.png" target="_blank">912c5ff</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-05-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>print(p_res$p2)</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-2">
-Past versions of unnamed-chunk-6-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/912c5ff2981ec251497e3f5b95a5e7a3afbf2a7a/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-2.png" target="_blank">912c5ff</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-05-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
-<pre><code>[1] &quot;objective=-745056.156106639&quot;</code></pre>
-<pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
-<pre><code>[1] &quot;est_sd=0.538844063230669&quot;</code></pre>
-<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The greedy solution recovers the loadings pretty well.</p>
-</div>
-<div id="backfit-1" class="section level2">
-<h2>Backfit</h2>
-<pre class="r"><code>flash_fit = flashier::flashier(Y, 
-                               flash.init = flash_fit,
-                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
-                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
-                               var.type=0,
-                               backfit=&quot;final&quot;,
-                               backfit.order=&quot;dropout&quot;,
-                               backfit.reltol=10)</code></pre>
-<pre><code>Initializing flash object...
-Adding factor 7 to flash object...
-Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 6 factors...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
@@ -1255,30 +1306,92 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
-<pre><code>[1] &quot;objective=-710595.815816299&quot;</code></pre>
+<pre><code>[1] &quot;objective=-749201.861202199&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
-<pre><code>[1] &quot;est_sd=0.501086281220637&quot;</code></pre>
+<pre><code>[1] &quot;est_sd=0.540899300207415&quot;</code></pre>
 <pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The backfitting begins to get funky / noisy.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-3">
+Past versions of unnamed-chunk-7-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-7-3.png" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="high-noise" class="section level1">
-<h1>High Noise</h1>
-<p>Now the standard deviation of the errors is 10 times higher than the original simulation</p>
-<pre class="r"><code>n_per_pop = 20
-sigma_e = 1.0
-p = 10000
-sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
-Y = sim_res$Y</code></pre>
-<div id="greedy-2" class="section level2">
-<h2>Greedy</h2>
+<p>The greedy solution recovers the loadings pretty well.</p>
+</div>
+<div id="backfit-1" class="section level2">
+<h2>Backfit</h2>
 <pre class="r"><code>flash_fit = flashier::flashier(Y, 
-                               greedy.Kmax=10,
+                               flash.init = flash_fit,
                                prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
                                ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
                                var.type=0,
-                               backfit=&quot;none&quot;)</code></pre>
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
+<pre><code>[1] &quot;objective=-712470.602509237&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
+<pre><code>[1] &quot;est_sd=0.50320097987893&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The backfitting begins to get funky / noisy.</p>
+</div>
+<div id="backfit-bimodal-1" class="section level2">
+<h2>Backfit (bimodal)</h2>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               var.type=0,
+                               backfit=&quot;final&quot;,
+                               backfit.order=&quot;dropout&quot;,
+                               backfit.reltol=10)</code></pre>
 <pre><code>Initializing flash object...
 Adding factor 1 to flash object...
 Adding factor 2 to flash object...
@@ -1288,6 +1401,7 @@ Adding factor 5 to flash object...
 Adding factor 6 to flash object...
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
+Backfitting 6 factors...
 Nullchecking 6 factors...
 Wrapping up...
 Done.</code></pre>
@@ -1372,11 +1486,90 @@ jhmarcus
 </div>
 </div>
 <pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
-<pre><code>[1] &quot;objective=-1238486.22414427&quot;</code></pre>
+<pre><code>[1] &quot;objective=-704982.55805766&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
-<pre><code>[1] &quot;est_sd=1.0288417142139&quot;</code></pre>
+<pre><code>[1] &quot;est_sd=0.503265123673624&quot;</code></pre>
 <pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
 <p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-3">
+Past versions of unnamed-chunk-9-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/44a10f7f9a02a051346bec92a1d6ee10cdeadf34/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-9-3.png" target="_blank">44a10f7</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-05-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="high-noise" class="section level1">
+<h1>High Noise</h1>
+<p>Now the standard deviation of the errors is 10 times higher than the original simulation</p>
+<pre class="r"><code>n_per_pop = 20
+sigma_e = 1.0
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y</code></pre>
+<div id="greedy-2" class="section level2">
+<h2>Greedy</h2>
+<pre class="r"><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               var.type=0,
+                               backfit=&quot;none&quot;)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t increase objective and won&#39;t be added.
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
+<pre><code>[1] &quot;objective=-1240334.83467024&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
+<pre><code>[1] &quot;est_sd=1.02976540887562&quot;</code></pre>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The greedy solution still recovers the loadings well!</p>
 </div>
 <div id="backfit-2" class="section level2">
@@ -1394,12 +1587,8 @@ Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
 Nullchecking 6 factors...
-Factor 5 removed, increasing objective by 1.234e-01.
-Adding factor 7 to flash object...
-Factor doesn&#39;t increase objective and won&#39;t be added.
-Backfitting 6 factors...
-Nullchecking 6 factors...
-Factor 4 removed, increasing objective by 8.795e-02.
+Factor 4 removed, increasing objective by 1.394e+01.
+Factor 6 removed, increasing objective by 1.183e-01.
 Adding factor 7 to flash object...
 Factor doesn&#39;t increase objective and won&#39;t be added.
 Backfitting 6 factors...
@@ -1409,90 +1598,62 @@ Done.</code></pre>
 <pre class="r"><code>Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
 print(p_res$p1)</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/912c5ff2981ec251497e3f5b95a5e7a3afbf2a7a/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-1.png" target="_blank">912c5ff</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-05-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(p_res$p2)</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
-Past versions of unnamed-chunk-10-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/912c5ff2981ec251497e3f5b95a5e7a3afbf2a7a/docs/figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-2.png" target="_blank">912c5ff</a>
-</td>
-<td>
-jhmarcus
-</td>
-<td>
-2019-05-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(paste0(&quot;objective=&quot;, flash_fit$objective))</code></pre>
-<pre><code>[1] &quot;objective=-1208183.23583764&quot;</code></pre>
+<pre><code>[1] &quot;objective=-1208591.98076189&quot;</code></pre>
 <pre class="r"><code>print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))</code></pre>
-<pre><code>[1] &quot;est_sd=0.999720375541533&quot;</code></pre>
+<pre><code>[1] &quot;est_sd=0.999960677283949&quot;</code></pre>
 <pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
-<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
-Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in <a href="simple_tree_simulation.html">Simple Tree Simulation</a>. So perhaps backfitting is having a hard time in the face of “high” noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to givea fitted covariance matrix that look very close to the truth accross all the simulations so it is indeed fitting the data well. <br> <br>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-12-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Now the backfitting is looking like the results of the previous simulation I ran with Binomial noise etc in <a href="simple_tree_simulation.html">Simple Tree Simulation</a>. So perhaps backfitting is having a hard time in the face of “high” noise scenarios and somehow greedy is robust to this noise? Either way backfitting seems to give a fitted covariance matrix that look very close to the truth across all the simulations so it is indeed fitting the data well.</p>
+</div>
+<div id="backfit-bimodal-2" class="section level2">
+<h2>Backfit (bimodal)</h2>
+<pre><code>flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                               ash.param=list(fixg=FALSE, g=bimodal_g),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                               var.type=0,
+                               backfit=&quot;final&quot;)
+
+Lhat = flash_fit$loadings$normalized.loadings[[1]]
+p_res = plot_flash_loadings(flash_fit, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(paste0(&quot;objective=&quot;, flash_fit$objective))
+print(paste0(&quot;est_sd=&quot;, sqrt(1 / flash_fit$fit$tau)))
+print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p>This throws this error so I don’t evaluate it:</p>
+<pre><code>Error in if (!all(nonzero_cols)) { : 
+  missing value where TRUE/FALSE needed</code></pre>
+</div>
+<div id="backfit-bimodal-flashr" class="section level2">
+<h2>Backfit (bimodal, <code>FLASHR</code>)</h2>
+<pre class="r"><code>data = flash_set_data(Y)
+f = flash(data,
+          Kmax=10,
+          var_type=&quot;constant&quot;,
+          ebnm_fn=list(l=&quot;ebnm_ash&quot;, f=&quot;ebnm_pn&quot;),
+          ebnm_param=list(l=list(fixg=FALSE, g=bimodal_g),
+                          f=list(fix_pi0=TRUE, g=list(pi0 = 0))),
+          backfit=TRUE)
+
+l_df = as.data.frame(f$fit$EL)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+             rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale=&quot;free&quot;) +
+    theme_bw() 
+p</code></pre>
+<p><img src="figure/simpler_tree_simulation.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+This seems to be ignoring the constraint in <span class="math inline">\(g\)</span>. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
@@ -1514,29 +1675,30 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] RColorBrewer_1.1-2 flashier_0.1.1     tidyr_0.8.2       
-[4] dplyr_0.8.0.1      ggplot2_3.1.0     
+[1] RColorBrewer_1.1-2 flashr_0.6-3       flashier_0.1.1    
+[4] ashr_2.2-37        tidyr_0.8.2        dplyr_0.8.0.1     
+[7] ggplot2_3.1.0     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0        compiler_3.5.1    pillar_1.3.1     
- [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.2.0  
- [7] iterators_1.0.10  viridis_0.5.1     tools_3.5.1      
-[10] digest_0.6.18     lattice_0.20-38   viridisLite_0.3.0
-[13] evaluate_0.12     tibble_2.0.1      gtable_0.2.0     
-[16] pkgconfig_2.0.2   rlang_0.3.1       foreach_1.4.4    
-[19] Matrix_1.2-15     parallel_3.5.1    yaml_2.2.0       
-[22] ebnm_0.1-17       xfun_0.4          gridExtra_2.3    
-[25] withr_2.1.2       stringr_1.4.0     knitr_1.21       
-[28] fs_1.2.6          rprojroot_1.3-2   grid_3.5.1       
-[31] tidyselect_0.2.5  glue_1.3.0        R6_2.4.0         
-[34] rmarkdown_1.11    mixsqp_0.1-115    ashr_2.2-37      
-[37] purrr_0.3.0       reshape2_1.4.3    magrittr_1.5     
-[40] whisker_0.3-2     MASS_7.3-51.1     codetools_0.2-16 
-[43] backports_1.1.3   scales_1.0.0      htmltools_0.3.6  
-[46] assertthat_0.2.0  colorspace_1.4-0  labeling_0.3     
-[49] stringi_1.2.4     pscl_1.5.2        doParallel_1.0.14
-[52] lazyeval_0.2.1    munsell_0.5.0     truncnorm_1.0-8  
-[55] SQUAREM_2017.10-1 crayon_1.3.4     </code></pre>
+ [1] softImpute_1.4    tidyselect_0.2.5  xfun_0.4         
+ [4] purrr_0.3.0       reshape2_1.4.3    lattice_0.20-38  
+ [7] colorspace_1.4-0  htmltools_0.3.6   viridisLite_0.3.0
+[10] yaml_2.2.0        rlang_0.3.1       mixsqp_0.1-115   
+[13] pillar_1.3.1      glue_1.3.0        withr_2.1.2      
+[16] foreach_1.4.4     plyr_1.8.4        stringr_1.4.0    
+[19] munsell_0.5.0     gtable_0.2.0      workflowr_1.2.0  
+[22] codetools_0.2-16  evaluate_0.12     labeling_0.3     
+[25] knitr_1.21        doParallel_1.0.14 pscl_1.5.2       
+[28] parallel_3.5.1    Rcpp_1.0.0        scales_1.0.0     
+[31] backports_1.1.3   truncnorm_1.0-8   fs_1.2.6         
+[34] gridExtra_2.3     digest_0.6.18     stringi_1.2.4    
+[37] ebnm_0.1-17       grid_3.5.1        rprojroot_1.3-2  
+[40] tools_3.5.1       magrittr_1.5      lazyeval_0.2.1   
+[43] tibble_2.0.1      crayon_1.3.4      whisker_0.3-2    
+[46] pkgconfig_2.0.2   MASS_7.3-51.1     Matrix_1.2-15    
+[49] SQUAREM_2017.10-1 assertthat_0.2.0  rmarkdown_1.11   
+[52] iterators_1.0.10  viridis_0.5.1     R6_2.4.0         
+[55] git2r_0.23.0      compiler_3.5.1   </code></pre>
 </div>
 </div>
 </div>

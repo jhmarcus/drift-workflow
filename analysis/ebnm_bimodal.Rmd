@@ -13,7 +13,6 @@ Here I explore the idea of "hacking" `ashr` to solve the Empirical Bayes Normal 
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-source("../code/ebnm_bimodal.R")
 ```
 
 # Functions
@@ -30,15 +29,17 @@ sim = function(n0, n1, sigma_e){
   return(list(betahat=betahat, s=s, beta=beta, n=n))
 }
 
+fit = function(betahat, s, beta, m=20){
 
-fit = function(betahat, s, beta){
-  
-  n = length(betahat)
-  fit_res = ebnm_bimodal(betahat, s, list())
-  betapm = fit_res$postmean
-  df = data.frame(betahat=betahat, beta=beta, betapm=betapm, s=s, idx=1:n)  
+  b = seq(1.0, 0.0, length=m)
+  a = seq(0.0, 1.0, length=m)
+  bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m),b), c(a, rep(1,m)))
+  ash_res = ashr::ash(betahat, s, g=bimodal_g, fixg=FALSE, outputlevel=4)
+  betapm = ash_res$flash_data$postmean
+  df = data.frame(betahat=betahat, beta=beta, betapm=betapm, s=s, idx=1:length(betahat))  
 
   return(df)
+  
 }
 
 plot_sim = function(df, title){
@@ -70,65 +71,9 @@ plot_sim = function(df, title){
 }
 ```
 
-# Approach
-
-The approach I took was to setup two grids:
-
-1. A "positive" mixture of uniforms ash prior with mode 0 and grange from 0 to 1
-2. A "negative" mixture of uniforms ash prior with mode 1 and grange from 0 to 1
-
-I adapted code from `ashr` to extract the grids in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R). Below is a sanity check that my helper function extracts the "correct" grids:
-
-```{r}
-# simulate data
-sim_res = sim(40, 40, .1)
-betahat = sim_res$betahat
-s = sim_res$s
-data = ashr:::set_data(as.vector(betahat), as.vector(s), ashr:::add_etruncFUN(ashr::lik_normal()), 0)
-
-# get grid for mode 0 (my helper function)
-grid0 = get_bimodal_grid(data, 0, "+uniform")
-
-# get grid for mode 0 (ashr)
-res = ashr::ash(betahat, s, mixcompdist="+uniform", mode=0, grange=c(0, 1))
-res$fitted_g$a == grid0$a
-res$fitted_g$b == grid0$b
-
-# get grid for mode 1 (my helper function)
-grid1 = get_bimodal_grid(data, 1, "-uniform")
-
-# get grid for mode 1 (ashr)
-res = ashr::ash(betahat, s, mixcompdist="-uniform", mode=1, grange=c(0, 1))
-res$fitted_g$a == grid1$a
-res$fitted_g$b == grid1$b
-```
-
-It looks like the grids match the `ashr` implementation. I next wrote an additional helper function that estimates the prior $g$ using the the grid of "intervals" defined above (see `get_bimodal_g` in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R)):
-
-```{r}
-# setup bimodal grid
-a = c(grid0$a, grid1$a)
-b = c(grid0$b, grid1$b)
-
-# estimate prior
-ghat = get_bimodal_g(data, a, b)
-idx_c = which(ghat$pi > 1e-5)
-print(a[idx_c])
-print(b[idx_c])
-```
-
-We can see for this example only a few components get weight i.e. those with mass close to 0 and 1. Finally given this $g$ I wrote a `ebnm` function that computes the posterior with the fixed $g$ (see `ebnm_bimodal` in [../code/ebnm_bimodal.R](https://github.com/jhmarcus/drift-workflow/blob/master/code/ebnm_bimodal.R)):
-
-```{r}
-df = fit(betahat, s, sim_res$beta)
-plot_sim(df, "")
-```
-
-Pretty cool! Effects close to 0 are shrunk to 0 while effects close to 1 are shrunk to 1.
-
 # Simulations
 
-Next I simulated a bunch of normal means scenarios where the true $\beta$s are set to 0 or 1. In each simulation I specify the number of zeros `n0` the number of ones `n1` and standard deviation used to simulate std. errors.
+I simulated a bunch of normal means scenarios where the true $\beta$s are set to 0 or 1. In each simulation I specify the number of zeros `n0` the number of ones `n1` and standard deviation used to simulate std. errors.
 
 ```{r}
 n0 = c(rep(40, 3), rep(25, 3), rep(10, 3), rep(0, 3))
@@ -140,7 +85,7 @@ for(i in 1:length(n0)){
   betahat = sim_res$betahat
   s = sim_res$s
   beta = sim_res$beta
-  df = fit(betahat, s, beta)
+  df = fit(betahat, s, beta, m=20)
   title = paste0("n0=",n0[i], ",n1=", n1[i], ",sigma_e=", sigma_e[i])
   plot_sim(df, title)
 }
@@ -148,4 +93,4 @@ for(i in 1:length(n0)){
 
 I think the idea roughly works! The most interesting scenarios to compare are when the std. errors of the estmates are high but the number of zeros and ones are different. Maybe we can define a term "bimodality" which I'm thinking is how bimodal the distribution is. When the bimodality is low (i.e. the prior distribution is closer to unimodal) the effects seem to be more correctly estimated. As we can see estimating more bimodal effects is a more difficult problem than unimodal effects. 
 
-I'd like to think more about the setting the prior grid but this was a relatively easily implementable first pass. It would also be interesting to think more about how to weight the prior mixture proportions if that would be helpful.
+It would also be interesting to think more about how to weight the prior mixture proportions if that would be helpful.
