@@ -135,7 +135,7 @@ plot_mean_variance = function(snp_df){
 
 plot_covmat = function(S){
   
-  s_df = reshape2::melt(LLt)
+  s_df = reshape2::melt(S)
   p = ggplot(s_df, aes(x=Var1, y=Var2, fill=value)) + 
       geom_tile() +
       viridis::scale_fill_viridis(option="D") +

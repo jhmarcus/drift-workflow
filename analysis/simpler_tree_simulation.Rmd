@@ -17,16 +17,21 @@ Here I import the some required packages:
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-library(ashr)
+devtools::load_all("../../ashr/")
 library(flashier)
 library(flashr)
 source("../code/viz.R")
 
 # bimodal g prior list used throughout
 m = 20
-b = seq(1.0, 0.0, length=m)
-a = seq(0.0, 1.0, length=m)
-bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m),b), c(a, rep(1,m)))
+#b = seq(1.0, 0.0, length=m)
+#a = seq(0.0, 1.0, length=m)
+#bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m),b), c(a, rep(1,m)))
+
+bimodal_g = ashr:::unimix(rep(1/(2*m), 2*m), 
+                          c(rep(0, m), seq(.5, 1.0, length=m)), 
+                          c(seq(0.0, .5, length=m), rep(1, m))
+                          )
 ```
 
 # Functions
@@ -87,6 +92,19 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
   return(list(p1=p1, p2=p2))
   
 }
+
+my.init.fn <- function(flash, tol, maxiter) {
+  
+  EF <- flashier:::init.next.EF(flash, tol, maxiter)
+
+  # Rescale so that L has range 0 to 1.
+  l.scale <- max(abs(EF[[1]])) * sign(which.max(abs(EF[[1]])))
+  EF[[1]] <- EF[[1]] / l.scale
+  EF[[2]] <- EF[[2]] * l.scale
+  
+  return(EF)
+  
+}
 ```
 
 # Low Noise 
@@ -131,6 +149,9 @@ flash_fit = flashier::flashier(Y,
                                greedy.Kmax=10,
                                prior.type=c("nonnegative", "point.normal"),
                                ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               fix.dim=list(1), 
+                               fix.idx=list(1:nrow(Y)), 
+                               fix.vals=list(rep(1, nrow(Y))),
                                var.type=0,
                                backfit="none")
 
@@ -180,6 +201,7 @@ flash_fit = flashier::flashier(Y,
                                prior.type=c("nonnegative", "point.normal"),
                                ash.param=list(fixg=FALSE, g=bimodal_g),
                                ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               init.fn=my.init.fn,
                                var.type=0,
                                backfit="final",
                                backfit.order="dropout",
@@ -258,9 +280,10 @@ flash_fit = flashier::flashier(Y,
                                prior.type=c("nonnegative", "point.normal"),
                                ash.param=list(fixg=FALSE, g=bimodal_g),
                                ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               init.fn=my.init.fn,
                                var.type=0,
                                backfit="final",
-                               backfit.order="dropout",
+                               backfit.order="random",
                                backfit.reltol=10)
 
 Lhat = flash_fit$loadings$normalized.loadings[[1]]
@@ -291,6 +314,9 @@ flash_fit = flashier::flashier(Y,
                                greedy.Kmax=10,
                                prior.type=c("nonnegative", "point.normal"),
                                ebnm.param=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)),
+                               fix.dim=list(1), 
+                               fix.idx=list(1:nrow(Y)), 
+                               fix.vals=list(rep(1, nrow(Y))),
                                var.type=0,
                                backfit="none")
 
@@ -330,14 +356,19 @@ Now the backfitting is looking like the results of the previous simulation I ran
 
 ## Backfit (bimodal)
 
-```
+```{r}
 flash_fit = flashier::flashier(Y, 
                                greedy.Kmax=10,
                                prior.type=c("nonnegative", "point.normal"),
                                ash.param=list(fixg=FALSE, g=bimodal_g),
-                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                               ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                               init.fn=my.init.fn,
+                               fix.dim=list(1), 
+                               fix.idx=list(1:nrow(Y)), 
+                               fix.vals=list(rep(1, nrow(Y))),
                                var.type=0,
-                               backfit="final")
+                               backfit="final",
+                               backfit.order="montaigne")
 
 Lhat = flash_fit$loadings$normalized.loadings[[1]]
 p_res = plot_flash_loadings(flash_fit, n_per_pop)
@@ -363,7 +394,8 @@ f = flash(data,
           Kmax=10,
           var_type="constant",
           ebnm_fn=list(l="ebnm_ash", f="ebnm_pn"),
-          ebnm_param=list(l=list(fixg=FALSE, g=bimodal_g),
+          ebnm_param=list(l=list(fixg=FALSE, g=bimodal_g, 
+                                 grange=c(0,1)),
                           f=list(fix_pi0=TRUE, g=list(pi0 = 0))),
           backfit=TRUE)
 

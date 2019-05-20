@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="jhmarcus" />
+
+<meta name="date" content="2019-05-10" />
+
+<title>Simpler tree simulation (bimodal prior)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Simpler tree simulation (bimodal prior)</h1>
+<h4 class="author"><em>jhmarcus</em></h4>
+<h4 class="date"><em>2019-05-10</em></h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-05-20
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0553021323d2a232dbb98997ffe80e48cbe410datargetblank0553021a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/0553021323d2a232dbb98997ffe80e48cbe410da" target="_blank">0553021</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree0553021323d2a232dbb98997ffe80e48cbe410datargetblank0553021a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/flash_cache/
+    Ignored:    data.tar.gz
+    Ignored:    data/datasets/
+    Ignored:    data/raw/
+    Ignored:    output.tar.gz
+    Ignored:    output/
+
+Untracked files:
+    Untracked:  analysis/simpler_tree_simulation_bimodal.Rmd
+    Untracked:  code/sim.R
+    Untracked:  docs/figure/simpler_tree_simulation_bimodal.Rmd/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/simpler_tree_simulation.Rmd
+    Modified:   code/viz.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>In this analysis I simulate data from the same tree as described in <a href="simple_tree_simulation.html">Simple Tree Simulation</a> (also see below) but parameterize the simulation as a factor analysis model i.e. simulating under the model we are fitting. I also removed the additional binomial sampling from the allele frequencies at the tips and just directly modeled Gaussian data. <img src="https://www.dropbox.com/s/atw1xuuzavxf1ce/treemix.png?raw=1" /></p>
+<p>See <a href="https://github.com/jhmarcus/drift-workflow/tree/master/code/sim.R">code/sim.R</a> for simulation details.</p>
+<div id="import" class="section level1">
+<h1>Import</h1>
+<p>Here I import the some required packages:</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ashr)
+library(flashier)
+source(&quot;../code/viz.R&quot;)
+source(&quot;../code/sim.R&quot;)</code></pre>
+</div>
+<div id="functions" class="section level1">
+<h1>Functions</h1>
+<pre class="r"><code>plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$fit$EF[[1]])
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+               rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+  
+  gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop) 
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale=&quot;free&quot;) +
+       theme_bw() 
+  
+  p2 = structure_plot(gath_l_df, 
+                      colset=&quot;Set3&quot;, 
+                      facet_grp=&quot;pop&quot;, 
+                      facet_levels=paste0(&quot;Pop&quot;, 1:4),
+                      keep_leg=TRUE,
+                      fact_type=&quot;nonnegative&quot;) 
+  
+  return(list(p1=p1, p2=p2))
+  
+}
+
+my.init.fn &lt;- function(flash, tol, maxiter) {
+  
+  EF &lt;- flashier:::init.next.EF(flash, tol, maxiter)
+
+  # Rescale so that L has range 0 to 1.
+  l.scale &lt;- max(abs(EF[[1]])) * sign(which.max(abs(EF[[1]])))
+  EF[[1]] &lt;- EF[[1]] / l.scale
+  EF[[2]] &lt;- EF[[2]] * l.scale
+  
+  return(EF)
+  
+}</code></pre>
+</div>
+<div id="simulate" class="section level1">
+<h1>Simulate</h1>
+<p>Here I simulate a simple tree found <a href="simpler_tree_simulation.html">here</a> with the below parameter settings:</p>
+<pre class="r"><code>set.seed(123)
+n_per_pop = 20
+sigma_e = .5
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+
+l_df = as.data.frame(sim_res$L)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop),
+             rep(&quot;Pop3&quot;, n_per_pop), rep(&quot;Pop4&quot;, n_per_pop))
+gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale=&quot;free&quot;) +
+    theme_bw() 
+p</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="bimodal-prior" class="section level1">
+<h1>Bimodal prior</h1>
+<p>Here I specify the grid of the prior</p>
+<pre class="r"><code># bimodal g prior list used throughout
+m = 20
+b = seq(1.0, 0.0, length=m)
+a = seq(0.0, 1.0, length=m)
+bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m), b), c(a, rep(1, m)))</code></pre>
+</div>
+<div id="bimodal-greedy" class="section level1">
+<h1>Bimodal (Greedy)</h1>
+<pre class="r"><code>flash_fit_g = flashier::flashier(Y, 
+                                 greedy.Kmax=10,
+                                 prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                                 ash.param=list(fixg=FALSE, g=bimodal_g),
+                                 ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                                 var.type=0,
+                                 backfit=&quot;none&quot;,
+                                 init.fn=my.init.fn)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit_g$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># print sum about the fit
+print(paste0(&quot;objective =&quot;, flash_fit_g$objective))</code></pre>
+<pre><code>[1] &quot;objective =-742140.856712264&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;estimated residual sd =&quot;, sqrt(1 / flash_fit_g$fit$tau)))</code></pre>
+<pre><code>[1] &quot;estimated residual sd =0.537950432041053&quot;</code></pre>
+<pre class="r"><code>print(&quot;estimated prior variances (factors)=&quot;)</code></pre>
+<pre><code>[1] &quot;estimated prior variances (factors)=&quot;</code></pre>
+<pre class="r"><code>print(sapply(flash_fit_g$fit$g, function(x){1/x[[2]]$a}))</code></pre>
+<pre><code>[1] 1.4964778 1.5420617 0.5032015 0.4673796 0.4922990 0.4960596</code></pre>
+</div>
+<div id="bimodal-montaigne" class="section level1">
+<h1>Bimodal (montaigne)</h1>
+<pre class="r"><code>flash_fit_bfm = flashier::flashier(Y, 
+                                  flash.init=flash_fit_g,
+                                  greedy.Kmax=10,
+                                  prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                                  ash.param=list(fixg=FALSE, g=bimodal_g),
+                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                                  var.type=0,
+                                  backfit=&quot;final&quot;,
+                                  backfit.order=&quot;montaigne&quot;,
+                                  init.fn=my.init.fn)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit_bfm$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_bfm, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective =&quot;, flash_fit_bfm$objective))</code></pre>
+<pre><code>[1] &quot;objective =-719400.348180572&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;estimated residual sd = &quot;, sqrt(1 / flash_fit_bfm$fit$tau)))</code></pre>
+<pre><code>[1] &quot;estimated residual sd = 0.506714493011869&quot;</code></pre>
+<pre class="r"><code>print(&quot;estimated prior variances (factors) =&quot;)</code></pre>
+<pre><code>[1] &quot;estimated prior variances (factors) =&quot;</code></pre>
+<pre class="r"><code>print(sapply(flash_fit_bfm$fit$g, function(x){1/x[[2]]$a}))</code></pre>
+<pre><code>[1] 1.5270740 1.4668025 0.5425726 0.4853630 0.4947548 0.5048864</code></pre>
+</div>
+<div id="bimodal-random" class="section level1">
+<h1>Bimodal (random)</h1>
+<pre class="r"><code>flash_fit_bfr = flashier::flashier(Y, 
+                                   flash.init = flash_fit_g,
+                                   greedy.Kmax=10,
+                                   prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                                   ash.param=list(fixg=FALSE, g=bimodal_g),
+                                   ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                                   var.type=0,
+                                   backfit=&quot;final&quot;,
+                                   backfit.order=&quot;random&quot;,
+                                   init.fn=my.init.fn)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Backfitting 6 factors...
+An update to factor 6 decreased the objective by 8.149e-09.
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit_bfr$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_bfr, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective =&quot;, flash_fit_bfr$objective))</code></pre>
+<pre><code>[1] &quot;objective =-716171.989047966&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;estimated residual sd =&quot;, sqrt(1 / flash_fit_bfr$fit$tau)))</code></pre>
+<pre><code>[1] &quot;estimated residual sd =0.506525590537778&quot;</code></pre>
+<pre class="r"><code>print(&quot;estimated prior variances (factors) =&quot;)</code></pre>
+<pre><code>[1] &quot;estimated prior variances (factors) =&quot;</code></pre>
+<pre class="r"><code>print(sapply(flash_fit_bfr$fit$g, function(x){1/x[[2]]$a}))</code></pre>
+<pre><code>[1] 1.4371738 1.4875182 0.9721826 0.3895623 0.5614755 0.5306043</code></pre>
+</div>
+<div id="bimodal-sequential" class="section level1">
+<h1>Bimodal (sequential)</h1>
+<pre class="r"><code>flash_fit_bfs = flashier::flashier(Y, 
+                                  flash.init = flash_fit_g,
+                                  greedy.Kmax=10,
+                                  prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                                  ash.param=list(fixg=FALSE, g=bimodal_g),
+                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                                  var.type=0,
+                                  backfit=&quot;final&quot;,
+                                  backfit.order=&quot;sequential&quot;)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit_bfs$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_bfs, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective =&quot;, flash_fit_bfs$objective))</code></pre>
+<pre><code>[1] &quot;objective =-716151.148219496&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;estimated residual sd =&quot;, sqrt(1 / flash_fit_bfs$fit$tau)))</code></pre>
+<pre><code>[1] &quot;estimated residual sd =0.506379390822608&quot;</code></pre>
+<pre class="r"><code>print(&quot;estimated prior variances (factors) =&quot;)</code></pre>
+<pre><code>[1] &quot;estimated prior variances (factors) =&quot;</code></pre>
+<pre class="r"><code>print(sapply(flash_fit_bfs$fit$g, function(x){x[[2]]$a}))</code></pre>
+<pre><code>[1] 0.6882156 0.6755391 1.0320685 2.4270752 1.9700327 1.6426156</code></pre>
+</div>
+<div id="bimodal-dropout" class="section level1">
+<h1>Bimodal (dropout)</h1>
+<pre class="r"><code>flash_fit_bfd = flashier::flashier(Y, 
+                                  flash.init = flash_fit_g,
+                                  greedy.Kmax=10,
+                                  prior.type=c(&quot;nonnegative&quot;, &quot;point.normal&quot;),
+                                  ash.param=list(fixg=FALSE, g=bimodal_g),
+                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
+                                  var.type=0,
+                                  backfit=&quot;final&quot;,
+                                  backfit.order=&quot;dropout&quot;)</code></pre>
+<pre><code>Initializing flash object...
+Adding factor 7 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Backfitting 6 factors...
+Nullchecking 6 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>Lhat = flash_fit_bfd$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_bfd, n_per_pop)
+print(p_res$p1)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(p_res$p2)</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(plot_covmat(Lhat %*% t(Lhat)))</code></pre>
+<p><img src="figure/simpler_tree_simulation_bimodal.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(paste0(&quot;objective =&quot;, flash_fit_bfd$objective))</code></pre>
+<pre><code>[1] &quot;objective =-716151.148219496&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;estimated residual sd =&quot;, sqrt(1 / flash_fit_bfd$fit$tau)))</code></pre>
+<pre><code>[1] &quot;estimated residual sd =0.506379390822608&quot;</code></pre>
+<pre class="r"><code>print(&quot;estimated prior variances (factors) =&quot;)</code></pre>
+<pre><code>[1] &quot;estimated prior variances (factors) =&quot;</code></pre>
+<pre class="r"><code>print(sapply(flash_fit_bfd$fit$g, function(x){1/x[[2]]$a}))</code></pre>
+<pre><code>[1] 1.4530330 1.4802993 0.9689280 0.4120185 0.5076058 0.6087852</code></pre>
+<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS  10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] RColorBrewer_1.1-2 flashier_0.1.1     ashr_2.2-38       
+[4] tidyr_0.8.2        dplyr_0.8.0.1      ggplot2_3.1.0     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.1        compiler_3.5.1    pillar_1.3.1     
+ [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.2.0  
+ [7] viridis_0.5.1     iterators_1.0.10  tools_3.5.1      
+[10] digest_0.6.18     viridisLite_0.3.0 evaluate_0.12    
+[13] tibble_2.0.1      gtable_0.2.0      lattice_0.20-38  
+[16] pkgconfig_2.0.2   rlang_0.3.1       foreach_1.4.4    
+[19] Matrix_1.2-15     parallel_3.5.1    yaml_2.2.0       
+[22] ebnm_0.1-17       xfun_0.4          gridExtra_2.3    
+[25] withr_2.1.2       stringr_1.4.0     knitr_1.21       
+[28] fs_1.2.6          rprojroot_1.3-2   grid_3.5.1       
+[31] tidyselect_0.2.5  glue_1.3.0        R6_2.4.0         
+[34] rmarkdown_1.11    mixsqp_0.1-119    reshape2_1.4.3   
+[37] purrr_0.3.0       magrittr_1.5      MASS_7.3-51.1    
+[40] codetools_0.2-16  backports_1.1.3   scales_1.0.0     
+[43] htmltools_0.3.6   assertthat_0.2.1  colorspace_1.4-0 
+[46] labeling_0.3      stringi_1.2.4     pscl_1.5.2       
+[49] doParallel_1.0.14 lazyeval_0.2.1    munsell_0.5.0    
+[52] truncnorm_1.0-8   SQUAREM_2017.10-1 crayon_1.3.4     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
