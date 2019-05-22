@@ -1,0 +1,142 @@
+---
+title: "Simplest Sree Simulation (bimodal prior)"
+author: "jhmarcus"
+date: "2019-05-21"
+output: workflowr::wflow_html
+---
+
+In this analysis I simulate data from an extremely simple two population tree i.e. just a single split. See [code/sim.R](https://github.com/jhmarcus/drift-workflow/tree/master/code/sim.R) for simulation details.
+
+# Import
+
+Here I import the some required packages:
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ashr)
+library(flashier)
+source("../code/viz.R")
+source("../code/sim.R")
+```
+
+# Functions
+
+```{r}
+plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$fit$EF[[1]])
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
+  
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale="free") +
+       theme_bw() 
+  
+  p2 = structure_plot(gath_l_df, 
+                      colset="Set3", 
+                      facet_grp="pop", 
+                      facet_levels=paste0("Pop", 1:2),
+                      keep_leg=TRUE,
+                      fact_type="nonnegative") 
+  
+  return(list(p1=p1, p2=p2))
+  
+}
+```
+
+# Simulate
+
+Here I simulate a simple tree found [here](simpler_tree_simulation.html) with the below parameter settings:
+
+```{r}
+set.seed(123)
+
+# generate data matrix
+n_per_pop = 20
+sigma_e = .5
+p = 10000
+sim_res = simplest_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+
+# plot the truth
+l_df = as.data.frame(sim_res$L)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
+gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw() 
+p
+```
+
+# Bimodal prior
+
+Here I specify the grid of the prior
+
+```{r}
+# bimodal g prior list used throughout
+m = 40
+b = seq(1.0, 0.0, length=m)
+a = seq(0.0, 1.0, length=m)
+bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m), b), c(a, rep(1, m)))
+bimodal_g
+```
+
+# Bimodal (Greedy)
+
+```{r}
+flash_fit_g = flashier::flashier(Y, 
+                                 greedy.Kmax=10,
+                                 prior.type=c("nonnegative", "point.normal"),
+                                 ash.param=list(fixg=FALSE, g=bimodal_g),
+                                 ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                                 var.type=0,
+                                 backfit="none")
+
+# plots
+Lhat = flash_fit_g$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(plot_covmat(Lhat %*% t(Lhat)))
+
+# print summary of the fit
+print(paste0("objective = ", flash_fit_g$objective))
+print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_g$fit$tau)))
+print("estimated prior variances (factors) = ")
+print(sapply(flash_fit_g$fit$g, function(x){1 / x[[2]]$a}))
+```
+
+# Bimodal (Greedy fix mean)
+
+```{r}
+flash_fit_g = flashier::flashier(Y, 
+                                 greedy.Kmax=10,
+                                 prior.type=c("nonnegative", "point.normal"),
+                                 ash.param=list(fixg=FALSE, g=bimodal_g),
+                                 ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                                 var.type=0,
+                                 backfit="none",
+                                 fixed.factors=flashier::ones.factor(n=1))
+
+# plots
+Lhat = flash_fit_g$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(plot_covmat(Lhat %*% t(Lhat)))
+
+# print summary of the fit
+print(paste0("objective = ", flash_fit_g$objective))
+print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_g$fit$tau)))
+print("estimated prior variances (factors) = ")
+print(sapply(flash_fit_g$fit$g, function(x){1 / x[[2]]$a}))
+```

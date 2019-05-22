@@ -27,3 +27,29 @@ simpler_tree_simulation = function(n_per_pop, p, sigma_e){
   return(res)
   
 }
+
+
+#' @title Simplest Tree Simulation
+#'
+#' @description Simulates genotypes under a very simple two population 
+#'              tree.
+#'
+#' @param n_per_pop number of individuals per population
+#' @param p number of SNPs
+#' @param sigma_e std. dev of noise
+simplest_tree_simulation = function(n_per_pop, p, sigma_e){
+  
+  n = n_per_pop * 2
+  L = matrix(0, nrow=2*n_per_pop, ncol=2)
+  L[1:n_per_pop, 1] = 1
+  L[(n_per_pop + 1):(2*n_per_pop), 2] = 1
+  
+  Z = matrix(rnorm(p*2, 0, 1), nrow=p, ncol=2)
+  E = matrix(rnorm(n*p, 0, sigma_e), nrow=n, ncol=p)
+  Y = L %*% t(Z) + E
+  
+  res = list(Y=Y, L=L, Z=Z)
+  
+  return(res)
+  
+}

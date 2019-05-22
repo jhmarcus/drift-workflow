@@ -98,7 +98,7 @@ Here I specify the grid of the prior
 
 ```{r}
 # bimodal g prior list used throughout
-m = 20
+m = 40
 b = seq(1.0, 0.0, length=m)
 a = seq(0.0, 1.0, length=m)
 bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m), b), c(a, rep(1, m)))
@@ -112,7 +112,8 @@ flash_fit_g = flashier::flashier(Y,
                                  prior.type=c("nonnegative", "point.normal"),
                                  ash.param=list(fixg=FALSE, g=bimodal_g),
                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
-                                 var.type=0,
+                                 var.type=0,                                                            
+                                 fixed.factors=c(flashier:::ones.factor(n = 1)),
                                  backfit="none",
                                  init.fn=my.init.fn)
 

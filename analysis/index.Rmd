@@ -34,5 +34,5 @@ These vignettes describe results on simulated / empirical data:
 * [Simple Tree Simulation](simple_tree_simulation.html)
 * [Simpler Tree Simulation](simpler_tree_simulation.html)
 * [Simpler Tree Simulation (bimodal)](simpler_tree_simulation_bimodal.html)
+* [Simplest Tree Simulation (bimodal)](simplest_tree_simulation_bimodal.html)
 * [badMIXTURE (in progress)](badmixture.html)
-
