@@ -43,6 +43,7 @@ library(tidyr)
 Here are some helper function for simulation, fitting, and plotting.
 
 ```{r}
+# Simulation
 sim = function(n0, n1, sigma_e){
   n = n0+n1
   beta = c(rep(0, n0), rep(1, n1))
@@ -51,6 +52,8 @@ sim = function(n0, n1, sigma_e){
   return(list(betahat=betahat, s=s, beta=beta, n=n))
 }
 
+
+# Negative log marginal likelihood
 nll = function(pi, data){
   betahat = data[[1]]
   s = data[[2]]
@@ -59,6 +62,7 @@ nll = function(pi, data){
   return(-loglik)
 }
 
+# Estimate pi by minimizes nll
 est_pi = function(betahat, s){
   fit = optim(par=c(.5), 
               fn=nll, 
@@ -71,13 +75,15 @@ est_pi = function(betahat, s){
   return(pihat)
 }
 
+# Estimate the post using bayes rule and plug in of pihat mle
 est_post = function(betahat, s, pihat){
-  c0 = dnorm(betahat, mean = 0, sd=s) * (1 - pihat)
-  c1 = dnorm(betahat, mean = 1, sd=s) * pihat
+  c0 = dnorm(betahat, mean=0, sd=s) * (1 - pihat)
+  c1 = dnorm(betahat, mean=1, sd=s) * pihat
   pm = c1 / (c0 + c1)
   return(pm)
 }
 
+# Viz
 plot_sim = function(df, title){
   
   gath_df = df %>% gather(variable, value, -idx, -s)
