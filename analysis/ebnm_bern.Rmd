@@ -11,7 +11,7 @@ $$
 \beta_j \sim Bern(\pi) \\
 y_j | \beta_j \sim N(\beta_j, s^2_j)
 $$
-The marginal likelihood is given by:
+The marginal likelihood for a single obesrvation is given by:
 
 $$
 \begin{aligned}
