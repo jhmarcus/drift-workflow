@@ -38,7 +38,7 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
        facet_wrap(K~., scale="free") +
        theme_bw() 
   
-  p2 = structure_plot(gath_l_df, 
+  p2 = structure_plot(gath_l_df %>% filter(K!=1), 
                       colset="Set3", 
                       facet_grp="pop", 
                       facet_levels=paste0("Pop", 1:2),
@@ -59,7 +59,7 @@ set.seed(123)
 
 # generate data matrix
 n_per_pop = 20
-sigma_e = .5
+sigma_e = .1
 p = 10000
 sim_res = simplest_tree_simulation(n_per_pop, p, sigma_e)
 Y = sim_res$Y
@@ -99,6 +99,7 @@ flash_fit_g = flashier::flashier(Y,
                                  ash.param=list(fixg=FALSE, g=bimodal_g),
                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
                                  var.type=0,
+                                 fixed.factors=c(flashier:::ones.factor(n = 1)),
                                  backfit="none")
 
 # plots
@@ -115,28 +116,29 @@ print("estimated prior variances (factors) = ")
 print(sapply(flash_fit_g$fit$g, function(x){1 / x[[2]]$a}))
 ```
 
-# Bimodal (Greedy fix mean)
+# Bimodal (backfit)
 
 ```{r}
-flash_fit_g = flashier::flashier(Y, 
+flash_fit_bf = flashier::flashier(Y, 
                                  greedy.Kmax=10,
-                                 prior.type=c("nonnegative", "point.normal"),
+                                 flash.init=flash_fit_g,
+                                 prior.type=c("nonnegative", "normal.mixture"),
                                  ash.param=list(fixg=FALSE, g=bimodal_g),
-                                 ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
+                                 #ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0.0)),
                                  var.type=0,
-                                 backfit="none",
-                                 fixed.factors=flashier::ones.factor(n=1))
+                                 backfit="final",
+                                 backfit.order="random")
 
 # plots
-Lhat = flash_fit_g$fit$EF[[1]]
-p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
+Lhat = flash_fit_bf$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_bf, n_per_pop)
 print(p_res$p1)
 print(p_res$p2)
 print(plot_covmat(Lhat %*% t(Lhat)))
 
 # print summary of the fit
-print(paste0("objective = ", flash_fit_g$objective))
-print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_g$fit$tau)))
+print(paste0("objective = ", flash_fit_bf$objective))
+print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_bf$fit$tau)))
 print("estimated prior variances (factors) = ")
-print(sapply(flash_fit_g$fit$g, function(x){1 / x[[2]]$a}))
+print(sapply(flash_fit_bf$fit$g, function(x){1 / x[[2]]$a}))
 ```

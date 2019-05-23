@@ -215,7 +215,7 @@ for(k in 2:K){
   al_fit = alstructure(t(Y), d_hat = k)
   Q = t(al_fit$Q_hat)
   l_df = as.data.frame(Q)
-  colnames(l_df) = 1:k
+  colnames(l_df) = 1:2
   l_df$ID = 1:n
   l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
                rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
@@ -223,9 +223,9 @@ for(k in 2:K){
   p = structure_plot(gath_l_df, 
                      colset="Set3", 
                      facet_grp="pop", 
-                     facet_levels=paste0("Pop", 1:4),
+                     facet_levels=c("Pop4", "Pop1", "Pop2", "Pop3"),
                      fact_type="structure") +
-                     ggtitle(paste0("K=", k))
+                     ggtitle(paste0("K=", k)) + 
   print(p)
 }
 ```

@@ -42,7 +42,7 @@ plot_flash_loadings = function(flash_fit, n_per_pop){
        facet_wrap(K~., scale="free") +
        theme_bw() 
   
-  p2 = structure_plot(gath_l_df, 
+  p2 = structure_plot(gath_l_df %>% filter(K!=1), 
                       colset="Set3", 
                       facet_grp="pop", 
                       facet_levels=paste0("Pop", 1:4),
@@ -97,11 +97,18 @@ p
 Here I specify the grid of the prior
 
 ```{r}
+
+
 # bimodal g prior list used throughout
 m = 40
 b = seq(1.0, 0.0, length=m)
 a = seq(0.0, 1.0, length=m)
+
+bimodal_prior = rep(1, 2*m)
+bimodal_prior[c(1, m + 1)] = 10
+
 bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m), b), c(a, rep(1, m)))
+bimodal_g
 ```
 
 # Bimodal (Greedy)
@@ -110,12 +117,11 @@ bimodal_g = ashr:::unimix(rep(0, 2*m), c(rep(0, m), b), c(a, rep(1, m)))
 flash_fit_g = flashier::flashier(Y, 
                                  greedy.Kmax=10,
                                  prior.type=c("nonnegative", "point.normal"),
-                                 ash.param=list(fixg=FALSE, g=bimodal_g),
+                                 ash.param=list(fixg=FALSE, g=bimodal_g, prior=bimodal_prior, method=NULL),
                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
                                  var.type=0,                                                            
-                                 fixed.factors=c(flashier:::ones.factor(n = 1)),
-                                 backfit="none",
-                                 init.fn=my.init.fn)
+                                 backfit="final"
+                                 )
 
 Lhat = flash_fit_g$fit$EF[[1]]
 p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
@@ -127,7 +133,7 @@ print(plot_covmat(Lhat %*% t(Lhat)))
 print(paste0("objective =", flash_fit_g$objective))
 print(paste0("estimated residual sd =", sqrt(1 / flash_fit_g$fit$tau)))
 print("estimated prior variances (factors)=")
-print(sapply(flash_fit_g$fit$g, function(x){1/x[[2]]$a}))
+#print(sapply(flash_fit_g$fit$g, function(x){1/x[[2]]$a}))
 ```
 
 # Bimodal (montaigne)
