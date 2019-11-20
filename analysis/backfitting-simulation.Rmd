@@ -1,0 +1,120 @@
+---
+title: "backfitting-simulation"
+author: "jhmarcus"
+date: "2019-10-21"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Import
+
+Here I import the some required packages:
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ashr)
+library(flashier)
+source("../code/viz.R")
+source("../code/sim.R")
+
+
+A = matrix(rnorm(100^2), nrow=100, ncol=100)
+sum(A)
+ones = rep(1, 100)
+t(ones) %*% A %*% ones
+
+sum((t(ones) %x% t(ones)) != 1)
+
+```
+
+# Functions
+
+```{r}
+create_contrasts = function(n){
+  
+  C = diag(rep(1, n-1))
+  C = as.matrix(cbind(C,-1))
+  svd_res = svd(C)
+  V = t(svd_res$v[-(n+1),])
+  
+  return(V)
+  
+}
+
+
+plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$fit$EF[[1]])
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
+  
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale="free") +
+       theme_bw() 
+  
+  p2 = structure_plot(gath_l_df %>% filter(K!=1), 
+                      colset="Set3", 
+                      facet_grp="pop", 
+                      facet_levels=paste0("Pop", 1:2),
+                      keep_leg=TRUE,
+                      fact_type="nonnegative") 
+  
+  return(list(p1=p1, p2=p2))
+  
+}
+```
+
+# Simulate
+
+Here I simulate a simple tree found [here](simpler_tree_simulation.html) with the below parameter settings:
+
+```{r}
+set.seed(123)
+n_per_pop = 20
+sigma_e = .5
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+n = nrow(Y)
+
+l_df = as.data.frame(sim_res$L)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw() 
+p
+```
+
+# Backfitting 
+
+```{r}
+library(flashier)
+
+V = create_contrasts(n)
+VY = V %*% Y
+
+# y ~ N(mu_j1 + VLf, sigma2*I)
+# Vy ~ N(VLf, sigma2*I) 
+
+res = flashier(VY, fit="full")
+
+
+#L_init = matrix(runif(nrow(Y)*6), nrow=nrow(Y), ncol=6)
+#L_init = t(t(L_init) / sum(sqrt(L_init^2)))
+#F_init = matrix(rnorm(nrow(Y)*6), nrow=ncol(Y), ncol=6)
+
+#res = flashier(Y, fit="backfit.only", prior.family = list(prior.point.normal(), prior.nonnegative()), EF.init=list(L_init, F_init))
+#L = res$loadings.pm[[1]]
+```

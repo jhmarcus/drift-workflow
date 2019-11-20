@@ -70,7 +70,6 @@ est_pi = function(betahat, s){
               method="Brent", 
               lower=0, 
               upper=1)
-
   pihat = fit$par
   return(pihat)
 }

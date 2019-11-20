@@ -1,0 +1,116 @@
+---
+title: "simpler_tree_simulation_bern"
+author: "jhmarcus"
+date: "2019-05-23"
+output: workflowr::wflow_html
+---
+
+# Import
+
+Here I import the some required packages:
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ashr)
+library(flashier)
+source("../code/viz.R")
+source("../code/sim.R")
+source("../code/bern.R")
+```
+
+# Functions
+
+```{r}
+plot_flash_loadings = function(flash_fit, n_per_pop){
+
+  l_df = as.data.frame(flash_fit$fit$EF[[1]])
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+               rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+  
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+
+  p1 = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+       geom_point() +
+       facet_wrap(K~., scale="free") +
+       theme_bw() 
+  
+  p2 = structure_plot(gath_l_df %>% filter(K!=1), 
+                      colset="Set3", 
+                      facet_grp="pop", 
+                      facet_levels=paste0("Pop", 1:4),
+                      keep_leg=TRUE,
+                      fact_type="nonnegative") 
+  
+  return(list(p1=p1, p2=p2))
+  
+}
+
+my.init.fn <- function(flash, tol, maxiter) {
+  
+  EF <- flashier:::init.next.EF(flash, tol, maxiter)
+
+  # Rescale so that L has range 0 to 1.
+  l.scale <- max(abs(EF[[1]])) * sign(which.max(abs(EF[[1]])))
+  EF[[1]] <- EF[[1]] / l.scale
+  EF[[2]] <- EF[[2]] * l.scale
+  
+  return(EF)
+  
+}
+```
+
+# Simulate
+
+Here I simulate a simple tree found [here](simpler_tree_simulation.html) with the below parameter settings:
+
+```{r}
+set.seed(123)
+n_per_pop = 20
+sigma_e = .5
+p = 10000
+sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
+Y = sim_res$Y
+
+l_df = as.data.frame(sim_res$L)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), rep("Pop4", n_per_pop))
+gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw() 
+p
+```
+
+# Bern (Greedy)
+
+```{r warning=FALSE, message=FALSE}
+source("../code/bern.R")
+
+flash_fit = flashier::flashier(Y, 
+                               greedy.Kmax=10,
+                               ebnm.fn=list(l=list(flashier:::ebnm.pn), 
+                                            f=list(flashier:::ebnm.pn)),
+                               ebnm.param=list(l=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0)), 
+                                               f=list(fixg=TRUE, g=list(pi0=0, a=1, mu=0))),
+                               var.type=0,
+                               backfit="none")
+
+Lhat = flash_fit_g$fit$EF[[1]]
+p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
+print(p_res$p1)
+print(p_res$p2)
+print(plot_covmat(Lhat %*% t(Lhat)))
+
+# print sum about the fit
+print(paste0("objective =", flash_fit_g$objective))
+print(paste0("estimated residual sd =", sqrt(1 / flash_fit_g$fit$tau)))
+print("estimated prior variances (factors)=")
+#print(sapply(flash_fit_g$fit$g, function(x){1/x[[2]]$a}))
+```

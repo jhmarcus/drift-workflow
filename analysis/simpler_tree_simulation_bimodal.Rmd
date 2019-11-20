@@ -74,7 +74,7 @@ Here I simulate a simple tree found [here](simpler_tree_simulation.html) with th
 ```{r}
 set.seed(123)
 n_per_pop = 20
-sigma_e = .5
+sigma_e = 1
 p = 10000
 sim_res = simpler_tree_simulation(n_per_pop, p, sigma_e)
 Y = sim_res$Y
@@ -97,10 +97,8 @@ p
 Here I specify the grid of the prior
 
 ```{r}
-
-
 # bimodal g prior list used throughout
-m = 40
+m = 20
 b = seq(1.0, 0.0, length=m)
 a = seq(0.0, 1.0, length=m)
 
@@ -117,22 +115,22 @@ bimodal_g
 flash_fit_g = flashier::flashier(Y, 
                                  greedy.Kmax=10,
                                  prior.type=c("nonnegative", "point.normal"),
-                                 ash.param=list(fixg=FALSE, g=bimodal_g, prior=bimodal_prior, method=NULL),
+                                 ash.param=list(fixg=FALSE, g=bimodal_g, method=NULL),
                                  ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
                                  var.type=0,                                                            
-                                 backfit="final"
+                                 backfit="none"
                                  )
 
 Lhat = flash_fit_g$fit$EF[[1]]
 p_res = plot_flash_loadings(flash_fit_g, n_per_pop)
 print(p_res$p1)
-print(p_res$p2)
-print(plot_covmat(Lhat %*% t(Lhat)))
+#print(p_res$p2)
+#print(plot_covmat(Lhat %*% t(Lhat)))
 
 # print sum about the fit
-print(paste0("objective =", flash_fit_g$objective))
-print(paste0("estimated residual sd =", sqrt(1 / flash_fit_g$fit$tau)))
-print("estimated prior variances (factors)=")
+#print(paste0("objective =", flash_fit_g$objective))
+#print(paste0("estimated residual sd =", sqrt(1 / flash_fit_g$fit$tau)))
+#print("estimated prior variances (factors)=")
 #print(sapply(flash_fit_g$fit$g, function(x){1/x[[2]]$a}))
 ```
 
@@ -146,20 +144,20 @@ flash_fit_bfm = flashier::flashier(Y,
                                   ash.param=list(fixg=FALSE, g=bimodal_g),
                                   ebnm.param=list(fix_pi0=TRUE, g=list(pi0=0)),
                                   var.type=0,
-                                  backfit="final",
-                                  backfit.order="montaigne",
-                                  init.fn=my.init.fn)
+                                  backfit="final")
+                                  #backfit.order="montaigne",
+                                  #init.fn=my.init.fn)
 
 Lhat = flash_fit_bfm$fit$EF[[1]]
 p_res = plot_flash_loadings(flash_fit_bfm, n_per_pop)
 print(p_res$p1)
-print(p_res$p2)
-print(plot_covmat(Lhat %*% t(Lhat)))
+#print(p_res$p2)
+#print(plot_covmat(Lhat %*% t(Lhat)))
 
-print(paste0("objective =", flash_fit_bfm$objective))
-print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_bfm$fit$tau)))
-print("estimated prior variances (factors) =")
-print(sapply(flash_fit_bfm$fit$g, function(x){1/x[[2]]$a}))
+#print(paste0("objective =", flash_fit_bfm$objective))
+#print(paste0("estimated residual sd = ", sqrt(1 / flash_fit_bfm$fit$tau)))
+#print("estimated prior variances (factors) =")
+#print(sapply(flash_fit_bfm$fit$g, function(x){1/x[[2]]$a}))
 ```
 
 # Bimodal (random)
