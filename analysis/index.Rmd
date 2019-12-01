@@ -8,6 +8,20 @@ output:
 
 Welcome to my research website.
 
+# Current
+
+*Since 2019-12-01*:
+
+## Simulations
+
+* [Simple 2 population tree simulation](simple_2pop_tree_simulation_bimodal.html)
+
+---
+
+# Depreciated
+
+*Before 2019-12-01*:
+
 ## Exploration
 
 These vignettes describe exploratory ideas:

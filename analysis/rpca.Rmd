@@ -1,0 +1,141 @@
+---
+title: "rpca"
+author: "jhmarcus"
+date: "2019-11-20"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Imports
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(ashr)
+library(flashier)
+source("../code/viz.R")
+source("../code/sim.R")
+```
+
+## Functions
+
+```{r}
+####### sparse semi functions# ###### 
+create_contrasts = function(n){
+  
+  C = diag(rep(1, n-1))
+  C = as.matrix(cbind(C,-1))
+  svd_res = svd(C)
+  V = t(svd_res$v[-(n+1),])
+  
+  return(V)
+  
+}
+
+grad = function(S, L, tau, p){
+  
+  # number of samples
+  n = nrow(L)
+  
+  # number of factors
+  K = ncol(L)
+  
+  # precompute matrices
+  I_n = diag(rep(1, n)) 
+  I_k = diag(rep(1, K)) 
+  LtL = t(L) %*% L
+  Psi_inv = I_k + (tau * LtL)
+  LPsiLtL = L %*% solve(Psi_inv, LtL)
+  LPsiLtS = L %*% solve(Psi_inv, t(L) %*% S)
+  OmegaL = (tau * L) - (tau^2) * LPsiLtL
+  OmegaS = (tau * S) - LPsiLtS
+  grad = p * (OmegaL - OmegaS %*% OmegaL)
+  
+  return(grad)
+  
+}
+  
+restricted_pca = function(Y, K, tau, lambda, eta, L_init, n_iter){
+
+  # number of samples
+  n = nrow(Y)
+  
+  # number of features
+  p = ncol(Y)
+
+  # sample covariance
+  S = (1.0 / p) * (Y %*% t(Y))
+  
+  L = L_init
+  loss = rep(NA, n_iter)
+  #delta = 
+  for(t in 1:n_iter){
+    
+    L_old = L
+    
+    # gradient-step
+    L = L - eta * (grad(S, L, tau, p) + lambda)
+   
+    # projection
+    L[L<=0.0] = 0.0
+    
+    loss[t] = sqrt(mean((L - L_old)^2))
+    
+  }
+    
+  res = list(L=L, loss=loss)
+  return(res)
+  
+}
+```
+
+# Simulate data
+
+```{r}
+set.seed(235)
+n_per_pop = 20
+sigma_e = 1
+sim_res = simpler_tree_simulation(n_per_pop, 10000, sigma_e)
+Y = sim_res$Y
+n = nrow(Y)
+V  = create_contrasts(n)
+p = ncol(Y)
+K = 6
+```
+
+# Run
+
+```{r}
+######## Sparse semi ######## 
+L_init = matrix(runif(n*K), nrow=n, ncol=K)
+pca = restricted_pca(Y=Y, 
+                     K=K, 
+                     tau=1.0, 
+                     lambda=200,
+                     eta=1e-5, 
+                     L_init=L_init, 
+                     n_iter=5000)
+
+######## Plots ######## 
+Lhat = pca$L
+loss = pca$loss 
+
+plot(loss)
+plot(log10(loss - min(loss)))
+
+l_df = as.data.frame(Lhat)
+colnames(l_df) = 1:ncol(l_df)
+l_df$ID = 1:nrow(l_df)
+l_df$pop = c(rep("Pop1", n_per_pop), 
+             rep("Pop2", n_per_pop),
+             rep("Pop3", n_per_pop), 
+             rep("Pop4", n_per_pop))
+gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+    geom_point() +
+    facet_wrap(K~., scale="free") +
+    theme_bw() 
+p
+```

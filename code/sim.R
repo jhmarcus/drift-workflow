@@ -1,3 +1,34 @@
+
+
+#' @title 3 population Tree Simulation
+#'
+#' @description Simulates genotypes under a simple population 
+#'              2 population tree using a matrix factorization 
+#'              representaiton
+#'
+#' @param n_per_pop number of individuals per population
+#' @param p number of SNPs
+#' @param sigma_e std. dev of noise
+tree_simulation_2pop = function(n_per_pop, p, sigma_e, sigma_b=rep(1, 3)){
+  
+  n = n_per_pop * 2
+  L = matrix(0, nrow=n, ncol=3)
+  L[ ,1] = 1
+  L[1:n_per_pop, 2] = 1
+  L[(n_per_pop + 1):(2 * n_per_pop), 3] = 1
+  Z = matrix(NA, nrow=p, ncol=3)
+  for(k in 1:3){
+    Z[ ,k] = rnorm(p, 0, sigma_b[k])
+  }
+  E = matrix(rnorm(n*p, 0, sigma_e), nrow=n, ncol=p)
+  Y = L %*% t(Z) + E
+  res = list(Y=Y, L=L, Z=Z)
+  
+  return(res)
+  
+}
+
+
 #' @title Simpler Tree Simulation
 #'
 #' @description Simulates genotypes under a simple population 
