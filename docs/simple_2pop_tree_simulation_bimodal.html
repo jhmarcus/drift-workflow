@@ -446,7 +446,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-12-01
+<strong>Last updated:</strong> 2019-12-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -470,7 +470,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -537,10 +537,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefd12dc23de8c9046154b09a20b8a5f01c453acd9targetblankfd12dc2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/fd12dc23de8c9046154b09a20b8a5f01c453acd9" target="_blank">fd12dc2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee3936bcae8a3322646109b31664735fbfb2f4cc8targetblanke3936bca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/e3936bcae8a3322646109b31664735fbfb2f4cc8" target="_blank">e3936bc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefd12dc23de8c9046154b09a20b8a5f01c453acd9targetblankfd12dc2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee3936bcae8a3322646109b31664735fbfb2f4cc8targetblanke3936bca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -550,6 +550,7 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
     Ignored:    data/datasets/
@@ -560,14 +561,13 @@ Ignored files:
     Ignored:    output/
 
 Untracked files:
-    Untracked:  analysis/rpca.Rmd
-    Untracked:  analysis/simple_2pop_tree_simulation_bimodal.Rmd
-    Untracked:  code/ebnm_functions.R
-    Untracked:  docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/
+    Untracked:  analysis/cor-vb-approx.Rmd
+    Untracked:  code/ebfa.R
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
-    Modified:   code/sim.R
+    Modified:   analysis/simple_2pop_tree_simulation_bimodal.Rmd
+    Modified:   code/ebnm_functions.R
 
 </code></pre>
 <p>
@@ -580,14 +580,74 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+<td>
+pushing 2 pop analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/simple_2pop_tree_simulation_bimodal.html" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+<td>
+pushing 2 pop analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-<p>Here I simulate Gaussian data under a simple 2 population tree i.e. a split and explore the interpretability of <code>flashier</code> fits to the data. The data generated under this tree can be represented as a probabilistic matrix factorization model with 1 shared factor and 2 population specific factors … this is what we’d like to recover.</p>
+<p>Here we simulate Gaussian data under a simple 2 population tree i.e. a split and explore the interpretability of <code>flashier</code> and <code>drift</code> fits to the data. The data generated under this tree can be represented as a probabilistic matrix factorization model with 1 shared factor and 2 population specific factors … this is what we’d like to recover.</p>
 <div id="import" class="section level1">
 <h1>Import</h1>
 <p>Import the required packages and load helper scripts for this analysis:</p>
@@ -595,126 +655,102 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 library(dplyr)
 library(tidyr)
 library(flashier)
-source(&quot;../code/viz.R&quot;)
-source(&quot;../code/sim.R&quot;)
+library(drift.alpha)
+
 source(&quot;../code/ebnm_functions.R&quot;)</code></pre>
-</div>
-<div id="functions" class="section level1">
-<h1>Functions</h1>
-<p>Load functions for this analysis:</p>
-<pre class="r"><code>plot_2pop_loadings = function(L){
-  
-  l_df = as.data.frame(L)
-  colnames(l_df) = 1:ncol(l_df)
-  l_df$ID = 1:nrow(l_df)
-  l_df$pop = c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop))
-  gath_l_df = l_df %&gt;% gather(K, value, -ID, -pop) 
-  p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
-      geom_point() +
-      facet_wrap(K~.) +
-      theme_bw() 
-  
-  return(p)
-  
-}</code></pre>
 </div>
 <div id="simulate" class="section level1">
 <h1>Simulate</h1>
-<p>Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to .5 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:</p>
+<p>Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to 1 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:</p>
 <pre class="r"><code>##### sim ##### 
 set.seed(235)
-n_per_pop = 50
-sigma_e = .5
-sigma_b = rep(1, 3)
+n_per_pop &lt;- 50
+pops &lt;- c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop))
+sigma_e &lt;- 1.0
+sigma_b &lt;- c(1.0, 1.0, 1.0)
 p = 10000
-sim_res = tree_simulation_2pop(n_per_pop, p, sigma_e, sigma_b)
-K = 3
-Y = sim_res$Y
+sim_res &lt;- drift.alpha::two_pop_tree_sim(n_per_pop, p, sigma_e, sigma_b)
+K &lt;- 3
+Y &lt;- sim_res$Y
+n &lt;- nrow(Y)
+p &lt;- ncol(Y)
 
 ##### viz ##### 
-plot_2pop_loadings(sim_res$L)</code></pre>
-<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+plot_loadings(sim_res$L, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="greedy" class="section level1">
 <h1>Greedy</h1>
 <p>Run the greedy algorithm which seems to recover the tree:</p>
 <pre class="r"><code>##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %&gt;%
-            flash.add.greedy(Kmax=K,
-                             prior.family=list(c(prior.bimodal(), 
-                                                 prior.normal()), 
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal())))</code></pre>
+flash_greedy_res &lt;- flash.init(Y, var.type=0) %&gt;%
+                    flash.add.greedy(Kmax=K,
+                                    prior.family=list(c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()), 
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal())))</code></pre>
 <pre><code>Adding factor 1 to flash object...
 Adding factor 2 to flash object...
 Adding factor 3 to flash object...
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-plot_2pop_loadings(pm)</code></pre>
-<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+pm &lt;- flash_greedy_res$loadings.pm[[1]] 
+plot_loadings(pm, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="initialize-from-greedy" class="section level1">
 <h1>Initialize from greedy</h1>
 <p>Initialize the backfitting algorithm with the greedy solution which recovers a sparser representation of the tree i.e. it zeros out the shared factor:</p>
 <pre class="r"><code>##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %&gt;%
-            flash.add.greedy(Kmax=K,
-                             prior.family=list(c(prior.bimodal(), 
-                                                 prior.normal()), 
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()))) %&gt;%
-            flash.backfit()</code></pre>
-<pre><code>Adding factor 1 to flash object...
-Adding factor 2 to flash object...
-Adding factor 3 to flash object...
-Wrapping up...
-Done.
-Backfitting 3 factors (tolerance: 1.49e-02)...
-  Difference between iterations is within 1.0e+03...
-  Difference between iterations is within 1.0e+02...
-  Difference between iterations is within 1.0e+01...
-  Difference between iterations is within 1.0e+00...
-  Difference between iterations is within 1.0e-01...
-Wrapping up...
-Done.</code></pre>
-<pre class="r"><code>##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-elbo_gr_bf = flash_res$elbo
-plot_2pop_loadings(flash_res$loadings.pm[[1]])</code></pre>
-<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="initialize-from-truth-and-fix-the-priors" class="section level1">
-<h1>Initialize from truth and fix the priors</h1>
-<p>Initialize from the truth and fix the prior which as expected recovers the tree representation we want:</p>
-<pre class="r"><code>##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %&gt;%
-            flash.init.factors(EF=list(u=sim_res$L, d=rep(1, K), v=sim_res$Z), 
-                               prior.family=list(c(prior.twopm(pi = c(0.0, 1.0)), 
-                                                   prior.fixnormal()), 
-                                                 c(prior.twopm(pi = c(.5, .5)), 
-                                                   prior.fixnormal()),
-                                                 c(prior.twopm(pi = c(.5, .5)), 
-                                                   prior.fixnormal())))  %&gt;%
-            flash.backfit()</code></pre>
+flash_backfit_res &lt;- flash_greedy_res %&gt;% flash.backfit()</code></pre>
 <pre><code>Backfitting 3 factors (tolerance: 1.49e-02)...
+  Difference between iterations is within 1.0e+02...
   Difference between iterations is within 1.0e+01...
   Difference between iterations is within 1.0e+00...
   Difference between iterations is within 1.0e-01...
@@ -722,18 +758,264 @@ flash_res = flash.init(Y, var.type=0) %&gt;%
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-elbo_init_true = flash_res$elbo
-plot_2pop_loadings(flash_res$loadings.pm[[1]])</code></pre>
-<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+pm &lt;- flash_backfit_res$loadings.pm[[1]] 
+elbo_gr_bf &lt;- flash_backfit_res$elbo
+plot_loadings(flash_backfit_res$loadings.pm[[1]], pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="initialize-from-truth-and-fix-the-priors" class="section level1">
+<h1>Initialize from truth and fix the priors</h1>
+<p>Initialize from the truth and fix the prior which as expected recovers the tree representation we want:</p>
+<pre class="r"><code>##### fit ##### 
+flash_fix_res &lt;- flash.init(Y, var.type=0) %&gt;%
+                 flash.init.factors(EF=list(u=sim_res$L, d=rep(1, K), v=sim_res$F), 
+                                    prior.family=list(c(prior.fixtwopm(pi = c(0.0, 1.0)), 
+                                                        prior.fixnormal()), 
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()),
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()))) %&gt;%
+                 flash.backfit()</code></pre>
+<pre><code>Backfitting 3 factors (tolerance: 1.49e-02)...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>##### viz ##### 
+pm &lt;- flash_fix_res$loadings.pm[[1]] 
+elbo_init_true &lt;- flash_fix_res$elbo
+plot_loadings(flash_fix_res$loadings.pm[[1]], pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Compare the final elbos between the solution where we initialize from the truth and fix the prior to the solution where we initialize from the greedy fit and don’t fix the prior:</p>
 <pre class="r"><code>print(elbo_init_true)</code></pre>
-<pre><code>[1] -809767.7</code></pre>
+<pre><code>[1] -1482301</code></pre>
 <pre class="r"><code>print(elbo_gr_bf)</code></pre>
-<pre><code>[1] -786235.7</code></pre>
+<pre><code>[1] -1465622</code></pre>
 <pre class="r"><code>print(elbo_init_true&gt;elbo_gr_bf)</code></pre>
 <pre><code>[1] FALSE</code></pre>
 <p>The solution where we initialize with greedy fit has a higher ELBO then when we initialize from the truth and fix the prior.</p>
+</div>
+<div id="drift" class="section level1">
+<h1><code>drift</code></h1>
+<p>Lets now try our new <code>drift</code> algorithm which uses the same bimodal mixture prior for the loadings and Gaussian prior for the factors but a new variational approximation for the factors which accounts for correlations in the posterior i.e. full mvn for the variational approximation:</p>
+<pre class="r"><code>init &lt;- drift.alpha:::init_from_flash(flash_greedy_res)
+drift_res &lt;- drift.alpha:::drift(init)</code></pre>
+<pre><code>   1 :    -1465398.387 
+   2 :    -1464851.616 
+   3 :    -1464736.843 
+   4 :    -1464704.063 
+   5 :    -1464692.839 
+   6 :    -1464688.561 
+   7 :    -1464686.825 
+   8 :    -1464686.094 
+   9 :    -1464685.780 
+  10 :    -1464685.642 
+  11 :    -1464685.582 
+  12 :    -1464685.555 
+  13 :    -1464685.543 
+  14 :    -1464685.537 </code></pre>
+<pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Very exciting! It seems to maintain the tree structure that the greedy solution finds.</p>
+<pre class="r"><code>print(drift_res$prior_s2)</code></pre>
+<pre><code>[1] 1.0185987 0.9678496 1.0085159</code></pre>
+<pre class="r"><code>print(drift_res$resid_s2)</code></pre>
+<pre><code>[1] 1.001795</code></pre>
+<p><code>drift</code> recovers the correct prior and residual variances.</p>
+<pre class="r"><code>drift_res$CovF</code></pre>
+<pre><code>           [,1]       [,2]       [,3]
+[1,]  0.3371207 -0.3302804 -0.3305514
+[2,] -0.3302804  0.3432082  0.3238444
+[3,] -0.3305514  0.3238444  0.3437556</code></pre>
+<pre class="r"><code>cov2cor(drift_res$CovF)</code></pre>
+<pre><code>           [,1]       [,2]       [,3]
+[1,]  1.0000000 -0.9709821 -0.9710049
+[2,] -0.9709821  1.0000000  0.9428283
+[3,] -0.9710049  0.9428283  1.0000000</code></pre>
+<p>We can see <code>drift</code> is estimating very strong correlations in the posterior. Lets try initializing from the flash backfit solution:</p>
+<pre class="r"><code>init &lt;- drift.alpha:::init_from_flash(flash_backfit_res)
+drift_res &lt;- drift.alpha:::drift(init)</code></pre>
+<pre><code>   1 :    -1465184.207 
+   2 :    -1465104.297 
+   3 :    -1465098.698 
+   4 :    -1465094.188 
+   5 :    -1465090.174 
+   6 :    -1465083.404 
+   7 :    -1465076.797 
+   8 :    -1465070.348 
+   9 :    -1465064.063 
+  10 :    -1465057.963 
+  11 :    -1465052.095 
+  12 :    -1465046.547 
+  13 :    -1465041.447 
+  14 :    -1465036.954 
+  15 :    -1465033.212 
+  16 :    -1465030.290 
+  17 :    -1465026.778 
+  18 :    -1465021.477 
+  19 :    -1465016.299 
+  20 :    -1465011.244 
+  21 :    -1465006.319 
+  22 :    -1465001.538 
+  23 :    -1464996.929 
+  24 :    -1464992.535 
+  25 :    -1464988.423 
+  26 :    -1464984.677 
+  27 :    -1464981.389 
+  28 :    -1464978.638 
+  29 :    -1464976.461 
+  30 :    -1464974.634 
+  31 :    -1464970.995 
+  32 :    -1464967.332 
+  33 :    -1464963.789 
+  34 :    -1464960.362 
+  35 :    -1464957.048 
+  36 :    -1464953.850 
+  37 :    -1464950.773 
+  38 :    -1464947.831 
+  39 :    -1464945.047 
+  40 :    -1464942.455 
+  41 :    -1464940.096 
+  42 :    -1464938.018 
+  43 :    -1464936.260 
+  44 :    -1464934.847 
+  45 :    -1464933.779 
+  46 :    -1464932.980 
+  47 :    -1464931.239 
+  48 :    -1464928.862 
+  49 :    -1464926.553 
+  50 :    -1464924.310 
+  51 :    -1464922.131 
+  52 :    -1464920.015 
+  53 :    -1464917.962 
+  54 :    -1464915.972 
+  55 :    -1464914.050 
+  56 :    -1464912.200 
+  57 :    -1464910.428 
+  58 :    -1464908.745 
+  59 :    -1464907.164 
+  60 :    -1464905.702 
+  61 :    -1464904.382 
+  62 :    -1464903.231 
+  63 :    -1464902.273 
+  64 :    -1464901.365 
+  65 :    -1464900.729 
+  66 :    -1464900.173 
+  67 :    -1464898.656 
+  68 :    -1464896.876 
+  69 :    -1464895.141 
+  70 :    -1464893.448 
+  71 :    -1464891.799 
+  72 :    -1464890.191 
+  73 :    -1464888.625 
+  74 :    -1464887.102 
+  75 :    -1464885.623 
+  76 :    -1464884.190 
+  77 :    -1464882.808 
+  78 :    -1464881.480 
+  79 :    -1464880.214 
+  80 :    -1464879.018 
+  81 :    -1464877.902 
+  82 :    -1464876.875 
+  83 :    -1464875.946 
+  84 :    -1464875.123 
+  85 :    -1464874.410 
+  86 :    -1464873.807 
+  87 :    -1464873.310 
+  88 :    -1464872.911 
+  89 :    -1464872.600 
+  90 :    -1464872.363 
+  91 :    -1464872.186 
+  92 :    -1464872.003 
+  93 :    -1464871.295 
+  94 :    -1464870.266 
+  95 :    -1464869.264 
+  96 :    -1464868.287 
+  97 :    -1464867.334 
+  98 :    -1464866.406 
+  99 :    -1464865.502 
+ 100 :    -1464864.621 </code></pre>
+<pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This keeps the same representation but with a larger elbo.</p>
+<pre class="r"><code>print(drift_res$elbo)</code></pre>
+<pre><code>[1] -1464865</code></pre>
+<pre class="r"><code>print(flash_backfit_res$elbo)</code></pre>
+<pre><code>[1] -1465622</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -756,8 +1038,8 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ebnm_0.1-24    ashr_2.2-38    flashier_0.2.4 tidyr_0.8.3   
-[5] dplyr_0.8.0.1  ggplot2_3.1.1 
+[1] ebnm_0.1-24       ashr_2.2-38       drift.alpha_0.0.1 flashier_0.2.4   
+[5] tidyr_0.8.3       dplyr_0.8.0.1     ggplot2_3.1.1    
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.2        compiler_3.6.1    pillar_1.3.1     
@@ -771,12 +1053,12 @@ loaded via a namespace (and not attached):
 [25] rprojroot_1.3-2   grid_3.6.1        tidyselect_0.2.5 
 [28] glue_1.3.1        R6_2.4.0          rmarkdown_1.12   
 [31] mixsqp_0.2-4      purrr_0.3.2       magrittr_1.5     
-[34] MASS_7.3-51.4     codetools_0.2-16  backports_1.1.4  
-[37] scales_1.0.0      htmltools_0.3.6   assertthat_0.2.1 
-[40] colorspace_1.4-1  labeling_0.3      stringi_1.4.3    
-[43] pscl_1.5.2        doParallel_1.0.15 lazyeval_0.2.2   
-[46] munsell_0.5.0     truncnorm_1.0-8   SQUAREM_2017.10-1
-[49] crayon_1.3.4     </code></pre>
+[34] whisker_0.3-2     MASS_7.3-51.4     codetools_0.2-16 
+[37] backports_1.1.4   scales_1.0.0      htmltools_0.3.6  
+[40] assertthat_0.2.1  colorspace_1.4-1  labeling_0.3     
+[43] stringi_1.4.3     pscl_1.5.2        doParallel_1.0.15
+[46] lazyeval_0.2.2    munsell_0.5.0     truncnorm_1.0-8  
+[49] SQUAREM_2017.10-1 crayon_1.3.4     </code></pre>
 </div>
 </div>
 

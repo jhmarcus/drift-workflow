@@ -5,7 +5,7 @@ date: "2019-11-20"
 output: workflowr::wflow_html
 ---
 
-Here I simulate Gaussian data under a simple 2 population tree i.e. a split and explore the interpretability of `flashier` fits to the data. The data generated under this tree can be represented as a probabilistic matrix factorization model with 1 shared factor and 2 population specific factors ... this is what we'd like to recover.
+Here we simulate Gaussian data under a simple 2 population tree i.e. a split and explore the interpretability of `flashier` and `drift` fits to the data. The data generated under this tree can be represented as a probabilistic matrix factorization model with 1 shared factor and 2 population specific factors ... this is what we'd like to recover.
 
 # Import
 
@@ -16,50 +16,31 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(flashier)
-source("../code/viz.R")
-source("../code/sim.R")
+library(drift.alpha)
+
 source("../code/ebnm_functions.R")
-```
-
-# Functions
-
-Load functions for this analysis:
-
-```{r, warning=FALSE, message=FALSE}
-plot_2pop_loadings = function(L){
-  
-  l_df = as.data.frame(L)
-  colnames(l_df) = 1:ncol(l_df)
-  l_df$ID = 1:nrow(l_df)
-  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
-  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
-  p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
-      geom_point() +
-      facet_wrap(K~.) +
-      theme_bw() 
-  
-  return(p)
-  
-}
 ```
 
 # Simulate
 
-Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to .5 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:
+Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to 1 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:
 
 ```{r, warning=FALSE, message=FALSE}
 ##### sim ##### 
 set.seed(235)
-n_per_pop = 50
-sigma_e = .5
-sigma_b = rep(1, 3)
+n_per_pop <- 50
+pops <- c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
+sigma_e <- 1.0
+sigma_b <- c(1.0, 1.0, 1.0)
 p = 10000
-sim_res = tree_simulation_2pop(n_per_pop, p, sigma_e, sigma_b)
-K = 3
-Y = sim_res$Y
+sim_res <- drift.alpha::two_pop_tree_sim(n_per_pop, p, sigma_e, sigma_b)
+K <- 3
+Y <- sim_res$Y
+n <- nrow(Y)
+p <- ncol(Y)
 
 ##### viz ##### 
-plot_2pop_loadings(sim_res$L)
+plot_loadings(sim_res$L, pops)
 ```
 
 # Greedy
@@ -68,24 +49,24 @@ Run the greedy algorithm which seems to recover the tree:
 
 ```{r, warning=FALSE, message=FALSE}
 ##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %>%
-            flash.add.greedy(Kmax=K,
-                             prior.family=list(c(prior.bimodal(), 
-                                                 prior.normal()), 
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal())))
+flash_greedy_res <- flash.init(Y, var.type=0) %>%
+                    flash.add.greedy(Kmax=K,
+                                    prior.family=list(c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()), 
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal()),
+                                                      c(drift.alpha:::prior.bimodal(), 
+                                                        prior.normal())))
 
 ##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-plot_2pop_loadings(pm)
+pm <- flash_greedy_res$loadings.pm[[1]] 
+plot_loadings(pm, pops)
 ```
 
 # Initialize from greedy
@@ -94,26 +75,12 @@ Initialize the backfitting algorithm with the greedy solution which recovers a s
 
 ```{r, warning=FALSE, message=FALSE}
 ##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %>%
-            flash.add.greedy(Kmax=K,
-                             prior.family=list(c(prior.bimodal(), 
-                                                 prior.normal()), 
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()),
-                                               c(prior.bimodal(), 
-                                                 prior.normal()))) %>%
-            flash.backfit()
+flash_backfit_res <- flash_greedy_res %>% flash.backfit()
 
 ##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-elbo_gr_bf = flash_res$elbo
-plot_2pop_loadings(flash_res$loadings.pm[[1]])
+pm <- flash_backfit_res$loadings.pm[[1]] 
+elbo_gr_bf <- flash_backfit_res$elbo
+plot_loadings(flash_backfit_res$loadings.pm[[1]], pops)
 ```
 
 # Initialize from truth and fix the priors
@@ -122,20 +89,20 @@ Initialize from the truth and fix the prior which as expected recovers the tree 
 
 ```{r warning=FALSE, message=FALSE}
 ##### fit ##### 
-flash_res = flash.init(Y, var.type=0) %>%
-            flash.init.factors(EF=list(u=sim_res$L, d=rep(1, K), v=sim_res$Z), 
-                               prior.family=list(c(prior.twopm(pi = c(0.0, 1.0)), 
-                                                   prior.fixnormal()), 
-                                                 c(prior.twopm(pi = c(.5, .5)), 
-                                                   prior.fixnormal()),
-                                                 c(prior.twopm(pi = c(.5, .5)), 
-                                                   prior.fixnormal())))  %>%
-            flash.backfit()
+flash_fix_res <- flash.init(Y, var.type=0) %>%
+                 flash.init.factors(EF=list(u=sim_res$L, d=rep(1, K), v=sim_res$F), 
+                                    prior.family=list(c(prior.fixtwopm(pi = c(0.0, 1.0)), 
+                                                        prior.fixnormal()), 
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()),
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()))) %>%
+                 flash.backfit()
 
 ##### viz ##### 
-pm = flash_res$loadings.pm[[1]] 
-elbo_init_true = flash_res$elbo
-plot_2pop_loadings(flash_res$loadings.pm[[1]])
+pm <- flash_fix_res$loadings.pm[[1]] 
+elbo_init_true <- flash_fix_res$elbo
+plot_loadings(flash_fix_res$loadings.pm[[1]], pops)
 ```
 
 Compare the final elbos between the solution where we initialize from the truth and fix the prior to the solution where we initialize from the greedy fit and don't fix the prior:
@@ -147,3 +114,45 @@ print(elbo_init_true>elbo_gr_bf)
 ```
 
 The solution where we initialize with greedy fit has a higher ELBO then when we initialize from the truth and fix the prior.
+
+# `drift`
+
+Lets now try our new `drift` algorithm which uses the same bimodal mixture prior for the loadings and Gaussian prior for the factors but a new variational approximation for the factors which accounts for correlations in the posterior i.e. full mvn for the variational approximation:
+
+```{r}
+init <- drift.alpha:::init_from_flash(flash_greedy_res)
+drift_res <- drift.alpha:::drift(init)
+plot_loadings(drift_res$EL, pops)
+```
+
+Very exciting! It seems to maintain the tree structure that the greedy solution finds.
+
+```{r}
+print(drift_res$prior_s2)
+print(drift_res$resid_s2)
+```
+
+`drift` recovers the correct prior and residual variances.
+
+```{r}
+drift_res$CovF
+```
+
+```{r}
+cov2cor(drift_res$CovF)
+```
+
+We can see `drift` is estimating very strong correlations in the posterior. Lets try initializing from the flash backfit solution:
+
+```{r}
+init <- drift.alpha:::init_from_flash(flash_backfit_res)
+drift_res <- drift.alpha:::drift(init)
+plot_loadings(drift_res$EL, pops)
+```
+
+This keeps the same representation but with a larger elbo.
+
+```{r}
+print(drift_res$elbo)
+print(flash_backfit_res$elbo)
+```

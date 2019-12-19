@@ -1,6 +1,9 @@
 # drift-workflow
 
-A workflow for visualizing population structure with Empirical Bayes factor analysis
+A workflow for visualizing population structure with empirical Bayes factor analysis
+
+**Authors:** Joe Marcus and Jason Willwerscheid   
+**Advisors:** John Novembre, Peter Carbonetto, and Matthew Stephens
 
 ## Setup
 

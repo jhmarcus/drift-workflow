@@ -1,0 +1,315 @@
+---
+title: "cor-vb-approx"
+author: "jhmarcus"
+date: "2019-12-04"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+*work in progress*
+
+```{r imports, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(flashier)
+library(fastICA)
+library(CVXR)
+source("../code/viz.R")
+source("../code/sim.R")
+source("../code/ebnm_functions.R")
+source("../code/ebfa.R")
+```
+
+# Functions
+
+```{r}
+plot_2pop_loadings = function(L){
+  
+  l_df = as.data.frame(L)
+  colnames(l_df) = 1:ncol(l_df)
+  l_df$ID = 1:nrow(l_df)
+  l_df$pop = c(rep("Pop1", n_per_pop), rep("Pop2", n_per_pop))
+  gath_l_df = l_df %>% gather(K, value, -ID, -pop) 
+  p = ggplot(gath_l_df, aes(x=ID, y=value, color=pop)) + 
+      geom_point() +
+      facet_wrap(K~.) +
+      theme_bw() 
+  
+  return(p)
+  
+}
+
+add_vec = function(x, y){
+  return(x+y)
+}
+
+
+mat_trace = function(A){
+  return(sum(diag(A)))
+}
+
+
+solve_expected_covariance = function(ELtL, Omega0, tau){
+  
+  K = nrow(ELtL)
+  ESigma = Semidef(K)
+  S = tau * ELtL + Omega0
+  obj = CVXR::Maximize(-.5 * (CVXR::matrix_trace(S %*% ESigma) - CVXR::log_det(ESigma)))
+  constr = list(ESigma >= 0.0)
+  prob = CVXR::Problem(obj, constr)
+  result = solve(prob)
+  ESigma_hat = as.matrix(result$getValue(ESigma))
+  
+  return(ESigma_hat)
+  
+}
+
+
+comp_erss = function(Y, EF, EL, ELtL, ESigma, tau){
+  
+  p = ncol(Y)
+  ELtEL = t(EL) %*% EL
+  
+  E = Y - EL %*% t(EF)
+  rss_term = mat_trace(t(E)%*%E)
+  quad_term = mat_trace(EF %*% (ELtL - ELtEL) %*% t(EF))
+  tr_term = p * mat_trace(ELtL %*% ESigma)
+
+  return(-.5 * tau * (rss_term + quad_term + tr_term))
+  
+}
+
+
+comp_factors_kl = function(EF, ESigma, Omega0, tau){
+  
+  p = nrow(EF)
+  Sigma0 = diag(1.0 / diag(Omega0))
+  
+  tr_term = p * mat_trace(Omega0 %*% ESigma)
+  quad_term = mat_trace(EF %*% Omega0 %*% t(EF))
+  log_det_term = p * (log(det(Sigma0)) - log(det(ESigma)))
+  f_kl = -.5 * (tr_term + quad_term + log_det_term)
+  
+  return(f_kl)
+  
+}
+
+
+#' @title Correlated variational bayes matrix factorization
+#'
+#' @description Empircal bayes matrix factorization algorithim with a MVN normal prior
+#'              and variational approximation on the factors and bimodal adaptive shrinkage
+#'              prior on each column of the loadings matrix.
+#'
+#' @param Y is an n x p matrix of genotypes
+#' @param EL is an n x K matrix storing E_qL(L)
+#' @param ELtL is a K x K matrix storing E_qL(L^TL)
+#' @param Omega0 is a K x K diagonal matrix storing the prior precisions 
+#' @param tau is residual precision
+#' @param m is the size of the prior grid on the loadings
+#' @param max_iter is the maximum number of iterations
+#' @param n_print interval to print updates
+#' 
+#' @return 
+cor_vb_mf = function(Y, EL, EL2, Omega0, tau, m, max_iter, n_print=10){
+  
+  # number of individuals / snps
+  n = nrow(Y)
+  p = ncol(Y)
+
+  # helper variables
+  K = ncol(EL)
+  converged = FALSE
+  elbo = rep(NA, max_iter)
+  
+  # setup prior grid for loadings
+  a = c(rep(0, m), seq(0.5, 1, length = m))
+  b = c(seq(0, 0.5, length = m), rep(1, m))
+  grid_size = length(a)
+  bimodal_g = ashr:::unimix(grid_size, a, b)
+  
+  ELtL = t(EL) %*% EL
+  diag(ELtL) = colSums(EL2)
+
+  t = 1
+  while(!converged){
+    
+    ########## FACTORS UPDATE ########## 
+    
+    # precision and covariance matrix of the var-approx
+    EOmega = (tau * ELtL) + Omega0
+    ESigma = solve(EOmega)
+
+    # update the means of var-approx
+    # solved via "ridge regression"
+    EF = t(ESigma %*% t(tau * EL) %*% Y)
+    
+    # update 2nd moments (marginals) of var-approx
+    sigma2 = diag(ESigma)
+    EF2 = t(apply(EF^2, 1, add_vec, y=sigma2))
+
+    ########## LOADINGS UPDATE ########## 
+    l_kl = 0.0
+    for(k in 1:K){
+
+      # residuals 
+      Rk = Y - EL[, -k] %*% t(EF[, -k])
+      
+      # updates from flashr
+      # simple regression
+      s2 = 1.0 / (tau * sum(EF2[, k]))
+      if (sum(is.finite(s2)) == 0) {
+        return(NULL)
+      }
+      s = sqrt(pmax(s2, .Machine$double.eps))
+      x = ((Rk * tau) %*% EF[, k]) * s2
+      x[is.infinite(s2)] = 0.0
+      
+      # bi-modal adaptive shrinkage
+      ebnm_res = ebnm::ebnm_unimodal(x=x, 
+                                     s=s, 
+                                     #g_init=bimodal_g, 
+                                     g_init=ashr::unimix(c(.5, .5), c(0.0, 1.0), c(0.0, 1.0)),
+                                     fix_g=FALSE, 
+                                     control=list(eps=1e-15),
+                                     output=output_all())
+      
+      
+      el = ebnm_res$posterior$mean
+      el2 = ebnm_res$posterior$second_moment
+      log_lik = ebnm_res$log_likelihood
+      l_kl = l_kl + (log_lik - flashier:::normal.means.loglik(x, s, el, el2))
+      
+      # update the moments
+      EL[, k] = el
+      EL2[, k] = el2
+      
+    }
+    
+    ELtL = t(EL) %*% EL
+    diag(ELtL) = colSums(EL2)
+
+    ########## PRECISION #########
+    #erss = comp_erss(Y, EF, EL, ELtL, ESigma, tau)
+    #tau = n*p / (-5.*erss)
+        
+    ########## ELBO ########## 
+    #f_kl = comp_factors_kl(EF, ESigma, Omega0, tau)
+    #kl = f_kl + l_kl
+    #elbo[t] = erss + kl
+  
+    # print update
+    if(t %% n_print == 0){
+      print(paste0("iter=", t, " elbo=", elbo[t]))
+    }
+    
+    ########## CONVERGENCE ########## 
+    t = t + 1
+    
+    # check if maximum number of iterations 
+    if(t >= max_iter){
+      converged = TRUE
+    }
+   
+  }
+  
+  res = list(EL=EL, EL2=EL2, EF=EF, ESigma=ESigma, elbo=elbo, tau=tau)
+  return(res)
+  
+}
+```
+
+# Simulate
+
+Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to .5 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:
+
+```{r, warning=FALSE, message=FALSE}
+##### sim ##### 
+set.seed(235)
+n_per_pop = 50
+sigma_e = .5
+sigma_b = c(4.0, 1.0, 1.0)
+p = 10000
+sim_res = tree_simulation_2pop(n_per_pop, p, sigma_e, sigma_b)
+K = 3
+Y = sim_res$Y
+n = nrow(Y)
+p = ncol(Y)
+
+##### viz ##### 
+plot_2pop_loadings(sim_res$L)
+```
+
+# Greedy
+
+Run the greedy algorithm which seems to recover the tree:
+
+```{r, warning=FALSE, message=FALSE}
+##### fit ##### 
+flash_res = flash.init(Y, var.type=0) %>%
+            flash.add.greedy(Kmax=K,
+                             prior.family=list(c(prior.bimodal(), 
+                                                 prior.normal()), 
+                                               c(prior.bimodal(), 
+                                                 prior.normal()),
+                                               c(prior.bimodal(), 
+                                                 prior.normal()),
+                                               c(prior.bimodal(), 
+                                                 prior.normal()),
+                                               c(prior.bimodal(), 
+                                                 prior.normal()),
+                                               c(prior.bimodal(), 
+                                                 prior.normal())))
+
+##### viz ##### 
+pm = flash_res$loadings.pm[[1]] 
+plot_2pop_loadings(pm)
+```
+
+
+
+```{r}
+Omega0 = diag(1.0 / sigma_b^2)
+tau = 1.0 / (sigma_e^2)
+
+#EL_init = matrix(runif(n*K, 0.0, 1.0), nrow=n, ncol=K)
+#EL2_init = EL_init^2
+EL_init = flash_res$loadings.pm[[1]] %*% diag(flash_res$loadings.scale)
+EL2_init = flash_res$loadings.pm[[1]]^2 + flash_res$loadings.psd[[1]]^2
+res = cor_vb_mf(Y=Y, EL=EL_init, EL2=EL2_init, Omega0=Omega0, tau=tau, m=20, max_iter=100, n_print=1)
+plot_2pop_loadings(res$EL)
+```
+
+```{r}
+##### sim #####
+set.seed(235)
+n_per_pop = 50
+sigma_e = .5
+sigma_b = c(1, 1, 1)
+n = 2 * n_per_pop
+p = 10000
+sim_res = tree_simulation_2pop(n_per_pop, p, sigma_e, sigma_b)
+K = 3
+Y = sim_res$Y
+flash_res = flash(Y, prior.family = c(prior.bimodal(), prior.normal()))
+barplot(flash_res$loadings.pm[[1]][, 1])
+barplot(flash_res$loadings.pm[[1]][, 2])
+barplot(flash_res$loadings.pm[[1]][, 3])
+
+
+fit = flash_res$flash.fit
+scale <- sapply(flash_res$fitted.g[[2]], `[[`, "sd")
+init <- list(EL = fit$EF[[1]] * rep(scale, each = n), 
+             EL2 = fit$EF2[[1]] * rep(scale^2, each = n), 
+             EF = fit$EF[[2]] / rep(scale, each = p), 
+             resid_s2 = 1 / fit$tau,
+             KL_f = 0,
+             KL_l = rep(0, ncol(fit$EF[[1]])),
+             obj = 0)
+
+
+fl <- ebfa(Y, init, tol = 10)
+```
+
