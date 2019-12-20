@@ -446,7 +446,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-12-19
+<strong>Last updated:</strong> 2019-12-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -537,10 +537,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee3936bcae8a3322646109b31664735fbfb2f4cc8targetblanke3936bca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/e3936bcae8a3322646109b31664735fbfb2f4cc8" target="_blank">e3936bc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abctargetblank7b7b6d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc" target="_blank">7b7b6d4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee3936bcae8a3322646109b31664735fbfb2f4cc8targetblanke3936bca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abctargetblank7b7b6d4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -550,7 +550,6 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
     Ignored:    analysis/flash_cache/
     Ignored:    data.tar.gz
     Ignored:    data/datasets/
@@ -560,14 +559,8 @@ Ignored files:
     Ignored:    output.tar.gz
     Ignored:    output/
 
-Untracked files:
-    Untracked:  analysis/cor-vb-approx.Rmd
-    Untracked:  code/ebfa.R
-
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   analysis/simple_2pop_tree_simulation_bimodal.Rmd
-    Modified:   code/ebnm_functions.R
 
 </code></pre>
 <p>
@@ -606,6 +599,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+<td>
+added init drift alpha application to simulation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/simple_2pop_tree_simulation_bimodal.html" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+<td>
+added init drift alpha application to simulation
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -676,8 +703,45 @@ n &lt;- nrow(Y)
 p &lt;- ncol(Y)
 
 ##### viz ##### 
-plot_loadings(sim_res$L, pops)</code></pre>
+drift.alpha::plot_loadings(sim_res$L, pops)</code></pre>
 <p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-1-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="greedy" class="section level1">
 <h1>Greedy</h1>
@@ -685,17 +749,17 @@ plot_loadings(sim_res$L, pops)</code></pre>
 <pre class="r"><code>##### fit ##### 
 flash_greedy_res &lt;- flash.init(Y, var.type=0) %&gt;%
                     flash.add.greedy(Kmax=K,
-                                    prior.family=list(c(drift.alpha:::prior.bimodal(), 
+                                    prior.family=list(c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()), 
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal())))</code></pre>
 <pre><code>Adding factor 1 to flash object...
 Adding factor 2 to flash object...
@@ -728,6 +792,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" target="_blank">e3936bc</a>
@@ -784,6 +859,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" target="_blank">e3936bc</a>
@@ -847,6 +933,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" target="_blank">e3936bc</a>
 </td>
 <td>
@@ -890,6 +987,43 @@ drift_res &lt;- drift.alpha:::drift(init)</code></pre>
   14 :    -1464685.537 </code></pre>
 <pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
 <p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Very exciting! It seems to maintain the tree structure that the greedy solution finds.</p>
 <pre class="r"><code>print(drift_res$prior_s2)</code></pre>
 <pre><code>[1] 1.0185987 0.9678496 1.0085159</code></pre>
@@ -908,7 +1042,7 @@ drift_res &lt;- drift.alpha:::drift(init)</code></pre>
 [3,] -0.9710049  0.9428283  1.0000000</code></pre>
 <p>We can see <code>drift</code> is estimating very strong correlations in the posterior. Lets try initializing from the flash backfit solution:</p>
 <pre class="r"><code>init &lt;- drift.alpha:::init_from_flash(flash_backfit_res)
-drift_res &lt;- drift.alpha:::drift(init)</code></pre>
+drift_res &lt;- drift.alpha:::drift(init, maxiter = 1000)</code></pre>
 <pre><code>   1 :    -1465184.207 
    2 :    -1465104.297 
    3 :    -1465098.698 
@@ -1008,12 +1142,82 @@ drift_res &lt;- drift.alpha:::drift(init)</code></pre>
   97 :    -1464867.334 
   98 :    -1464866.406 
   99 :    -1464865.502 
- 100 :    -1464864.621 </code></pre>
+ 100 :    -1464864.621 
+ 101 :    -1464863.763 
+ 102 :    -1464862.929 
+ 103 :    -1464862.118 
+ 104 :    -1464861.331 
+ 105 :    -1464860.567 
+ 106 :    -1464859.829 
+ 107 :    -1464859.118 
+ 108 :    -1464858.434 
+ 109 :    -1464857.780 
+ 110 :    -1464857.158 
+ 111 :    -1464856.571 
+ 112 :    -1464856.020 
+ 113 :    -1464855.509 
+ 114 :    -1464855.039 
+ 115 :    -1464854.612 
+ 116 :    -1464854.228 
+ 117 :    -1464853.889 
+ 118 :    -1464853.592 
+ 119 :    -1464853.337 
+ 120 :    -1464853.120 
+ 121 :    -1464852.940 
+ 122 :    -1464852.791 
+ 123 :    -1464852.670 
+ 124 :    -1464852.574 
+ 125 :    -1464852.497 
+ 126 :    -1464852.438 
+ 127 :    -1464852.392 
+ 128 :    -1464852.357 
+ 129 :    -1464852.330 
+ 130 :    -1464852.310 
+ 131 :    -1464852.295 
+ 132 :    -1464852.284 
+ 133 :    -1464852.276 </code></pre>
 <pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
 <p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This keeps the same representation but with a larger elbo.</p>
 <pre class="r"><code>print(drift_res$elbo)</code></pre>
-<pre><code>[1] -1464865</code></pre>
+<pre><code>[1] -1464852</code></pre>
 <pre class="r"><code>print(flash_backfit_res$elbo)</code></pre>
 <pre><code>[1] -1465622</code></pre>
 <br>

@@ -40,7 +40,7 @@ n <- nrow(Y)
 p <- ncol(Y)
 
 ##### viz ##### 
-plot_loadings(sim_res$L, pops)
+drift.alpha::plot_loadings(sim_res$L, pops)
 ```
 
 # Greedy
@@ -51,17 +51,17 @@ Run the greedy algorithm which seems to recover the tree:
 ##### fit ##### 
 flash_greedy_res <- flash.init(Y, var.type=0) %>%
                     flash.add.greedy(Kmax=K,
-                                    prior.family=list(c(drift.alpha:::prior.bimodal(), 
+                                    prior.family=list(c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()), 
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal()),
-                                                      c(drift.alpha:::prior.bimodal(), 
+                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
                                                         prior.normal())))
 
 ##### viz ##### 
@@ -146,7 +146,7 @@ We can see `drift` is estimating very strong correlations in the posterior. Lets
 
 ```{r}
 init <- drift.alpha:::init_from_flash(flash_backfit_res)
-drift_res <- drift.alpha:::drift(init)
+drift_res <- drift.alpha:::drift(init, maxiter = 1000)
 plot_loadings(drift_res$EL, pops)
 ```
 
