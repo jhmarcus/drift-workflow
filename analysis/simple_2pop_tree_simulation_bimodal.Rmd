@@ -51,18 +51,8 @@ Run the greedy algorithm which seems to recover the tree:
 ##### fit ##### 
 flash_greedy_res <- flash.init(Y, var.type=0) %>%
                     flash.add.greedy(Kmax=K,
-                                    prior.family=list(c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal()), 
-                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal()),
-                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal()),
-                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal()),
-                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal()),
-                                                      c(drift.alpha::prior.bimodal(grid_size = 40), 
-                                                        prior.normal())))
+                                     prior.family=c(drift.alpha::prior.bimodal(grid_size = 40), 
+                                                    prior.normal()))
 
 ##### viz ##### 
 pm <- flash_greedy_res$loadings.pm[[1]] 
