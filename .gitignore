@@ -11,6 +11,7 @@ analysis/*_cache
 analysis/site_libs
 data/raw/
 data/datasets/
+data/HGDP_PopStruct_Exercise/
 data.tar.gz
 output/
 output.tar.gz

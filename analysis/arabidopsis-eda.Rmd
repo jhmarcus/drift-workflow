@@ -1,0 +1,57 @@
+---
+title: "arabidopsis-eda"
+author: "jhmarcus"
+date: "2019-12-20"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r}
+library(ggplot2)
+library(viridis)
+library(dplyr)
+library(tidyr)
+library(flashier)
+library(drift.alpha)
+library(lfa)
+
+source("../code/ebnm_functions.R")
+source("../code/viz.R")
+```
+
+```{r}
+Y = t(lfa::read.bed("../data/HGDP_PopStruct_Exercise/data/H938_Euro.LDprune"))
+fam_df = read.table("../data/HGDP_PopStruct_Exercise/data/H938_Euro.LDprune.fam", stringsAsFactors = F)
+colnames(fam_df) = c("id", "iid", "V1", "V2", "V3", "V4")
+
+clst_df = read.table("../data/HGDP_PopStruct_Exercise/data/H938.clst.txt", stringsAsFactors = F)
+colnames(clst_df) = c("id", "iid", "clst")
+head(clst_df)
+
+clst_df = fam_df %>% inner_join(clst_df, by=c("iid"))
+```
+
+```{r}
+##### fit ##### 
+Kmax = 8
+flash_greedy_res <- flash.init(Y, var.type=0) %>%
+                    flash.add.greedy(Kmax=Kmax,
+                                     prior.family=c(drift.alpha::prior.bimodal(grid_size = 40), prior.normal()))
+
+##### viz ##### 
+K = flash_greedy_res$n.factors
+df <- data.frame(flash_greedy_res$loadings.pm[[1]])
+df$clst = clst_df$clst
+df <- df %>% arrange(clst)
+
+drift.alpha::plot_loadings(df[,1:K], df$clst)
+```
+
+
+```{r}
+init <- drift.alpha:::init_from_flash(flash_greedy_res)
+drift_res <- drift.alpha:::drift(init, maxiter=50, delta_tol = -Inf)
+drift.alpha::plot_loadings(drift_res$EL, df$clst)
+```
+
