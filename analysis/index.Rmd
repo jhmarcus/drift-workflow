@@ -16,10 +16,11 @@ output:
 ## Simulations
 
 * [Simple 2 population tree simulation](simple_2pop_tree_simulation_bimodal.html)
+* [Simple admixture event](admix_sim1.html)
 
 ---
 
-# Depreciated
+# Deprecated
 
 *Before 2019-12-01*:
 
