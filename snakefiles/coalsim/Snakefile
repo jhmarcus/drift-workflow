@@ -8,8 +8,8 @@ import stdpopsim
 
 # GLOBAL  
 MODELS = ["OutOfAfrica_3G09", "AmericanAdmixture_4B11"]
-LENGTH_MULTIPLIER = .4
-N_HAP_SAMPLES_PER_POP = 100
+LENGTH_MULTIPLIER = .3
+N_HAP_SAMPLES_PER_POP = 40
 N_REP = 5
 
 # output files/foldrs to be created
