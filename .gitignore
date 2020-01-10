@@ -18,3 +18,4 @@ output.tar.gz
 .snakemake/
 
 src/
+.ipynb_checkpoints/

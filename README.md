@@ -27,4 +27,5 @@ devtools::install_github("stephens999/ashr")
 devtools::install_github("willwerscheid/flashier", build_vignettes = TRUE)
 install.packages("softImpute")
 devtools::install_github("Storeylab/lfa")
+install_github("stephenslab/drift.alpha")
 ```

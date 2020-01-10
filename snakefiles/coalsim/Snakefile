@@ -9,7 +9,7 @@ import stdpopsim
 # GLOBAL  
 MODELS = ["OutOfAfrica_3G09", "AmericanAdmixture_4B11"]
 LENGTH_MULTIPLIER = .4
-N_SAMPLES = 300
+N_HAP_SAMPLES_PER_POP = 100
 N_REP = 5
 
 # output files/foldrs to be created
@@ -53,7 +53,21 @@ rule run_coalsim:
         species = stdpopsim.get_species("HomSap")
         contig = species.get_contig("chr22", length_multiplier=LENGTH_MULTIPLIER)
         model = species.get_demographic_model(params.model)       
-        samples = model.get_samples(N_SAMPLES)
+        
+        # get samples
+        if params.model == "OutOfAfrica_3G09":
+          samples = model.get_samples(N_HAP_SAMPLES_PER_POP, 
+                                      N_HAP_SAMPLES_PER_POP, 
+                                      N_HAP_SAMPLES_PER_POP)
+        elif params.model == "AmericanAdmixture_4B11": 
+          samples = model.get_samples(N_HAP_SAMPLES_PER_POP, 
+                                      N_HAP_SAMPLES_PER_POP, 
+                                      N_HAP_SAMPLES_PER_POP,
+                                      N_HAP_SAMPLES_PER_POP)
+        else:
+          raise ValueError
+
+        # get simulation engine
         engine = stdpopsim.get_default_engine()
 
         # generate tree sequences
