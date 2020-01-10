@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee32e21c65c08b0a994aafa6de3dc678761eab615targetblanke32e21ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/e32e21c65c08b0a994aafa6de3dc678761eab615" target="_blank">e32e21c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8f061f63fe726a3f1e0c9459e16fee17f76c52a4targetblank8f061f6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/8f061f63fe726a3f1e0c9459e16fee17f76c52a4" target="_blank">8f061f6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreee32e21c65c08b0a994aafa6de3dc678761eab615targetblanke32e21ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8f061f63fe726a3f1e0c9459e16fee17f76c52a4targetblank8f061f6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -555,9 +555,6 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    docs/.DS_Store
-
-Untracked files:
-    Untracked:  code/admix_sims.R
 
 Unstaged changes:
     Modified:   drift-workflow.Rproj
@@ -604,6 +601,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8f061f63fe726a3f1e0c9459e16fee17f76c52a4/analysis/admix_sim1.Rmd" target="_blank">8f061f6</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+<td>
+workflowr::wflow_publish(“analysis/admix_sim1.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/admix_sim1.html" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/e32e21c65c08b0a994aafa6de3dc678761eab615/analysis/admix_sim1.Rmd" target="_blank">e32e21c</a>
 </td>
 <td>
@@ -637,6 +668,43 @@ workflowr::wflow_publish(“analysis/admix_sim1.Rmd”)
 simple.admix &lt;- admix_graph_sim(n_per_pop = 20, p = 500)
 plot_cov(simple.admix$CovMat, as.is = TRUE)</code></pre>
 <p><img src="figure/admix_sim1.Rmd/sim-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-sim-1">
+Past versions of sim-1.png
+</button>
+</p>
+<div id="fig-sim-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/sim-1.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="flash-greedy" class="section level2">
 <h2>Flash: greedy</h2>
 <p>Even in this simple case, greedy <code>flash</code> does not do well. It appears more as if Populations 1 and 3 split off from a main trunk and less as if a subsequent admixture event generated Population 2.</p>
@@ -654,8 +722,82 @@ fl.greed &lt;- flash.init(Y) %&gt;%
 labs &lt;- rep(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), each = 20)
 plot_loadings(fl.greed$flash.fit$EF[[1]], labs)</code></pre>
 <p><img src="figure/admix_sim1.Rmd/fl.g-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_cov(fl.greed$flash.fit$EF[[1]])</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl.g-1">
+Past versions of fl.g-1.png
+</button>
+</p>
+<div id="fig-fl.g-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/fl.g-1.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_cov(fl.greed$flash.fit$EF[[1]] * rep(sapply(fl.greed$fitted.g[[2]], `[[`, &quot;sd&quot;), each = 60))</code></pre>
 <p><img src="figure/admix_sim1.Rmd/fl.g-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl.g-2">
+Past versions of fl.g-2.png
+</button>
+</p>
+<div id="fig-fl.g-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/fl.g-2.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="flash-backfit" class="section level2">
 <h2>Flash: backfit</h2>
@@ -674,12 +816,86 @@ plot_loadings(fl.greed$flash.fit$EF[[1]], labs)</code></pre>
 #&gt; Done.</code></pre>
 <pre class="r"><code>plot_loadings(fl.bf$flash.fit$EF[[1]], labs)</code></pre>
 <p><img src="figure/admix_sim1.Rmd/fl.b-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_cov(fl.bf$flash.fit$EF[[1]])</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl.b-1">
+Past versions of fl.b-1.png
+</button>
+</p>
+<div id="fig-fl.b-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/fl.b-1.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_cov(fl.bf$flash.fit$EF[[1]] * rep(sapply(fl.greed$fitted.g[[2]], `[[`, &quot;sd&quot;), each = 60))</code></pre>
 <p><img src="figure/admix_sim1.Rmd/fl.b-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl.b-2">
+Past versions of fl.b-2.png
+</button>
+</p>
+<div id="fig-fl.b-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/fl.b-2.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="drift-k-correctly-specified" class="section level2">
 <h2>Drift: <span class="math inline">\(k\)</span> correctly specified</h2>
-<p>When it’s initialized to a tree with two leaves, <code>driftr</code> finds the correct solution:</p>
+<p>When it’s initialized to a tree with two leaves, <code>driftr</code> almost exactly recovers the correct covariance matrix. Further, the loadings are easily interpretable as the result of an admixture event:</p>
 <pre class="r"><code>drift.res &lt;- init_using_hclust(simple.admix$Y, k = 2) %&gt;%
   drift(miniter = 2, maxiter = 30)</code></pre>
 <pre><code>#&gt;    1 :       -1062.472 
@@ -714,12 +930,86 @@ plot_loadings(fl.greed$flash.fit$EF[[1]], labs)</code></pre>
 #&gt;   30 :       22367.367</code></pre>
 <pre class="r"><code>plot_loadings(drift.res$EL, labs)</code></pre>
 <p><img src="figure/admix_sim1.Rmd/drift.2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_cov(drift.res$EL)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift.2-1">
+Past versions of drift.2-1.png
+</button>
+</p>
+<div id="fig-drift.2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/drift.2-1.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))</code></pre>
 <p><img src="figure/admix_sim1.Rmd/drift.2-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift.2-2">
+Past versions of drift.2-2.png
+</button>
+</p>
+<div id="fig-drift.2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/drift.2-2.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="drift-k-over-specified" class="section level2">
 <h2>Drift: <span class="math inline">\(k\)</span> over-specified</h2>
-<p>Finally, I over-specify <span class="math inline">\(k\)</span> by initializing to a three-leaf tree. The results incorrectly suggest that Population 3 split from 1 and 2 first, and then Populations 1 and 2 diverged. Note, however, that the ELBO is quite a bit lower than the ELBO of the <code>driftr</code> solution initialized using the correct <span class="math inline">\(k\)</span>:</p>
+<p>Finally, I over-specify <span class="math inline">\(k\)</span> by initializing to a three-leaf tree. The loadings incorrectly suggest that Population 3 split from 1 and 2 first, and then Populations 1 and 2 diverged. Note, however, that the ELBO is quite a bit lower than the ELBO of the <code>driftr</code> solution initialized using the correct <span class="math inline">\(k\)</span>:</p>
 <pre class="r"><code>drift.res &lt;- init_using_hclust(simple.admix$Y, k = 3) %&gt;%
   drift(miniter = 2, maxiter = 30)</code></pre>
 <pre><code>#&gt;    1 :       20844.551 
@@ -754,8 +1044,83 @@ plot_loadings(fl.greed$flash.fit$EF[[1]], labs)</code></pre>
 #&gt;   30 :       21257.143</code></pre>
 <pre class="r"><code>plot_loadings(drift.res$EL, labs)</code></pre>
 <p><img src="figure/admix_sim1.Rmd/drift.3-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_cov(drift.res$EL)</code></pre>
-<img src="figure/admix_sim1.Rmd/drift.3-2.png" width="480" style="display: block; margin: auto;" /> <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift.3-1">
+Past versions of drift.3-1.png
+</button>
+</p>
+<div id="fig-drift.3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/drift.3-1.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))</code></pre>
+<p><img src="figure/admix_sim1.Rmd/drift.3-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift.3-2">
+Past versions of drift.3-2.png
+</button>
+</p>
+<div id="fig-drift.3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/65769ebd63e149824951e0bcc74154bf7c04eb3a/docs/figure/admix_sim1.Rmd/drift.3-2.png" target="_blank">65769eb</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
