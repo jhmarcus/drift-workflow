@@ -13,16 +13,19 @@ source activate drift_e
 conda install numpy pandas scipy snakemake rpy2 matplotlib cython seaborn
 conda install -c bioconda cyvcf2 pysam
 conda install jupyter jupyterlab
-pip install msprime
+conda install -c conda-forge stdpopsim
 ```
 
 In `R` session:
 
 ```
 library(devtools)
+install.packages("tidyverse")
+devtools::install_github('jdblischak/workflowr')
 devtools::install_github("stephenslab/ebnm", ref = "regular-normal")
 devtools::install_github("stephens999/ashr")
 devtools::install_github("willwerscheid/flashier", build_vignettes = TRUE)
 install.packages("softImpute")
 devtools::install_github("Storeylab/lfa")
+install_github("stephenslab/drift.alpha")
 ```
