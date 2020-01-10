@@ -1,0 +1,134 @@
+---
+title: 'Admixture simulation 2: Branching + admixture'
+author: "Jason Willwerscheid"
+date: "1/10/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+})
+```
+
+In this admixture simulation, I introduce a branching event. Namely, I allow two populations to drift until time $t$, at which point the first population diverges into Populations 1 and 2. The three populations then each experience independent drift until time $2t$, at which point Population 2 receives an influx of genetic material from Population 3 (I set the proportion of the contribution from Population 3 at 0.25):
+
+```{r fig1, echo = FALSE, out.height = 400, out.width = 400}
+knitr::include_graphics("assets/admix_fig2.png")
+```
+
+The covariance matrix appears as follows:
+
+```{r sim}
+set.seed(666)
+simple.admix <- admix_graph_sim(n_per_pop = 20, p = 1000, 
+                                b1pre = 1, b1post = 1, 
+                                b3pre = 2, b3post = 0,
+                                b2from1 = 1, b2from3 = 0,
+                                b2mixed = 0,
+                                w = 0.75)
+plot_cov(simple.admix$CovMat, as.is = TRUE)
+```
+
+## Drift results
+
+The correct number of leaves is three. When I initialize to a three-leaf tree, `driftr` is unable to escape from the initial tree solution. 
+
+```{r drift.3}
+drift.res <- init_using_hclust(simple.admix$Y, k = 3) %>%
+  drift(miniter = 2, maxiter = 30)
+
+labs <- rep(c("A", "B", "C"), each = 20)
+plot_loadings(drift.res$EL, labs)
+plot_cov(drift.res$EL * rep(sqrt(drift.res$prior_s2), each = 20))
+```
+
+Ok, what if I initialize to the correct (ish) solution? Well then it stays there, but the ELBO is not as good as the previous (incorrect) solution.
+
+```{r drift.fromcorrect}
+init <- init_using_hclust(simple.admix$Y, k = 3)
+init$EL[, 1] <- 0 # Remove mean factor
+init$EL2[, 1] <- 0
+init$EL[21:40, 3] <- 0.25 # Loadings corresponding to admixture event
+init$EL2[21:40, 3] <- 0.25^2
+
+drift.res <- drift(init, miniter = 2, maxiter = 30)
+plot_loadings(drift.res$EL, labs)
+plot_cov(drift.res$EL * rep(sqrt(drift.res$prior_s2), each = 20))
+```
+
+## Questions
+
+So we can get the correct solution, but only if we begin with it, and even then the ELBO does not encourage it. What is going on? Does the bimodal prior favor the binary solution too strongly? Is there insufficient evidence of the admixture event (i.e., is $p$ too small)? Or, more worryingly, does `driftr` just spit out what we put into it? Why does the second solution not find the first, which at least judging by the ELBO is the better solution?
+
+## Increasing $p$
+
+First I handle the easy question: If I increase $p$ to a more realistic value of 10000, I do indeed get an improvement in the ELBO from the first solution to the second.
+
+```{r lg_p}
+set.seed(666)
+large.p <- admix_graph_sim(n_per_pop = 20, p = 10000, 
+                                b1pre = 1, b1post = 1, 
+                                b3pre = 2, b3post = 0,
+                                b2from1 = 1, b2from3 = 0,
+                                b2mixed = 0,
+                                w = 0.75)
+
+drift.res <- init_using_hclust(large.p$Y, k = 3) %>%
+  drift(miniter = 2, maxiter = 30)
+plot_loadings(drift.res$EL, labs)
+
+init <- init_using_hclust(large.p$Y, k = 3)
+init$EL[, 1] <- 0 # Remove mean factor
+init$EL2[, 1] <- 0
+init$EL[21:40, 3] <- 0.25 # Loadings corresponding to admixture event
+init$EL2[21:40, 3] <- 0.25^2
+drift.res <- drift(init, miniter = 2, maxiter = 30)
+plot_loadings(drift.res$EL, labs)
+```
+
+## Dependence on initialization
+
+Now on to the more worrying issues. It's plausible that the (incorrect) tree and the (correct) admixture graph are local minima. What if I initialize somewhere in between the two, intentionally setting the admixture loadings too small?
+
+```{r drift.between}
+init <- init_using_hclust(simple.admix$Y, k = 3)
+init$EL[, 1] <- 0 # Remove mean factor
+init$EL2[, 1] <- 0
+init$EL[21:40, 3] <- 0.05 # Loadings corresponding to admixture event
+init$EL2[21:40, 3] <- 0.05^2
+
+drift.res <- drift(init, miniter = 2, maxiter = 30)
+plot_loadings(drift.res$EL, labs)
+plot_cov(drift.res$EL * rep(sqrt(drift.res$prior_s2), each = 20))
+```
+
+It again stays where it started. Not ideal! I wonder whether this is true of any set of loadings in the three-dimensional subspace that distinguishes among the three populations. To test, I give `driftr` a more obviously bad initialization:
+
+```{r drift.bad}
+init <- init_using_hclust(simple.admix$Y, k = 3)
+init$EL[41:60, 2] <- 0.5 
+init$EL2[41:60, 2] <- 0.5^2
+init$EL[1:20, 3] <- 0.5 
+init$EL2[1:20, 3] <- 0.5^2
+init$EL[21:40, 4] <- 0.5 
+init$EL2[21:40, 4] <- 0.5^2
+init$EL[1:20, 5] <- 0.5 
+init$EL2[1:20, 5] <- 0.5^2
+
+drift.res <- drift(init, miniter = 2, maxiter = 30)
+plot_loadings(drift.res$EL, labs)
+```
+
+Once again the loadings have hardly budged. 
