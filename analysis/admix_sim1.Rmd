@@ -68,7 +68,7 @@ When it's initialized to a tree with two leaves, `driftr` almost exactly recover
 drift.res <- init_using_hclust(simple.admix$Y, k = 2) %>%
   drift(miniter = 2, maxiter = 30)
 plot_loadings(drift.res$EL, labs)
-plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))
+plot_cov(drift.res$EL * rep(sqrt(drift.res$prior_s2), each = 60))
 ```
 
 ## Drift: $k$ over-specified
@@ -79,5 +79,5 @@ Finally, I over-specify $k$ by initializing to a three-leaf tree. The loadings i
 drift.res <- init_using_hclust(simple.admix$Y, k = 3) %>%
   drift(miniter = 2, maxiter = 30)
 plot_loadings(drift.res$EL, labs)
-plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))
+plot_cov(drift.res$EL * rep(sqrt(drift.res$prior_s2), each = 60))
 ```
