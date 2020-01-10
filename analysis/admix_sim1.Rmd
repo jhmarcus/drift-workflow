@@ -47,7 +47,7 @@ fl.greed <- flash.init(Y) %>%
 
 labs <- rep(c("A", "B", "C"), each = 20)
 plot_loadings(fl.greed$flash.fit$EF[[1]], labs)
-plot_cov(fl.greed$flash.fit$EF[[1]])
+plot_cov(fl.greed$flash.fit$EF[[1]] * rep(sapply(fl.greed$fitted.g[[2]], `[[`, "sd"), each = 60))
 ```
 
 ## Flash: backfit
@@ -57,27 +57,27 @@ Backfitting doesn't solve the problem:
 ```{r fl.b}
 fl.bf <- fl.greed %>% flash.backfit(maxiter = 30)
 plot_loadings(fl.bf$flash.fit$EF[[1]], labs)
-plot_cov(fl.bf$flash.fit$EF[[1]])
+plot_cov(fl.bf$flash.fit$EF[[1]] * rep(sapply(fl.greed$fitted.g[[2]], `[[`, "sd"), each = 60))
 ```
 
 ## Drift: $k$ correctly specified
 
-When it's initialized to a tree with two leaves, `driftr` finds the correct solution:
+When it's initialized to a tree with two leaves, `driftr` almost exactly recovers the correct covariance matrix. Further, the loadings are easily interpretable as the result of an admixture event:
 
 ```{r drift.2}
 drift.res <- init_using_hclust(simple.admix$Y, k = 2) %>%
   drift(miniter = 2, maxiter = 30)
 plot_loadings(drift.res$EL, labs)
-plot_cov(drift.res$EL)
+plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))
 ```
 
 ## Drift: $k$ over-specified
 
-Finally, I over-specify $k$ by initializing to a three-leaf tree. The results incorrectly suggest that Population 3 split from 1 and 2 first, and then Populations 1 and 2 diverged. Note, however, that the ELBO is quite a bit lower than the ELBO of the `driftr` solution initialized using the correct $k$:
+Finally, I over-specify $k$ by initializing to a three-leaf tree. The loadings incorrectly suggest that Population 3 split from 1 and 2 first, and then Populations 1 and 2 diverged. Note, however, that the ELBO is quite a bit lower than the ELBO of the `driftr` solution initialized using the correct $k$:
 
 ```{r drift.3}
 drift.res <- init_using_hclust(simple.admix$Y, k = 3) %>%
   drift(miniter = 2, maxiter = 30)
 plot_loadings(drift.res$EL, labs)
-plot_cov(drift.res$EL)
+plot_cov(drift.res$EL * rep(drift.res$prior_s2, each = 60))
 ```
