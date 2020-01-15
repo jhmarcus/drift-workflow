@@ -1,0 +1,182 @@
+---
+title: 'Branching + admixture simulation: effect of initialization'
+author: "Jason Willwerscheid"
+date: "1/10/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+})
+```
+
+In this admixture simulation, I introduce a branching event. Namely, I allow two populations to drift until time $t$, at which point the first population diverges into Populations 1 and 2. The three populations then each experience independent drift until time $2t$, at which point Populations 2 and 4 admix in equal proportions:
+
+```{r fig1, echo = FALSE, out.height = 400, out.width = 400}
+knitr::include_graphics("assets/admix_fig2.png")
+```
+
+The covariance matrix appears as follows:
+
+```{r sim}
+set.seed(666)
+simple.admix <- admix_graph_sim(n_per_pop = 20, p = 1000, 
+                                c1 = 2, c2 = 1, c3 = 0, c4 = 0,
+                                c5 = 1, c6 = 1, c7 = 0,
+                                w = 0.5, sigma_e = sqrt(0.25))
+plot_cov(simple.admix$covmat, as.is = TRUE)
+```
+
+## Flash initialization (greedy)
+
+### Initial values
+
+```{r flg1}
+fl <- flash(simple.admix$Y, prior.family = c(prior.bimodal(), prior.normal()))
+labs <- rep(c("A", "B", "C", "D"), each = 20)
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+### Drift results
+
+```{r flg2}
+drift.flg <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.flg[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.flg$prior_s2, 2))
+names(lblr) <- 1:length(drift.flg$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.flg$EL, labs, lblr)
+plot_cov(drift.flg$EL * rep(sqrt(drift.flg$prior_s2), each = 80))
+```
+
+## Flash initialization (backfit)
+
+### Initial values
+
+```{r flb1}
+fl <- fl %>% flash.backfit() %>% flash.nullcheck(remove = TRUE)
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+### Drift results
+
+```{r flb2}
+drift.flb <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.flb[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.flb$prior_s2, 2))
+names(lblr) <- 1:length(drift.flb$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.flb$EL, labs, lblr)
+plot_cov(drift.flb$EL * rep(sqrt(drift.flb$prior_s2), each = 80))
+```
+
+## Initialization from hclust
+
+### Initial values
+
+```{r hclust1}
+init <- init_using_hclust(simple.admix$Y, k = 4)
+plot_loadings(init$EL, labs)
+```
+
+### Drift results
+
+```{r hclust2}
+drift.hclust <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.hclust[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.hclust$prior_s2, 2))
+names(lblr) <- 1:length(drift.hclust$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.hclust$EL, labs, lblr)
+plot_cov(drift.hclust$EL * rep(sqrt(drift.hclust$prior_s2), each = 80))
+```
+
+## Initialization from "true" solution
+
+### Initial values
+
+```{r true1}
+init <- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+init$EL <- cbind(c(rep(1, 40), rep(0.5, 20), rep(0, 20)),
+                 c(rep(1, 20), rep(0, 60)),
+                 c(rep(0, 20), rep(1, 20), rep(0.5, 20), rep(0, 20)),
+                 c(rep(0, 40), rep(0.5, 20), rep(1, 20)))
+init$EL2 <- init$EL^2
+plot_loadings(init$EL, labs)
+```
+
+### Drift results
+
+```{r true2}
+drift.true <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.true[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.true$prior_s2, 2))
+names(lblr) <- 1:length(drift.true$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.true$EL, labs, lblr)
+plot_cov(drift.true$EL * rep(sqrt(drift.true$prior_s2), each = 80))
+```
+
+
+## Random initialization
+
+### Initial values
+
+```{r rand1}
+init <- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+init$EL <- matrix(rnorm(80 * 4), ncol = 4)
+init$EL2 <- init$EL^2
+plot_loadings(init$EL, labs)
+```
+
+### Drift results
+
+```{r rand2}
+drift.rand <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.rand[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.rand$prior_s2, 2))
+names(lblr) <- 1:length(drift.rand$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.rand$EL, labs, lblr)
+plot_cov(drift.rand$EL * rep(sqrt(drift.rand$prior_s2), each = 80))
+```
+
+## One factor per population
+
+### Initial values
+
+```{r perpop1}
+init <- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+plot_loadings(init$EL, labs)
+```
+
+### Drift results
+
+```{r perpop2}
+drift.perpop <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.perpop[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.perpop$prior_s2, 2))
+names(lblr) <- 1:length(drift.perpop$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.perpop$EL, labs, lblr)
+plot_cov(drift.perpop$EL * rep(sqrt(drift.perpop$prior_s2), each = 80))
+```
+
