@@ -52,7 +52,8 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flg2}
-drift.flg <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.flg <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.flg$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.flg[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.flg$prior_s2, 2))
@@ -74,7 +75,8 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flb2}
-drift.flb <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.flb <- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.flb$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.flb[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.flb$prior_s2, 2))
@@ -84,7 +86,7 @@ plot_loadings(drift.flb$EL, labs, lblr)
 plot_cov(drift.flb$EL * rep(sqrt(drift.flb$prior_s2), each = 80))
 ```
 
-## Initialization from hclust
+## Hclust initialization
 
 ### Initial values
 
@@ -96,7 +98,8 @@ plot_loadings(init$EL, labs)
 ### Drift results
 
 ```{r hclust2}
-drift.hclust <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.hclust <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.hclust$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.hclust[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.hclust$prior_s2, 2))
@@ -111,19 +114,20 @@ plot_cov(drift.hclust$EL * rep(sqrt(drift.hclust$prior_s2), each = 80))
 ### Initial values
 
 ```{r true1}
-init <- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
-init$EL <- cbind(c(rep(1, 40), rep(0.5, 20), rep(0, 20)),
-                 c(rep(1, 20), rep(0, 60)),
-                 c(rep(0, 20), rep(1, 20), rep(0.5, 20), rep(0, 20)),
-                 c(rep(0, 40), rep(0.5, 20), rep(1, 20)))
-init$EL2 <- init$EL^2
+# I can't give init_from_EL a singular matrix, so I need to fudge the loadings a bit.
+EL <- cbind(c(rep(1, 40), rep(0.25, 20), rep(0, 20)),
+            c(rep(1, 20), rep(0, 60)),
+            c(rep(0, 20), rep(1, 20), rep(0.5, 20), rep(0, 20)),
+            c(rep(0, 40), rep(0.5, 20), rep(1, 20)))
+init <- init_from_EL(simple.admix$Y, EL)
 plot_loadings(init$EL, labs)
 ```
 
 ### Drift results
 
 ```{r true2}
-drift.true <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.true <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.true$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.true[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.true$prior_s2, 2))
@@ -133,6 +137,31 @@ plot_loadings(drift.true$EL, labs, lblr)
 plot_cov(drift.true$EL * rep(sqrt(drift.true$prior_s2), each = 80))
 ```
 
+## Initialization using three factors
+
+### Initial values
+
+```{r true3}
+EL <- cbind(c(rep(1, 20), rep(0, 60)),
+            c(rep(0, 20), rep(1, 20), rep(0.5, 20), rep(0, 20)),
+            c(rep(0, 40), rep(0.5, 20), rep(1, 20)))
+init <- init_from_EL(simple.admix$Y, EL)
+plot_loadings(init$EL, labs)
+```
+
+### Drift results
+
+```{r true4}
+drift.3factor <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.3factor$elbo.df, aes(x = iter, y = elbo)) + geom_line()
+drift.3factor[c("elbo", "KL_l", "KL_f")]
+
+lblr <- paste("s2:", round(drift.3factor$prior_s2, 2))
+names(lblr) <- 1:length(drift.3factor$prior_s2)
+lblr <- as_labeller(lblr)
+plot_loadings(drift.3factor$EL, labs, lblr)
+plot_cov(drift.3factor$EL * rep(sqrt(drift.3factor$prior_s2), each = 80))
+```
 
 ## Random initialization
 
@@ -148,7 +177,8 @@ plot_loadings(init$EL, labs)
 ### Drift results
 
 ```{r rand2}
-drift.rand <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.rand <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.rand$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.rand[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.rand$prior_s2, 2))
@@ -170,7 +200,8 @@ plot_loadings(init$EL, labs)
 ### Drift results
 
 ```{r perpop2}
-drift.perpop <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)
+drift.perpop <- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = FALSE)
+ggplot(drift.perpop$elbo.df, aes(x = iter, y = elbo)) + geom_line()
 drift.perpop[c("elbo", "KL_l", "KL_f")]
 
 lblr <- paste("s2:", round(drift.perpop$prior_s2, 2))
@@ -179,4 +210,24 @@ lblr <- as_labeller(lblr)
 plot_loadings(drift.perpop$EL, labs, lblr)
 plot_cov(drift.perpop$EL * rep(sqrt(drift.perpop$prior_s2), each = 80))
 ```
+
+## Results summary
+
+```{r summ}
+all.drift <- list(drift.flg, drift.flb, drift.hclust, drift.true, drift.3factor, drift.rand, drift.perpop)
+
+res.df <- data.frame(
+  Name = c("flash.greedy", "flash.backfit", "hclust", "true.4factor", "three.factors", "random", "one.factor.per.pop"),
+  InitialELBO = sapply(all.drift, function(x) x$elbo.df$elbo[1]),
+  FinalELBO = sapply(all.drift, function(x) x$elbo),
+  ELBOdiff = sapply(all.drift, function(x) x$elbo - x$elbo.df$elbo[1]),
+  n_iter = sapply(all.drift, function(x) max(x$elbo.df$iter)),
+  KL_l = sapply(all.drift, function(x) sum(x$KL_l)),
+  KL_f = sapply(all.drift, function(x) x$KL_f),
+  ResidS2 = sapply(all.drift, function(x) x$resid_s2)
+)
+
+knitr::kable(res.df, digits = 3)
+```
+
 
