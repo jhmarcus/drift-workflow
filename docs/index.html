@@ -343,7 +343,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-10
+<strong>Last updated:</strong> 2020-01-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -374,10 +374,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree885767b5cb27979e0b09da1020a8d413bc30fbe2targetblank885767ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/885767b5cb27979e0b09da1020a8d413bc30fbe2" target="_blank">885767b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b3821116be8a12a3744b194df2054e796e593b3targetblank3b38211a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3b3821116be8a12a3744b194df2054e796e593b3" target="_blank">3b38211</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree885767b5cb27979e0b09da1020a8d413bc30fbe2targetblank885767ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3b3821116be8a12a3744b194df2054e796e593b3targetblank3b38211a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -390,7 +390,11 @@ Ignored files:
     Ignored:    docs/.DS_Store
     Ignored:    docs/assets/.DS_Store
 
+Untracked files:
+    Untracked:  analysis/admix_sim3.Rmd
+
 Unstaged changes:
+    Modified:   analysis/admix_sim2.Rmd
     Modified:   drift-workflow.Rproj
 
 </code></pre>
@@ -430,6 +434,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/3b3821116be8a12a3744b194df2054e796e593b3/analysis/index.Rmd" target="_blank">3b38211</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-14
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/63c9d1610cfe8fd8e74bdde85468121cb8133442/docs/index.html" target="_blank">63c9d16</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1281,6 +1319,7 @@ Start workflowr project.
 <li><a href="simple_2pop_tree_simulation_bimodal.html">Simple 2 population tree simulation</a></li>
 <li><a href="admix_sim1.html">Simple admixture event</a></li>
 <li><a href="admix_sim2.html">Branching + admixture</a></li>
+<li><a href="admix_sim4.html">Branching + admixture: initialization</a></li>
 </ul>
 <hr />
 </div>
