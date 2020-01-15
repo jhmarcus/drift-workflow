@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jason Willwerscheid" />
+
+
+<title>Branching + admixture simulation: effect of initialization</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Branching + admixture simulation: effect of initialization</h1>
+<h4 class="author">Jason Willwerscheid</h4>
+<h4 class="date">1/10/2020</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-01-14
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree5657aa2d2f7b09e752f048394a47e9c215c2a7a1targetblank5657aa2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/5657aa2d2f7b09e752f048394a47e9c215c2a7a1" target="_blank">5657aa2</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree5657aa2d2f7b09e752f048394a47e9c215c2a7a1targetblank5657aa2a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    docs/.DS_Store
+    Ignored:    docs/assets/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/admix_sim3.Rmd
+
+Unstaged changes:
+    Modified:   analysis/admix_sim2.Rmd
+    Modified:   drift-workflow.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/5657aa2d2f7b09e752f048394a47e9c215c2a7a1/analysis/admix_sim4.Rmd" target="_blank">5657aa2</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-14
+</td>
+<td>
+wflow_publish(“analysis/admix_sim4.Rmd”)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+})</code></pre>
+<p>In this admixture simulation, I introduce a branching event. Namely, I allow two populations to drift until time <span class="math inline">\(t\)</span>, at which point the first population diverges into Populations 1 and 2. The three populations then each experience independent drift until time <span class="math inline">\(2t\)</span>, at which point Populations 2 and 4 admix in equal proportions:</p>
+<p><img src="assets/admix_fig2.png" width="400" height="400" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-admix_fig2">
+Past versions of admix_fig2.png
+</button>
+</p>
+<div id="fig-admix_fig2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/898bc42fdb4e1bd5ed520a34a1c80ee9683fb787/docs/assets/admix_fig2.png" target="_blank">898bc42</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The covariance matrix appears as follows:</p>
+<pre class="r"><code>set.seed(666)
+simple.admix &lt;- admix_graph_sim(n_per_pop = 20, p = 1000, 
+                                c1 = 2, c2 = 1, c3 = 0, c4 = 0,
+                                c5 = 1, c6 = 1, c7 = 0,
+                                w = 0.5, sigma_e = sqrt(0.25))
+plot_cov(simple.admix$covmat, as.is = TRUE)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/sim-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div id="flash-initialization-greedy" class="section level2">
+<h2>Flash initialization (greedy)</h2>
+<div id="initial-values" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>fl &lt;- flash(simple.admix$Y, prior.family = c(prior.bimodal(), prior.normal()))</code></pre>
+<pre><code>#&gt; Adding factor 1 to flash object...
+#&gt; Adding factor 2 to flash object...
+#&gt; Adding factor 3 to flash object...
+#&gt; Adding factor 4 to flash object...
+#&gt; Adding factor 5 to flash object...
+#&gt; Adding factor 6 to flash object...
+#&gt; Adding factor 7 to flash object...
+#&gt; Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+#&gt; Wrapping up...
+#&gt; Done.
+#&gt; Nullchecking 6 factors...
+#&gt; Done.</code></pre>
+<pre class="r"><code>labs &lt;- rep(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), each = 20)
+plot_loadings(fl$flash.fit$EF[[1]], labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flg1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.flg &lt;- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :      -69255.571 
+#&gt;    2 :      -69170.891 
+#&gt;    3 :      -69165.938 
+#&gt;    4 :      -69161.453 
+#&gt;    5 :      -69158.583 
+#&gt;    6 :      -69155.866 
+#&gt;    7 :      -69152.961 
+#&gt;    8 :      -69149.989 
+#&gt;    9 :      -69147.034 
+#&gt;   10 :      -69144.036 
+#&gt;   11 :      -69140.967 
+#&gt;   12 :      -69137.609 
+#&gt;   13 :      -69133.128 
+#&gt;   14 :      -69126.775 
+#&gt;   15 :      -69119.614 
+#&gt;   16 :      -69113.566 
+#&gt;   17 :      -69108.082 
+#&gt;   18 :      -69102.343 
+#&gt;   19 :      -69094.113 
+#&gt;   20 :      -69079.359 
+#&gt;   21 :      -69062.231 
+#&gt;   22 :      -69046.025 
+#&gt;   23 :      -69040.258 
+#&gt;   24 :      -69036.339 
+#&gt;   25 :      -69032.828 
+#&gt;   26 :      -69029.621 
+#&gt;   27 :      -69026.684 
+#&gt;   28 :      -69023.986 
+#&gt;   29 :      -69021.500 
+#&gt;   30 :      -69019.192 
+#&gt;   31 :      -69017.033 
+#&gt;   32 :      -69014.996 
+#&gt;   33 :      -69013.057 
+#&gt;   34 :      -69011.198 
+#&gt;   35 :      -69009.406 
+#&gt;   36 :      -69007.671 
+#&gt;   37 :      -69005.988 
+#&gt;   38 :      -69004.352 
+#&gt;   39 :      -69002.764 
+#&gt;   40 :      -69001.223 
+#&gt;   41 :      -68999.729 
+#&gt;   42 :      -68998.283 
+#&gt;   43 :      -68996.886 
+#&gt;   44 :      -68995.538 
+#&gt;   45 :      -68994.238 
+#&gt;   46 :      -68992.987 
+#&gt;   47 :      -68991.783 
+#&gt;   48 :      -68990.624 
+#&gt;   49 :      -68989.510 
+#&gt;   50 :      -68988.437 
+#&gt;   51 :      -68987.405 
+#&gt;   52 :      -68986.410 
+#&gt;   53 :      -68985.451 
+#&gt;   54 :      -68984.526 
+#&gt;   55 :      -68983.633 
+#&gt;   56 :      -68982.769 
+#&gt;   57 :      -68981.933 
+#&gt;   58 :      -68981.123 
+#&gt;   59 :      -68980.337 
+#&gt;   60 :      -68979.573 
+#&gt;   61 :      -68978.831 
+#&gt;   62 :      -68978.109 
+#&gt;   63 :      -68977.405 
+#&gt;   64 :      -68976.718 
+#&gt;   65 :      -68976.047 
+#&gt;   66 :      -68975.390 
+#&gt;   67 :      -68974.747 
+#&gt;   68 :      -68974.116 
+#&gt;   69 :      -68973.497 
+#&gt;   70 :      -68972.889 
+#&gt;   71 :      -68972.289 
+#&gt;   72 :      -68971.699 
+#&gt;   73 :      -68971.116 
+#&gt;   74 :      -68970.539 
+#&gt;   75 :      -68969.969 
+#&gt;   76 :      -68969.403 
+#&gt;   77 :      -68968.842 
+#&gt;   78 :      -68968.284 
+#&gt;   79 :      -68967.727 
+#&gt;   80 :      -68967.173 
+#&gt;   81 :      -68966.619 
+#&gt;   82 :      -68966.064 
+#&gt;   83 :      -68965.509 
+#&gt;   84 :      -68964.952 
+#&gt;   85 :      -68964.392 
+#&gt;   86 :      -68963.825 
+#&gt;   87 :      -68963.232 
+#&gt;   88 :      -68962.528 
+#&gt;   89 :      -68961.811 
+#&gt;   90 :      -68961.142 
+#&gt;   91 :      -68960.217 
+#&gt;   92 :      -68958.890 
+#&gt;   93 :      -68957.666 
+#&gt;   94 :      -68956.653 
+#&gt;   95 :      -68955.882 
+#&gt;   96 :      -68955.036 
+#&gt;   97 :      -68954.283 
+#&gt;   98 :      -68953.570 
+#&gt;   99 :      -68952.620 
+#&gt;  100 :      -68951.031 
+#&gt;  101 :      -68949.109 
+#&gt;  102 :      -68946.698 
+#&gt;  103 :      -68944.965 
+#&gt;  104 :      -68943.870 
+#&gt;  105 :      -68942.894 
+#&gt;  106 :      -68941.945 
+#&gt;  107 :      -68941.033 
+#&gt;  108 :      -68940.162 
+#&gt;  109 :      -68939.382 
+#&gt;  110 :      -68938.561 
+#&gt;  111 :      -68937.370 
+#&gt;  112 :      -68936.341 
+#&gt;  113 :      -68935.026 
+#&gt;  114 :      -68933.543 
+#&gt;  115 :      -68931.563 
+#&gt;  116 :      -68928.743 
+#&gt;  117 :      -68922.284 
+#&gt;  118 :      -68916.462 
+#&gt;  119 :      -68914.342 
+#&gt;  120 :      -68912.908 
+#&gt;  121 :      -68911.813 
+#&gt;  122 :      -68911.709 
+#&gt;  123 :      -68911.607 
+#&gt;  124 :      -68911.506 
+#&gt;  125 :      -68911.405 
+#&gt;  126 :      -68911.304 
+#&gt;  127 :      -68911.204 
+#&gt;  128 :      -68911.104 
+#&gt;  129 :      -68911.003 
+#&gt;  130 :      -68910.903 
+#&gt;  131 :      -68910.803 
+#&gt;  132 :      -68910.703 
+#&gt;  133 :      -68910.604 
+#&gt;  134 :      -68910.504 
+#&gt;  135 :      -68910.403 
+#&gt;  136 :      -68910.303 
+#&gt;  137 :      -68910.203 
+#&gt;  138 :      -68910.102 
+#&gt;  139 :      -68910.002 
+#&gt;  140 :      -68909.901 
+#&gt;  141 :      -68909.799 
+#&gt;  142 :      -68909.698 
+#&gt;  143 :      -68909.596 
+#&gt;  144 :      -68909.494 
+#&gt;  145 :      -68909.391 
+#&gt;  146 :      -68909.288 
+#&gt;  147 :      -68909.184 
+#&gt;  148 :      -68909.080 
+#&gt;  149 :      -68908.975 
+#&gt;  150 :      -68908.870 
+#&gt;  151 :      -68908.764 
+#&gt;  152 :      -68908.658 
+#&gt;  153 :      -68908.550 
+#&gt;  154 :      -68908.443 
+#&gt;  155 :      -68908.334 
+#&gt;  156 :      -68908.225 
+#&gt;  157 :      -68908.114 
+#&gt;  158 :      -68908.004 
+#&gt;  159 :      -68907.892 
+#&gt;  160 :      -68907.779 
+#&gt;  161 :      -68907.666 
+#&gt;  162 :      -68907.551 
+#&gt;  163 :      -68907.436 
+#&gt;  164 :      -68907.320 
+#&gt;  165 :      -68907.202 
+#&gt;  166 :      -68907.084 
+#&gt;  167 :      -68906.965 
+#&gt;  168 :      -68906.844 
+#&gt;  169 :      -68906.723 
+#&gt;  170 :      -68906.601 
+#&gt;  171 :      -68906.477 
+#&gt;  172 :      -68906.352 
+#&gt;  173 :      -68906.226 
+#&gt;  174 :      -68906.099 
+#&gt;  175 :      -68905.971 
+#&gt;  176 :      -68905.841 
+#&gt;  177 :      -68905.710 
+#&gt;  178 :      -68905.578 
+#&gt;  179 :      -68905.444 
+#&gt;  180 :      -68905.309 
+#&gt;  181 :      -68905.172 
+#&gt;  182 :      -68905.034 
+#&gt;  183 :      -68904.893 
+#&gt;  184 :      -68904.750 
+#&gt;  185 :      -68904.603 
+#&gt;  186 :      -68904.453 
+#&gt;  187 :      -68904.295 
+#&gt;  188 :      -68904.125 
+#&gt;  189 :      -68903.931 
+#&gt;  190 :      -68903.683 
+#&gt;  191 :      -68903.315 
+#&gt;  192 :      -68902.724 
+#&gt;  193 :      -68901.881 
+#&gt;  194 :      -68900.900 
+#&gt;  195 :      -68899.914 
+#&gt;  196 :      -68899.198 
+#&gt;  197 :      -68898.632 
+#&gt;  198 :      -68898.167 
+#&gt;  199 :      -68897.772 
+#&gt;  200 :      -68897.428 
+#&gt;  201 :      -68897.121 
+#&gt;  202 :      -68896.840 
+#&gt;  203 :      -68896.578 
+#&gt;  204 :      -68896.330 
+#&gt;  205 :      -68896.092 
+#&gt;  206 :      -68895.861 
+#&gt;  207 :      -68895.635 
+#&gt;  208 :      -68895.413 
+#&gt;  209 :      -68895.194 
+#&gt;  210 :      -68894.976 
+#&gt;  211 :      -68894.760 
+#&gt;  212 :      -68894.545 
+#&gt;  213 :      -68894.329 
+#&gt;  214 :      -68894.095 
+#&gt;  215 :      -68893.757 
+#&gt;  216 :      -68893.294 
+#&gt;  217 :      -68892.969 
+#&gt;  218 :      -68892.681 
+#&gt;  219 :      -68892.407 
+#&gt;  220 :      -68892.140 
+#&gt;  221 :      -68891.876 
+#&gt;  222 :      -68891.608 
+#&gt;  223 :      -68891.335 
+#&gt;  224 :      -68891.048 
+#&gt;  225 :      -68890.722 
+#&gt;  226 :      -68890.248 
+#&gt;  227 :      -68889.602 
+#&gt;  228 :      -68889.090 
+#&gt;  229 :      -68888.519 
+#&gt;  230 :      -68887.442 
+#&gt;  231 :      -68886.381 
+#&gt;  232 :      -68885.521 
+#&gt;  233 :      -68884.487 
+#&gt;  234 :      -68883.330 
+#&gt;  235 :      -68881.664 
+#&gt;  236 :      -68879.892 
+#&gt;  237 :      -68878.744 
+#&gt;  238 :      -68877.731 
+#&gt;  239 :      -68876.410 
+#&gt;  240 :      -68875.313 
+#&gt;  241 :      -68874.614 
+#&gt;  242 :      -68874.168 
+#&gt;  243 :      -68873.768 
+#&gt;  244 :      -68873.325 
+#&gt;  245 :      -68872.879 
+#&gt;  246 :      -68872.431 
+#&gt;  247 :      -68872.236 
+#&gt;  248 :      -68872.135 
+#&gt;  249 :      -68872.068 
+#&gt;  250 :      -68872.018 
+#&gt;  251 :      -68871.975 
+#&gt;  252 :      -68871.937 
+#&gt;  253 :      -68871.899 
+#&gt;  254 :      -68871.858 
+#&gt;  255 :      -68871.812 
+#&gt;  256 :      -68871.756 
+#&gt;  257 :      -68871.682 
+#&gt;  258 :      -68871.589 
+#&gt;  259 :      -68871.485 
+#&gt;  260 :      -68871.395 
+#&gt;  261 :      -68871.337 
+#&gt;  262 :      -68871.302 
+#&gt;  263 :      -68871.280 
+#&gt;  264 :      -68871.262 
+#&gt;  265 :      -68871.246 
+#&gt;  266 :      -68871.232 
+#&gt;  267 :      -68871.219 
+#&gt;  268 :      -68871.207 
+#&gt;  269 :      -68871.195 
+#&gt;  270 :      -68871.184 
+#&gt;  271 :      -68871.173 
+#&gt;  272 :      -68871.163 
+#&gt;  273 :      -68871.153</code></pre>
+<pre class="r"><code>drift.flg[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -68871.15
+#&gt; 
+#&gt; $KL_l
+#&gt; [1] -87.69229 -45.12987 -45.12987 -55.86939 -45.12987 -46.08242
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -10881.27</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.flg$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.flg$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.flg$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flg2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.flg$EL * rep(sqrt(drift.flg$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flg2-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="flash-initialization-backfit" class="section level2">
+<h2>Flash initialization (backfit)</h2>
+<div id="initial-values-1" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>fl &lt;- fl %&gt;% flash.backfit() %&gt;% flash.nullcheck(remove = TRUE)</code></pre>
+<pre><code>#&gt; Backfitting 6 factors (tolerance: 1.19e-03)...
+#&gt;   Difference between iterations is within 1.0e+03...
+#&gt;   Difference between iterations is within 1.0e+02...
+#&gt;   Difference between iterations is within 1.0e+01...
+#&gt;   Difference between iterations is within 1.0e+00...
+#&gt;   Difference between iterations is within 1.0e-01...
+#&gt;   Difference between iterations is within 1.0e-02...
+#&gt;   Difference between iterations is within 1.0e-03...
+#&gt; Wrapping up...
+#&gt; Done.
+#&gt; Nullchecking 6 factors...
+#&gt; Wrapping up...
+#&gt; Done.</code></pre>
+<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flb1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results-1" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.flb &lt;- drift(init_from_flash(fl), miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :      -69044.935 
+#&gt;    2 :      -69044.118 
+#&gt;    3 :      -69043.717 
+#&gt;    4 :      -69043.500 
+#&gt;    5 :      -69043.377 
+#&gt;    6 :      -69043.303 
+#&gt;    7 :      -69043.258 
+#&gt;    8 :      -69043.230 
+#&gt;    9 :      -69043.212 
+#&gt;   10 :      -69043.201 
+#&gt;   11 :      -69043.193</code></pre>
+<pre class="r"><code>drift.flb[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -69043.19
+#&gt; 
+#&gt; $KL_l
+#&gt; [1] -143.76633  -48.17541  -45.12987 -126.59420
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -10903.19</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.flb$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.flb$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.flb$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flb2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.flb$EL * rep(sqrt(drift.flb$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/flb2-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="initialization-from-hclust" class="section level2">
+<h2>Initialization from hclust</h2>
+<div id="initial-values-2" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>init &lt;- init_using_hclust(simple.admix$Y, k = 4)
+plot_loadings(init$EL, labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/hclust1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results-2" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.hclust &lt;- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :      -69614.043 
+#&gt;    2 :      -69249.168 
+#&gt;    3 :      -69140.217 
+#&gt;    4 :      -69065.410 
+#&gt;    5 :      -69010.993 
+#&gt;    6 :      -68971.780 
+#&gt;    7 :      -68943.314 
+#&gt;    8 :      -68922.112 
+#&gt;    9 :      -68905.789 
+#&gt;   10 :      -68892.833 
+#&gt;   11 :      -68882.298 
+#&gt;   12 :      -68873.570 
+#&gt;   13 :      -68866.230 
+#&gt;   14 :      -68859.979 
+#&gt;   15 :      -68854.596 
+#&gt;   16 :      -68849.916 
+#&gt;   17 :      -68845.813 
+#&gt;   18 :      -68842.187 
+#&gt;   19 :      -68838.961 
+#&gt;   20 :      -68836.073 
+#&gt;   21 :      -68833.474 
+#&gt;   22 :      -68831.122 
+#&gt;   23 :      -68828.984 
+#&gt;   24 :      -68827.033 
+#&gt;   25 :      -68825.245 
+#&gt;   26 :      -68823.601 
+#&gt;   27 :      -68822.084 
+#&gt;   28 :      -68820.680 
+#&gt;   29 :      -68819.377 
+#&gt;   30 :      -68818.164 
+#&gt;   31 :      -68817.033 
+#&gt;   32 :      -68815.976 
+#&gt;   33 :      -68814.985 
+#&gt;   34 :      -68814.054 
+#&gt;   35 :      -68813.179 
+#&gt;   36 :      -68812.354 
+#&gt;   37 :      -68811.575 
+#&gt;   38 :      -68810.839 
+#&gt;   39 :      -68810.142 
+#&gt;   40 :      -68818.010</code></pre>
+<pre class="r"><code>drift.hclust[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -68818.01
+#&gt; 
+#&gt; $KL_l
+#&gt; [1]  -8.528778 -45.129874 -46.084319 -45.129874 -45.129874 -45.129874
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -10808.13</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.hclust$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.hclust$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.hclust$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/hclust2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.hclust$EL * rep(sqrt(drift.hclust$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/hclust2-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="initialization-from-true-solution" class="section level2">
+<h2>Initialization from “true” solution</h2>
+<div id="initial-values-3" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>init &lt;- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+init$EL &lt;- cbind(c(rep(1, 40), rep(0.5, 20), rep(0, 20)),
+                 c(rep(1, 20), rep(0, 60)),
+                 c(rep(0, 20), rep(1, 20), rep(0.5, 20), rep(0, 20)),
+                 c(rep(0, 40), rep(0.5, 20), rep(1, 20)))
+init$EL2 &lt;- init$EL^2
+plot_loadings(init$EL, labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/true1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results-3" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.true &lt;- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :     -120089.866 
+#&gt;    2 :     -107227.585 
+#&gt;    3 :      -74748.500 
+#&gt;    4 :      -70284.923 
+#&gt;    5 :      -70235.185 
+#&gt;    6 :      -70220.836 
+#&gt;    7 :      -70207.005 
+#&gt;    8 :      -70194.904 
+#&gt;    9 :      -70182.031 
+#&gt;   10 :      -70170.970 
+#&gt;   11 :      -70162.331 
+#&gt;   12 :      -70154.576 
+#&gt;   13 :      -70147.370 
+#&gt;   14 :      -70140.948 
+#&gt;   15 :      -70135.438 
+#&gt;   16 :      -70130.591 
+#&gt;   17 :      -70125.191 
+#&gt;   18 :      -70120.219 
+#&gt;   19 :      -70115.300 
+#&gt;   20 :      -70109.738 
+#&gt;   21 :      -70103.267 
+#&gt;   22 :      -70094.217 
+#&gt;   23 :      -70085.812 
+#&gt;   24 :      -70079.121 
+#&gt;   25 :      -70072.600 
+#&gt;   26 :      -70065.240 
+#&gt;   27 :      -70056.950 
+#&gt;   28 :      -70052.234 
+#&gt;   29 :      -70048.650 
+#&gt;   30 :      -70045.543 
+#&gt;   31 :      -70042.388 
+#&gt;   32 :      -70038.637 
+#&gt;   33 :      -70034.891 
+#&gt;   34 :      -70031.351 
+#&gt;   35 :      -70027.434 
+#&gt;   36 :      -70023.375 
+#&gt;   37 :      -70019.566 
+#&gt;   38 :      -70016.012 
+#&gt;   39 :      -70012.630 
+#&gt;   40 :      -70008.768 
+#&gt;   41 :      -70005.143 
+#&gt;   42 :      -70001.749 
+#&gt;   43 :      -69998.601 
+#&gt;   44 :      -69995.641 
+#&gt;   45 :      -69992.502 
+#&gt;   46 :      -69989.250 
+#&gt;   47 :      -69986.180 
+#&gt;   48 :      -69983.303 
+#&gt;   49 :      -69980.624 
+#&gt;   50 :      -69978.146 
+#&gt;   51 :      -69975.864 
+#&gt;   52 :      -69973.772 
+#&gt;   53 :      -69971.864 
+#&gt;   54 :      -69970.136 
+#&gt;   55 :      -69968.546 
+#&gt;   56 :      -69967.014 
+#&gt;   57 :      -69965.442 
+#&gt;   58 :      -69963.759 
+#&gt;   59 :      -69961.932 
+#&gt;   60 :      -69960.049 
+#&gt;   61 :      -69957.845 
+#&gt;   62 :      -69955.193 
+#&gt;   63 :      -69952.634 
+#&gt;   64 :      -69950.147 
+#&gt;   65 :      -69947.735 
+#&gt;   66 :      -69945.403 
+#&gt;   67 :      -69943.157 
+#&gt;   68 :      -69941.003 
+#&gt;   69 :      -69938.951 
+#&gt;   70 :      -69937.010 
+#&gt;   71 :      -69935.191 
+#&gt;   72 :      -69933.502 
+#&gt;   73 :      -69931.953 
+#&gt;   74 :      -69930.548 
+#&gt;   75 :      -69929.289 
+#&gt;   76 :      -69928.172 
+#&gt;   77 :      -69927.101 
+#&gt;   78 :      -69925.930 
+#&gt;   79 :      -69924.679 
+#&gt;   80 :      -69923.518 
+#&gt;   81 :      -69922.440 
+#&gt;   82 :      -69921.441 
+#&gt;   83 :      -69920.512 
+#&gt;   84 :      -69919.648 
+#&gt;   85 :      -69918.841 
+#&gt;   86 :      -69918.088 
+#&gt;   87 :      -69917.333 
+#&gt;   88 :      -69916.149 
+#&gt;   89 :      -69914.970 
+#&gt;   90 :      -69913.764 
+#&gt;   91 :      -69912.670 
+#&gt;   92 :      -69911.665 
+#&gt;   93 :      -69910.733 
+#&gt;   94 :      -69909.855 
+#&gt;   95 :      -69908.990 
+#&gt;   96 :      -69908.074 
+#&gt;   97 :      -69907.082 
+#&gt;   98 :      -69905.946 
+#&gt;   99 :      -69904.725 
+#&gt;  100 :      -69903.529 
+#&gt;  101 :      -69902.358 
+#&gt;  102 :      -69901.214 
+#&gt;  103 :      -69900.098 
+#&gt;  104 :      -69899.012 
+#&gt;  105 :      -69897.960 
+#&gt;  106 :      -69896.946 
+#&gt;  107 :      -69895.972 
+#&gt;  108 :      -69895.044 
+#&gt;  109 :      -69894.166 
+#&gt;  110 :      -69893.343 
+#&gt;  111 :      -69892.578 
+#&gt;  112 :      -69891.875 
+#&gt;  113 :      -69891.237 
+#&gt;  114 :      -69890.663 
+#&gt;  115 :      -69890.153 
+#&gt;  116 :      -69889.705 
+#&gt;  117 :      -69889.316 
+#&gt;  118 :      -69888.947 
+#&gt;  119 :      -69888.516 
+#&gt;  120 :      -69887.965 
+#&gt;  121 :      -69887.394 
+#&gt;  122 :      -69886.846 
+#&gt;  123 :      -69886.318 
+#&gt;  124 :      -69885.810 
+#&gt;  125 :      -69885.321 
+#&gt;  126 :      -69884.850 
+#&gt;  127 :      -69884.396 
+#&gt;  128 :      -69883.961 
+#&gt;  129 :      -69883.545 
+#&gt;  130 :      -69883.148 
+#&gt;  131 :      -69882.770 
+#&gt;  132 :      -69882.414 
+#&gt;  133 :      -69882.079 
+#&gt;  134 :      -69881.768 
+#&gt;  135 :      -69881.480 
+#&gt;  136 :      -69881.216 
+#&gt;  137 :      -69880.976 
+#&gt;  138 :      -69880.760 
+#&gt;  139 :      -69880.566 
+#&gt;  140 :      -69880.394 
+#&gt;  141 :      -69880.241 
+#&gt;  142 :      -69880.105 
+#&gt;  143 :      -69879.983 
+#&gt;  144 :      -69879.874 
+#&gt;  145 :      -69879.775 
+#&gt;  146 :      -69879.685 
+#&gt;  147 :      -69879.600 
+#&gt;  148 :      -69879.522 
+#&gt;  149 :      -69879.447 
+#&gt;  150 :      -69879.375 
+#&gt;  151 :      -69879.306 
+#&gt;  152 :      -69879.240 
+#&gt;  153 :      -69879.175 
+#&gt;  154 :      -69879.111 
+#&gt;  155 :      -69879.049 
+#&gt;  156 :      -69878.988 
+#&gt;  157 :      -69878.927 
+#&gt;  158 :      -69878.868 
+#&gt;  159 :      -69878.805 
+#&gt;  160 :      -69878.548 
+#&gt;  161 :      -69878.093 
+#&gt;  162 :      -69877.773 
+#&gt;  163 :      -69877.528 
+#&gt;  164 :      -69877.334 
+#&gt;  165 :      -69877.174 
+#&gt;  166 :      -69877.039 
+#&gt;  167 :      -69876.923 
+#&gt;  168 :      -69876.821 
+#&gt;  169 :      -69876.731 
+#&gt;  170 :      -69876.650 
+#&gt;  171 :      -69876.577 
+#&gt;  172 :      -69876.509 
+#&gt;  173 :      -69876.447 
+#&gt;  174 :      -69876.389 
+#&gt;  175 :      -69876.335 
+#&gt;  176 :      -69876.284 
+#&gt;  177 :      -69876.236 
+#&gt;  178 :      -69876.190 
+#&gt;  179 :      -69876.147 
+#&gt;  180 :      -69876.105 
+#&gt;  181 :      -69876.066 
+#&gt;  182 :      -69876.027 
+#&gt;  183 :      -69875.991 
+#&gt;  184 :      -69875.955 
+#&gt;  185 :      -69875.921 
+#&gt;  186 :      -69875.888 
+#&gt;  187 :      -69875.855 
+#&gt;  188 :      -69875.824 
+#&gt;  189 :      -69875.794 
+#&gt;  190 :      -69875.764 
+#&gt;  191 :      -69875.735 
+#&gt;  192 :      -69875.707 
+#&gt;  193 :      -69875.680 
+#&gt;  194 :      -69875.653 
+#&gt;  195 :      -69875.627 
+#&gt;  196 :      -69875.601 
+#&gt;  197 :      -69875.576 
+#&gt;  198 :      -69875.552 
+#&gt;  199 :      -69875.528 
+#&gt;  200 :      -69875.504 
+#&gt;  201 :      -69875.481 
+#&gt;  202 :      -69875.459 
+#&gt;  203 :      -69875.437 
+#&gt;  204 :      -69875.415 
+#&gt;  205 :      -69875.394 
+#&gt;  206 :      -69875.373 
+#&gt;  207 :      -69875.352 
+#&gt;  208 :      -69875.332 
+#&gt;  209 :      -69875.312 
+#&gt;  210 :      -69875.293 
+#&gt;  211 :      -69875.274 
+#&gt;  212 :      -69875.255 
+#&gt;  213 :      -69875.237 
+#&gt;  214 :      -69875.219 
+#&gt;  215 :      -69875.201 
+#&gt;  216 :      -69875.184 
+#&gt;  217 :      -69875.167 
+#&gt;  218 :      -69875.150 
+#&gt;  219 :      -69875.134 
+#&gt;  220 :      -69875.118 
+#&gt;  221 :      -69875.102 
+#&gt;  222 :      -69875.086 
+#&gt;  223 :      -69875.071 
+#&gt;  224 :      -69875.056 
+#&gt;  225 :      -69875.041 
+#&gt;  226 :      -69875.027 
+#&gt;  227 :      -69875.013 
+#&gt;  228 :      -69874.999 
+#&gt;  229 :      -69874.985 
+#&gt;  230 :      -69874.971 
+#&gt;  231 :      -69874.958 
+#&gt;  232 :      -69874.945 
+#&gt;  233 :      -69874.932 
+#&gt;  234 :      -69874.920 
+#&gt;  235 :      -69874.907 
+#&gt;  236 :      -69874.895 
+#&gt;  237 :      -69874.883 
+#&gt;  238 :      -69874.872 
+#&gt;  239 :      -69874.860 
+#&gt;  240 :      -69874.849 
+#&gt;  241 :      -69874.838 
+#&gt;  242 :      -69874.827 
+#&gt;  243 :      -69874.816 
+#&gt;  244 :      -69874.806 
+#&gt;  245 :      -69874.795 
+#&gt;  246 :      -69874.785 
+#&gt;  247 :      -69874.775</code></pre>
+<pre class="r"><code>drift.true[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -69874.78
+#&gt; 
+#&gt; $KL_l
+#&gt; [1] -142.1662 -137.4696 -216.2628 -137.0322
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -11458.87</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.true$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.true$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.true$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/true2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.true$EL * rep(sqrt(drift.true$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/true2-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="random-initialization" class="section level2">
+<h2>Random initialization</h2>
+<div id="initial-values-4" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>init &lt;- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+init$EL &lt;- matrix(rnorm(80 * 4), ncol = 4)
+init$EL2 &lt;- init$EL^2
+plot_loadings(init$EL, labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/rand1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results-4" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.rand &lt;- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :     -158650.057 
+#&gt;    2 :     -145851.394 
+#&gt;    3 :     -136311.087 
+#&gt;    4 :     -124343.894 
+#&gt;    5 :     -120284.115 
+#&gt;    6 :     -119137.777 
+#&gt;    7 :     -116876.427 
+#&gt;    8 :     -110202.942 
+#&gt;    9 :      -75627.246 
+#&gt;   10 :      -70045.489 
+#&gt;   11 :      -69995.527 
+#&gt;   12 :      -69992.564 
+#&gt;   13 :      -69989.827 
+#&gt;   14 :      -69987.146 
+#&gt;   15 :      -69984.527 
+#&gt;   16 :      -69981.992 
+#&gt;   17 :      -69979.573 
+#&gt;   18 :      -69977.314 
+#&gt;   19 :      -69975.264 
+#&gt;   20 :      -69973.391 
+#&gt;   21 :      -69971.446 
+#&gt;   22 :      -69968.843 
+#&gt;   23 :      -69966.361 
+#&gt;   24 :      -69963.982 
+#&gt;   25 :      -69961.693 
+#&gt;   26 :      -69959.487 
+#&gt;   27 :      -69957.354 
+#&gt;   28 :      -69955.287 
+#&gt;   29 :      -69953.281 
+#&gt;   30 :      -69951.332 
+#&gt;   31 :      -69949.412 
+#&gt;   32 :      -69947.218 
+#&gt;   33 :      -69944.810 
+#&gt;   34 :      -69942.401 
+#&gt;   35 :      -69940.176 
+#&gt;   36 :      -69938.141 
+#&gt;   37 :      -69936.311 
+#&gt;   38 :      -69934.701 
+#&gt;   39 :      -69933.182 
+#&gt;   40 :      -69931.046 
+#&gt;   41 :      -69928.938 
+#&gt;   42 :      -69926.857 
+#&gt;   43 :      -69924.799 
+#&gt;   44 :      -69922.669 
+#&gt;   45 :      -69920.251 
+#&gt;   46 :      -69917.901 
+#&gt;   47 :      -69915.653 
+#&gt;   48 :      -69913.483 
+#&gt;   49 :      -69911.374 
+#&gt;   50 :      -69909.322 
+#&gt;   51 :      -69907.325 
+#&gt;   52 :      -69905.391 
+#&gt;   53 :      -69903.533 
+#&gt;   54 :      -69901.772 
+#&gt;   55 :      -69900.014 
+#&gt;   56 :      -69898.075 
+#&gt;   57 :      -69896.389 
+#&gt;   58 :      -69894.970 
+#&gt;   59 :      -69893.788 
+#&gt;   60 :      -69892.809 
+#&gt;   61 :      -69891.999 
+#&gt;   62 :      -69891.324 
+#&gt;   63 :      -69890.755 
+#&gt;   64 :      -69890.270 
+#&gt;   65 :      -69889.798 
+#&gt;   66 :      -69889.051 
+#&gt;   67 :      -69888.281 
+#&gt;   68 :      -69887.657 
+#&gt;   69 :      -69887.137 
+#&gt;   70 :      -69886.692 
+#&gt;   71 :      -69886.300 
+#&gt;   72 :      -69885.949 
+#&gt;   73 :      -69885.624 
+#&gt;   74 :      -69885.306 
+#&gt;   75 :      -69884.901 
+#&gt;   76 :      -69884.063 
+#&gt;   77 :      -69883.002 
+#&gt;   78 :      -69881.747 
+#&gt;   79 :      -69880.455 
+#&gt;   80 :      -69879.485 
+#&gt;   81 :      -69878.675 
+#&gt;   82 :      -69877.987 
+#&gt;   83 :      -69877.407 
+#&gt;   84 :      -69876.900 
+#&gt;   85 :      -69876.274 
+#&gt;   86 :      -69875.319 
+#&gt;   87 :      -69874.517 
+#&gt;   88 :      -69873.859 
+#&gt;   89 :      -69873.303 
+#&gt;   90 :      -69872.822 
+#&gt;   91 :      -69872.396 
+#&gt;   92 :      -69872.013 
+#&gt;   93 :      -69871.664 
+#&gt;   94 :      -69871.246 
+#&gt;   95 :      -69870.459 
+#&gt;   96 :      -69869.643 
+#&gt;   97 :      -69868.990 
+#&gt;   98 :      -69868.448 
+#&gt;   99 :      -69867.985 
+#&gt;  100 :      -69867.580 
+#&gt;  101 :      -69867.217 
+#&gt;  102 :      -69866.887 
+#&gt;  103 :      -69866.460 
+#&gt;  104 :      -69865.638 
+#&gt;  105 :      -69864.797 
+#&gt;  106 :      -69864.134 
+#&gt;  107 :      -69863.590 
+#&gt;  108 :      -69863.129 
+#&gt;  109 :      -69862.729 
+#&gt;  110 :      -69862.373 
+#&gt;  111 :      -69870.549</code></pre>
+<pre class="r"><code>drift.rand[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -69870.55
+#&gt; 
+#&gt; $KL_l
+#&gt; [1] -149.1798 -147.0348 -112.3671 -169.2767
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -11509.43</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.rand$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.rand$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.rand$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/rand2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.rand$EL * rep(sqrt(drift.rand$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/rand2-2.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="one-factor-per-population" class="section level2">
+<h2>One factor per population</h2>
+<div id="initial-values-5" class="section level3">
+<h3>Initial values</h3>
+<pre class="r"><code>init &lt;- init_using_hclust(simple.admix$Y, k = 4, as_tree = FALSE)
+plot_loadings(init$EL, labs)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/perpop1-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-results-5" class="section level3">
+<h3>Drift results</h3>
+<pre class="r"><code>drift.perpop &lt;- drift(init, miniter = 2, maxiter = 500, tol = 0.01, verbose = TRUE)</code></pre>
+<pre><code>#&gt;    1 :      -68773.735 
+#&gt;    2 :      -68738.359 
+#&gt;    3 :      -68738.356</code></pre>
+<pre class="r"><code>drift.perpop[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
+<pre><code>#&gt; $elbo
+#&gt; [1] -68738.36
+#&gt; 
+#&gt; $KL_l
+#&gt; [1] -45.12987 -45.12987 -45.13654 -45.12987
+#&gt; 
+#&gt; $KL_f
+#&gt; [1] -10783.22</code></pre>
+<pre class="r"><code>
+lblr &lt;- paste(&quot;s2:&quot;, round(drift.perpop$prior_s2, 2))
+names(lblr) &lt;- 1:length(drift.perpop$prior_s2)
+lblr &lt;- as_labeller(lblr)
+plot_loadings(drift.perpop$EL, labs, lblr)</code></pre>
+<p><img src="figure/admix_sim4.Rmd/perpop2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cov(drift.perpop$EL * rep(sqrt(drift.perpop$prior_s2), each = 80))</code></pre>
+<p><img src="figure/admix_sim4.Rmd/perpop2-2.png" width="480" style="display: block; margin: auto;" /></p>
+<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.5.3 (2019-03-11)
+#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
+#&gt; Running under: macOS Mojave 10.14.6
+#&gt; 
+#&gt; Matrix products: default
+#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+#&gt; 
+#&gt; locale:
+#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.4.0     stringr_1.4.0     dplyr_0.8.0.1    
+#&gt;  [4] purrr_0.3.2       readr_1.3.1       tidyr_0.8.3      
+#&gt;  [7] tibble_2.1.1      tidyverse_1.2.1   reshape2_1.4.3   
+#&gt; [10] ggplot2_3.2.0     drift.alpha_0.0.6 flashier_0.2.2   
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.1        lubridate_1.7.4   lattice_0.20-38  
+#&gt;  [4] assertthat_0.2.1  rprojroot_1.3-2   digest_0.6.18    
+#&gt;  [7] foreach_1.4.4     truncnorm_1.0-8   R6_2.4.0         
+#&gt; [10] cellranger_1.1.0  plyr_1.8.4        backports_1.1.3  
+#&gt; [13] evaluate_0.13     httr_1.4.0        pillar_1.3.1     
+#&gt; [16] rlang_0.4.2       lazyeval_0.2.2    pscl_1.5.2       
+#&gt; [19] readxl_1.3.1      rstudioapi_0.10   ebnm_0.1-24      
+#&gt; [22] whisker_0.3-2     Matrix_1.2-15     rmarkdown_1.12   
+#&gt; [25] labeling_0.3      munsell_0.5.0     mixsqp_0.3-10    
+#&gt; [28] broom_0.5.1       compiler_3.5.3    modelr_0.1.5     
+#&gt; [31] xfun_0.6          pkgconfig_2.0.2   SQUAREM_2017.10-1
+#&gt; [34] htmltools_0.3.6   tidyselect_0.2.5  workflowr_1.2.0  
+#&gt; [37] codetools_0.2-16  crayon_1.3.4      withr_2.1.2      
+#&gt; [40] MASS_7.3-51.1     grid_3.5.3        nlme_3.1-137     
+#&gt; [43] jsonlite_1.6      gtable_0.3.0      git2r_0.25.2     
+#&gt; [46] magrittr_1.5      scales_1.0.0      cli_1.1.0        
+#&gt; [49] stringi_1.4.3     fs_1.2.7          doParallel_1.0.14
+#&gt; [52] xml2_1.2.0        generics_0.0.2    iterators_1.0.10 
+#&gt; [55] tools_3.5.3       glue_1.3.1        hms_0.4.2        
+#&gt; [58] parallel_3.5.3    yaml_2.2.0        colorspace_1.4-1 
+#&gt; [61] ashr_2.2-38       rvest_0.3.4       knitr_1.22       
+#&gt; [64] haven_2.1.1</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
