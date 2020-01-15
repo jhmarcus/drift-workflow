@@ -18,6 +18,7 @@ output:
 * [Simple 2 population tree simulation](simple_2pop_tree_simulation_bimodal.html)
 * [Simple admixture event](admix_sim1.html)
 * [Branching + admixture](admix_sim2.html)
+* [Branching + admixture: initialization](admix_sim4.html)
 
 ---
 
