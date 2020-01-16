@@ -19,6 +19,7 @@ output:
 * [Simple admixture event](admix_sim1.html)
 * [Branching + admixture](admix_sim2.html)
 * [Branching + admixture: initialization](admix_sim4.html)
+* [Branching + admixture: larger p, longer runs](admix_sim5.html)
 
 ---
 
