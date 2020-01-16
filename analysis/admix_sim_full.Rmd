@@ -1,0 +1,95 @@
+---
+title: 'Full admixture graph simulation'
+author: "Jason Willwerscheid"
+date: "1/16/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+})
+```
+
+Time to try out `drift` on the full admixture graph from [Pickrell and Pritchard](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967). To make the problem easier, I set $p$ large and $\sigma_e$ small.
+
+```{r sim}
+set.seed(666)
+simple.admix <- admix_graph_sim(n_per_pop = 20, p = 20000, 
+                                c1 = 1, c2 = 1, c3 = 1, c4 = 1,
+                                c5 = 0.5, c6 = 1, c7 = 0.5,
+                                w = 0.25, sigma_e = sqrt(0.1))
+plot_cov(simple.admix$covmat, as.is = TRUE)
+```
+
+## Flash initialization (greedy)
+
+### Initial values
+
+```{r flg1}
+fl <- flash(simple.admix$Y, prior.family = c(prior.bimodal(), prior.normal()))
+labs <- rep(c("A", "B", "C", "D"), each = 20)
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+### Drift results
+
+```{r flg2}
+drift.flg <- drift(init_from_flash(fl), miniter = 1000, maxiter = 2000, tol = 0.005, verbose = FALSE)
+ggplot(drift.flg$iterations, aes(x = iter, y = elbo)) + geom_line()
+drift.flg[c("elbo", "KL_l", "KL_f")]
+
+plot_loadings(drift.flg$EL, labs,  paste("s2:", round(drift.flg$prior_s2, 2)))
+plot_cov(drift.flg)
+```
+
+## Flash initialization (backfit)
+
+### Initial values
+
+```{r flb1}
+fl <- fl %>% flash.backfit() %>% flash.nullcheck(remove = TRUE)
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+### Drift results
+
+```{r flb2}
+drift.flb <- drift(init_from_flash(fl), miniter = 1000, maxiter = 2000, tol = 0.005, verbose = FALSE)
+ggplot(drift.flb$iterations, aes(x = iter, y = elbo)) + geom_line()
+drift.flb[c("elbo", "KL_l", "KL_f")]
+
+plot_loadings(drift.flb$EL, labs, paste("s2:", round(drift.flb$prior_s2, 2)))
+plot_cov(drift.flb)
+```
+
+## Results summary
+
+```{r summ}
+all.drift <- list(drift.flg, drift.flb)
+
+res.df <- data.frame(
+  Name = c("flash.greedy", "flash.backfit"),
+  InitialELBO = sapply(all.drift, function(x) x$iterations$elbo[1]),
+  FinalELBO = sapply(all.drift, function(x) x$elbo),
+  ELBOdiff = sapply(all.drift, function(x) x$elbo - x$iterations$elbo[1]),
+  n_iter = sapply(all.drift, function(x) max(x$iterations$iter)),
+  KL_l = sapply(all.drift, function(x) sum(x$KL_l)),
+  KL_f = sapply(all.drift, function(x) x$KL_f),
+  ResidS2 = sapply(all.drift, function(x) x$resid_s2)
+)
+
+knitr::kable(res.df, digits = 3)
+```
+
