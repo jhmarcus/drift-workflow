@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3715e43eac8ebb0139b188677262a217d61881cftargetblank3715e43a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3715e43eac8ebb0139b188677262a217d61881cf" target="_blank">3715e43</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree37e81396a27936690a37fbae522f4dbe93a40e29targetblank37e8139a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/37e81396a27936690a37fbae522f4dbe93a40e29" target="_blank">37e8139</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3715e43eac8ebb0139b188677262a217d61881cftargetblank3715e43a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree37e81396a27936690a37fbae522f4dbe93a40e29targetblank37e8139a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -597,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/37e81396a27936690a37fbae522f4dbe93a40e29/analysis/admix_sim_full.Rmd" target="_blank">37e8139</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+<td>
+wflow_publish(“analysis/admix_sim_full.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/admix_sim_full.html" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -774,7 +808,7 @@ Jason Willwerscheid
 </div>
 <div id="drift-results" class="section level3">
 <h3>Drift results</h3>
-<pre class="r"><code>drift.flg &lt;- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
+<pre class="r"><code>drift.flg &lt;- drift(init_from_flash(fl), miniter = 1750, maxiter = 2000, tol = 0.001, verbose = FALSE)
 ggplot(drift.flg$iterations, aes(x = iter, y = elbo)) + geom_line()</code></pre>
 <p><img src="figure/admix_sim_full.Rmd/flg2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
@@ -801,6 +835,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flg2-1.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flg2-1.png" target="_blank">f73773f</a>
 </td>
 <td>
@@ -816,13 +861,13 @@ Jason Willwerscheid
 </div>
 <pre class="r"><code>drift.flg[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
 <pre><code>#&gt; $elbo
-#&gt; [1] -657102.3
+#&gt; [1] -657041.9
 #&gt; 
 #&gt; $KL_l
-#&gt; [1] -194.99049 -166.42909 -139.27110  -76.34685 -171.49738  -45.12987
+#&gt; [1] -154.41924 -166.45078 -139.16191  -65.79745 -171.93078  -45.12987
 #&gt; 
 #&gt; $KL_f
-#&gt; [1] -228502.2</code></pre>
+#&gt; [1] -228345.1</code></pre>
 <pre class="r"><code>
 plot_loadings(drift.flg$EL, labs,  paste(&quot;s2:&quot;, round(drift.flg$prior_s2, 2)))</code></pre>
 <p><img src="figure/admix_sim_full.Rmd/flg2-2.png" width="480" style="display: block; margin: auto;" /></p>
@@ -848,6 +893,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flg2-2.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flg2-2.png" target="_blank">f73773f</a>
@@ -887,6 +943,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flg2-3.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flg2-3.png" target="_blank">f73773f</a>
@@ -939,10 +1006,6 @@ Jason Willwerscheid
 
 #&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
 #&gt; = control, : Optimization failed to converge. Results may be unreliable.
-#&gt; Try increasing maxiter and rerunning.
-
-#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-#&gt; = control, : Optimization failed to converge. Results may be unreliable.
 #&gt; Try increasing maxiter and rerunning.</code></pre>
 <pre><code>#&gt;   Difference between iterations is within 1.0e+02...</code></pre>
 <pre><code>#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
@@ -963,10 +1026,49 @@ Jason Willwerscheid
 
 #&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
 #&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
 #&gt; Try increasing maxiter and rerunning.</code></pre>
-<pre><code>#&gt;   Difference between iterations is within 1.0e+01...
-#&gt;   Difference between iterations is within 1.0e+00...
-#&gt;   Difference between iterations is within 1.0e-01...
+<pre><code>#&gt;   Difference between iterations is within 1.0e+01...</code></pre>
+<pre><code>#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.</code></pre>
+<pre><code>#&gt;   Difference between iterations is within 1.0e+00...
+#&gt;   Difference between iterations is within 1.0e-01...</code></pre>
+<pre><code>#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.
+
+#&gt; Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+#&gt; = control, : Optimization failed to converge. Results may be unreliable.
+#&gt; Try increasing maxiter and rerunning.</code></pre>
+<pre><code>#&gt;   Difference between iterations is within 1.0e-02...
 #&gt; Wrapping up...
 #&gt; Done.
 #&gt; Nullchecking 6 factors...
@@ -998,6 +1100,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flb1-1.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flb1-1.png" target="_blank">f73773f</a>
 </td>
 <td>
@@ -1014,7 +1127,7 @@ Jason Willwerscheid
 </div>
 <div id="drift-results-1" class="section level3">
 <h3>Drift results</h3>
-<pre class="r"><code>drift.flb &lt;- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
+<pre class="r"><code>drift.flb &lt;- drift(init_from_flash(fl), miniter = 750, maxiter = 1000, tol = 0.001, verbose = FALSE)
 ggplot(drift.flb$iterations, aes(x = iter, y = elbo)) + geom_line()</code></pre>
 <p><img src="figure/admix_sim_full.Rmd/flb2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
@@ -1041,6 +1154,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flb2-1.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flb2-1.png" target="_blank">f73773f</a>
 </td>
 <td>
@@ -1056,13 +1180,13 @@ Jason Willwerscheid
 </div>
 <pre class="r"><code>drift.flb[c(&quot;elbo&quot;, &quot;KL_l&quot;, &quot;KL_f&quot;)]</code></pre>
 <pre><code>#&gt; $elbo
-#&gt; [1] -657046.5
+#&gt; [1] -656960.3
 #&gt; 
 #&gt; $KL_l
-#&gt; [1] -306.93512 -207.32384 -112.99372  -45.12987
+#&gt; [1] -254.19492 -164.70741 -105.11501  -45.12987
 #&gt; 
 #&gt; $KL_f
-#&gt; [1] -228394.9</code></pre>
+#&gt; [1] -228419.6</code></pre>
 <pre class="r"><code>
 plot_loadings(drift.flb$EL, labs, paste(&quot;s2:&quot;, round(drift.flb$prior_s2, 2)))</code></pre>
 <p><img src="figure/admix_sim_full.Rmd/flb2-2.png" width="480" style="display: block; margin: auto;" /></p>
@@ -1088,6 +1212,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flb2-2.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flb2-2.png" target="_blank">f73773f</a>
@@ -1127,6 +1262,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e9d8a29a10d6709f3a8a32e5d0fb76ccd972ece7/docs/figure/admix_sim_full.Rmd/flb2-3.png" target="_blank">e9d8a29</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-01-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f73773f0646ff7d0ac9e521881af5982cdf8b10d/docs/figure/admix_sim_full.Rmd/flb2-3.png" target="_blank">f73773f</a>
@@ -1177,21 +1323,21 @@ knitr::kable(res.df, digits = 3)</code></pre>
 <tr class="odd">
 <td align="left">flash.greedy</td>
 <td align="right">-660071.7</td>
-<td align="right">-657102.3</td>
-<td align="right">2969.445</td>
-<td align="right">981</td>
-<td align="right">-793.665</td>
-<td align="right">-228502.2</td>
+<td align="right">-657041.9</td>
+<td align="right">3029.805</td>
+<td align="right">1769</td>
+<td align="right">-742.890</td>
+<td align="right">-228345.1</td>
 <td align="right">0.1</td>
 </tr>
 <tr class="even">
 <td align="left">flash.backfit</td>
-<td align="right">-657837.5</td>
-<td align="right">-657046.5</td>
-<td align="right">791.007</td>
-<td align="right">2000</td>
-<td align="right">-672.383</td>
-<td align="right">-228394.9</td>
+<td align="right">-657762.9</td>
+<td align="right">-656960.3</td>
+<td align="right">802.553</td>
+<td align="right">750</td>
+<td align="right">-569.147</td>
+<td align="right">-228419.6</td>
 <td align="right">0.1</td>
 </tr>
 </tbody>
