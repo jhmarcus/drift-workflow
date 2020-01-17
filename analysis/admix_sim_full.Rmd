@@ -22,7 +22,7 @@ suppressMessages({
 })
 ```
 
-Time to try out `drift` on the full admixture graph from [Pickrell and Pritchard](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967). To make the problem easier, I set $p$ large and $\sigma_e$ small.
+Time to try out `drift` on the full admixture graph from [Pickrell and Pritchard](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1002967) (Figure 1, Example Graph C). To make the problem easier, I set $p$ large and $\sigma_e$ small.
 
 ```{r sim}
 set.seed(666)
@@ -46,7 +46,7 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flg2}
-drift.flg <- drift(init_from_flash(fl), miniter = 1000, maxiter = 2000, tol = 0.005, verbose = FALSE)
+drift.flg <- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
 ggplot(drift.flg$iterations, aes(x = iter, y = elbo)) + geom_line()
 drift.flg[c("elbo", "KL_l", "KL_f")]
 
@@ -66,7 +66,7 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flb2}
-drift.flb <- drift(init_from_flash(fl), miniter = 1000, maxiter = 2000, tol = 0.005, verbose = FALSE)
+drift.flb <- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
 ggplot(drift.flb$iterations, aes(x = iter, y = elbo)) + geom_line()
 drift.flb[c("elbo", "KL_l", "KL_f")]
 
