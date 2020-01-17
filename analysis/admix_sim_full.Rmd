@@ -46,7 +46,7 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flg2}
-drift.flg <- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
+drift.flg <- drift(init_from_flash(fl), miniter = 1750, maxiter = 2000, tol = 0.001, verbose = FALSE)
 ggplot(drift.flg$iterations, aes(x = iter, y = elbo)) + geom_line()
 drift.flg[c("elbo", "KL_l", "KL_f")]
 
@@ -66,7 +66,7 @@ plot_loadings(fl$flash.fit$EF[[1]], labs)
 ### Drift results
 
 ```{r flb2}
-drift.flb <- drift(init_from_flash(fl), miniter = 500, maxiter = 2000, tol = 1e-6, verbose = FALSE)
+drift.flb <- drift(init_from_flash(fl), miniter = 750, maxiter = 1000, tol = 0.001, verbose = FALSE)
 ggplot(drift.flb$iterations, aes(x = iter, y = elbo)) + geom_line()
 drift.flb[c("elbo", "KL_l", "KL_f")]
 
