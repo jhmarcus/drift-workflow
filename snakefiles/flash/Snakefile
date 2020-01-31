@@ -8,15 +8,17 @@ from snakemake.utils import R
 dataset_paths = glob.glob("data/datasets/*")
 rds_greedy = []
 rds_backfit = []
+rds_drift = []
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
-    bed_lst = glob.glob("{}/*.bed".format(dataset_path))
-    if len(bed_lst) > 0:
-
+    if dataset in ["hoa_global", "hoa_weur"]: 
+      bed_lst = glob.glob("{}/*.bed".format(dataset_path))
+      if len(bed_lst) > 0:
         bed_path = bed_lst[0]
         prefix = os.path.basename(bed_path).split(".")[0]
         rds_greedy.append("output/flash_greedy/{}/{}.rds".format(dataset, prefix))
-#        rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
+        rds_backfit.append("output/flash_backfit/{}/{}.rds".format(dataset, prefix))
+        rds_drift.append("output/drift/{}/{}.rds".format(dataset, prefix))
 
 
 rule flash_all:
@@ -24,11 +26,12 @@ rule flash_all:
     """
     input:
         rds_greedy,
-#        rds_backfit
+        rds_backfit,
+        rds_drift
 
 
 rule run_flash_greedy:
-    """Runs greedy non-negative flash 
+    """Runs greedy algorithim 
     """
     input:
         bed = "data/datasets/{dataset}/{prefix}.bed"
@@ -40,21 +43,83 @@ rule run_flash_greedy:
         "output/benchmark/flash_greedy/{dataset}/{prefix}.txt"
     run:
         R("""
-          library(flashier)
           library(tidyverse)
+          library(ebnm)
+          library(flashier)
+          library(drift.alpha)
 
           # read the genotype matrix
-          Y = t(lfa:::read.bed('{params.bed}'))
+          Y <- t(lfa:::read.bed('{params.bed}'))
 
-          # number of individuals
-          n = nrow(Y)
-
-          fl.greedy <- flash.init(Y) %>%
-                       flash.add.greedy(Kmax = 10, 
-                                        prior.family = c(prior.bimodal(), prior.normal()),
-                                        verbose.lvl=2) 
+          # run flash
+          fl <- flash(Y, greedy.Kmax=30, prior.family = c(prior.bimodal(), prior.normal()))
 
           # save the rds
-          saveRDS(flash_fit, '{output.rds}')
+          saveRDS(fl, '{output.rds}')
           """)
 
+
+rule run_flash_backfit:
+    """Runs backfitting algorithim 
+    """
+    input:
+        bed = "data/datasets/{dataset}/{prefix}.bed",
+        rds = "output/flash_greedy/{dataset}/{prefix}.rds"
+    params:
+        bed = "data/datasets/{dataset}/{prefix}"
+    output:
+        rds = "output/flash_backfit/{dataset}/{prefix}.rds"
+    benchmark:
+        "output/benchmark/flash_backfit/{dataset}/{prefix}.txt"
+    run:
+        R("""
+          library(tidyverse)
+          library(ebnm)
+          library(flashier)
+          library(drift.alpha)
+
+          # read the genotype matrix
+          Y <- t(lfa:::read.bed('{params.bed}'))
+
+          greedy_flash_fit = readRDS('{input.rds}')
+          fl <- greedy_flash_fit %>% 
+                flash.backfit() %>% 
+                flash.nullcheck(remove=TRUE)
+
+          # save the rds
+          saveRDS(fl, '{output.rds}')
+          """)
+
+
+rule run_drift:
+    """Runs drift algorithim 
+    """
+    input:
+        bed = "data/datasets/{dataset}/{prefix}.bed",
+        rds = "output/flash_greedy/{dataset}/{prefix}.rds"
+    params:
+        bed = "data/datasets/{dataset}/{prefix}"
+    output:
+        rds = "output/drift/{dataset}/{prefix}.rds"
+    benchmark:
+        "output/benchmark/drift/{dataset}/{prefix}.txt"
+    run:
+        R("""
+          library(tidyverse)
+          library(ebnm)
+          library(flashier)
+          library(drift.alpha)
+
+          # read the genotype matrix
+          Y <- t(lfa:::read.bed('{params.bed}'))
+
+          # read greedy flash object
+          greedy_flash_fit = readRDS('{input.rds}')
+
+          # run drift
+          fl <- drift(init_from_flash(greedy_flash_fit), miniter=1000, 
+                      maxiter=2000, tol = 0.001, verbose=TRUE)
+
+          # save the rds
+          saveRDS(fl, '{output.rds}')
+          """)

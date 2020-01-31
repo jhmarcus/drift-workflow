@@ -13,7 +13,7 @@
 	"run_flash_greedy":
 	{
 	    "time" : "36:00:00",
-        "mem" : "40G",
+        "mem" : "35G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",
@@ -35,7 +35,18 @@
 	"run_flash_backfit":
 	{
 	    "time" : "36:00:00",
-        "mem" : "50G",
+        "mem" : "35G",
+        "n" : 1,
+        "tasks" : 1,
+        "name" : "{rule}-{wildcards}",
+        "logfile": "output/log/snake-{rule}-{wildcards}-%j.out",
+        "email": "jhmarcus@uchicago.edu",
+        "emailtype": "ALL"
+    },
+	"run_drift":
+	{
+	    "time" : "36:00:00",
+        "mem" : "35G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",
