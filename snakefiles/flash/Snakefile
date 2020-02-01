@@ -3,7 +3,6 @@ import glob
 import os
 from snakemake.utils import R
 
-
 # setup the output files 
 dataset_paths = glob.glob("data/datasets/*")
 rds_greedy = []
@@ -52,7 +51,7 @@ rule run_flash_greedy:
           Y <- t(lfa:::read.bed('{params.bed}'))
 
           # run flash
-          fl <- flash(Y, greedy.Kmax=30, prior.family = c(prior.bimodal(), prior.normal()))
+          fl <- flash(Y, greedy.Kmax=20, prior.family = c(prior.bimodal(), prior.normal()))
 
           # save the rds
           saveRDS(fl, '{output.rds}')
@@ -63,10 +62,7 @@ rule run_flash_backfit:
     """Runs backfitting algorithim 
     """
     input:
-        bed = "data/datasets/{dataset}/{prefix}.bed",
         rds = "output/flash_greedy/{dataset}/{prefix}.rds"
-    params:
-        bed = "data/datasets/{dataset}/{prefix}"
     output:
         rds = "output/flash_backfit/{dataset}/{prefix}.rds"
     benchmark:
@@ -77,9 +73,6 @@ rule run_flash_backfit:
           library(ebnm)
           library(flashier)
           library(drift.alpha)
-
-          # read the genotype matrix
-          Y <- t(lfa:::read.bed('{params.bed}'))
 
           greedy_flash_fit = readRDS('{input.rds}')
           fl <- greedy_flash_fit %>% 
@@ -95,10 +88,7 @@ rule run_drift:
     """Runs drift algorithim 
     """
     input:
-        bed = "data/datasets/{dataset}/{prefix}.bed",
         rds = "output/flash_greedy/{dataset}/{prefix}.rds"
-    params:
-        bed = "data/datasets/{dataset}/{prefix}"
     output:
         rds = "output/drift/{dataset}/{prefix}.rds"
     benchmark:
@@ -110,15 +100,12 @@ rule run_drift:
           library(flashier)
           library(drift.alpha)
 
-          # read the genotype matrix
-          Y <- t(lfa:::read.bed('{params.bed}'))
-
           # read greedy flash object
           greedy_flash_fit = readRDS('{input.rds}')
 
           # run drift
-          fl <- drift(init_from_flash(greedy_flash_fit), miniter=1000, 
-                      maxiter=2000, tol = 0.001, verbose=TRUE)
+          fl <- drift(init_from_flash(greedy_flash_fit), miniter=500, 
+                      maxiter=5000, tol=0.001, verbose=TRUE)
 
           # save the rds
           saveRDS(fl, '{output.rds}')
