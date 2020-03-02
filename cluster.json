@@ -34,7 +34,7 @@
     },
 	"run_flash_backfit":
 	{
-	    "time" : "36:00:00",
+	    "time" : "48:00:00",
         "mem" : "40G",
         "n" : 1,
         "tasks" : 1,
@@ -45,8 +45,8 @@
     },
 	"run_drift":
 	{
-	    "time" : "36:00:00",
-        "mem" : "35G",
+	    "time" : "48:00:00",
+        "mem" : "40G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",

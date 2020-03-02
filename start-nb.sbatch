@@ -11,7 +11,7 @@
 #SBATCH --error=nb-log-%J.err
 
 # activate the conda env 
-conda activate drift_e
+conda activate drift_env
 
 ip=$(/sbin/ip route get 8.8.8.8 | awk '{print $NF;exit}')
 port=$((10000+ $RANDOM % 20000))
