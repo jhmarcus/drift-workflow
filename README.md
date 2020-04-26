@@ -7,12 +7,22 @@ A workflow for visualizing population structure with empirical Bayes factor anal
 
 ## Setup
 
+Add `R` info to `.bashrc`:
+
 ```
-conda create -n=drift_env python=3
-conda activate drift_env
-conda install -c conda-forge openblas numpy pandas scipy snakemake rpy2 matplotlib cython seaborn stdpopsim
-conda install -c bioconda cyvcf2 pysam
-conda install jupyter jupyterlab
+module load R/3.5.1
+export R_HOME=/software/R-3.5.1-el7-x86_64/lib64/R # this is needed for installing rpy2
+```
+
+Setup conda env:
+
+```
+# setup env
+conda create -n=drift python=3 jupyter jupyterlab rstudio numpy pandas scipy matplotlib stdpopsim jupyter-rsession-proxy rpy2
+pip install snakemake
+
+# for some reason pip was not exported at the time so installed using this path
+# /project2/jnovembre/jhmarcus/src/miniconda3/envs/drift/bin/pip install snakemake
 ```
 
 In `R` session:

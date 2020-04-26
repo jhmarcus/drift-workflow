@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source activate drift_e
+source activate drift
 
 snakemake \
     -kp \

@@ -19,3 +19,4 @@ output.tar.gz
 
 src/
 .ipynb_checkpoints/
+nb-log-*
