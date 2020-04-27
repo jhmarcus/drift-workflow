@@ -1,7 +1,9 @@
 #!python
 import glob
 import os
-from snakemake.utils import R
+
+# global variables
+RSCRIPT_PATH = "/software/R-3.5.1-el7-x86_64/lib64/R/bin/Rscript "
 
 # setup the output files 
 dataset_paths = glob.glob("data/datasets/*")
@@ -41,21 +43,7 @@ rule run_flash_greedy:
     benchmark:
         "output/benchmark/flash_greedy/{dataset}/{prefix}.txt"
     run:
-        R("""
-          library(tidyverse)
-          library(ebnm)
-          library(flashier)
-          library(drift.alpha)
-
-          # read the genotype matrix
-          Y <- t(lfa:::read.bed('{params.bed}'))
-
-          # run flash
-          fl <- flash(Y, greedy.Kmax=20, prior.family = c(prior.bimodal(), prior.normal()))
-
-          # save the rds
-          saveRDS(fl, '{output.rds}')
-          """)
+      shell(RSCRIPT_PATH + "--vanilla code/run_flash_greedy.R {params.bed} {output.rds}")
 
 
 rule run_flash_backfit:
@@ -68,20 +56,7 @@ rule run_flash_backfit:
     benchmark:
         "output/benchmark/flash_backfit/{dataset}/{prefix}.txt"
     run:
-        R("""
-          library(tidyverse)
-          library(ebnm)
-          library(flashier)
-          library(drift.alpha)
-
-          greedy_flash_fit = readRDS('{input.rds}')
-          fl <- greedy_flash_fit %>% 
-                flash.backfit() %>% 
-                flash.nullcheck(remove=TRUE)
-
-          # save the rds
-          saveRDS(fl, '{output.rds}')
-          """)
+      shell(RSCRIPT_PATH + "--vanilla code/run_flash_backfit.R {input.rds} {output.rds}")
 
 
 rule run_drift:
@@ -94,19 +69,4 @@ rule run_drift:
     benchmark:
         "output/benchmark/drift/{dataset}/{prefix}.txt"
     run:
-        R("""
-          library(tidyverse)
-          library(ebnm)
-          library(flashier)
-          library(drift.alpha)
-
-          # read greedy flash object
-          greedy_flash_fit = readRDS('{input.rds}')
-
-          # run drift
-          fl <- drift(init_from_flash(greedy_flash_fit), miniter=500, 
-                      maxiter=3500, tol=0.001, verbose=TRUE)
-
-          # save the rds
-          saveRDS(fl, '{output.rds}')
-          """)
+      shell(RSCRIPT_PATH + "--vanilla code/run_flash_drift.R {input.rds} {output.rds}")

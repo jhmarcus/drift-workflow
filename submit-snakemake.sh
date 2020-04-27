@@ -1,8 +1,9 @@
 #!/bin/bash
 
 source activate drift
+SNK_PATH=/project2/jnovembre/jhmarcus/src/miniconda3/envs/drift/bin/snakemake
 
-snakemake \
+$SNK_PATH \
     -kp \
     --ri \
     -j 65 \

@@ -1,0 +1,73 @@
+---
+title: "OutOfAfrica_3G09"
+author: "Joseph Marcus"
+date: "2020-04-26"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+})
+```
+
+# Read the simulation data
+
+```{r}
+Y <- t(lfa::read.bed("../output/simulations/AmericanAdmixture_4B11/rep0_maf_ldprune"))
+Z <- scale(Y)
+n <- nrow(Y)
+p <- ncol(Y)
+
+# sub-population labels from stdpop
+labs <- rep(c("AFR", "EUR", "ASIA", "ADMIX"), each=20)
+```
+
+# Run PCA
+
+```{r}
+svd_res <- lfa:::trunc.svd(Y, 4)
+L_hat <- svd_res$u
+plot_loadings(L_hat, labs)
+```
+
+# Run greedy flash
+
+```{r}
+fl_greedy_res <- flash(Y, 
+                       greedy.Kmax=8, 
+                       prior.family=c(prior.bimodal(grid_size=20), prior.normal()))
+```
+
+## Plot the loadings 
+
+```{r}
+plot_loadings(fl_greedy_res$flash.fit$EF[[1]], labs)
+```
+
+# Run drift
+
+With greedy intialization:
+
+```{r}
+drift_greedy_res <- drift(init_from_flash(fl_greedy_res), 
+                          miniter = 2, 
+                          maxiter = 200, 
+                          tol = 0.01, 
+                          verbose = TRUE)
+```
+
+## Plot the loadings 
+
+```{r}
+plot_loadings(drift_greedy_res$EL, labs)
+```

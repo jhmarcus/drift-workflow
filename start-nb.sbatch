@@ -10,12 +10,10 @@
 #SBATCH --output=nb-log-%J.out
 #SBATCH --error=nb-log-%J.err
 
-# activate the conda env 
-conda init bash
-conda activate drift
+JUPYTER_PATH=/project2/jnovembre/jhmarcus/src/miniconda3/envs/drift/bin/jupyter
 
 ip=$(/sbin/ip route get 8.8.8.8 | awk '{print $NF;exit}')
 port=$((10000+ $RANDOM % 20000))
 
 echo "http://"$ip":"$port"/"
-jupyter notebook --no-browser --ip=$ip --port=$port --log-level='ERROR'
+$JUPYTER_PATH notebook --no-browser --ip=$ip --port=$port --log-level='ERROR'

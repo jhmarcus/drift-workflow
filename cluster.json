@@ -12,8 +12,8 @@
     },
 	"run_flash_greedy":
 	{
-	    "time" : "36:00:00",
-        "mem" : "35G",
+	    "time" : "48:00:00",
+        "mem" : "40G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",
