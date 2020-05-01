@@ -1,0 +1,168 @@
+---
+title: "hoa_global_backfit_bimodal"
+author: "Joseph Marcus"
+date: "2020-04-30"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Lets import some needed packages:
+
+```{r imports, warning=FALSE, message=FALSE}
+#setwd("/project2/mstephens/jhmarcus/drift-workflow/analysis/")
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(knitr)
+source("../code/viz.R")
+```
+
+# Data 
+
+Lets first read the greedy `flashier` fit
+
+```{r flash-greedy}
+# read the flash fit output by snakemake
+fl = readRDS("../output/flash_backfit/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02_K12.rds")
+
+EL <- fl$flash.fit$EF[[1]]
+K <- ncol(EL)
+n <- nrow(EL)
+print(K)
+print(n)
+```
+
+```{r}
+# read the meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(EL)
+colnames(l_df) = 1:K
+inds = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
+                  header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df = l_df %>% inner_join(meta_df, by="ID")
+K = ncol(l_df)
+
+# all unique pop labels
+pops = unique(l_df$Simple.Population.ID) 
+
+# join with the meta data
+l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
+l_df$ID = factor(l_df$ID, levels=l_df$ID) # make sure the ids are sorted
+
+head(l_df)
+```
+
+```{r}
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %>% 
+            filter(K %in% paste0(2:12))
+
+# Africa
+africa_pops = get_pops(meta_df, "Africa")
+p_africa = structure_plot(gath_df=l_gath_df %>% 
+                                   filter(Region == "Africa"), 
+                                   colset="Set3",
+                                   fact_type="nonnegative",
+                                   facet_levels=africa_pops,
+                                   facet_grp="Simple.Population.ID", 
+                                   label_size=4) +
+           ggtitle("Africa") + 
+           theme(plot.title = element_text(size=6))
+p_africa + ggsave("../plots/africa-backfit.pdf", width=8.5, height=2)
+
+# America
+america_pops = get_pops(meta_df, "America")
+p_america = structure_plot(gath_df=l_gath_df %>% 
+                                    filter(Region == "America"), 
+                                    colset="Set3",
+                                    fact_type="nonnegative",
+                                    facet_levels=america_pops,
+                                    facet_grp="Simple.Population.ID", 
+                                    label_size=4) + 
+            ggtitle("America") + 
+            theme(plot.title = element_text(size=6))
+p_america + ggsave("../plots/americas-backfit.pdf", width=8.5, height=2)
+
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, "WestEurasia")
+p_west_eurasia = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "WestEurasia"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("WestEurasia") + 
+                 theme(plot.title = element_text(size=6))
+p_west_eurasia + ggsave("../plots/west_eurasia-backfit.pdf", width=8.5, height=2)
+
+# South Asia
+south_asia_pops = get_pops(meta_df, "SouthAsia")
+p_south_asia = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "SouthAsia"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=south_asia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("SouthAsia") + 
+                 theme(plot.title = element_text(size=6))
+p_south_asia + ggsave("../plots/south_asia-backfit.pdf", width=8.5, height=2)
+
+# East Asia
+east_asia_pops = get_pops(meta_df, "EastAsia")
+p_east_asia = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region=="EastAsia"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=east_asia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("EastAsia") + 
+                 theme(plot.title = element_text(size=6))
+p_east_asia + ggsave("../plots/east_asia-backfit.pdf", width=8.5, height=2)
+
+# Oceania
+oceania_pops = get_pops(meta_df, "Oceania")
+p_oceania = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region=="Oceania"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=oceania_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("Oceania") + 
+                 theme(plot.title = element_text(size=6))
+p_oceania + ggsave("../plots/oceania-backfit.pdf", width=8.5, height=2)
+
+
+central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
+p_central_asia_siberia = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region=="CentralAsiaSiberia"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=central_asia_siberia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("CentralAsiaSiberia") + 
+                 theme(plot.title = element_text(size=6))
+p_central_asia_siberia + ggsave("../plots/central_asia_siberia-backfit.pdf", width=2, height=2)
+```

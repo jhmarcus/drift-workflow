@@ -6,7 +6,7 @@ SNK_PATH=/project2/jnovembre/jhmarcus/src/miniconda3/envs/drift/bin/snakemake
 $SNK_PATH \
     -kp \
     --ri \
-    -j 65 \
+    -j 6 \
     --max-jobs-per-second 5 \
     --cluster-config cluster.json \
     -c "sbatch \

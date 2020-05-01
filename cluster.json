@@ -12,8 +12,8 @@
     },
 	"run_flash_greedy":
 	{
-	    "time" : "48:00:00",
-        "mem" : "40G",
+	    "time" : "10:00:00",
+        "mem" : "30G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",
@@ -35,7 +35,7 @@
 	"run_flash_backfit":
 	{
 	    "time" : "48:00:00",
-        "mem" : "40G",
+        "mem" : "50G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",
@@ -46,7 +46,7 @@
 	"run_drift":
 	{
 	    "time" : "48:00:00",
-        "mem" : "40G",
+        "mem" : "30G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",

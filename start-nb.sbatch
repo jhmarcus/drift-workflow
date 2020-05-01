@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --time=2:00:00
+#SBATCH --time=5:00:00
 #SBATCH --partition=mstephens
 #SBATCH --account=pi-mstephens
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem-per-cpu=4G
+#SBATCH --mem-per-cpu=30G
 #SBATCH --job-name=nb-tunnel
 #SBATCH --output=nb-log-%J.out
 #SBATCH --error=nb-log-%J.err
