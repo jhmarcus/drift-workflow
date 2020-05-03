@@ -13,7 +13,7 @@ rds_backfit = []
 rds_drift = []
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
-    if dataset in ["hoa_global"]: 
+    if dataset in ["hoa_global", "hoa_weur"]: 
       bed_lst = glob.glob("{}/*.bed".format(dataset_path))
       if len(bed_lst) > 0:
         bed_path = bed_lst[0]

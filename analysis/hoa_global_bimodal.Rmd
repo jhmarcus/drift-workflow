@@ -1,12 +1,11 @@
 ---
-title: "hoa_global_backfit_bimodal"
+title: "hoa_global_bimodal"
 author: "Joseph Marcus"
 date: "2020-04-30"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
-
 # Imports
 
 Lets import some needed packages:
@@ -27,12 +26,23 @@ Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy}
 # read the flash fit output by snakemake
-fl = readRDS("../output/flash_backfit/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02_K12.rds")
+method = "drift"
+Kmax = 12
+filetype = ".png"
+rds_path = paste0("../output/", 
+                  method,
+                  "/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02_K", 
+                  Kmax, 
+                  ".rds")
+fl = readRDS(rds_path)
 
-EL <- fl$flash.fit$EF[[1]]
-K <- ncol(EL)
+if(method=="drift"){
+  EL <- fl$EL
+} else {
+  EL <- fl$flash.fit$EF[[1]]
+}
 n <- nrow(EL)
-print(K)
+print(Kmax)
 print(n)
 ```
 
@@ -42,12 +52,11 @@ meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", heade
 
 # setup loadings data.frame
 l_df = as.data.frame(EL)
-colnames(l_df) = 1:K
+colnames(l_df) = paste0(1:Kmax)
 inds = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
                   header=F, stringsAsFactors=F) %>% pull(V2)
 l_df$ID = inds
 l_df = l_df %>% inner_join(meta_df, by="ID")
-K = ncol(l_df)
 
 # all unique pop labels
 pops = unique(l_df$Simple.Population.ID) 
@@ -72,7 +81,7 @@ l_gath_df = l_df %>%
                    -Samples,
                    -Passed.QC,
                    -Contributor) %>% 
-            filter(K %in% paste0(2:12))
+            filter(K %in% paste0(2:Kmax))
 
 # Africa
 africa_pops = get_pops(meta_df, "Africa")
@@ -85,7 +94,7 @@ p_africa = structure_plot(gath_df=l_gath_df %>%
                                    label_size=4) +
            ggtitle("Africa") + 
            theme(plot.title = element_text(size=6))
-p_africa + ggsave("../plots/africa-backfit.pdf", width=8.5, height=2)
+p_africa + ggsave(paste0("../plots/africa_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 # America
 america_pops = get_pops(meta_df, "America")
@@ -98,7 +107,7 @@ p_america = structure_plot(gath_df=l_gath_df %>%
                                     label_size=4) + 
             ggtitle("America") + 
             theme(plot.title = element_text(size=6))
-p_america + ggsave("../plots/americas-backfit.pdf", width=8.5, height=2)
+p_america + ggsave(paste0("../plots/america_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 
 # West Eurasia
@@ -112,7 +121,7 @@ p_west_eurasia = structure_plot(gath_df=l_gath_df %>%
                                          label_size=4) + 
                  ggtitle("WestEurasia") + 
                  theme(plot.title = element_text(size=6))
-p_west_eurasia + ggsave("../plots/west_eurasia-backfit.pdf", width=8.5, height=2)
+p_west_eurasia + ggsave(paste0("../plots/west_eurasia_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 # South Asia
 south_asia_pops = get_pops(meta_df, "SouthAsia")
@@ -125,7 +134,7 @@ p_south_asia = structure_plot(gath_df=l_gath_df %>%
                                          label_size=4) + 
                  ggtitle("SouthAsia") + 
                  theme(plot.title = element_text(size=6))
-p_south_asia + ggsave("../plots/south_asia-backfit.pdf", width=8.5, height=2)
+p_south_asia + ggsave(paste0("../plots/south_asia_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 # East Asia
 east_asia_pops = get_pops(meta_df, "EastAsia")
@@ -138,7 +147,7 @@ p_east_asia = structure_plot(gath_df=l_gath_df %>%
                                          label_size=4) + 
                  ggtitle("EastAsia") + 
                  theme(plot.title = element_text(size=6))
-p_east_asia + ggsave("../plots/east_asia-backfit.pdf", width=8.5, height=2)
+p_east_asia + ggsave(paste0("../plots/east_asia_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 # Oceania
 oceania_pops = get_pops(meta_df, "Oceania")
@@ -151,7 +160,7 @@ p_oceania = structure_plot(gath_df=l_gath_df %>%
                                          label_size=4) + 
                  ggtitle("Oceania") + 
                  theme(plot.title = element_text(size=6))
-p_oceania + ggsave("../plots/oceania-backfit.pdf", width=8.5, height=2)
+p_oceania + ggsave(paste0("../plots/oceania_", method, "-K", Kmax, filetype), width=8.5, height=2)
 
 
 central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
@@ -164,5 +173,5 @@ p_central_asia_siberia = structure_plot(gath_df=l_gath_df %>%
                                          label_size=4) + 
                  ggtitle("CentralAsiaSiberia") + 
                  theme(plot.title = element_text(size=6))
-p_central_asia_siberia + ggsave("../plots/central_asia_siberia-backfit.pdf", width=2, height=2)
+p_central_asia_siberia + ggsave(paste0("../plots/central_asia_siberia_", method, "-K", Kmax, filetype), width=8.5, height=2)
 ```
