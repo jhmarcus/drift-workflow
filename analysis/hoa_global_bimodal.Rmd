@@ -6,6 +6,7 @@ output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
+
 # Imports
 
 Lets import some needed packages:
@@ -17,7 +18,19 @@ library(tidyr)
 library(dplyr)
 library(RColorBrewer)
 library(knitr)
-source("../code/viz.R")
+source("../code/structure_plot.R")
+
+get_pops = function(meta_df, region){
+    
+  pops = meta_df %>% filter(Region==region) %>% 
+         dplyr::select(Region, Simple.Population.ID, Latitude) %>%
+         distinct(Simple.Population.ID, Latitude) %>% 
+         arrange(desc(Latitude)) %>% 
+         pull(Simple.Population.ID)
+    
+    return(pops)
+  
+}
 ```
 
 # Data 
@@ -26,18 +39,19 @@ Lets first read the greedy `flashier` fit
 
 ```{r flash-greedy}
 # read the flash fit output by snakemake
-method = "drift"
-Kmax = 12
-filetype = ".png"
-rds_path = paste0("../output/", 
+method <- "drift"
+Kmax <- 9
+colors <- brewer.pal(n = Kmax-1, name = "Set2")
+filetype <- ".png"
+rds_path <- paste0("../output/", 
                   method,
                   "/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02_K", 
                   Kmax, 
                   ".rds")
-fl = readRDS(rds_path)
+fl <- readRDS(rds_path)
 
 if(method=="drift"){
-  EL <- fl$EL
+  EL <- fl$EL %*% diag(sqrt(fl$prior_s2))
 } else {
   EL <- fl$flash.fit$EF[[1]]
 }
@@ -48,130 +62,133 @@ print(n)
 
 ```{r}
 # read the meta data
-meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
+meta_df <- read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
 
 # setup loadings data.frame
-l_df = as.data.frame(EL)
-colnames(l_df) = paste0(1:Kmax)
-inds = read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
+l_df <- as.data.frame(EL)
+colnames(l_df) <- paste0(1:Kmax)
+inds <- read.table("../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam", 
                   header=F, stringsAsFactors=F) %>% pull(V2)
-l_df$ID = inds
-l_df = l_df %>% inner_join(meta_df, by="ID")
-
+l_df$ID <- inds
+l_df <- l_df %>% inner_join(meta_df, by="ID")
 # all unique pop labels
-pops = unique(l_df$Simple.Population.ID) 
-
+#pops = unique(l_df$Simple.Population.ID) 
 # join with the meta data
-l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
-l_df$ID = factor(l_df$ID, levels=l_df$ID) # make sure the ids are sorted
-
+#l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
+#l_df$ID = factor(l_df$ID, levels=l_df$ID) # make sure the ids are sorted
 head(l_df)
 ```
 
+## Africa
+
 ```{r}
-# gather the data.frame for plotting
-l_gath_df = l_df %>% 
-            gather(K, value, 
-                   -ID,
-                   -Verbose.Population.ID, 
-                   -Simple.Population.ID, 
-                   -Region, -Country,
-                   -Latitude,
-                   -Longitude,
-                   -Samples,
-                   -Passed.QC,
-                   -Contributor) %>% 
-            filter(K %in% paste0(2:Kmax))
+region = "Africa"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
 
-# Africa
-africa_pops = get_pops(meta_df, "Africa")
-p_africa = structure_plot(gath_df=l_gath_df %>% 
-                                   filter(Region == "Africa"), 
-                                   colset="Set3",
-                                   fact_type="nonnegative",
-                                   facet_levels=africa_pops,
-                                   facet_grp="Simple.Population.ID", 
-                                   label_size=4) +
-           ggtitle("Africa") + 
-           theme(plot.title = element_text(size=6))
-p_africa + ggsave(paste0("../plots/africa_", method, "-K", Kmax, filetype), width=8.5, height=2)
+## West Eurasia
 
-# America
-america_pops = get_pops(meta_df, "America")
-p_america = structure_plot(gath_df=l_gath_df %>% 
-                                    filter(Region == "America"), 
-                                    colset="Set3",
-                                    fact_type="nonnegative",
-                                    facet_levels=america_pops,
-                                    facet_grp="Simple.Population.ID", 
-                                    label_size=4) + 
-            ggtitle("America") + 
-            theme(plot.title = element_text(size=6))
-p_america + ggsave(paste0("../plots/america_", method, "-K", Kmax, filetype), width=8.5, height=2)
+```{r}
+region = "WestEurasia"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
 
+## America
 
-# West Eurasia
-west_eurasia_pops = get_pops(meta_df, "WestEurasia")
-p_west_eurasia = structure_plot(gath_df=l_gath_df %>% 
-                                         filter(Region == "WestEurasia"), 
-                                         colset="Set3",
-                                         fact_type="nonnegative",
-                                         facet_levels=west_eurasia_pops, 
-                                         facet_grp="Simple.Population.ID",
-                                         label_size=4) + 
-                 ggtitle("WestEurasia") + 
-                 theme(plot.title = element_text(size=6))
-p_west_eurasia + ggsave(paste0("../plots/west_eurasia_", method, "-K", Kmax, filetype), width=8.5, height=2)
+```{r}
+region = "America"
+colors <- brewer.pal(n = 8, name = "Set2")
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
 
-# South Asia
-south_asia_pops = get_pops(meta_df, "SouthAsia")
-p_south_asia = structure_plot(gath_df=l_gath_df %>% 
-                                         filter(Region == "SouthAsia"), 
-                                         colset="Set3",
-                                         fact_type="nonnegative",
-                                         facet_levels=south_asia_pops, 
-                                         facet_grp="Simple.Population.ID",
-                                         label_size=4) + 
-                 ggtitle("SouthAsia") + 
-                 theme(plot.title = element_text(size=6))
-p_south_asia + ggsave(paste0("../plots/south_asia_", method, "-K", Kmax, filetype), width=8.5, height=2)
+## Central Asia Siberia
 
-# East Asia
-east_asia_pops = get_pops(meta_df, "EastAsia")
-p_east_asia = structure_plot(gath_df=l_gath_df %>% 
-                                         filter(Region=="EastAsia"), 
-                                         colset="Set3",
-                                         fact_type="nonnegative",
-                                         facet_levels=east_asia_pops, 
-                                         facet_grp="Simple.Population.ID",
-                                         label_size=4) + 
-                 ggtitle("EastAsia") + 
-                 theme(plot.title = element_text(size=6))
-p_east_asia + ggsave(paste0("../plots/east_asia_", method, "-K", Kmax, filetype), width=8.5, height=2)
+```{r}
+region = "CentralAsiaSiberia"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
 
-# Oceania
-oceania_pops = get_pops(meta_df, "Oceania")
-p_oceania = structure_plot(gath_df=l_gath_df %>% 
-                                         filter(Region=="Oceania"), 
-                                         colset="Set3",
-                                         fact_type="nonnegative",
-                                         facet_levels=oceania_pops, 
-                                         facet_grp="Simple.Population.ID",
-                                         label_size=4) + 
-                 ggtitle("Oceania") + 
-                 theme(plot.title = element_text(size=6))
-p_oceania + ggsave(paste0("../plots/oceania_", method, "-K", Kmax, filetype), width=8.5, height=2)
+## East Asia
 
+```{r}
+region = "EastAsia"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
 
-central_asia_siberia_pops = get_pops(meta_df, "CentralAsiaSiberia")
-p_central_asia_siberia = structure_plot(gath_df=l_gath_df %>% 
-                                         filter(Region=="CentralAsiaSiberia"), 
-                                         colset="Set3",
-                                         fact_type="nonnegative",
-                                         facet_levels=central_asia_siberia_pops, 
-                                         facet_grp="Simple.Population.ID",
-                                         label_size=4) + 
-                 ggtitle("CentralAsiaSiberia") + 
-                 theme(plot.title = element_text(size=6))
-p_central_asia_siberia + ggsave(paste0("../plots/central_asia_siberia_", method, "-K", Kmax, filetype), width=8.5, height=2)
+## South Asia
+
+```{r}
+region = "SouthAsia"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
+```
+
+## Oceania
+
+```{r}
+region = "Oceania"
+l_pop_df <- l_df %>% filter(Region == region)
+pops = get_pops(meta_df, region)
+labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+label_order <- as.vector(droplevels(pops))
+p <- create_structure_plot(l_pop_df[,2:Kmax], 
+                           labels=labels, 
+                           gap=1,
+                           label_order=label_order,
+                           label_font_size=6, 
+                           colors=colors)
+p
 ```

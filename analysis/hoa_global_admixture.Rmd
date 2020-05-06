@@ -14,8 +14,10 @@ Lets import some needed packages:
 ```{r imports, warning=FALSE, message=FALSE}
 #setwd("/project2/mstephens/jhmarcus/drift-workflow/analysis/")
 library(ggplot2)
+library(Rtsne)
 library(tidyr)
 library(dplyr)
+library(cowplot)
 library(RColorBrewer)
 library(knitr)
 source("../code/viz.R")
@@ -24,7 +26,7 @@ source("../code/viz.R")
 # Data 
 
 ```{r flash-greedy}
-K = 8
+K = 4
 rep = 1
 filetype = ".png"
 q_path = paste0("../output/admixture/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.K",

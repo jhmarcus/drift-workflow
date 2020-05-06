@@ -31,7 +31,6 @@ structure_plot = function(gath_df, colset, facet_levels, facet_grp="Simple.Popul
   p = p_init + 
       geom_bar(stat="identity", width=1) +  
       scale_fill_brewer(palette = colset) + 
-      scale_y_continuous(expand=c(0, 0)) +
       scale_x_discrete(expand=c(-1, 0)) +
       facet_grid(. ~ factor(get(facet_grp), levels=facet_levels), scales = "free", space="free", switch="both") + 
       theme_classic() +

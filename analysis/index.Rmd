@@ -26,6 +26,11 @@ Less simple admixture event:
 * [Part II: larger $p$, larger $w$](admix_sim_full2.html)
 * [Part III: larger $n$, smaller $w$](admix_sim_full3.html)
 
+## Explorations
+
+* [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
+* [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
+
 ---
 
 # Deprecated

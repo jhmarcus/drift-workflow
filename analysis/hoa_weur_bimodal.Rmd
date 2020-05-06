@@ -7,9 +7,93 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+# Imports
 
-```{r}
+Lets import some needed packages:
 
+```{r imports, warning=FALSE, message=FALSE}
+#setwd("/project2/mstephens/jhmarcus/drift-workflow/analysis/")
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(knitr)
+source("../code/viz.R")
 ```
 
+# Data 
+
+Lets first read the greedy `flashier` fit
+
+```{r flash}
+# read the flash fit output by snakemake
+method = "flash_greedy"
+Kmax = 3
+filetype = ".png"
+rds_path = paste0("../output/", 
+                  method,
+                  "/hoa_weur/HumanOriginsPublic2068_weur_auto_maf05_geno005_mind02_K", 
+                  Kmax, 
+                  ".rds")
+fl = readRDS(rds_path)
+
+if(method=="drift"){
+  EL <- fl$EL
+} else {
+  EL <- fl$flash.fit$EF[[1]]
+}
+n <- nrow(EL)
+print(Kmax)
+print(n)
+```
+
+```{r}
+# read the meta data
+meta_df = read.table("../data/meta/HumanOriginsPublic2068.meta", sep="\t", header=T)
+
+# setup loadings data.frame
+l_df = as.data.frame(EL)
+colnames(l_df) = paste0(1:Kmax)
+inds = read.table("../data/datasets/hoa_weur/HumanOriginsPublic2068_weur_auto_maf05_geno005_mind02.fam", 
+                  header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df = l_df %>% inner_join(meta_df, by="ID")
+
+# all unique pop labels
+pops = unique(l_df$Simple.Population.ID) 
+
+# join with the meta data
+l_df = l_df %>% arrange(Region, Simple.Population.ID) # sort by region then by population
+l_df$ID = factor(l_df$ID, levels=l_df$ID) # make sure the ids are sorted
+
+head(l_df)
+```
+
+```{r}
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, 
+                   -ID,
+                   -Verbose.Population.ID, 
+                   -Simple.Population.ID, 
+                   -Region, -Country,
+                   -Latitude,
+                   -Longitude,
+                   -Samples,
+                   -Passed.QC,
+                   -Contributor) %>% 
+            filter(K %in% paste0(2:Kmax))
+
+# West Eurasia
+west_eurasia_pops = get_pops(meta_df, "WestEurasia")
+p_west_eurasia = structure_plot(gath_df=l_gath_df %>% 
+                                         filter(Region == "WestEurasia"), 
+                                         colset="Set3",
+                                         fact_type="nonnegative",
+                                         facet_levels=west_eurasia_pops, 
+                                         facet_grp="Simple.Population.ID",
+                                         label_size=4) + 
+                 ggtitle("WestEurasia") + 
+                 theme(plot.title = element_text(size=6))
+p_west_eurasia + ggsave(paste0("../plots/local_west_eurasia_", method, "-K", Kmax, filetype), width=8.5, height=2)
+```

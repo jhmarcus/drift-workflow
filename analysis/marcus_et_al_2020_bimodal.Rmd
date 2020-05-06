@@ -1,0 +1,104 @@
+---
+title: "marcus_et_al_2020_bimodal"
+author: "Joseph Marcus"
+date: "2020-05-03"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Lets import some needed packages:
+
+```{r imports, warning=FALSE, message=FALSE}
+#setwd("/project2/mstephens/jhmarcus/drift-workflow/analysis/")
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(knitr)
+source("../code/viz.R")
+```
+
+# Data 
+
+Lets first read the greedy `flashier` fit
+
+```{r flash}
+# read the flash fit output by snakemake
+method = "drift"
+Kmax = 11
+filetype = ".png"
+rds_path = paste0("../output/", 
+                  method,
+                  "/marcus_et_al_2020/ho_afr_maf5_ldprune_filfamanc_K", 
+                  Kmax, 
+                  ".rds")
+fl = readRDS(rds_path)
+
+if(method=="drift"){
+  EL <- fl$EL
+} else {
+  EL <- fl$flash.fit$EF[[1]]
+}
+n <- nrow(EL)
+print(Kmax)
+print(n)
+```
+
+```{r}
+# read the meta data
+meta_df = read.table("../data/datasets/marcus_et_al_2020/meta_rev_final.csv", sep=",", header=T, stringsAsFactors=F) %>%
+          mutate(ID=full_iid) %>%
+          select(ID, clst) %>%
+          mutate(clst=ifelse(clst %in% c("COR002", "Sar-Med", "Sar-Rom", "Sar-Pun"), 
+                             substr(ID, 1, 3), 
+                             clst)) %>%
+          select(ID, clst)
+
+# setup loadings data.frame
+l_df = as.data.frame(EL)
+colnames(l_df) = paste0(1:Kmax)
+inds = read.table("../data/datasets/marcus_et_al_2020/ho_afr_maf5_ldprune_filfamanc.fam", 
+                  header=F, stringsAsFactors=F) %>% pull(V2)
+l_df$ID = inds
+l_df = l_df %>% inner_join(meta_df, by="ID")
+```
+
+```{r}
+# gather the data.frame for plotting
+l_gath_df = l_df %>% 
+            gather(K, value, -ID, -clst) %>% 
+            filter(K %in% paste0(2:Kmax))
+
+anc_pops <- c("Sar-MN", "Sar-ECA", "Sar-EMBA", "MSR", "VIL", "AMC", "COR", "SNN", "Sar-Nur", 
+              "Iberia-EN", "GB-EN", "France-N", "CE-EN", "Balkans-EN", "Anatolia-N", 
+              "Iberia-BA", "Iberia-LCA", "Iberia-ECA", "CE-EBA", "Minoan-BA", "Myc-BA", 
+              "Iran-CA", "Iran-N", "Steppe-MLBA", "Steppe-EMBA", "EHG-HG", 
+              "Iron_Gates-HG", "WHG-HG", "Morocco_Iberomaurusian", "Morocco_EN", "Morocco_LN")
+anc_p = structure_plot(gath_df=l_gath_df %>% 
+                       filter(clst %in% anc_pops), 
+                       colset="Set3",
+                       fact_type="nonnegative",
+                       facet_levels=anc_pops, 
+                       facet_grp="clst",
+                       label_size=4) + 
+        theme(plot.title = element_text(size=6))
+anc_p +  ggsave(paste0("../plots/marcus_et_al_2020_ancient_", method, "-K", Kmax, filetype), width=8.5, height=2)
+
+mod_pops <- c("Sardinian", "Olb", "Sas", "Nuo", "Ogl", "Ori", "Cam", "Car", "Cag",
+              "Spainish", "Basque", "French", "Tuscan", "Sicilian", "Tunisian_Jew", 
+              "Moroccan_Jew", "Maltese", "Libyan_Jew", "Greek", "Turkish_Jew", "Turkish",
+              "Cypriot", "Lebanese", "Jordanian", "Palestinian", "Druze", "BedouinA",
+              "Mozabite", "Egyptian", "Tunisian", "Algerian", "Saharawi")
+mod_p = structure_plot(gath_df=l_gath_df %>% 
+                       filter(clst %in% mod_pops), 
+                       colset="Set3",
+                       fact_type="nonnegative",
+                       facet_levels=mod_pops, 
+                       facet_grp="clst",
+                       label_size=4) + 
+        theme(plot.title = element_text(size=6))
+mod_p + ggsave(paste0("../plots/marcus_et_al_2020_modern_", method, "-K", Kmax, filetype), width=8.5, height=2)
+```
