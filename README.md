@@ -38,3 +38,9 @@ install.packages("softImpute")
 devtools::install_github("Storeylab/lfa")
 devtools::install_github("stephenslab/drift.alpha")
 ```
+
+## Setup altair env
+
+```
+conda create -n=alt_e python=3 numpy pandas scipy matplotlib jupyter altair vega_datasets
+```
