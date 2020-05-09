@@ -29,11 +29,15 @@ Less simple admixture event:
 * [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
 * [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
 
-## Data
+## Data Preparation
 
 These vignettes describe data preparation steps:
 
 * [Human Origins Array Global Data](data_hoa_global.html) 
+
+## Data Applications
+
+* [hoa global drift fits](hoa_global_drift_bimodal.html) 
 
 ---
 
