@@ -11,8 +11,6 @@ output:
 
 # Current
 
-*Since 2019-12-01*:
-
 ## Simulations
 
 * [Simple 2 population tree simulation](simple_2pop_tree_simulation_bimodal.html)
@@ -31,6 +29,12 @@ Less simple admixture event:
 * [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
 * [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
 
+## Data
+
+These vignettes describe data preparation steps:
+
+* [Human Origins Array Global Data](data_hoa_global.html) 
+
 ---
 
 # Deprecated
@@ -42,14 +46,6 @@ Less simple admixture event:
 These vignettes describe exploratory ideas:
 
 * [FLASH proof of principle](flash.html)
-* [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
-* [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
-
-## Data
-
-These vignettes describe data preparation steps:
-
-* [Human Origins Array Global Data](data_hoa_global.html) 
 
 ## Results
 
