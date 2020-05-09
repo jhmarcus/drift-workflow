@@ -111,7 +111,7 @@ head(meta_df)
 
 # `drift` fits
 
-Here I create `STRUCTURE` plots for each value of $K$. Note, I don't show the first factor so there should be $K-1$ colors displayed in each plot. Also note I just ran each of these for a fixed number of iterations and light convergence tolerance threshold (i.e. different from the ELBO). It is not guaranteed any of these have converged to a local optima:
+Here I create `STRUCTURE` plots for each value of $K$. Also note I just ran each of these for a fixed number of iterations and light convergence tolerance threshold (i.e. different from the ELBO). It is not guaranteed any of these have converged to a local optima:
 
 ```{r drift, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
 Kmax <- 12
