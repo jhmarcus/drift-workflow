@@ -1,0 +1,146 @@
+---
+title: "HOA global drift (bimodal)"
+author: "Joseph Marcus"
+date: "2020-04-30"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+This is an analysis of applying `drift` of the full Human Origins dataset which includes 2068 sampled from around the world. I filtered out rare variants with global minor allele frequency less than 5%, removed any variants with a missingness fraction greater than 0.5%, and removed any SNPs on the sex chromosomes, resulting in 343758 SNPs ... see [Human Origins Array Global Data](data_hoa_global.html) for details on the data pre-processing.
+
+# Imports
+
+Lets import some needed packages:
+
+```{r imports, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(knitr)
+library(cowplot)
+source("../code/structure_plot.R")
+```
+
+# Functions
+
+Here some helper functions specific to this analysis:
+
+```{r functions, warning=FALSE, message=FALSE}
+get_pops <- function(meta_df, region){
+  pops <- meta_df %>% 
+          filter(Region==region) %>% 
+          dplyr::select(Region, Simple.Population.ID, Latitude) %>%
+          distinct(Simple.Population.ID, Latitude) %>% 
+          arrange(desc(Latitude)) %>% 
+          pull(Simple.Population.ID)
+    return(pops)
+}
+
+create_regional_structure_plot <- function(l_df, 
+                                           K, 
+                                           region,
+                                           colors, 
+                                           ymax,
+                                           label_font_size=4,
+                                           gap=1,
+                                           yaxis_tick_font_size=6,
+                                           yaxis_title_font_size=6){
+  l_pop_df <- l_df %>% 
+              filter(Region==region)
+  pops <- get_pops(meta_df, region)
+  labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
+  label_order <- as.vector(droplevels(pops))
+  p <- create_structure_plot(l_pop_df[,1:K], 
+                             labels=labels, 
+                             colors=colors,
+                             gap=gap,
+                             ymax=ymax,
+                             label_order=label_order,
+                             label_font_size=label_font_size,
+                             yaxis_tick_font_size=yaxis_title_font_size,
+                             yaxis_title_font_size=yaxis_title_font_size)
+  return(p)
+}
+
+prepare_data <- function(rds_prefix, fam_path, K, meta_df, scale_loadings){
+  # read rds
+  rds_path <- paste0(rds_prefix, K, ".rds")
+  fl <- readRDS(rds_path)
+  
+  # scale the loadings by the prior variances
+  if(scale_loadings){
+    EL <- fl$EL %*% diag(sqrt(fl$prior_s2))
+  } else {
+    EL <- fl$EL 
+  }
+
+  # read the meta data
+  l_df <- as.data.frame(EL)
+  colnames(l_df) <- paste0(1:K)
+  inds <- read.table(fam_path, header=F, stringsAsFactors=F) %>% pull(V2)
+  l_df$ID <- inds
+  l_df <- l_df %>% inner_join(meta_df, by="ID")
+  return(l_df)
+}
+```
+
+# Data 
+
+## File paths
+
+Here are the needed file paths to the fit and meta data:
+
+```{r paths, warning=FALSE, message=FALSE}
+rds_prefix <- "../output/drift/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02_K"
+fam_path <- "../data/datasets/hoa_global/HumanOriginsPublic2068_auto_maf05_geno005_mind02.fam"
+meta_path <- "../data/meta/HumanOriginsPublic2068.meta"
+```
+
+## Meta data
+
+Read the meta data for each individual:
+
+```{r meta, warning=FALSE, message=FALSE}
+meta_df <- read.table(meta_path, sep="\t", header=T)
+head(meta_df)
+```
+
+# `drift` fits
+
+Here I create `STRUCTURE` plots for each value of $K$. Note, I don't show the first factor so there should be $K-1$ colors displayed in each plot. Also note I just ran each of these for a fixed number of iterations and light convergence tolerance threshold (i.e. different from the ELBO). It is not guaranteed any of these have converged to a local optima:
+
+```{r drift, warning=FALSE, message=FALSE, fig.width=8.5, fig.height=12}
+Kmax <- 12
+for(k in 3:Kmax){
+  for(scale_loadings in c(FALSE, TRUE)){
+    # prep the loadings + join with meta data
+    colors <- brewer.pal(n=k, name="Set3")
+    l_df <- prepare_data(rds_prefix=rds_prefix, 
+                         fam_path=fam_path, 
+                         K=k, 
+                         meta_df=meta_df, 
+                         scale_loadings=scale_loadings)
+    
+    # max loading value accross factors
+    ymax <- max(rowSums(l_df[,1:k]))
+    
+    # structure plots
+    p_afr <- create_regional_structure_plot(l_df, k, "Africa", colors, ymax, label_font_size=5)
+    p_weur <- create_regional_structure_plot(l_df, k, "WestEurasia", colors, ymax, label_font_size=3.5, gap=4)
+    p_sib <- create_regional_structure_plot(l_df, k, "CentralAsiaSiberia", colors, ymax, label_font_size=6)
+    p_amr <- create_regional_structure_plot(l_df, k, "America", colors, ymax, label_font_size=6)
+    p_eas <-create_regional_structure_plot(l_df, k, "EastAsia", colors, ymax, label_font_size=6)
+    p_sas <- create_regional_structure_plot(l_df, k, "SouthAsia", colors, ymax, label_font_size=6)
+    p_oc <- create_regional_structure_plot(l_df, k, "Oceania", colors, ymax, label_font_size=6, gap=.1)
+    p <- cowplot::plot_grid(p_afr, p_weur, p_sib, p_amr, p_eas, p_sas, p_oc, nrow=7, align="v") 
+  
+    # print text and plot
+    print(paste0("K=", k, " | scale_loadings=", scale_loadings))
+    print(p)
+  }
+}
+```
