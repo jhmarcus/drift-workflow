@@ -78,8 +78,8 @@
     },
 	"run_coalsim":
 	{
-	    "time" : "7:00:00",
-        "mem" : "10G",
+	    "time" : "4:00:00",
+        "mem" : "5G",
         "n" : 1,
         "tasks" : 1,
         "name" : "{rule}-{wildcards}",

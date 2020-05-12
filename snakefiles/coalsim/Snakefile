@@ -6,52 +6,41 @@ import pandas as pd
 import stdpopsim
 
 
-# GLOBAL  
+# global variables
 MODELS = ["OutOfAfrica_3G09", "AmericanAdmixture_4B11"]
-LENGTH_MULTIPLIER = .3
-N_HAP_SAMPLES_PER_POP = 40
+N_HAP_SAMPLES_PER_POP = 80
 N_REP = 5
+N_TARGET_SNPS = 100000
 
 # output files/foldrs to be created
-fams = [] 
-bims = []
-beds = []
+txts = [] 
 for model in MODELS:
   for i in range(N_REP):
-    fams.append("output/simulations/{}/rep{}_maf_ldprune.fam".format(model, i))
-    bims.append("output/simulations/{}/rep{}_maf_ldprune.bim".format(model, i))
-    beds.append("output/simulations/{}/rep{}_maf_ldprune.bed".format(model, i))
+    txts.append("output/simulations/{}/rep{}.txt".format(model, i))
 
 
 rule coalsim_all:
     """Dummy rule to runs all coalescent simulations
     """
     input:
-      fams,
-      bims,
-      beds
+      txts
 
 
 rule run_coalsim:
     """Runs coalescent simulation for a given model
     """
     input:
+    output:
+        txt = "output/simulations/{model}/rep{rep}.txt",
     params:
         model = "{model}",
-        path = "output/simulations/{model}",
-        vcf = "output/simulations/{model}/rep{rep}.vcf",
-        vcfgz = "output/simulations/{model}/rep{rep}.vcf.gz",
-        prune = "output/simulations/{model}/rep{rep}_maf.prune.in",
-        bed_prefix_0 = "output/simulations/{model}/rep{rep}_maf",
-        bed_prefix_1 = "output/simulations/{model}/rep{rep}_maf_ldprune",
-    output:
-        bed = "output/simulations/{model}/rep{rep}_maf_ldprune.bed",
-        bim = "output/simulations/{model}/rep{rep}_maf_ldprune.bim",
-        fam = "output/simulations/{model}/rep{rep}_maf_ldprune.fam"
     run:
+        # print update interval
+        n_print = 50
+        
         # simulate from model
         species = stdpopsim.get_species("HomSap")
-        contig = species.get_contig("chr22", length_multiplier=LENGTH_MULTIPLIER)
+        contig = species.get_contig("chr22", length_multiplier=100000.0/51304566.0)
         model = species.get_demographic_model(params.model)       
         
         # get samples
@@ -70,19 +59,33 @@ rule run_coalsim:
         # get simulation engine
         engine = stdpopsim.get_default_engine()
 
-        # generate tree sequences
-        ts = engine.simulate(model, contig, samples)
+        haplotypes = []
+        for i in range(N_TARGET_SNPS):
+            # generate tree sequences
+            ts = engine.simulate(model, contig, samples)
 
-        # write to vcf
-        with open(params.vcf, "w") as vcf_out:
-	        ts.write_vcf(vcf_out, ploidy=2)
+            # extract haps from ts
+            H = ts.genotype_matrix()
+            p, n = H.shape
+
+            # select a random marker per linked replicate
+            if p == 0:
+                continue
+            else:    
+                idx = np.random.choice(np.arange(p), 1)
+                h = H[idx, :]
+
+            haplotypes.append(h)
         
-        # compress vcf
-        shell("bgzip {params.vcf}")
+            if i % n_print == 0:
+                print("Simulating ~SNP {}".format(i))
+    
+        # stack haplotypes over replicates
+        H = np.vstack(haplotypes)
 
-        # filter on maf
-        shell("plink --vcf {params.vcfgz} --double-id --maf .05 --out {params.bed_prefix_0} --make-bed")
-
-        # ld prune snps
-        shell("plink --bfile {params.bed_prefix_0} --indep-pairwise 200 25 0.4 --out {params.bed_prefix_0}")
-        shell("plink --bfile {params.bed_prefix_0} --extract {params.prune} --make-bed --out {params.bed_prefix_1}")
+        # convert to genotype matrix: s/o to @aabiddanda
+        genotypes = H[:,::2] + H[:,1::2]
+        
+        # save the matrix to text file
+        np.savetxt(output.txt, genotypes)
+        

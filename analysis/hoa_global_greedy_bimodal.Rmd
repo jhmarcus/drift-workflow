@@ -71,9 +71,9 @@ prepare_data <- function(rds_prefix, fam_path, K, meta_df, scale_loadings){
   
   # scale the loadings by the prior variances
   if(scale_loadings){
-    EL <- rds$flash.fit$EF[[1]] 
+    EL <- fl$flash.fit$EF[[1]] 
   } else {
-    sd <- unlist(lapply(rds$fitted.g[[2]], '[[', 3))
+    sd <- unlist(lapply(fl$fitted.g[[2]], '[[', 3))
     EL <- fl$flash.fit$EF[[1]] %*% diag(sd)
   }
 
