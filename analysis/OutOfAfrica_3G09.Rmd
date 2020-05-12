@@ -9,7 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. 
+Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695]([Figure 2.]) from Gutenkunst et al. 2009.
 
 # Imports
 
@@ -99,11 +99,11 @@ flash learns a shared factor between all the populations but where YRI has a low
 Run flash [backfit] initializing from the greedy solution:
 
 ```{r}
-flbf <- fl %>% flash.backfit()
-plot_loadings(flbf$flash.fit$EF[[1]], labs)
+flbf <- fl %>% flash.backfit() %>% flash.nullcheck(remove = TRUE)
+plot_loadings(flbf$flash.fit$EF[[1]], labs) + ggsave("../test.png")
 ```
 
-Hmm this odd that the 4th factor has negative values. Is this a bug with the bi-modal prior?
+the backfitting algorithm represents the data with a sparser solution.
 
 # drift
 
