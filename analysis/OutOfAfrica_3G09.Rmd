@@ -9,7 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695](Figure 2.) from Gutenkunst et al. 2009.
+Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [Figure 2.](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695) from Gutenkunst et al. 2009.
 
 # Imports
 
