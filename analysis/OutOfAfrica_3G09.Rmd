@@ -1,13 +1,19 @@
 ---
 title: "OutOfAfrica_3G09"
 author: "Joseph Marcus"
-date: "2020-04-26"
-output: workflowr::wflow_html
+date: "2020-05-12"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
 editor_options:
   chunk_output_type: console
 ---
 
+Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. 
+
 # Imports
+
+Import the required libraries and scripts:
 
 ```{r}
 suppressMessages({
@@ -17,69 +23,96 @@ suppressMessages({
   library(ggplot2)
   library(reshape2)
   library(tidyverse)
+  library(alstructure)
 })
 ```
 
-# Read the simulation data
+# Data
 
 ```{r}
-Y <- t(lfa::read.bed("../output/simulations/OutOfAfrica_3G09/rep0_maf_ldprune"))
-Z <- scale(Y)
+Y <- t(as.matrix(read.table("../output/simulations/OutOfAfrica_3G09/rep1.txt", sep=" ")))
 n <- nrow(Y)
+maf <- colSums(Y) / (2*n)
+
+# filter out too rare and too common SNPs
+Y <- Y[,((maf>=.05) & (maf <=.95))]
 p <- ncol(Y)
+Z <- scale(Y)
+print(n)
+print(p)
 
 # sub-population labels from stdpop
-labs <- rep(c("YRI", "CEU", "HAN"), each=20)
+labs <- rep(c("YRI", "CEU", "HAN"), each=40)
 ```
 
-# Run PCA
+we end up with 120 individuals and ~30000 SNPs.
+
+# PCA
+
+Lets run PCA on the centered and scaled genotype matrix:
 
 ```{r}
-svd_res <- lfa:::trunc.svd(Y, 4)
+svd_res <- lfa:::trunc.svd(Z, 5)
 L_hat <- svd_res$u
 plot_loadings(L_hat, labs)
 ```
 
+Plot the first two factors against each other:
+
 ```{r}
-library(alstructure)
-
-admix_res <- alstructure::alstructure(t(Y), d_hat=)
-Qhat <- t(admix_resQ_hat)
-
-plot_loadings(Qhat, labs)
-
+qplot(L_hat[,1], L_hat[,2], color=labs) + 
+  xlab("PC1") + 
+  ylab("PC2") + 
+  theme_bw()
 ```
 
-# Run greedy flash
+We certainly detect "clustered" population structure in the top PCs where PC1 represents Out of Africa and PC2 represents the next split between CEU and HAN.
+
+# ALStructure
+
+Runs ALStructure with $K=3$ (note ALStructure is an alternating least squares algorithm for fitting the PSD model):
 
 ```{r}
-ones <- matrix(1, nrow = nrow(Y), ncol = 1)
-ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
-#fl <- flash.init(Y, var.type = 2) %>%
-#      flash.init.factors(EF = list(ones, ls.soln)) %>%
-#      flash.fix.loadings(kset=1, mode = 1L) %>%
-#      flash.backfit() %>%
-#      flash.add.greedy(Kmax = 4, prior.family=c(prior.bimodal(), prior.normal()))
+admix_res <- alstructure::alstructure(t(Y), d_hat=3)
+Qhat <- t(admix_res$Q_hat)
+plot_loadings(Qhat, labs)
+```
 
+the PSD model assigns three distinct clusters.
 
-fl <- flash(Y, greedy.Kmax=5, prior.family=c(prior.bimodal(), prior.normal()))
+# flash [greedy]
 
+Run the greedy algorithm:
+
+```{r}
+fl <- flash(Y, 
+            greedy.Kmax=5, 
+            prior.family=c(prior.bimodal(), 
+                           prior.normal()))
 plot_loadings(fl$flash.fit$EF[[1]], labs)
 ```
 
+flash learns a shared factor between all the populations but where YRI has a lower loading then CEU and HAN and then it also learns population specific factors. 
 
+# flash [backfit]
 
-# Run drift
-
-With greedy intialization:
-
-```{r}
-drift.rand <- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)
-
-```
-
-## Plot the loadings 
+Run flash [backfit] initializing from the greedy solution:
 
 ```{r}
-plot_loadings(drift.rand$EL, labs)
+flbf <- fl %>% flash.backfit()
+plot_loadings(flbf$flash.fit$EF[[1]], labs)
 ```
+
+Hmm this odd that the 4th factor has negative values. Is this a bug with the bi-modal prior?
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)
+plot_loadings(dr$EL, labs)
+```
+
+drift seems to maintain the greedy solution.
