@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreef62c96ca3f31987b590e420ba0a9285aabbacad3targetblankf62c96ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/f62c96ca3f31987b590e420ba0a9285aabbacad3" target="_blank">f62c96c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree1247ad05910c5da8aac266cddd6977e861db7d76targetblank1247ad0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/1247ad05910c5da8aac266cddd6977e861db7d76" target="_blank">1247ad0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreef62c96ca3f31987b590e420ba0a9285aabbacad3targetblankf62c96ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree1247ad05910c5da8aac266cddd6977e861db7d76targetblank1247ad0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/f62c96ca3f31987b590e420ba0a9285aabbacad3" target="_blank">f62c96c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/1247ad05910c5da8aac266cddd6977e861db7d76" target="_blank">1247ad0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -478,11 +478,8 @@ Ignored files:
     Ignored:    output/
     Ignored:    sandbox/.ipynb_checkpoints/
 
-Unstaged changes:
-    Modified:   analysis/hoa_global_drift_bimodal.Rmd
-    Modified:   analysis/hoa_global_greedy_bimodal.Rmd
-    Modified:   cluster.json
-    Modified:   snakefiles/coalsim/Snakefile
+Untracked files:
+    Untracked:  test.png
 
 </code></pre>
 <p>
@@ -521,6 +518,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/1247ad05910c5da8aac266cddd6977e861db7d76/analysis/OutOfAfrica_3G09.Rmd" target="_blank">1247ad0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+<td>
+wflow_publish(“OutOfAfrica_3G09.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/OutOfAfrica_3G09.html" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -579,7 +610,7 @@ switched from rpy2 to using Rscripts in snkmk
 </div>
 </div>
 </div>
-<p>Here I visualize population structure with simulated data from <a href="https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09">OutOfAfrica_3G09</a> scenario.</p>
+<p>Here I visualize population structure with simulated data from <a href="https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09">OutOfAfrica_3G09</a> scenario. See <a href="%5BFigure%202.%5D">https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695</a> from Gutenkunst et al. 2009.</p>
 <div id="imports" class="section level1">
 <h1>Imports</h1>
 <p>Import the required libraries and scripts:</p>
@@ -618,12 +649,86 @@ labs &lt;- rep(c(&quot;YRI&quot;, &quot;CEU&quot;, &quot;HAN&quot;), each=40)</c
 L_hat &lt;- svd_res$u
 plot_loadings(L_hat, labs)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-3-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Plot the first two factors against each other:</p>
 <pre class="r"><code>qplot(L_hat[,1], L_hat[,2], color=labs) + 
   xlab(&quot;PC1&quot;) + 
   ylab(&quot;PC2&quot;) + 
   theme_bw()</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-4-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We certainly detect “clustered” population structure in the top PCs where PC1 represents Out of Africa and PC2 represents the next split between CEU and HAN.</p>
 </div>
 <div id="alstructure" class="section level1">
@@ -633,6 +738,43 @@ plot_loadings(L_hat, labs)</code></pre>
 Qhat &lt;- t(admix_res$Q_hat)
 plot_loadings(Qhat, labs)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-5-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>the PSD model assigns three distinct clusters.</p>
 </div>
 <div id="flash-greedy" class="section level1">
@@ -654,22 +796,100 @@ Nullchecking 4 factors...
 Done.</code></pre>
 <pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-6-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>flash learns a shared factor between all the populations but where YRI has a lower loading then CEU and HAN and then it also learns population specific factors.</p>
 </div>
 <div id="flash-backfit" class="section level1">
 <h1>flash [backfit]</h1>
 <p>Run flash [backfit] initializing from the greedy solution:</p>
-<pre class="r"><code>flbf &lt;- fl %&gt;% flash.backfit()</code></pre>
+<pre class="r"><code>flbf &lt;- fl %&gt;% flash.backfit() %&gt;% flash.nullcheck(remove = TRUE)</code></pre>
 <pre><code>Backfitting 4 factors (tolerance: 5.33e-02)...
   Difference between iterations is within 1.0e+02...
   Difference between iterations is within 1.0e+01...
   Difference between iterations is within 1.0e+00...
   Difference between iterations is within 1.0e-01...
 Wrapping up...
+Done.
+Nullchecking 4 factors...
+Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs)</code></pre>
+<pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs) + ggsave(&quot;../test.png&quot;)</code></pre>
+<pre><code>Saving 7 x 5 in image</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Hmm this odd that the 4th factor has negative values. Is this a bug with the bi-modal prior?</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-7-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>the backfitting algorithm represents the data with a sparser solution.</p>
 </div>
 <div id="drift" class="section level1">
 <h1>drift</h1>
@@ -716,6 +936,43 @@ dr &lt;- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)</code><
   38 :    -2864516.525 </code></pre>
 <pre class="r"><code>plot_loadings(dr$EL, labs)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>drift seems to maintain the greedy solution.</p>
 <br>
 <p>
