@@ -361,7 +361,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-09
+<strong>Last updated:</strong> 2020-05-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreea696d6226213ef9c2ebf8c0f42bd85e4b6fdf126targetblanka696d62a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/a696d6226213ef9c2ebf8c0f42bd85e4b6fdf126" target="_blank">a696d62</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree791b18635b63402563015f13cfaf069f28aa1efatargetblank791b186a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/791b18635b63402563015f13cfaf069f28aa1efa" target="_blank">791b186</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreea696d6226213ef9c2ebf8c0f42bd85e4b6fdf126targetblanka696d62a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree791b18635b63402563015f13cfaf069f28aa1efatargetblank791b186a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/a696d6226213ef9c2ebf8c0f42bd85e4b6fdf126" target="_blank">a696d62</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/791b18635b63402563015f13cfaf069f28aa1efa" target="_blank">791b186</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,11 +472,16 @@ Ignored files:
     Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    data/simulations/
-    Ignored:    nb-log-1080241.err
-    Ignored:    nb-log-1080241.out
+    Ignored:    nb-log-1208793.err
+    Ignored:    nb-log-1208793.out
     Ignored:    notebooks/.ipynb_checkpoints/
     Ignored:    output/
     Ignored:    sandbox/.ipynb_checkpoints/
+
+Unstaged changes:
+    Modified:   analysis/hoa_global_greedy_bimodal.Rmd
+    Modified:   cluster.json
+    Modified:   snakefiles/coalsim/Snakefile
 
 </code></pre>
 <p>
@@ -515,6 +520,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/791b18635b63402563015f13cfaf069f28aa1efa/analysis/hoa_global_drift_bimodal.Rmd" target="_blank">791b186</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+<td>
+wflow_publish(“hoa_global_drift_bimodal.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/8cd74746ddc25202d78e58d7b842c9b2dc1a53c8/docs/hoa_global_drift_bimodal.html" target="_blank">8cd7474</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -646,7 +685,7 @@ create_regional_structure_plot &lt;- function(l_df,
   pops &lt;- get_pops(meta_df, region)
   labels &lt;- as.vector(droplevels(l_pop_df$Simple.Population.ID))
   label_order &lt;- as.vector(droplevels(pops))
-  p &lt;- create_structure_plot(l_pop_df[,1:K], 
+  p &lt;- create_structure_plot(l_pop_df[,1:(K-1)], 
                              labels=labels, 
                              colors=colors,
                              gap=gap,
@@ -722,9 +761,11 @@ for(k in 3:Kmax){
                          K=k, 
                          meta_df=meta_df, 
                          scale_loadings=scale_loadings)
+    # remove first factor
+    l_df &lt;- l_df[,-1]
     
     # max loading value accross factors
-    ymax &lt;- max(rowSums(l_df[,1:k]))
+    ymax &lt;- max(rowSums(l_df[,1:(k-1)]))
     
     # structure plots
     p_afr &lt;- create_regional_structure_plot(l_df, k, &quot;Africa&quot;, colors, ymax, label_font_size=5)
@@ -1537,7 +1578,12 @@ Matrix products: default
 BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
 
 locale:
-[1] C
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
