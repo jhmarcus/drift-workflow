@@ -54,7 +54,7 @@ create_regional_structure_plot <- function(l_df,
   pops <- get_pops(meta_df, region)
   labels <- as.vector(droplevels(l_pop_df$Simple.Population.ID))
   label_order <- as.vector(droplevels(pops))
-  p <- create_structure_plot(l_pop_df[,1:K], 
+  p <- create_structure_plot(l_pop_df[,1:(K-1)], 
                              labels=labels, 
                              colors=colors,
                              gap=gap,
@@ -124,9 +124,11 @@ for(k in 3:Kmax){
                          K=k, 
                          meta_df=meta_df, 
                          scale_loadings=scale_loadings)
+    # remove first factor
+    l_df <- l_df[,-1]
     
     # max loading value accross factors
-    ymax <- max(rowSums(l_df[,1:k]))
+    ymax <- max(rowSums(l_df[,1:(k-1)]))
     
     # structure plots
     p_afr <- create_regional_structure_plot(l_df, k, "Africa", colors, ymax, label_font_size=5)
