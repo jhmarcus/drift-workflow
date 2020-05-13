@@ -58,7 +58,7 @@ L_hat <- svd_res$u
 plot_loadings(L_hat, labs)
 ```
 
-Plot the first two factors against each other:
+plot the first two factors against each other:
 
 ```{r}
 qplot(L_hat[,1], L_hat[,2], color=labs) + 
