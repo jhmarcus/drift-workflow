@@ -9,7 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Here I visualize population structure with simulated data from [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [Figure 2.](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695) from Gutenkunst et al. 2009.
+Here I visualize population structure with simulated data from the [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [Figure 2.](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695) from Gutenkunst et al. 2009.
 
 # Imports
 
@@ -30,9 +30,10 @@ suppressMessages({
 # Data
 
 ```{r}
-Y <- t(as.matrix(read.table("../output/simulations/OutOfAfrica_3G09/rep1.txt", sep=" ")))
+data_path <- "../output/simulations/OutOfAfrica_3G09/rep1.txt"
+Y <- t(as.matrix(read.table(data_path, sep=" ")))
 n <- nrow(Y)
-maf <- colSums(Y) / (2*n)
+maf <- colSums(Y) / (2 * n)
 
 # filter out too rare and too common SNPs
 Y <- Y[,((maf>=.05) & (maf <=.95))]
@@ -49,7 +50,7 @@ we end up with 120 individuals and ~30000 SNPs.
 
 # PCA
 
-Lets run PCA on the centered and scaled genotype matrix:
+Lets run `PCA` on the centered and scaled genotype matrix:
 
 ```{r}
 svd_res <- lfa:::trunc.svd(Z, 5)
@@ -70,7 +71,7 @@ We certainly detect "clustered" population structure in the top PCs where PC1 re
 
 # ALStructure
 
-Runs ALStructure with $K=3$ (note ALStructure is an alternating least squares algorithm for fitting the PSD model):
+Run `ALStructure` with $K=3$:
 
 ```{r}
 admix_res <- alstructure::alstructure(t(Y), d_hat=3)
@@ -87,8 +88,7 @@ Run the greedy algorithm:
 ```{r}
 fl <- flash(Y, 
             greedy.Kmax=5, 
-            prior.family=c(prior.bimodal(), 
-                           prior.normal()))
+            prior.family=c(prior.bimodal(), prior.normal()))
 plot_loadings(fl$flash.fit$EF[[1]], labs)
 ```
 
@@ -99,8 +99,10 @@ flash learns a shared factor between all the populations but where YRI has a low
 Run flash [backfit] initializing from the greedy solution:
 
 ```{r}
-flbf <- fl %>% flash.backfit() %>% flash.nullcheck(remove = TRUE)
-plot_loadings(flbf$flash.fit$EF[[1]], labs) + ggsave("../test.png")
+flbf <- fl %>% 
+  flash.backfit() %>% 
+  flash.nullcheck(remove=TRUE)
+plot_loadings(flbf$flash.fit$EF[[1]], labs)
 ```
 
 the backfitting algorithm represents the data with a sparser solution.
@@ -111,7 +113,7 @@ Run `drift` initializing from the greedy solution:
 
 ```{r}
 init <- init_from_flash(fl)
-dr <- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)
+dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
 plot_loadings(dr$EL, labs)
 ```
 
