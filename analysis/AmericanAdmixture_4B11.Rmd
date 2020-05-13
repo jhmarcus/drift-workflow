@@ -1,0 +1,128 @@
+---
+title: "AmericanAdmixture_4B11"
+author: "Joseph Marcus"
+date: "2020-05-13"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+Here I visualize population structure with simulated data from the [AmericanAdmixture_4B11](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_americanadmixture_4b11) scenario. See [Browning et al. 2018](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1007385) for details.
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r imports}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+})
+```
+
+# Data
+
+```{r data}
+data_path <- "../output/simulations/AmericanAdmixture_4B11/rep1.txt"
+Y <- t(as.matrix(read.table(data_path, sep=" ")))
+n <- nrow(Y)
+maf <- colSums(Y) / (2*n)
+
+# filter out too rare and too common SNPs
+Y <- Y[,((maf>=.05) & (maf <=.95))]
+p <- ncol(Y)
+Z <- scale(Y)
+print(n)
+print(p)
+
+# sub-population labels from stdpop
+labs <- rep(c("AFR", "EUR", "ASIA", "ADMIX"), each=40)
+```
+
+we end up with 160 individuals and ~24643 SNPs.
+
+# PCA
+
+Lets run `PCA` on the centered and scaled genotype matrix:
+
+```{r pca}
+svd_res <- lfa:::trunc.svd(Z, 5)
+L_hat <- svd_res$u
+plot_loadings(L_hat, labs)
+```
+
+Plot the first two factors against each other:
+
+```{r pca-biplot}
+qplot(L_hat[,1], L_hat[,2], color=labs) + 
+  xlab("PC1") + 
+  ylab("PC2") + 
+  theme_bw()
+```
+
+the admixed population is in the center of the PC1 vs PC2 bi-plot.
+
+# ALStructure
+
+Run `ALStructure` with $K=3$:
+
+```{r psd}
+admix_res <- alstructure::alstructure(t(Y), d_hat=3)
+Qhat <- t(admix_res$Q_hat)
+plot_loadings(Qhat, labs)
+```
+
+the three factors seems to represent "ancestral populations" from ASIA, EUR, and AFR and the admixed population draws ancestry from all three of them as expected.
+
+# flash [greedy]
+
+Run the greedy algorithm:
+
+```{r greedy}
+fl <- flash(Y, 
+            greedy.Kmax=8, 
+            prior.family=c(prior.bimodal(), prior.normal()))
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+there are 4 factors learned by the greedy algorithm: one share factor with a slightly lower loading in the AFR population and 3 sparser factors. The third factor seems to be defined by ASIA individuals and the admixed population has a small weight on this factor.
+
+# flash [backfit]
+
+Run `flash [backfit]` initializing from the greedy solution:
+
+```{r backfit}
+flbf <- fl %>% 
+  flash.backfit() %>% 
+  flash.nullcheck(remove = TRUE)
+plot_loadings(flbf$flash.fit$EF[[1]], labs)
+```
+
+the results looks qualitatively similar to the greedy algorithm though now the the third factor is completely defined ASIA individuals.
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r drift}
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)
+plot_loadings(dr$EL, labs)
+```
+
+the `drift` algorithm seems to give a pretty different result from `flash`. There is one shared factor but then the admixed population has intermediate values on all the other factors. Here are the admixture proportions from the coalescent simulation:
+
+```
+ADMIX percentage 1/6 | Amount African admixture
+ADMIX percentage 1/3 | Amount European admixture
+ADMIX percentage 1/2 | Amount Asian admixture
+```
+
+which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It's kinda interesting that we recapitulate a similar behavior we saw in real data for "known" admixed populations.
