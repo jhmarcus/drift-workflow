@@ -27,6 +27,7 @@ Less simple admixture event:
 Coalescent simulations:
 
 * [OutOfAfrica_3G09](OutOfAfrica_3G09.html)
+* [AmericanAdmixture_4B11](AmericanAdmixture_4B11.html)
 
 ## Explorations
 
