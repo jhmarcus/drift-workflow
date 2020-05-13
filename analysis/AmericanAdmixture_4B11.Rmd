@@ -101,7 +101,7 @@ Run `flash [backfit]` initializing from the greedy solution:
 ```{r backfit}
 flbf <- fl %>% 
   flash.backfit() %>% 
-  flash.nullcheck(remove = TRUE)
+  flash.nullcheck(remove=TRUE)
 plot_loadings(flbf$flash.fit$EF[[1]], labs)
 ```
 
@@ -113,7 +113,7 @@ Run `drift` initializing from the greedy solution:
 
 ```{r drift}
 init <- init_from_flash(fl)
-dr <- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)
+dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
 plot_loadings(dr$EL, labs)
 ```
 
@@ -125,4 +125,4 @@ ADMIX percentage 1/3 | Amount European admixture
 ADMIX percentage 1/2 | Amount Asian admixture
 ```
 
-which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It's kinda interesting that we recapitulate a similar behavior we saw in real data for "known" admixed populations.
+which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It's kinda interesting that we recapitulate a similar behavior we saw in real data for "known" admixed populations when we applied `flash` and `drift` to Human Origins data.
