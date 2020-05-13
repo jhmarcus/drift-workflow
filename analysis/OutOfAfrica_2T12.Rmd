@@ -1,0 +1,120 @@
+---
+title: "OutOfAfrica_2T12"
+author: "Joseph Marcus"
+date: "2020-05-13"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+Here I visualize population structure with simulated data from the [OutOfAfrica_2T12](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_2t12) scenario. See [Fu et al. 2013](https://www.nature.com/articles/nature11690) and [Tennessen et al. 2012](https://science.sciencemag.org/content/337/6090/64) for details.
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+})
+```
+
+# Data
+
+```{r}
+data_path <- "../output/simulations/OutOfAfrica_2T12/rep1.txt"
+Y <- t(as.matrix(read.table(data_path, sep=" ")))
+n <- nrow(Y)
+maf <- colSums(Y) / (2 * n)
+
+# filter out too rare and too common SNPs
+Y <- Y[,((maf>=.05) & (maf <=.95))]
+p <- ncol(Y)
+Z <- scale(Y)
+print(n)
+print(p)
+
+# sub-population labels from stdpop
+labs <- rep(c("AFR", "EUR"), each=40)
+```
+
+we end up with 80 individuals and ~35925 SNPs.
+
+# PCA
+
+Lets run `PCA` on the centered and scaled genotype matrix:
+
+```{r}
+svd_res <- lfa:::trunc.svd(Z, 5)
+L_hat <- svd_res$u
+plot_loadings(L_hat, labs)
+```
+
+plot the first two factors against each other:
+
+```{r}
+qplot(L_hat[,1], L_hat[,2], color=labs) + 
+  xlab("PC1") + 
+  ylab("PC2") + 
+  theme_bw()
+```
+
+PC1 represents "Out of Africa" and PC2 represents within Africa variation.
+
+# ALStructure
+
+Run `ALStructure` with $K=2$:
+
+```{r}
+admix_res <- alstructure::alstructure(t(Y), d_hat=2)
+Qhat <- t(admix_res$Q_hat)
+plot_loadings(Qhat, labs)
+```
+
+the PSD model assigns two distinct clusters.
+
+# flash [greedy]
+
+Run the greedy algorithm:
+
+```{r}
+fl <- flash(Y, 
+            greedy.Kmax=5, 
+            prior.family=c(prior.bimodal(), prior.normal()))
+plot_loadings(fl$flash.fit$EF[[1]], labs)
+```
+
+the greedy algorithm learns a shared factor and then finds two population specific factors.
+
+# flash [backfit]
+
+Run flash [backfit] initializing from the greedy solution:
+
+```{r}
+flbf <- fl %>% 
+  flash.backfit() %>% 
+  flash.nullcheck(remove=TRUE)
+plot_loadings(flbf$flash.fit$EF[[1]], labs)
+```
+
+interestingly, `flash` finds the sparse representation of the the two population tree that we have seen before.
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
+plot_loadings(dr$EL, labs)
+```
+
+`drift` looks similar to the greedy algorithm.
