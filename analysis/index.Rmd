@@ -26,6 +26,7 @@ Less simple admixture event:
 
 Coalescent simulations:
 
+* [OutOfAfrica_2T12](OutOfAfrica_2T12.html)  
 * [OutOfAfrica_3G09](OutOfAfrica_3G09.html)
 * [AmericanAdmixture_4B11](AmericanAdmixture_4B11.html)
 
@@ -60,8 +61,7 @@ These vignettes describe exploratory ideas:
 
 These vignettes describe results on simulated / empirical data:
 
-* [Human Origins Array Global](hoa_global.html)
-
+* [Human Origins Array Global](hoa_global.html)  
 * [Alternative view of Human Origins factors](hoa_global_alt.html)
 
 ## Simulations
