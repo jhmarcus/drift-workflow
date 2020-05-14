@@ -361,7 +361,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-13
+<strong>Last updated:</strong> 2020-05-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree90947d32a4afafa9751840937cbd96d0e1b2f086targetblank90947d3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/90947d32a4afafa9751840937cbd96d0e1b2f086" target="_blank">90947d3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7ddf69c36e1c9776d71b5131179d69138decdc6dtargetblank7ddf69ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7ddf69c36e1c9776d71b5131179d69138decdc6d" target="_blank">7ddf69c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree90947d32a4afafa9751840937cbd96d0e1b2f086targetblank90947d3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7ddf69c36e1c9776d71b5131179d69138decdc6dtargetblank7ddf69ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/90947d32a4afafa9751840937cbd96d0e1b2f086" target="_blank">90947d3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/7ddf69c36e1c9776d71b5131179d69138decdc6d" target="_blank">7ddf69c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -469,19 +469,18 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .snakemake/
-    Ignored:    analysis/figure/
     Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    data/simulations/
-    Ignored:    nb-log-1272639.err
-    Ignored:    nb-log-1272639.out
+    Ignored:    nb-log-1324132.err
+    Ignored:    nb-log-1324132.out
     Ignored:    notebooks/.ipynb_checkpoints/
     Ignored:    output/
     Ignored:    sandbox/.ipynb_checkpoints/
 
 Unstaged changes:
     Modified:   analysis/OutOfAfrica_3G09.Rmd
-    Deleted:    test.png
+    Modified:   code/structure_plot.R
 
 </code></pre>
 <p>
@@ -525,6 +524,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7ddf69c36e1c9776d71b5131179d69138decdc6d/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">7ddf69c</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-14
+</td>
+<td>
+wflow_publish(“AmericanAdmixture_4B11.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/afde10519ae94d13bc31ca40189c5c03dc8d10c4/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">afde105</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+added American admixture simulation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/407a5b04e291821d1053c384020cc05b9d0cf837/docs/AmericanAdmixture_4B11.html" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/90947d32a4afafa9751840937cbd96d0e1b2f086/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">90947d3</a>
 </td>
 <td>
@@ -555,7 +605,9 @@ wflow_publish(“analysis/AmericanAdmixture_4B11.Rmd”)
   library(ggplot2)
   library(reshape2)
   library(tidyverse)
+  library(RColorBrewer)
   library(alstructure)
+  source(&quot;../code/structure_plot.R&quot;)
 })</code></pre>
 </div>
 <div id="data" class="section level1">
@@ -564,6 +616,7 @@ wflow_publish(“analysis/AmericanAdmixture_4B11.Rmd”)
 Y &lt;- t(as.matrix(read.table(data_path, sep=&quot; &quot;)))
 n &lt;- nrow(Y)
 maf &lt;- colSums(Y) / (2*n)
+colors &lt;- brewer.pal(8, &quot;Set2&quot;)
 
 # filter out too rare and too common SNPs
 Y &lt;- Y[,((maf&gt;=.05) &amp; (maf &lt;=.95))]
@@ -582,14 +635,89 @@ labs &lt;- rep(c(&quot;AFR&quot;, &quot;EUR&quot;, &quot;ASIA&quot;, &quot;ADMIX
 <p>Lets run <code>PCA</code> on the centered and scaled genotype matrix:</p>
 <pre class="r"><code>svd_res &lt;- lfa:::trunc.svd(Z, 5)
 L_hat &lt;- svd_res$u
-plot_loadings(L_hat, labs)</code></pre>
+plot_loadings(L_hat, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/pca-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-1">
+Past versions of pca-1.png
+</button>
+</p>
+<div id="fig-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/pca-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Plot the first two factors against each other:</p>
 <pre class="r"><code>qplot(L_hat[,1], L_hat[,2], color=labs) + 
   xlab(&quot;PC1&quot;) + 
   ylab(&quot;PC2&quot;) + 
+  scale_color_brewer(palette=&quot;Set2&quot;) + 
   theme_bw()</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/pca-biplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-biplot-1">
+Past versions of pca-biplot-1.png
+</button>
+</p>
+<div id="fig-pca-biplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/pca-biplot-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>the admixed population is in the center of the PC1 vs PC2 bi-plot.</p>
 </div>
 <div id="alstructure" class="section level1">
@@ -597,8 +725,50 @@ plot_loadings(L_hat, labs)</code></pre>
 <p>Run <code>ALStructure</code> with <span class="math inline">\(K=3\)</span>:</p>
 <pre class="r"><code>admix_res &lt;- alstructure::alstructure(t(Y), d_hat=3)
 Qhat &lt;- t(admix_res$Q_hat)
-plot_loadings(Qhat, labs)</code></pre>
+plot_loadings(Qhat, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/psd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-psd-1">
+Past versions of psd-1.png
+</button>
+</p>
+<div id="fig-psd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/psd-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=Qhat, labels=labs, colors=colors, ymax=1.01)</code></pre>
+<pre><code>Scale for &#39;y&#39; is already present. Adding another scale for &#39;y&#39;, which
+will replace the existing scale.</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>the three factors seems to represent “ancestral populations” from ASIA, EUR, and AFR and the admixed population draws ancestry from all three of them as expected.</p>
 </div>
 <div id="flash-greedy" class="section level1">
@@ -617,8 +787,48 @@ Wrapping up...
 Done.
 Nullchecking 4 factors...
 Done.</code></pre>
-<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs)</code></pre>
+<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-greedy-1">
+Past versions of greedy-1.png
+</button>
+</p>
+<div id="fig-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/greedy-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>there are 4 factors learned by the greedy algorithm: one share factor with a slightly lower loading in the AFR population and 3 sparser factors. The third factor seems to be defined by ASIA individuals and the admixed population has a small weight on this factor.</p>
 </div>
 <div id="flash-backfit" class="section level1">
@@ -626,7 +836,7 @@ Done.</code></pre>
 <p>Run <code>flash [backfit]</code> initializing from the greedy solution:</p>
 <pre class="r"><code>flbf &lt;- fl %&gt;% 
   flash.backfit() %&gt;% 
-  flash.nullcheck(remove = TRUE)</code></pre>
+  flash.nullcheck(remove=TRUE)</code></pre>
 <pre><code>Backfitting 4 factors (tolerance: 5.88e-02)...
   Difference between iterations is within 1.0e+03...
   Difference between iterations is within 1.0e+02...
@@ -639,13 +849,53 @@ Nullchecking 4 factors...
 Done.</code></pre>
 <pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/backfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-backfit-1">
+Past versions of backfit-1.png
+</button>
+</p>
+<div id="fig-backfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/backfit-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=flbf$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>the results looks qualitatively similar to the greedy algorithm though now the the third factor is completely defined ASIA individuals.</p>
 </div>
 <div id="drift" class="section level1">
 <h1>drift</h1>
 <p>Run <code>drift</code> initializing from the greedy solution:</p>
 <pre class="r"><code>init &lt;- init_from_flash(fl)
-dr &lt;- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)</code></pre>
+dr &lt;- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)</code></pre>
 <pre><code>   1 :    -3229696.286 
    2 :    -3228212.910 
    3 :    -3227165.987 
@@ -1040,11 +1290,51 @@ dr &lt;- drift(init, miniter=2, maxiter=500, tol = 0.01, verbose = TRUE)</code><
  392 :    -3225440.559 </code></pre>
 <pre class="r"><code>plot_loadings(dr$EL, labs)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11.Rmd/drift-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift-1">
+Past versions of drift-1.png
+</button>
+</p>
+<div id="fig-drift-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/drift-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=dr$EL, labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>the <code>drift</code> algorithm seems to give a pretty different result from <code>flash</code>. There is one shared factor but then the admixed population has intermediate values on all the other factors. Here are the admixture proportions from the coalescent simulation:</p>
 <pre><code>ADMIX percentage 1/6 | Amount African admixture
 ADMIX percentage 1/3 | Amount European admixture
 ADMIX percentage 1/2 | Amount Asian admixture</code></pre>
-<p>which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It’s kinda interesting that we recapitulate a similar behavior we saw in real data for “known” admixed populations.</p>
+<p>which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It’s kinda interesting that we recapitulate a similar behavior we saw in real data for “known” admixed populations when we applied <code>flash</code> and <code>drift</code> to Human Origins data.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1072,11 +1362,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] alstructure_0.1.0 forcats_0.5.0     stringr_1.4.0    
- [4] dplyr_0.8.5       purrr_0.3.4       readr_1.3.1      
- [7] tidyr_1.0.2       tibble_3.0.1      tidyverse_1.3.0  
-[10] reshape2_1.4.3    ggplot2_3.3.0     drift.alpha_0.0.9
-[13] flashier_0.2.4    lfa_1.9.0        
+ [1] alstructure_0.1.0  RColorBrewer_1.1-2 forcats_0.5.0     
+ [4] stringr_1.4.0      dplyr_0.8.5        purrr_0.3.4       
+ [7] readr_1.3.1        tidyr_1.0.2        tibble_3.0.1      
+[10] tidyverse_1.3.0    reshape2_1.4.3     ggplot2_3.3.0     
+[13] drift.alpha_0.0.9  flashier_0.2.4     lfa_1.9.0         
 
 loaded via a namespace (and not attached):
  [1] httr_1.4.1       jsonlite_1.6     modelr_0.1.6     assertthat_0.2.1
