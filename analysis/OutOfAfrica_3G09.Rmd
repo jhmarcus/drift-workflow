@@ -21,9 +21,11 @@ suppressMessages({
   library(flashier)
   library(drift.alpha)
   library(ggplot2)
+  library(RColorBrewer)
   library(reshape2)
   library(tidyverse)
   library(alstructure)
+  source("../code/structure_plot.R")
 })
 ```
 
@@ -34,6 +36,7 @@ data_path <- "../output/simulations/OutOfAfrica_3G09/rep1.txt"
 Y <- t(as.matrix(read.table(data_path, sep=" ")))
 n <- nrow(Y)
 maf <- colSums(Y) / (2 * n)
+colors <- brewer.pal(8, "Set2")
 
 # filter out too rare and too common SNPs
 Y <- Y[,((maf>=.05) & (maf <=.95))]
@@ -55,7 +58,7 @@ Lets run `PCA` on the centered and scaled genotype matrix:
 ```{r}
 svd_res <- lfa:::trunc.svd(Z, 5)
 L_hat <- svd_res$u
-plot_loadings(L_hat, labs)
+plot_loadings(L_hat, labs) +  scale_color_brewer(palette="Set2")
 ```
 
 plot the first two factors against each other:
@@ -64,6 +67,7 @@ plot the first two factors against each other:
 qplot(L_hat[,1], L_hat[,2], color=labs) + 
   xlab("PC1") + 
   ylab("PC2") + 
+  scale_color_brewer(palette="Set2") +
   theme_bw()
 ```
 
@@ -76,7 +80,13 @@ Run `ALStructure` with $K=3$:
 ```{r}
 admix_res <- alstructure::alstructure(t(Y), d_hat=3)
 Qhat <- t(admix_res$Q_hat)
-plot_loadings(Qhat, labs)
+plot_loadings(Qhat, labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=Qhat, labels=labs, colors=colors, ymax=1.01)
 ```
 
 the PSD model assigns three distinct clusters.
@@ -89,7 +99,13 @@ Run the greedy algorithm:
 fl <- flash(Y, 
             greedy.Kmax=5, 
             prior.family=c(prior.bimodal(), prior.normal()))
-plot_loadings(fl$flash.fit$EF[[1]], labs)
+plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)
 ```
 
 flash learns a shared factor between all the populations but where YRI has a lower loading then CEU and HAN and then it also learns population specific factors. 
@@ -102,7 +118,13 @@ Run flash [backfit] initializing from the greedy solution:
 flbf <- fl %>% 
   flash.backfit() %>% 
   flash.nullcheck(remove=TRUE)
-plot_loadings(flbf$flash.fit$EF[[1]], labs)
+plot_loadings(flbf$flash.fit$EF[[1]], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=flbf$flash.fit$EF[[1]], labels=labs, colors=colors)
 ```
 
 the backfitting algorithm represents the data with a sparser solution.
@@ -114,7 +136,14 @@ Run `drift` initializing from the greedy solution:
 ```{r}
 init <- init_from_flash(fl)
 dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
-plot_loadings(dr$EL, labs)
+plot_loadings(dr$EL, labs) + scale_color_brewer(palette="Set2")
 ```
 
-drift seems to maintain the greedy solution.
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=dr$EL, labels=labs, colors=colors)
+```
+
+`drift` seems to maintain the greedy solution.
