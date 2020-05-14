@@ -9,7 +9,7 @@ create_structure_plot <- function(L, labels, colors,
   # TODO: assert label_order is unique 
   # TODO: assert label_order is in labels
   K <- ncol(L)
-  if(is.null(order)){
+  if(is.null(label_order)){
     unique_labels <- unique(labels)
   } else {
     unique_labels <- label_order
@@ -19,7 +19,7 @@ create_structure_plot <- function(L, labels, colors,
   pdat <- NULL
   nt <- 0
   i <- 1
-  for (label in unique_labels) {
+  for(label in unique_labels) {
     Li <- L[labels==label,]
     if(nrow(Li)!=1){
       di <- dist(Li)
@@ -38,7 +38,7 @@ create_structure_plot <- function(L, labels, colors,
     nt <- nt + ni + gap
     i <- i + 1
   }
-  
+
   # Create the STRUCTURE plot.
   n <- max(pdat$sample)
   p <- ggplot(pdat,aes_string(x = "sample",y = "loading",
@@ -47,7 +47,7 @@ create_structure_plot <- function(L, labels, colors,
            scale_x_continuous(limits = c(0.0,n+1),breaks = ticks,
                               labels = unique_labels, 
                               expand = c(0, 0)) +
-           scale_y_continuous(limits=c(0, ymax), expand=c(0, 0)) +
+           scale_y_continuous(expand=c(0, 0)) +
            scale_fill_manual(values=colors) + 
            theme_classic() +
            theme(panel.grid.major = element_blank(), 
@@ -62,7 +62,9 @@ create_structure_plot <- function(L, labels, colors,
            guides(fill=FALSE, color=FALSE) +
            labs(x = "") 
   if(!is.null(ymax)){
-    p + expand_limits(y=c(0, ymax))
+    p <- p +
+      expand_limits(y=c(0, ymax)) + 
+      scale_y_continuous(limits=c(0, ymax), expand=c(0, 0)) 
   }
   return(p)
 }

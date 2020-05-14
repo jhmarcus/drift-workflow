@@ -58,7 +58,7 @@ Lets run `PCA` on the centered and scaled genotype matrix:
 ```{r}
 svd_res <- lfa:::trunc.svd(Z, 5)
 L_hat <- svd_res$u
-plot_loadings(L_hat, labs) +  scale_color_brewer(palette="Set2")
+plot_loadings(L_hat, labs) + scale_color_brewer(palette="Set2")
 ```
 
 plot the first two factors against each other:
@@ -138,7 +138,6 @@ init <- init_from_flash(fl)
 dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
 plot_loadings(dr$EL, labs) + scale_color_brewer(palette="Set2")
 ```
-
 
 view structure plot:
 
