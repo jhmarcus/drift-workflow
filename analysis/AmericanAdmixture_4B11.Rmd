@@ -23,7 +23,9 @@ suppressMessages({
   library(ggplot2)
   library(reshape2)
   library(tidyverse)
+  library(RColorBrewer)
   library(alstructure)
+  source("../code/structure_plot.R")
 })
 ```
 
@@ -34,6 +36,7 @@ data_path <- "../output/simulations/AmericanAdmixture_4B11/rep1.txt"
 Y <- t(as.matrix(read.table(data_path, sep=" ")))
 n <- nrow(Y)
 maf <- colSums(Y) / (2*n)
+colors <- brewer.pal(8, "Set2")
 
 # filter out too rare and too common SNPs
 Y <- Y[,((maf>=.05) & (maf <=.95))]
@@ -55,7 +58,7 @@ Lets run `PCA` on the centered and scaled genotype matrix:
 ```{r pca}
 svd_res <- lfa:::trunc.svd(Z, 5)
 L_hat <- svd_res$u
-plot_loadings(L_hat, labs)
+plot_loadings(L_hat, labs) + scale_color_brewer(palette="Set2")
 ```
 
 Plot the first two factors against each other:
@@ -64,6 +67,7 @@ Plot the first two factors against each other:
 qplot(L_hat[,1], L_hat[,2], color=labs) + 
   xlab("PC1") + 
   ylab("PC2") + 
+  scale_color_brewer(palette="Set2") + 
   theme_bw()
 ```
 
@@ -76,7 +80,13 @@ Run `ALStructure` with $K=3$:
 ```{r psd}
 admix_res <- alstructure::alstructure(t(Y), d_hat=3)
 Qhat <- t(admix_res$Q_hat)
-plot_loadings(Qhat, labs)
+plot_loadings(Qhat, labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=Qhat, labels=labs, colors=colors, ymax=1.01)
 ```
 
 the three factors seems to represent "ancestral populations" from ASIA, EUR, and AFR and the admixed population draws ancestry from all three of them as expected.
@@ -89,7 +99,13 @@ Run the greedy algorithm:
 fl <- flash(Y, 
             greedy.Kmax=8, 
             prior.family=c(prior.bimodal(), prior.normal()))
-plot_loadings(fl$flash.fit$EF[[1]], labs)
+plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)
 ```
 
 there are 4 factors learned by the greedy algorithm: one share factor with a slightly lower loading in the AFR population and 3 sparser factors. The third factor seems to be defined by ASIA individuals and the admixed population has a small weight on this factor.
@@ -105,6 +121,12 @@ flbf <- fl %>%
 plot_loadings(flbf$flash.fit$EF[[1]], labs)
 ```
 
+view structure plot:
+
+```{r}
+create_structure_plot(L=flbf$flash.fit$EF[[1]], labels=labs, colors=colors)
+```
+
 the results looks qualitatively similar to the greedy algorithm though now the the third factor is completely defined ASIA individuals.
 
 # drift
@@ -115,6 +137,12 @@ Run `drift` initializing from the greedy solution:
 init <- init_from_flash(fl)
 dr <- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)
 plot_loadings(dr$EL, labs)
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=dr$EL, labels=labs, colors=colors)
 ```
 
 the `drift` algorithm seems to give a pretty different result from `flash`. There is one shared factor but then the admixed population has intermediate values on all the other factors. Here are the admixture proportions from the coalescent simulation:
