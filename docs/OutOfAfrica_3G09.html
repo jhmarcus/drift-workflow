@@ -361,7 +361,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-13
+<strong>Last updated:</strong> 2020-05-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8255772ffcfed82aa45c956098c07ce6df34e5cftargetblank8255772a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/8255772ffcfed82aa45c956098c07ce6df34e5cf" target="_blank">8255772</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefc61e8b9470ef91d8483150a8f6b33c3c833f257targetblankfc61e8ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/fc61e8b9470ef91d8483150a8f6b33c3c833f257" target="_blank">fc61e8b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8255772ffcfed82aa45c956098c07ce6df34e5cftargetblank8255772a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefc61e8b9470ef91d8483150a8f6b33c3c833f257targetblankfc61e8ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/8255772ffcfed82aa45c956098c07ce6df34e5cf" target="_blank">8255772</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/fc61e8b9470ef91d8483150a8f6b33c3c833f257" target="_blank">fc61e8b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -472,15 +472,14 @@ Ignored files:
     Ignored:    data/datasets/
     Ignored:    data/raw/
     Ignored:    data/simulations/
-    Ignored:    nb-log-1272639.err
-    Ignored:    nb-log-1272639.out
+    Ignored:    nb-log-1324132.err
+    Ignored:    nb-log-1324132.out
     Ignored:    notebooks/.ipynb_checkpoints/
     Ignored:    output/
     Ignored:    sandbox/.ipynb_checkpoints/
 
 Unstaged changes:
-    Modified:   analysis/AmericanAdmixture_4B11.Rmd
-    Deleted:    test.png
+    Modified:   code/structure_plot.R
 
 </code></pre>
 <p>
@@ -519,6 +518,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/fc61e8b9470ef91d8483150a8f6b33c3c833f257/analysis/OutOfAfrica_3G09.Rmd" target="_blank">fc61e8b</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-14
+</td>
+<td>
+wflow_publish(“OutOfAfrica_3G09.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/6d0bba100cddcc94c202819855d68ecf4720ead3/analysis/OutOfAfrica_3G09.Rmd" target="_blank">6d0bba1</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+added 2 pop OOA sim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/644c6050be046dcdf4459206b6b2dfe0cdfa5710/docs/OutOfAfrica_3G09.html" target="_blank">644c605</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -722,9 +772,11 @@ switched from rpy2 to using Rscripts in snkmk
   library(flashier)
   library(drift.alpha)
   library(ggplot2)
+  library(RColorBrewer)
   library(reshape2)
   library(tidyverse)
   library(alstructure)
+  source(&quot;../code/structure_plot.R&quot;)
 })</code></pre>
 </div>
 <div id="data" class="section level1">
@@ -733,6 +785,7 @@ switched from rpy2 to using Rscripts in snkmk
 Y &lt;- t(as.matrix(read.table(data_path, sep=&quot; &quot;)))
 n &lt;- nrow(Y)
 maf &lt;- colSums(Y) / (2 * n)
+colors &lt;- brewer.pal(8, &quot;Set2&quot;)
 
 # filter out too rare and too common SNPs
 Y &lt;- Y[,((maf&gt;=.05) &amp; (maf &lt;=.95))]
@@ -751,7 +804,7 @@ labs &lt;- rep(c(&quot;YRI&quot;, &quot;CEU&quot;, &quot;HAN&quot;), each=40)</c
 <p>Lets run <code>PCA</code> on the centered and scaled genotype matrix:</p>
 <pre class="r"><code>svd_res &lt;- lfa:::trunc.svd(Z, 5)
 L_hat &lt;- svd_res$u
-plot_loadings(L_hat, labs)</code></pre>
+plot_loadings(L_hat, labs) +  scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
@@ -790,10 +843,11 @@ Joseph Marcus
 </table>
 </div>
 </div>
-<p>Plot the first two factors against each other:</p>
+<p>plot the first two factors against each other:</p>
 <pre class="r"><code>qplot(L_hat[,1], L_hat[,2], color=labs) + 
   xlab(&quot;PC1&quot;) + 
   ylab(&quot;PC2&quot;) + 
+  scale_color_brewer(palette=&quot;Set2&quot;) +
   theme_bw()</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -840,7 +894,7 @@ Joseph Marcus
 <p>Run <code>ALStructure</code> with <span class="math inline">\(K=3\)</span>:</p>
 <pre class="r"><code>admix_res &lt;- alstructure::alstructure(t(Y), d_hat=3)
 Qhat &lt;- t(admix_res$Q_hat)
-plot_loadings(Qhat, labs)</code></pre>
+plot_loadings(Qhat, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
@@ -879,25 +933,10 @@ Joseph Marcus
 </table>
 </div>
 </div>
-<p>the PSD model assigns three distinct clusters.</p>
-</div>
-<div id="flash-greedy" class="section level1">
-<h1>flash [greedy]</h1>
-<p>Run the greedy algorithm:</p>
-<pre class="r"><code>fl &lt;- flash(Y, 
-            greedy.Kmax=5, 
-            prior.family=c(prior.bimodal(), prior.normal()))</code></pre>
-<pre><code>Adding factor 1 to flash object...
-Adding factor 2 to flash object...
-Adding factor 3 to flash object...
-Adding factor 4 to flash object...
-Adding factor 5 to flash object...
-Factor doesn&#39;t significantly increase objective and won&#39;t be added.
-Wrapping up...
-Done.
-Nullchecking 4 factors...
-Done.</code></pre>
-<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs)</code></pre>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=Qhat, labels=labs, colors=colors, ymax=1.01)</code></pre>
+<pre><code>Scale for &#39;y&#39; is already present. Adding another scale for &#39;y&#39;, which
+will replace the existing scale.</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -936,25 +975,25 @@ Joseph Marcus
 </table>
 </div>
 </div>
-<p>flash learns a shared factor between all the populations but where YRI has a lower loading then CEU and HAN and then it also learns population specific factors.</p>
+<p>the PSD model assigns three distinct clusters.</p>
 </div>
-<div id="flash-backfit" class="section level1">
-<h1>flash [backfit]</h1>
-<p>Run flash [backfit] initializing from the greedy solution:</p>
-<pre class="r"><code>flbf &lt;- fl %&gt;% 
-  flash.backfit() %&gt;% 
-  flash.nullcheck(remove=TRUE)</code></pre>
-<pre><code>Backfitting 4 factors (tolerance: 5.33e-02)...
-  Difference between iterations is within 1.0e+02...
-  Difference between iterations is within 1.0e+01...
-  Difference between iterations is within 1.0e+00...
-  Difference between iterations is within 1.0e-01...
+<div id="flash-greedy" class="section level1">
+<h1>flash [greedy]</h1>
+<p>Run the greedy algorithm:</p>
+<pre class="r"><code>fl &lt;- flash(Y, 
+            greedy.Kmax=5, 
+            prior.family=c(prior.bimodal(), prior.normal()))</code></pre>
+<pre><code>Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
 Wrapping up...
 Done.
 Nullchecking 4 factors...
-Wrapping up...
 Done.</code></pre>
-<pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs)</code></pre>
+<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
@@ -1004,6 +1043,69 @@ Joseph Marcus
 </table>
 </div>
 </div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" target="_blank">da3995d</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>flash learns a shared factor between all the populations but where YRI has a lower loading then CEU and HAN and then it also learns population specific factors.</p>
+</div>
+<div id="flash-backfit" class="section level1">
+<h1>flash [backfit]</h1>
+<p>Run flash [backfit] initializing from the greedy solution:</p>
+<pre class="r"><code>flbf &lt;- fl %&gt;% 
+  flash.backfit() %&gt;% 
+  flash.nullcheck(remove=TRUE)</code></pre>
+<pre><code>Backfitting 4 factors (tolerance: 5.33e-02)...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+  Difference between iterations is within 1.0e+00...
+  Difference between iterations is within 1.0e-01...
+Wrapping up...
+Done.
+Nullchecking 4 factors...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=flbf$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>the backfitting algorithm represents the data with a sparser solution.</p>
 </div>
 <div id="drift" class="section level1">
@@ -1049,46 +1151,12 @@ dr &lt;- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)</code></pre
   36 :    -2864516.546 
   37 :    -2864516.534 
   38 :    -2864516.525 </code></pre>
-<pre class="r"><code>plot_loadings(dr$EL, labs)</code></pre>
-<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jhmarcus/drift-workflow/blob/da3995d7fae4d664ba8a92587bcf2f03be90af54/docs/figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-8-1.png" target="_blank">da3995d</a>
-</td>
-<td>
-Joseph Marcus
-</td>
-<td>
-2020-05-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>drift seems to maintain the greedy solution.</p>
+<pre class="r"><code>plot_loadings(dr$EL, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=dr$EL, labels=labs, colors=colors)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><code>drift</code> seems to maintain the greedy solution.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1116,11 +1184,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] alstructure_0.1.0 forcats_0.5.0     stringr_1.4.0    
- [4] dplyr_0.8.5       purrr_0.3.4       readr_1.3.1      
- [7] tidyr_1.0.2       tibble_3.0.1      tidyverse_1.3.0  
-[10] reshape2_1.4.3    ggplot2_3.3.0     drift.alpha_0.0.9
-[13] flashier_0.2.4    lfa_1.9.0        
+ [1] alstructure_0.1.0  forcats_0.5.0      stringr_1.4.0     
+ [4] dplyr_0.8.5        purrr_0.3.4        readr_1.3.1       
+ [7] tidyr_1.0.2        tibble_3.0.1       tidyverse_1.3.0   
+[10] reshape2_1.4.3     RColorBrewer_1.1-2 ggplot2_3.3.0     
+[13] drift.alpha_0.0.9  flashier_0.2.4     lfa_1.9.0         
 
 loaded via a namespace (and not attached):
  [1] httr_1.4.1       jsonlite_1.6     modelr_0.1.6     assertthat_0.2.1
@@ -1132,8 +1200,8 @@ loaded via a namespace (and not attached):
 [25] corpcor_1.6.9    scales_1.1.0     whisker_0.3-2    later_0.7.5     
 [29] git2r_0.26.1     farver_2.0.3     generics_0.0.2   ellipsis_0.3.0  
 [33] withr_2.2.0      ashr_2.2-50      cli_2.0.2        magrittr_1.5    
-[37] crayon_1.3.4     readxl_1.3.1     evaluate_0.14    fs_1.3.1        
-[41] fansi_0.4.1      nlme_3.1-137     xml2_1.3.2       truncnorm_1.0-8 
+[37] crayon_1.3.4     readxl_1.3.1     evaluate_0.14    fansi_0.4.1     
+[41] fs_1.3.1         nlme_3.1-137     xml2_1.3.2       truncnorm_1.0-8 
 [45] tools_3.5.1      hms_0.5.3        lifecycle_0.2.0  munsell_0.5.0   
 [49] reprex_0.3.0     irlba_2.3.3      compiler_3.5.1   rlang_0.4.5     
 [53] grid_3.5.1       rstudioapi_0.11  labeling_0.3     rmarkdown_1.10  
