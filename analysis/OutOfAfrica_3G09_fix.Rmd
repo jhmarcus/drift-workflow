@@ -33,15 +33,15 @@ suppressMessages({
 
 ```{r}
 data_path <- "../output/simulations/OutOfAfrica_3G09/rep1.txt"
-Y <- t(as.matrix(read.table(data_path, sep=" ")))
-colnames(Y) <- NULL
-rownames(Y) <- NULL
-n <- nrow(Y)
-daf <- colSums(Y) / (2 * n)
+G <- t(as.matrix(read.table(data_path, sep=" ")))
+colnames(G) <- NULL
+rownames(G) <- NULL
+n <- nrow(G)
+daf <- colSums(G) / (2 * n)
 colors <- brewer.pal(8, "Set2")
 
 # filter out too rare and too common SNPs
-Y <- Y[,((daf>=.05) & (daf <=.95))]
+Y <- G[,((daf>=.05) & (daf <=.95))]
 p <- ncol(Y)
 print(n)
 print(p)
@@ -54,6 +54,18 @@ we end up with 120 individuals and ~30000 SNPs. View fitted the sample covarianc
 
 ```{r}
 plot_cov((1.0 / p) * Y %*% t(Y), as.is=T)
+```
+
+plot allele frequencies of Africa vs OOA populations:
+
+```{r}
+daf_afr <- colSums(G[1:40,]) / (2*40)
+daf_ooa <- colSums(G[41:120,]) / (2*80)
+
+#
+qplot(daf_ooa, daf_afr, alpha=.1)
+hist(daf_afr)
+hist(daf_ooa)
 ```
 
 # flash [greedy]
