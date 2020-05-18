@@ -30,6 +30,10 @@ Coalescent simulations:
 * [OutOfAfrica_3G09](OutOfAfrica_3G09.html)
 * [AmericanAdmixture_4B11](AmericanAdmixture_4B11.html)
 
+Coalescent simulations with fixed shared factor:
+
+* [OutOfAfrica_3G09](OutOfAfrica_3G09_fix.html)
+
 ## Explorations
 
 * [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)

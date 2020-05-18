@@ -146,3 +146,46 @@ create_structure_plot(L=dr$EL, labels=labs, colors=colors)
 ```
 
 `drift` seems to maintain the greedy solution.
+
+# flash [fix-greedy] 
+
+```{r}
+ones <- matrix(1, nrow = n, ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+fl <- flash.init(Y) %>%
+  flash.init.factors(EF = list(ones, ls.soln), prior.family=c(prior.bimodal(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax=6, prior.family=c(prior.bimodal(), prior.normal()))
+
+plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)
+```
+
+# flash [fix-backfit]
+
+```{r}
+flbf <- fl %>% 
+  flash.backfit() %>% 
+  flash.nullcheck(remove=TRUE)
+plot_loadings(flbf$flash.fit$EF[[1]], labs) + scale_color_brewer(palette="Set2")
+```
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, 
+            maxiter=1000, 
+            tol=0.01, 
+            verbose=TRUE, 
+            update_order=c(0, 2:ncol(init$EL), -1))
+plot_loadings(dr$EL, labs) + scale_color_brewer(palette="Set2")
+```

@@ -1,0 +1,155 @@
+---
+title: "OutOfAfrica_3G09 [fix shared factor]"
+author: "Joseph Marcus"
+date: "2020-05-18"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+Here I visualize population structure with simulated data from the [OutOfAfrica_3G09](https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_outofafrica_3g09) scenario. See [Figure 2.](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000695) from Gutenkunst et al. 2009.
+
+Below, I show a number of EBMF solutions and in each of them I don't display the first shared factor which is prefixed to the one-vector and scale the loadings by the prior variance. I only describe the loadings that remain after the shared factor.
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(RColorBrewer)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+  source("../code/structure_plot.R")
+})
+```
+
+## Data
+
+```{r}
+data_path <- "../output/simulations/OutOfAfrica_3G09/rep1.txt"
+Y <- t(as.matrix(read.table(data_path, sep=" ")))
+colnames(Y) <- NULL
+rownames(Y) <- NULL
+n <- nrow(Y)
+daf <- colSums(Y) / (2 * n)
+colors <- brewer.pal(8, "Set2")
+
+# filter out too rare and too common SNPs
+Y <- Y[,((daf>=.05) & (daf <=.95))]
+p <- ncol(Y)
+print(n)
+print(p)
+
+# sub-population labels from stdpop
+labs <- rep(c("YRI", "CEU", "HAN"), each=40)
+```
+
+we end up with 120 individuals and ~30000 SNPs. View fitted the sample covariance matrix:
+
+```{r}
+plot_cov((1.0 / p) * Y %*% t(Y), as.is=T)
+```
+
+# flash [greedy]
+
+Run the `greedy` algorithm:
+
+```{r}
+ones <- matrix(1, nrow = n, ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+fl <- flash.init(Y) %>%
+  flash.init.factors(EF = list(ones, ls.soln), 
+                     prior.family=c(prior.bimodal(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax=6, prior.family=c(prior.bimodal(), prior.normal()))
+
+sd <- unlist(lapply(fl$fitted.g[[2]], '[[', 3))
+L <- fl$flash.fit$EF[[1]]
+LDsqrt <- L %*% diag(sd)
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
+```
+
+view fitted covariance matrix:
+
+```{r}
+plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```
+
+the `greedy` algorithm finds 3 population specific factors.
+
+# flash [backfit]
+
+Run `flash [backfit]` initializing from the greedy solution:
+
+```{r}
+flbf <- fl %>% 
+  flash.backfit() %>% 
+  flash.nullcheck(remove=TRUE)
+
+sd <- unlist(lapply(flbf$fitted.g[[2]], '[[', 3))
+L <- flbf$flash.fit$EF[[1]]
+LDsqrt <- L %*% diag(sd)
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
+```
+
+view fitted covariance matrix:
+
+```{r}
+plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```
+
+the `backfitting` algorithm represents the data with a sparser solution and finds a factor represented by YRI and a small loading from Han and 
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, 
+            maxiter=1000, 
+            tol=0.01, 
+            verbose=FALSE, 
+            update_order=c(0, 2:ncol(init$EL), -1))
+
+sd <- sqrt(dr$prior_s2)
+L <- dr$EL
+LDsqrt <- L %*% diag(sd)
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
+view structure plot:
+
+```{r}
+create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
+```
+
+view fitted covariance matrix:
+
+```{r}
+plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```
+
+the `drift` algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift). Note the solution here is a bit of hack in that we don't update the loadings or factors for the first factor. This will be fixed in the `drift.alpha` package soon.

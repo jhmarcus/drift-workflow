@@ -69,3 +69,11 @@ create_structure_plot <- function(L, labels, colors,
   return(p)
 }
 
+
+#library(ggplot2)
+#library(dplyr)
+#library(tidyr)
+#Q <- as.matrix(read.table("../../qfile.txt"))
+#pops <- as.vector(read.table("../../pops.txt")$V1)
+#colors <- c("red", "blue", "green")
+#create_structure_plot <- create_structure_plot(L=Q, labels=pops, colors=colors)
