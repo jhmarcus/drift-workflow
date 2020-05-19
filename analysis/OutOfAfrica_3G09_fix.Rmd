@@ -2,7 +2,9 @@
 title: "OutOfAfrica_3G09 [fix shared factor]"
 author: "Joseph Marcus"
 date: "2020-05-18"
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    code_folding: hide
 editor_options:
   chunk_output_type: console
 ---
@@ -61,8 +63,6 @@ plot allele frequencies of Africa vs OOA populations:
 ```{r}
 daf_afr <- colSums(G[1:40,]) / (2*40)
 daf_ooa <- colSums(G[41:120,]) / (2*80)
-
-#
 qplot(daf_ooa, daf_afr, alpha=.1)
 hist(daf_afr)
 hist(daf_ooa)
