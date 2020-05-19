@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Joseph Marcus" />
+
+<meta name="date" content="2020-05-13" />
+
+<title>AmericanAdmixture_4B11</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">AmericanAdmixture_4B11</h1>
+<h4 class="author"><em>Joseph Marcus</em></h4>
+<h4 class="date"><em>2020-05-13</em></h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-05-14
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.1). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7ddf69c36e1c9776d71b5131179d69138decdc6dtargetblank7ddf69ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7ddf69c36e1c9776d71b5131179d69138decdc6d" target="_blank">7ddf69c</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7ddf69c36e1c9776d71b5131179d69138decdc6dtargetblank7ddf69ca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/7ddf69c36e1c9776d71b5131179d69138decdc6d" target="_blank">7ddf69c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .snakemake/
+    Ignored:    data/datasets/
+    Ignored:    data/raw/
+    Ignored:    data/simulations/
+    Ignored:    nb-log-1324132.err
+    Ignored:    nb-log-1324132.out
+    Ignored:    notebooks/.ipynb_checkpoints/
+    Ignored:    output/
+    Ignored:    sandbox/.ipynb_checkpoints/
+
+Unstaged changes:
+    Modified:   analysis/OutOfAfrica_3G09.Rmd
+    Modified:   code/structure_plot.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/AmericanAdmixture_4B11.Rmd</code>) and HTML (<code>docs/AmericanAdmixture_4B11.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7ddf69c36e1c9776d71b5131179d69138decdc6d/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">7ddf69c</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-14
+</td>
+<td>
+wflow_publish(“AmericanAdmixture_4B11.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/afde10519ae94d13bc31ca40189c5c03dc8d10c4/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">afde105</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+added American admixture simulation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/407a5b04e291821d1053c384020cc05b9d0cf837/docs/AmericanAdmixture_4B11.html" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/90947d32a4afafa9751840937cbd96d0e1b2f086/analysis/AmericanAdmixture_4B11.Rmd" target="_blank">90947d3</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+wflow_publish(“analysis/AmericanAdmixture_4B11.Rmd”)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here I visualize population structure with simulated data from the <a href="https://stdpopsim.readthedocs.io/en/latest/catalog.html#sec_catalog_homsap_models_americanadmixture_4b11">AmericanAdmixture_4B11</a> scenario. See <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1007385">Browning et al. 2018</a> for details.</p>
+<div id="imports" class="section level1">
+<h1>Imports</h1>
+<p>Import the required libraries and scripts:</p>
+<pre class="r"><code>suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(reshape2)
+  library(tidyverse)
+  library(RColorBrewer)
+  library(alstructure)
+  source(&quot;../code/structure_plot.R&quot;)
+})</code></pre>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<pre class="r"><code>data_path &lt;- &quot;../output/simulations/AmericanAdmixture_4B11/rep1.txt&quot;
+Y &lt;- t(as.matrix(read.table(data_path, sep=&quot; &quot;)))
+n &lt;- nrow(Y)
+maf &lt;- colSums(Y) / (2*n)
+colors &lt;- brewer.pal(8, &quot;Set2&quot;)
+
+# filter out too rare and too common SNPs
+Y &lt;- Y[,((maf&gt;=.05) &amp; (maf &lt;=.95))]
+p &lt;- ncol(Y)
+Z &lt;- scale(Y)
+print(n)</code></pre>
+<pre><code>[1] 160</code></pre>
+<pre class="r"><code>print(p)</code></pre>
+<pre><code>[1] 24643</code></pre>
+<pre class="r"><code># sub-population labels from stdpop
+labs &lt;- rep(c(&quot;AFR&quot;, &quot;EUR&quot;, &quot;ASIA&quot;, &quot;ADMIX&quot;), each=40)</code></pre>
+<p>we end up with 160 individuals and ~24643 SNPs.</p>
+</div>
+<div id="pca" class="section level1">
+<h1>PCA</h1>
+<p>Lets run <code>PCA</code> on the centered and scaled genotype matrix:</p>
+<pre class="r"><code>svd_res &lt;- lfa:::trunc.svd(Z, 5)
+L_hat &lt;- svd_res$u
+plot_loadings(L_hat, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/pca-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-1">
+Past versions of pca-1.png
+</button>
+</p>
+<div id="fig-pca-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/pca-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Plot the first two factors against each other:</p>
+<pre class="r"><code>qplot(L_hat[,1], L_hat[,2], color=labs) + 
+  xlab(&quot;PC1&quot;) + 
+  ylab(&quot;PC2&quot;) + 
+  scale_color_brewer(palette=&quot;Set2&quot;) + 
+  theme_bw()</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/pca-biplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pca-biplot-1">
+Past versions of pca-biplot-1.png
+</button>
+</p>
+<div id="fig-pca-biplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/pca-biplot-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>the admixed population is in the center of the PC1 vs PC2 bi-plot.</p>
+</div>
+<div id="alstructure" class="section level1">
+<h1>ALStructure</h1>
+<p>Run <code>ALStructure</code> with <span class="math inline">\(K=3\)</span>:</p>
+<pre class="r"><code>admix_res &lt;- alstructure::alstructure(t(Y), d_hat=3)
+Qhat &lt;- t(admix_res$Q_hat)
+plot_loadings(Qhat, labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/psd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-psd-1">
+Past versions of psd-1.png
+</button>
+</p>
+<div id="fig-psd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/psd-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=Qhat, labels=labs, colors=colors, ymax=1.01)</code></pre>
+<pre><code>Scale for &#39;y&#39; is already present. Adding another scale for &#39;y&#39;, which
+will replace the existing scale.</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>the three factors seems to represent “ancestral populations” from ASIA, EUR, and AFR and the admixed population draws ancestry from all three of them as expected.</p>
+</div>
+<div id="flash-greedy" class="section level1">
+<h1>flash [greedy]</h1>
+<p>Run the greedy algorithm:</p>
+<pre class="r"><code>fl &lt;- flash(Y, 
+            greedy.Kmax=8, 
+            prior.family=c(prior.bimodal(), prior.normal()))</code></pre>
+<pre><code>Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Factor doesn&#39;t significantly increase objective and won&#39;t be added.
+Wrapping up...
+Done.
+Nullchecking 4 factors...
+Done.</code></pre>
+<pre class="r"><code>plot_loadings(fl$flash.fit$EF[[1]], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/greedy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-greedy-1">
+Past versions of greedy-1.png
+</button>
+</p>
+<div id="fig-greedy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/greedy-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=fl$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>there are 4 factors learned by the greedy algorithm: one share factor with a slightly lower loading in the AFR population and 3 sparser factors. The third factor seems to be defined by ASIA individuals and the admixed population has a small weight on this factor.</p>
+</div>
+<div id="flash-backfit" class="section level1">
+<h1>flash [backfit]</h1>
+<p>Run <code>flash [backfit]</code> initializing from the greedy solution:</p>
+<pre class="r"><code>flbf &lt;- fl %&gt;% 
+  flash.backfit() %&gt;% 
+  flash.nullcheck(remove=TRUE)</code></pre>
+<pre><code>Backfitting 4 factors (tolerance: 5.88e-02)...
+  Difference between iterations is within 1.0e+03...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+  Difference between iterations is within 1.0e+00...
+  Difference between iterations is within 1.0e-01...
+Wrapping up...
+Done.
+Nullchecking 4 factors...
+Done.</code></pre>
+<pre class="r"><code>plot_loadings(flbf$flash.fit$EF[[1]], labs)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/backfit-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-backfit-1">
+Past versions of backfit-1.png
+</button>
+</p>
+<div id="fig-backfit-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/backfit-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=flbf$flash.fit$EF[[1]], labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>the results looks qualitatively similar to the greedy algorithm though now the the third factor is completely defined ASIA individuals.</p>
+</div>
+<div id="drift" class="section level1">
+<h1>drift</h1>
+<p>Run <code>drift</code> initializing from the greedy solution:</p>
+<pre class="r"><code>init &lt;- init_from_flash(fl)
+dr &lt;- drift(init, miniter=2, maxiter=500, tol=0.01, verbose=TRUE)</code></pre>
+<pre><code>   1 :    -3229696.286 
+   2 :    -3228212.910 
+   3 :    -3227165.987 
+   4 :    -3226509.597 
+   5 :    -3226125.724 
+   6 :    -3225898.835 
+   7 :    -3225767.675 
+   8 :    -3225688.709 
+   9 :    -3225636.374 
+  10 :    -3225601.979 
+  11 :    -3225577.336 
+  12 :    -3225560.772 
+  13 :    -3225549.245 
+  14 :    -3225540.549 
+  15 :    -3225533.633 
+  16 :    -3225527.895 
+  17 :    -3225522.022 
+  18 :    -3225517.249 
+  19 :    -3225513.311 
+  20 :    -3225510.013 
+  21 :    -3225507.188 
+  22 :    -3225504.714 
+  23 :    -3225502.511 
+  24 :    -3225500.495 
+  25 :    -3225498.561 
+  26 :    -3225496.605 
+  27 :    -3225494.601 
+  28 :    -3225492.551 
+  29 :    -3225490.591 
+  30 :    -3225488.818 
+  31 :    -3225487.163 
+  32 :    -3225485.714 
+  33 :    -3225484.471 
+  34 :    -3225483.377 
+  35 :    -3225482.388 
+  36 :    -3225481.452 
+  37 :    -3225480.461 
+  38 :    -3225479.105 
+  39 :    -3225477.126 
+  40 :    -3225475.658 
+  41 :    -3225474.857 
+  42 :    -3225474.300 
+  43 :    -3225473.842 
+  44 :    -3225473.437 
+  45 :    -3225473.071 
+  46 :    -3225472.735 
+  47 :    -3225472.425 
+  48 :    -3225472.139 
+  49 :    -3225471.872 
+  50 :    -3225471.622 
+  51 :    -3225471.389 
+  52 :    -3225471.169 
+  53 :    -3225470.962 
+  54 :    -3225470.767 
+  55 :    -3225470.582 
+  56 :    -3225470.407 
+  57 :    -3225470.241 
+  58 :    -3225470.083 
+  59 :    -3225469.933 
+  60 :    -3225469.789 
+  61 :    -3225469.652 
+  62 :    -3225469.522 
+  63 :    -3225469.397 
+  64 :    -3225469.277 
+  65 :    -3225469.163 
+  66 :    -3225469.053 
+  67 :    -3225468.948 
+  68 :    -3225468.847 
+  69 :    -3225468.750 
+  70 :    -3225468.656 
+  71 :    -3225468.567 
+  72 :    -3225468.480 
+  73 :    -3225468.397 
+  74 :    -3225468.316 
+  75 :    -3225468.239 
+  76 :    -3225468.164 
+  77 :    -3225468.091 
+  78 :    -3225468.021 
+  79 :    -3225467.953 
+  80 :    -3225467.888 
+  81 :    -3225467.824 
+  82 :    -3225467.762 
+  83 :    -3225467.702 
+  84 :    -3225467.644 
+  85 :    -3225467.587 
+  86 :    -3225467.532 
+  87 :    -3225467.478 
+  88 :    -3225467.426 
+  89 :    -3225467.375 
+  90 :    -3225467.325 
+  91 :    -3225467.277 
+  92 :    -3225467.229 
+  93 :    -3225467.183 
+  94 :    -3225467.138 
+  95 :    -3225467.093 
+  96 :    -3225467.050 
+  97 :    -3225467.007 
+  98 :    -3225466.966 
+  99 :    -3225466.925 
+ 100 :    -3225466.885 
+ 101 :    -3225466.846 
+ 102 :    -3225466.807 
+ 103 :    -3225466.769 
+ 104 :    -3225466.732 
+ 105 :    -3225466.696 
+ 106 :    -3225466.660 
+ 107 :    -3225466.624 
+ 108 :    -3225466.590 
+ 109 :    -3225466.556 
+ 110 :    -3225466.522 
+ 111 :    -3225466.489 
+ 112 :    -3225466.456 
+ 113 :    -3225466.424 
+ 114 :    -3225466.392 
+ 115 :    -3225466.361 
+ 116 :    -3225466.330 
+ 117 :    -3225466.300 
+ 118 :    -3225466.270 
+ 119 :    -3225466.241 
+ 120 :    -3225466.211 
+ 121 :    -3225466.183 
+ 122 :    -3225466.154 
+ 123 :    -3225466.126 
+ 124 :    -3225466.099 
+ 125 :    -3225466.071 
+ 126 :    -3225466.044 
+ 127 :    -3225466.018 
+ 128 :    -3225465.991 
+ 129 :    -3225465.965 
+ 130 :    -3225465.940 
+ 131 :    -3225465.914 
+ 132 :    -3225465.889 
+ 133 :    -3225465.864 
+ 134 :    -3225465.840 
+ 135 :    -3225465.816 
+ 136 :    -3225465.792 
+ 137 :    -3225465.768 
+ 138 :    -3225465.744 
+ 139 :    -3225465.721 
+ 140 :    -3225465.698 
+ 141 :    -3225465.675 
+ 142 :    -3225465.653 
+ 143 :    -3225465.631 
+ 144 :    -3225465.609 
+ 145 :    -3225465.587 
+ 146 :    -3225465.565 
+ 147 :    -3225465.544 
+ 148 :    -3225465.523 
+ 149 :    -3225465.502 
+ 150 :    -3225465.481 
+ 151 :    -3225465.460 
+ 152 :    -3225465.440 
+ 153 :    -3225465.420 
+ 154 :    -3225465.400 
+ 155 :    -3225465.380 
+ 156 :    -3225465.361 
+ 157 :    -3225465.341 
+ 158 :    -3225465.322 
+ 159 :    -3225465.303 
+ 160 :    -3225465.284 
+ 161 :    -3225465.266 
+ 162 :    -3225465.247 
+ 163 :    -3225465.229 
+ 164 :    -3225465.211 
+ 165 :    -3225465.193 
+ 166 :    -3225465.175 
+ 167 :    -3225465.157 
+ 168 :    -3225465.140 
+ 169 :    -3225465.122 
+ 170 :    -3225465.105 
+ 171 :    -3225465.088 
+ 172 :    -3225465.071 
+ 173 :    -3225465.054 
+ 174 :    -3225465.038 
+ 175 :    -3225465.021 
+ 176 :    -3225465.005 
+ 177 :    -3225464.989 
+ 178 :    -3225464.973 
+ 179 :    -3225464.957 
+ 180 :    -3225464.941 
+ 181 :    -3225464.925 
+ 182 :    -3225464.910 
+ 183 :    -3225464.894 
+ 184 :    -3225464.879 
+ 185 :    -3225464.863 
+ 186 :    -3225464.846 
+ 187 :    -3225464.829 
+ 188 :    -3225464.811 
+ 189 :    -3225464.792 
+ 190 :    -3225464.772 
+ 191 :    -3225464.752 
+ 192 :    -3225464.730 
+ 193 :    -3225464.708 
+ 194 :    -3225464.684 
+ 195 :    -3225464.660 
+ 196 :    -3225464.634 
+ 197 :    -3225464.607 
+ 198 :    -3225464.578 
+ 199 :    -3225464.548 
+ 200 :    -3225464.517 
+ 201 :    -3225464.483 
+ 202 :    -3225464.448 
+ 203 :    -3225464.411 
+ 204 :    -3225464.372 
+ 205 :    -3225464.330 
+ 206 :    -3225464.286 
+ 207 :    -3225464.239 
+ 208 :    -3225464.189 
+ 209 :    -3225464.136 
+ 210 :    -3225464.080 
+ 211 :    -3225464.020 
+ 212 :    -3225463.956 
+ 213 :    -3225463.887 
+ 214 :    -3225463.813 
+ 215 :    -3225463.734 
+ 216 :    -3225463.649 
+ 217 :    -3225463.557 
+ 218 :    -3225463.459 
+ 219 :    -3225463.352 
+ 220 :    -3225463.237 
+ 221 :    -3225463.111 
+ 222 :    -3225462.975 
+ 223 :    -3225462.828 
+ 224 :    -3225462.666 
+ 225 :    -3225462.490 
+ 226 :    -3225462.297 
+ 227 :    -3225462.086 
+ 228 :    -3225461.853 
+ 229 :    -3225461.598 
+ 230 :    -3225461.317 
+ 231 :    -3225461.007 
+ 232 :    -3225460.666 
+ 233 :    -3225460.290 
+ 234 :    -3225459.876 
+ 235 :    -3225459.422 
+ 236 :    -3225458.925 
+ 237 :    -3225458.385 
+ 238 :    -3225457.800 
+ 239 :    -3225457.170 
+ 240 :    -3225456.498 
+ 241 :    -3225455.822 
+ 242 :    -3225455.175 
+ 243 :    -3225454.557 
+ 244 :    -3225453.966 
+ 245 :    -3225453.402 
+ 246 :    -3225452.863 
+ 247 :    -3225452.349 
+ 248 :    -3225451.858 
+ 249 :    -3225451.390 
+ 250 :    -3225450.944 
+ 251 :    -3225450.520 
+ 252 :    -3225450.115 
+ 253 :    -3225449.731 
+ 254 :    -3225449.365 
+ 255 :    -3225449.018 
+ 256 :    -3225448.688 
+ 257 :    -3225448.374 
+ 258 :    -3225448.076 
+ 259 :    -3225447.793 
+ 260 :    -3225447.525 
+ 261 :    -3225447.270 
+ 262 :    -3225447.027 
+ 263 :    -3225446.797 
+ 264 :    -3225446.577 
+ 265 :    -3225446.369 
+ 266 :    -3225446.170 
+ 267 :    -3225445.981 
+ 268 :    -3225445.801 
+ 269 :    -3225445.629 
+ 270 :    -3225445.465 
+ 271 :    -3225445.308 
+ 272 :    -3225445.158 
+ 273 :    -3225445.015 
+ 274 :    -3225444.878 
+ 275 :    -3225444.746 
+ 276 :    -3225444.620 
+ 277 :    -3225444.499 
+ 278 :    -3225444.383 
+ 279 :    -3225444.272 
+ 280 :    -3225444.165 
+ 281 :    -3225444.062 
+ 282 :    -3225443.962 
+ 283 :    -3225443.867 
+ 284 :    -3225443.775 
+ 285 :    -3225443.686 
+ 286 :    -3225443.600 
+ 287 :    -3225443.518 
+ 288 :    -3225443.438 
+ 289 :    -3225443.361 
+ 290 :    -3225443.286 
+ 291 :    -3225443.214 
+ 292 :    -3225443.145 
+ 293 :    -3225443.077 
+ 294 :    -3225443.012 
+ 295 :    -3225442.948 
+ 296 :    -3225442.887 
+ 297 :    -3225442.827 
+ 298 :    -3225442.769 
+ 299 :    -3225442.713 
+ 300 :    -3225442.659 
+ 301 :    -3225442.606 
+ 302 :    -3225442.554 
+ 303 :    -3225442.504 
+ 304 :    -3225442.456 
+ 305 :    -3225442.408 
+ 306 :    -3225442.362 
+ 307 :    -3225442.317 
+ 308 :    -3225442.274 
+ 309 :    -3225442.231 
+ 310 :    -3225442.190 
+ 311 :    -3225442.150 
+ 312 :    -3225442.110 
+ 313 :    -3225442.072 
+ 314 :    -3225442.035 
+ 315 :    -3225441.998 
+ 316 :    -3225441.962 
+ 317 :    -3225441.928 
+ 318 :    -3225441.894 
+ 319 :    -3225441.861 
+ 320 :    -3225441.828 
+ 321 :    -3225441.796 
+ 322 :    -3225441.766 
+ 323 :    -3225441.735 
+ 324 :    -3225441.706 
+ 325 :    -3225441.677 
+ 326 :    -3225441.648 
+ 327 :    -3225441.621 
+ 328 :    -3225441.593 
+ 329 :    -3225441.567 
+ 330 :    -3225441.541 
+ 331 :    -3225441.515 
+ 332 :    -3225441.490 
+ 333 :    -3225441.466 
+ 334 :    -3225441.442 
+ 335 :    -3225441.418 
+ 336 :    -3225441.395 
+ 337 :    -3225441.373 
+ 338 :    -3225441.350 
+ 339 :    -3225441.329 
+ 340 :    -3225441.307 
+ 341 :    -3225441.286 
+ 342 :    -3225441.266 
+ 343 :    -3225441.246 
+ 344 :    -3225441.226 
+ 345 :    -3225441.206 
+ 346 :    -3225441.187 
+ 347 :    -3225441.168 
+ 348 :    -3225441.150 
+ 349 :    -3225441.131 
+ 350 :    -3225441.114 
+ 351 :    -3225441.096 
+ 352 :    -3225441.079 
+ 353 :    -3225441.062 
+ 354 :    -3225441.045 
+ 355 :    -3225441.028 
+ 356 :    -3225441.012 
+ 357 :    -3225440.996 
+ 358 :    -3225440.981 
+ 359 :    -3225440.965 
+ 360 :    -3225440.950 
+ 361 :    -3225440.935 
+ 362 :    -3225440.920 
+ 363 :    -3225440.906 
+ 364 :    -3225440.891 
+ 365 :    -3225440.877 
+ 366 :    -3225440.863 
+ 367 :    -3225440.849 
+ 368 :    -3225440.836 
+ 369 :    -3225440.823 
+ 370 :    -3225440.809 
+ 371 :    -3225440.796 
+ 372 :    -3225440.784 
+ 373 :    -3225440.771 
+ 374 :    -3225440.759 
+ 375 :    -3225440.746 
+ 376 :    -3225440.734 
+ 377 :    -3225440.722 
+ 378 :    -3225440.710 
+ 379 :    -3225440.699 
+ 380 :    -3225440.687 
+ 381 :    -3225440.676 
+ 382 :    -3225440.665 
+ 383 :    -3225440.653 
+ 384 :    -3225440.642 
+ 385 :    -3225440.632 
+ 386 :    -3225440.621 
+ 387 :    -3225440.610 
+ 388 :    -3225440.600 
+ 389 :    -3225440.590 
+ 390 :    -3225440.579 
+ 391 :    -3225440.569 
+ 392 :    -3225440.559 </code></pre>
+<pre class="r"><code>plot_loadings(dr$EL, labs)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/drift-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift-1">
+Past versions of drift-1.png
+</button>
+</p>
+<div id="fig-drift-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/407a5b04e291821d1053c384020cc05b9d0cf837/docs/figure/AmericanAdmixture_4B11.Rmd/drift-1.png" target="_blank">407a5b0</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>view structure plot:</p>
+<pre class="r"><code>create_structure_plot(L=dr$EL, labels=labs, colors=colors)</code></pre>
+<p><img src="figure/AmericanAdmixture_4B11.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>the <code>drift</code> algorithm seems to give a pretty different result from <code>flash</code>. There is one shared factor but then the admixed population has intermediate values on all the other factors. Here are the admixture proportions from the coalescent simulation:</p>
+<pre><code>ADMIX percentage 1/6 | Amount African admixture
+ADMIX percentage 1/3 | Amount European admixture
+ADMIX percentage 1/2 | Amount Asian admixture</code></pre>
+<p>which actually qualitatively lines up with ADMIX population loadings on factors 2-4! It’s kinda interesting that we recapitulate a similar behavior we saw in real data for “known” admixed populations when we applied <code>flash</code> and <code>drift</code> to Human Origins data.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] alstructure_0.1.0  RColorBrewer_1.1-2 forcats_0.5.0     
+ [4] stringr_1.4.0      dplyr_0.8.5        purrr_0.3.4       
+ [7] readr_1.3.1        tidyr_1.0.2        tibble_3.0.1      
+[10] tidyverse_1.3.0    reshape2_1.4.3     ggplot2_3.3.0     
+[13] drift.alpha_0.0.9  flashier_0.2.4     lfa_1.9.0         
+
+loaded via a namespace (and not attached):
+ [1] httr_1.4.1       jsonlite_1.6     modelr_0.1.6     assertthat_0.2.1
+ [5] mixsqp_0.3-17    cellranger_1.1.0 yaml_2.2.0       ebnm_0.1-24     
+ [9] pillar_1.4.3     backports_1.1.6  lattice_0.20-38  glue_1.4.0      
+[13] digest_0.6.25    promises_1.0.1   rvest_0.3.5      colorspace_1.4-1
+[17] htmltools_0.3.6  httpuv_1.4.5     Matrix_1.2-15    plyr_1.8.4      
+[21] pkgconfig_2.0.3  invgamma_1.1     broom_0.5.6      haven_2.2.0     
+[25] corpcor_1.6.9    scales_1.1.0     whisker_0.3-2    later_0.7.5     
+[29] git2r_0.26.1     farver_2.0.3     generics_0.0.2   ellipsis_0.3.0  
+[33] withr_2.2.0      ashr_2.2-50      cli_2.0.2        magrittr_1.5    
+[37] crayon_1.3.4     readxl_1.3.1     evaluate_0.14    fs_1.3.1        
+[41] fansi_0.4.1      nlme_3.1-137     xml2_1.3.2       truncnorm_1.0-8 
+[45] tools_3.5.1      hms_0.5.3        lifecycle_0.2.0  munsell_0.5.0   
+[49] reprex_0.3.0     irlba_2.3.3      compiler_3.5.1   rlang_0.4.5     
+[53] grid_3.5.1       rstudioapi_0.11  labeling_0.3     rmarkdown_1.10  
+[57] gtable_0.3.0     DBI_1.0.0        R6_2.4.1         lubridate_1.7.4 
+[61] knitr_1.20       workflowr_1.6.1  rprojroot_1.3-2  stringi_1.4.6   
+[65] parallel_3.5.1   SQUAREM_2020.2   Rcpp_1.0.4.6     vctrs_0.2.4     
+[69] dbplyr_1.4.3     tidyselect_1.0.0</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

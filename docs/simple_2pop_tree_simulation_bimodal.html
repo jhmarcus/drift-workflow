@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="jhmarcus" />
+
+<meta name="date" content="2019-11-20" />
+
+<title>Tree simulation (2pop)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Tree simulation (2pop)</h1>
+<h4 class="author">jhmarcus</h4>
+<h4 class="date">2019-11-20</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-12-21
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreed4d03c59b98155764639a7537b3a599150811289targetblankd4d03c5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/d4d03c59b98155764639a7537b3a599150811289" target="_blank">d4d03c5</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreed4d03c59b98155764639a7537b3a599150811289targetblankd4d03c5a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/flash_cache/
+    Ignored:    data.tar.gz
+    Ignored:    data/datasets/
+    Ignored:    data/raw/
+    Ignored:    docs/figure/.DS_Store
+    Ignored:    docs/figure/hoa_global.Rmd/.DS_Store
+    Ignored:    output.tar.gz
+    Ignored:    output/
+
+Untracked files:
+    Untracked:  analysis/arabidopsis-eda.Rmd
+    Untracked:  data/HGDP_PopStruct_Exercise/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/d4d03c59b98155764639a7537b3a599150811289/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">d4d03c5</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-21
+</td>
+<td>
+wflow_publish(“simple_2pop_tree_simulation_bimodal.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8b7a8bc0293290d4e772c952da52a7e953b8be84/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">8b7a8bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+updated 2 pop sim to have longer maxiter
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/8b7a8bc0293290d4e772c952da52a7e953b8be84/docs/simple_2pop_tree_simulation_bimodal.html" target="_blank">8b7a8bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+updated 2 pop sim to have longer maxiter
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+<td>
+added init drift alpha application to simulation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/simple_2pop_tree_simulation_bimodal.html" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+<td>
+added init drift alpha application to simulation
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/analysis/simple_2pop_tree_simulation_bimodal.Rmd" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+<td>
+pushing 2 pop analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/simple_2pop_tree_simulation_bimodal.html" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+<td>
+pushing 2 pop analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Here we simulate Gaussian data under a simple 2 population tree i.e. a split and explore the interpretability of <code>flashier</code> and <code>drift</code> fits to the data. The data generated under this tree can be represented as a probabilistic matrix factorization model with 1 shared factor and 2 population specific factors … this is what we’d like to recover.</p>
+<div id="import" class="section level1">
+<h1>Import</h1>
+<p>Import the required packages and load helper scripts for this analysis:</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(flashier)
+library(drift.alpha)
+
+source(&quot;../code/ebnm_functions.R&quot;)</code></pre>
+</div>
+<div id="simulate" class="section level1">
+<h1>Simulate</h1>
+<p>Here I simulate the data generated from a simple 2 population tree. I set the residual std. dev. to 1 and prior variances to 1. There are 50 individuals per population and 10000 simulated SNPs:</p>
+<pre class="r"><code>##### sim ##### 
+set.seed(235)
+n_per_pop &lt;- 50
+pops &lt;- c(rep(&quot;Pop1&quot;, n_per_pop), rep(&quot;Pop2&quot;, n_per_pop))
+sigma_e &lt;- 1.0
+sigma_b &lt;- c(1.0, 1.0, 1.0)
+p = 10000
+sim_res &lt;- drift.alpha::two_pop_tree_sim(n_per_pop, p, sigma_e, sigma_b)
+K &lt;- 3
+Y &lt;- sim_res$Y
+n &lt;- nrow(Y)
+p &lt;- ncol(Y)
+
+##### viz ##### 
+drift.alpha::plot_loadings(sim_res$L, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-1-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="greedy" class="section level1">
+<h1>Greedy</h1>
+<p>Run the greedy algorithm which seems to recover the tree:</p>
+<pre class="r"><code>##### fit ##### 
+flash_greedy_res &lt;- flash.init(Y, var.type=0) %&gt;%
+                    flash.add.greedy(Kmax=K,
+                                     prior.family=c(drift.alpha::prior.bimodal(grid_size = 40), 
+                                                    prior.normal()))</code></pre>
+<pre><code>Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>##### viz ##### 
+pm &lt;- flash_greedy_res$loadings.pm[[1]] 
+plot_loadings(pm, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-2-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="initialize-from-greedy" class="section level1">
+<h1>Initialize from greedy</h1>
+<p>Initialize the backfitting algorithm with the greedy solution which recovers a sparser representation of the tree i.e. it zeros out the shared factor:</p>
+<pre class="r"><code>##### fit ##### 
+flash_backfit_res &lt;- flash_greedy_res %&gt;% flash.backfit()</code></pre>
+<pre><code>Backfitting 3 factors (tolerance: 1.49e-02)...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+  Difference between iterations is within 1.0e+00...
+  Difference between iterations is within 1.0e-01...
+  Difference between iterations is within 1.0e-02...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>##### viz ##### 
+pm &lt;- flash_backfit_res$loadings.pm[[1]] 
+elbo_gr_bf &lt;- flash_backfit_res$elbo
+plot_loadings(flash_backfit_res$loadings.pm[[1]], pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-3-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="initialize-from-truth-and-fix-the-priors" class="section level1">
+<h1>Initialize from truth and fix the priors</h1>
+<p>Initialize from the truth and fix the prior which as expected recovers the tree representation we want:</p>
+<pre class="r"><code>##### fit ##### 
+flash_fix_res &lt;- flash.init(Y, var.type=0) %&gt;%
+                 flash.init.factors(EF=list(u=sim_res$L, d=rep(1, K), v=sim_res$F), 
+                                    prior.family=list(c(prior.fixtwopm(pi = c(0.0, 1.0)), 
+                                                        prior.fixnormal()), 
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()),
+                                                      c(prior.fixtwopm(pi = c(.5, .5)), 
+                                                        prior.fixnormal()))) %&gt;%
+                 flash.backfit()</code></pre>
+<pre><code>Backfitting 3 factors (tolerance: 1.49e-02)...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+Wrapping up...
+Done.</code></pre>
+<pre class="r"><code>##### viz ##### 
+pm &lt;- flash_fix_res$loadings.pm[[1]] 
+elbo_init_true &lt;- flash_fix_res$elbo
+plot_loadings(flash_fix_res$loadings.pm[[1]], pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/e3936bcae8a3322646109b31664735fbfb2f4cc8/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-4-1.png" target="_blank">e3936bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Compare the final elbos between the solution where we initialize from the truth and fix the prior to the solution where we initialize from the greedy fit and don’t fix the prior:</p>
+<pre class="r"><code>print(elbo_init_true)</code></pre>
+<pre><code>[1] -1482301</code></pre>
+<pre class="r"><code>print(elbo_gr_bf)</code></pre>
+<pre><code>[1] -1465622</code></pre>
+<pre class="r"><code>print(elbo_init_true&gt;elbo_gr_bf)</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<p>The solution where we initialize with greedy fit has a higher ELBO then when we initialize from the truth and fix the prior.</p>
+</div>
+<div id="drift" class="section level1">
+<h1><code>drift</code></h1>
+<p>Lets now try our new <code>drift</code> algorithm which uses the same bimodal mixture prior for the loadings and Gaussian prior for the factors but a new variational approximation for the factors which accounts for correlations in the posterior i.e. full mvn for the variational approximation:</p>
+<pre class="r"><code>init &lt;- drift.alpha:::init_from_flash(flash_greedy_res)
+drift_res &lt;- drift.alpha:::drift(init)</code></pre>
+<pre><code>   1 :    -1465398.387 
+   2 :    -1464851.616 
+   3 :    -1464736.843 
+   4 :    -1464704.063 
+   5 :    -1464692.839 
+   6 :    -1464688.561 
+   7 :    -1464686.825 
+   8 :    -1464686.094 
+   9 :    -1464685.780 
+  10 :    -1464685.642 
+  11 :    -1464685.582 
+  12 :    -1464685.555 
+  13 :    -1464685.543 
+  14 :    -1464685.537 </code></pre>
+<pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-6-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Very exciting! It seems to maintain the tree structure that the greedy solution finds.</p>
+<pre class="r"><code>print(drift_res$prior_s2)</code></pre>
+<pre><code>[1] 1.0185987 0.9678496 1.0085159</code></pre>
+<pre class="r"><code>print(drift_res$resid_s2)</code></pre>
+<pre><code>[1] 1.001795</code></pre>
+<p><code>drift</code> recovers the correct prior and residual variances.</p>
+<pre class="r"><code>drift_res$CovF</code></pre>
+<pre><code>           [,1]       [,2]       [,3]
+[1,]  0.3371207 -0.3302804 -0.3305514
+[2,] -0.3302804  0.3432082  0.3238444
+[3,] -0.3305514  0.3238444  0.3437556</code></pre>
+<pre class="r"><code>cov2cor(drift_res$CovF)</code></pre>
+<pre><code>           [,1]       [,2]       [,3]
+[1,]  1.0000000 -0.9709821 -0.9710049
+[2,] -0.9709821  1.0000000  0.9428283
+[3,] -0.9710049  0.9428283  1.0000000</code></pre>
+<p>We can see <code>drift</code> is estimating very strong correlations in the posterior. Lets try initializing from the flash backfit solution:</p>
+<pre class="r"><code>init &lt;- drift.alpha:::init_from_flash(flash_backfit_res)
+drift_res &lt;- drift.alpha:::drift(init, maxiter = 1000)</code></pre>
+<pre><code>   1 :    -1465184.207 
+   2 :    -1465104.297 
+   3 :    -1465098.698 
+   4 :    -1465094.188 
+   5 :    -1465090.174 
+   6 :    -1465083.404 
+   7 :    -1465076.797 
+   8 :    -1465070.348 
+   9 :    -1465064.063 
+  10 :    -1465057.963 
+  11 :    -1465052.095 
+  12 :    -1465046.547 
+  13 :    -1465041.447 
+  14 :    -1465036.954 
+  15 :    -1465033.212 
+  16 :    -1465030.290 
+  17 :    -1465026.778 
+  18 :    -1465021.477 
+  19 :    -1465016.299 
+  20 :    -1465011.244 
+  21 :    -1465006.319 
+  22 :    -1465001.538 
+  23 :    -1464996.929 
+  24 :    -1464992.535 
+  25 :    -1464988.423 
+  26 :    -1464984.677 
+  27 :    -1464981.389 
+  28 :    -1464978.638 
+  29 :    -1464976.461 
+  30 :    -1464974.634 
+  31 :    -1464970.995 
+  32 :    -1464967.332 
+  33 :    -1464963.789 
+  34 :    -1464960.362 
+  35 :    -1464957.048 
+  36 :    -1464953.850 
+  37 :    -1464950.773 
+  38 :    -1464947.831 
+  39 :    -1464945.047 
+  40 :    -1464942.455 
+  41 :    -1464940.096 
+  42 :    -1464938.018 
+  43 :    -1464936.260 
+  44 :    -1464934.847 
+  45 :    -1464933.779 
+  46 :    -1464932.980 
+  47 :    -1464931.239 
+  48 :    -1464928.862 
+  49 :    -1464926.553 
+  50 :    -1464924.310 
+  51 :    -1464922.131 
+  52 :    -1464920.015 
+  53 :    -1464917.962 
+  54 :    -1464915.972 
+  55 :    -1464914.050 
+  56 :    -1464912.200 
+  57 :    -1464910.428 
+  58 :    -1464908.745 
+  59 :    -1464907.164 
+  60 :    -1464905.702 
+  61 :    -1464904.382 
+  62 :    -1464903.231 
+  63 :    -1464902.273 
+  64 :    -1464901.365 
+  65 :    -1464900.729 
+  66 :    -1464900.173 
+  67 :    -1464898.656 
+  68 :    -1464896.876 
+  69 :    -1464895.141 
+  70 :    -1464893.448 
+  71 :    -1464891.799 
+  72 :    -1464890.191 
+  73 :    -1464888.625 
+  74 :    -1464887.102 
+  75 :    -1464885.623 
+  76 :    -1464884.190 
+  77 :    -1464882.808 
+  78 :    -1464881.480 
+  79 :    -1464880.214 
+  80 :    -1464879.018 
+  81 :    -1464877.902 
+  82 :    -1464876.875 
+  83 :    -1464875.946 
+  84 :    -1464875.123 
+  85 :    -1464874.410 
+  86 :    -1464873.807 
+  87 :    -1464873.310 
+  88 :    -1464872.911 
+  89 :    -1464872.600 
+  90 :    -1464872.363 
+  91 :    -1464872.186 
+  92 :    -1464872.003 
+  93 :    -1464871.295 
+  94 :    -1464870.266 
+  95 :    -1464869.264 
+  96 :    -1464868.287 
+  97 :    -1464867.334 
+  98 :    -1464866.406 
+  99 :    -1464865.502 
+ 100 :    -1464864.621 
+ 101 :    -1464863.763 
+ 102 :    -1464862.929 
+ 103 :    -1464862.118 
+ 104 :    -1464861.331 
+ 105 :    -1464860.567 
+ 106 :    -1464859.829 
+ 107 :    -1464859.118 
+ 108 :    -1464858.434 
+ 109 :    -1464857.780 
+ 110 :    -1464857.158 
+ 111 :    -1464856.571 
+ 112 :    -1464856.020 
+ 113 :    -1464855.509 
+ 114 :    -1464855.039 
+ 115 :    -1464854.612 
+ 116 :    -1464854.228 
+ 117 :    -1464853.889 
+ 118 :    -1464853.592 
+ 119 :    -1464853.337 
+ 120 :    -1464853.120 
+ 121 :    -1464852.940 
+ 122 :    -1464852.791 
+ 123 :    -1464852.670 
+ 124 :    -1464852.574 
+ 125 :    -1464852.497 
+ 126 :    -1464852.438 
+ 127 :    -1464852.392 
+ 128 :    -1464852.357 
+ 129 :    -1464852.330 
+ 130 :    -1464852.310 
+ 131 :    -1464852.295 
+ 132 :    -1464852.284 
+ 133 :    -1464852.276 </code></pre>
+<pre class="r"><code>plot_loadings(drift_res$EL, pops)</code></pre>
+<p><img src="figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/8b7a8bc0293290d4e772c952da52a7e953b8be84/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" target="_blank">8b7a8bc</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7b7b6d4cf0d1248c6d19aeb8dcf2c3eecba15abc/docs/figure/simple_2pop_tree_simulation_bimodal.Rmd/unnamed-chunk-10-1.png" target="_blank">7b7b6d4</a>
+</td>
+<td>
+jhmarcus
+</td>
+<td>
+2019-12-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This keeps the same representation but with a larger elbo.</p>
+<pre class="r"><code>print(drift_res$elbo)</code></pre>
+<pre><code>[1] -1464852</code></pre>
+<pre class="r"><code>print(flash_backfit_res$elbo)</code></pre>
+<pre><code>[1] -1465622</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: macOS Mojave 10.14.2
+
+Matrix products: default
+BLAS/LAPACK: /Users/jhmarcus/miniconda3/envs/flash_e/lib/R/lib/libRblas.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ebnm_0.1-24       ashr_2.2-38       drift.alpha_0.0.1 flashier_0.2.4   
+[5] tidyr_0.8.3       dplyr_0.8.0.1     ggplot2_3.1.1    
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.2        compiler_3.6.1    pillar_1.3.1     
+ [4] git2r_0.26.1      plyr_1.8.4        workflowr_1.4.0  
+ [7] iterators_1.0.12  tools_3.6.1       digest_0.6.18    
+[10] lattice_0.20-38   evaluate_0.13     tibble_2.1.1     
+[13] gtable_0.3.0      pkgconfig_2.0.2   rlang_0.4.0      
+[16] foreach_1.4.7     Matrix_1.2-17     parallel_3.6.1   
+[19] yaml_2.2.0        xfun_0.6          withr_2.1.2      
+[22] stringr_1.4.0     knitr_1.22        fs_1.2.7         
+[25] rprojroot_1.3-2   grid_3.6.1        tidyselect_0.2.5 
+[28] glue_1.3.1        R6_2.4.0          rmarkdown_1.12   
+[31] mixsqp_0.2-4      purrr_0.3.2       magrittr_1.5     
+[34] whisker_0.3-2     MASS_7.3-51.4     codetools_0.2-16 
+[37] backports_1.1.4   scales_1.0.0      htmltools_0.3.6  
+[40] assertthat_0.2.1  colorspace_1.4-1  labeling_0.3     
+[43] stringi_1.4.3     pscl_1.5.2        doParallel_1.0.15
+[46] lazyeval_0.2.2    munsell_0.5.0     truncnorm_1.0-8  
+[49] SQUAREM_2017.10-1 crayon_1.3.4     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
