@@ -1,5 +1,5 @@
 ---
-title: "OutOfAfrica_3G09 [fix shared factor]"
+title: "OutOfAfrica_3G09 [fixed shared factor]"
 author: "Joseph Marcus"
 date: "2020-05-18"
 output:
@@ -138,12 +138,11 @@ the `backfitting` algorithm represents the data with a sparser solution and find
 Run `drift` initializing from the greedy solution:
 
 ```{r}
-init <- init_from_flash(fl)
+init <- init_from_data(Y, Kmax=6)
 dr <- drift(init, miniter=2, 
             maxiter=1000, 
             tol=0.01, 
-            verbose=FALSE, 
-            update_order=c(0, 2:ncol(init$EL), -1))
+            verbose=TRUE)
 
 sd <- sqrt(dr$prior_s2)
 L <- dr$EL
@@ -164,4 +163,4 @@ view fitted covariance matrix:
 plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
 ```
 
-the `drift` algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift). Note the solution here is a bit of hack in that we don't update the loadings or factors for the first factor. This will be fixed in the `drift.alpha` package soon.
+the `drift` algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift).
