@@ -142,7 +142,7 @@ init <- init_from_data(Y, Kmax=6)
 dr <- drift(init, miniter=2, 
             maxiter=1000, 
             tol=0.01, 
-            verbose=FALSE)
+            verbose=FALSE) 
 
 sd <- sqrt(dr$prior_s2)
 L <- dr$EL
@@ -164,3 +164,4 @@ plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
 ```
 
 the `drift` algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift).
+

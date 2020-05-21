@@ -33,6 +33,7 @@ Coalescent simulations:
 Coalescent simulations with fixed shared factor:
 
 * [OutOfAfrica_3G09](OutOfAfrica_3G09_fix.html)
+* [AmericanAdmixture_4B11](AmericanAdmixture_4B11_fix.html)
 
 ## Explorations
 
