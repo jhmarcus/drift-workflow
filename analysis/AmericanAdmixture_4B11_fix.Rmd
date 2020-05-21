@@ -132,7 +132,7 @@ init <- init_from_data(Y, Kmax=6)
 dr <- drift(init, miniter=2, 
             maxiter=1000, 
             tol=0.01, 
-            verbose=TRUE)
+            verbose=FALSE)
 
 sd <- sqrt(dr$prior_s2)
 L <- dr$EL
