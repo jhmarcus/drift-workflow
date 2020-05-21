@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree2e57d3da12989a2bd53cc6913056bb942074fa4dtargetblank2e57d3da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/2e57d3da12989a2bd53cc6913056bb942074fa4d" target="_blank">2e57d3d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreeda22c757271e5e15706b8a0003f38ac65e011e3ftargetblankda22c75a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/da22c757271e5e15706b8a0003f38ac65e011e3f" target="_blank">da22c75</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree2e57d3da12989a2bd53cc6913056bb942074fa4dtargetblank2e57d3da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreeda22c757271e5e15706b8a0003f38ac65e011e3ftargetblankda22c75a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/2e57d3da12989a2bd53cc6913056bb942074fa4d" target="_blank">2e57d3d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/da22c757271e5e15706b8a0003f38ac65e011e3f" target="_blank">da22c75</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -516,6 +516,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/da22c757271e5e15706b8a0003f38ac65e011e3f/analysis/AmericanAdmixture_4B11_fix.Rmd" target="_blank">da22c75</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+<td>
+wflow_publish(“AmericanAdmixture_4B11_fix.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/AmericanAdmixture_4B11_fix.html" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -578,6 +612,43 @@ labs &lt;- rep(c(&quot;AFR&quot;, &quot;EUR&quot;, &quot;ASIA&quot;, &quot;ADMIX
 <p>we end up with 160 individuals and ~25000 SNPs. View fitted the sample covariance matrix:</p>
 <pre class="r"><code>plot_cov((1.0 / p) * Y %*% t(Y), as.is=T)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-3-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="flash-greedy" class="section level1">
@@ -608,12 +679,123 @@ LDsqrt &lt;- L %*% diag(sd)
 K &lt;- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-4-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view structure plot:</p>
 <pre class="r"><code>create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-5-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view fitted covariance matrix:</p>
 <pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-6-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>the <code>greedy</code> algorithm picks up a bit of a signal of admixture but misses out on the African contribution.</p>
 </div>
 <div id="flash-backfit" class="section level1">
@@ -639,12 +821,123 @@ LDsqrt &lt;- L %*% diag(sd)
 K &lt;- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-7-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view structure plot:</p>
 <pre class="r"><code>create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-8-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view fitted covariance matrix:</p>
 <pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-9-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The backfitting algorithm misses out on the signal of admixture and finds only 3 population specific factors after the shared factor.</p>
 </div>
 <div id="drift" class="section level1">
@@ -654,122 +947,131 @@ plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)
 dr &lt;- drift(init, miniter=2, 
             maxiter=1000, 
             tol=0.01, 
-            verbose=TRUE)</code></pre>
-<pre><code>   1 :    -3277004.462 
-   2 :    -3275796.069 
-   3 :    -3274966.799 
-   4 :    -3274441.299 
-   5 :    -3274128.136 
-   6 :    -3273955.784 
-   7 :    -3273849.958 
-   8 :    -3273788.788 
-   9 :    -3273747.105 
-  10 :    -3273722.617 
-  11 :    -3273708.464 
-  12 :    -3273700.001 
-  13 :    -3273692.257 
-  14 :    -3273681.993 
-  15 :    -3273673.984 
-  16 :    -3273668.143 
-  17 :    -3273663.921 
-  18 :    -3273660.887 
-  19 :    -3273658.704 
-  20 :    -3273656.905 
-  21 :    -3273654.865 
-  22 :    -3273652.614 
-  23 :    -3273650.949 
-  24 :    -3273649.702 
-  25 :    -3273648.745 
-  26 :    -3273647.990 
-  27 :    -3273647.377 
-  28 :    -3273646.864 
-  29 :    -3273646.427 
-  30 :    -3273646.047 
-  31 :    -3273645.711 
-  32 :    -3273645.411 
-  33 :    -3273645.140 
-  34 :    -3273644.892 
-  35 :    -3273644.665 
-  36 :    -3273644.454 
-  37 :    -3273644.258 
-  38 :    -3273644.075 
-  39 :    -3273643.902 
-  40 :    -3273643.739 
-  41 :    -3273643.585 
-  42 :    -3273643.438 
-  43 :    -3273643.298 
-  44 :    -3273643.164 
-  45 :    -3273643.036 
-  46 :    -3273642.914 
-  47 :    -3273642.795 
-  48 :    -3273642.682 
-  49 :    -3273642.573 
-  50 :    -3273642.467 
-  51 :    -3273642.366 
-  52 :    -3273642.267 
-  53 :    -3273642.173 
-  54 :    -3273642.081 
-  55 :    -3273641.993 
-  56 :    -3273641.907 
-  57 :    -3273641.824 
-  58 :    -3273641.744 
-  59 :    -3273641.666 
-  60 :    -3273641.591 
-  61 :    -3273641.518 
-  62 :    -3273641.448 
-  63 :    -3273641.380 
-  64 :    -3273641.314 
-  65 :    -3273641.250 
-  66 :    -3273641.189 
-  67 :    -3273641.130 
-  68 :    -3273641.073 
-  69 :    -3273641.018 
-  70 :    -3273640.966 
-  71 :    -3273640.915 
-  72 :    -3273640.867 
-  73 :    -3273640.820 
-  74 :    -3273640.776 
-  75 :    -3273640.733 
-  76 :    -3273640.692 
-  77 :    -3273640.653 
-  78 :    -3273640.616 
-  79 :    -3273640.581 
-  80 :    -3273640.547 
-  81 :    -3273640.515 
-  82 :    -3273640.485 
-  83 :    -3273640.456 
-  84 :    -3273640.428 
-  85 :    -3273640.402 
-  86 :    -3273640.377 
-  87 :    -3273640.353 
-  88 :    -3273640.331 
-  89 :    -3273640.310 
-  90 :    -3273640.290 
-  91 :    -3273640.271 
-  92 :    -3273640.253 
-  93 :    -3273640.236 
-  94 :    -3273640.219 
-  95 :    -3273640.204 
-  96 :    -3273640.190 
-  97 :    -3273640.176 
-  98 :    -3273640.163 
-  99 :    -3273640.151 
- 100 :    -3273640.139 
- 101 :    -3273640.128 
- 102 :    -3273640.118 
- 103 :    -3273640.108 </code></pre>
-<pre class="r"><code>sd &lt;- sqrt(dr$prior_s2)
+            verbose=FALSE)
+
+sd &lt;- sqrt(dr$prior_s2)
 L &lt;- dr$EL
 LDsqrt &lt;- L %*% diag(sd)
 K &lt;- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-10-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view structure plot:</p>
 <pre class="r"><code>create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-11-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>view fitted covariance matrix:</p>
 <pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
 <p><img src="figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/87a17c50655f5ddc90e4017cec50a0a709e85b4b/docs/figure/AmericanAdmixture_4B11_fix.Rmd/unnamed-chunk-12-1.png" target="_blank">87a17c5</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><code>drift</code> much better represents the admixture signal but misses the EUR/ASIA two population factor.</p>
 <br>
 <p>
