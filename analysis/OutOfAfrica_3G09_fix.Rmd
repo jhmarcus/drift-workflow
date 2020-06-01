@@ -100,7 +100,7 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
   scale_fill_viridis_c() +
   labs(fill="Cov") 
@@ -133,7 +133,7 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
   scale_fill_viridis_c() +
   labs(fill="Cov")
@@ -168,7 +168,7 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
   scale_fill_viridis_c() +
   labs(fill="Cov")
