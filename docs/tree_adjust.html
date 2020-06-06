@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jason Willwerscheid" />
+
+
+<title>Strategies for adjusting drift fits</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">drift-workflow</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jhmarcus/drift-workflow">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Strategies for adjusting drift fits</h1>
+<h4 class="author">Jason Willwerscheid</h4>
+<h4 class="date">6/5/2020</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-06-06
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>drift-workflow/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190211code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190211code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190211)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreec135d58aeb32fe09df48034151a949ae5c788b9btargetblankc135d58a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/c135d58aeb32fe09df48034151a949ae5c788b9b" target="_blank">c135d58</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreec135d58aeb32fe09df48034151a949ae5c788b9btargetblankc135d58a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    docs/.DS_Store
+    Ignored:    docs/assets/.DS_Store
+    Ignored:    output/
+
+Untracked files:
+    Untracked:  tmp1.R
+    Untracked:  tmp2.R
+    Untracked:  tmp3.R
+
+Unstaged changes:
+    Modified:   analysis/AmericanAdmixture_4B11_fix.Rmd
+    Modified:   drift-workflow.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/c135d58aeb32fe09df48034151a949ae5c788b9b/analysis/tree_adjust.Rmd" target="_blank">c135d58</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-06-06
+</td>
+<td>
+wflow_publish(“analysis/tree_adjust.Rmd”)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})</code></pre>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>We’ve found that <code>drift</code> often gets stuck in local optima. To see why, write <span class="math display">\[ Y = LF^T + E = (LA)(FB)^T + E \]</span> If <span class="math inline">\(AB^T = I\)</span> and both <span class="math inline">\(A\)</span> and <span class="math inline">\(LA\)</span> are reasonably bimodal, then it’s difficult to see how <code>drift</code> would be able to navigate from one solution to the other.</p>
+<p>In this analysis (and others to follow) I’ll look at ways to jump from one optimum to another. My hope is that there are a small number of “moves” that one can make to get from one fit to another, and that one can choose the best fit by trying moves and comparing ELBOs.</p>
+<p>I simplify things by simulating a dataset where the drift model is exact. The tree representation of the data is as follows:</p>
+<p><img src="assets/tree_4pop.png" width="400" height="400" style="display: block; margin: auto;" /></p>
+<p>So, individuals from population <span class="math inline">\(A\)</span> have data distributed <span class="math inline">\(N(a + b + d, \sigma_r^2 I_p)\)</span>, population <span class="math inline">\(B\)</span> is <span class="math inline">\(N(a + b + e, \sigma_r^2 I_p)\)</span>, and so on. Each edge <span class="math inline">\(a\)</span> through <span class="math inline">\(g\)</span> represents effects that are normally distributed with mean zero: <span class="math inline">\(a \sim N(0, \sigma_a^2 I_p)\)</span>, etc. I use parameter values <span class="math inline">\(p = 10000\)</span>, <span class="math inline">\(\sigma_a^2 = \sigma_b^2 = \sigma_c^2 = 1\)</span>, <span class="math inline">\(\sigma_d^2 = \sigma_e^2 = \sigma_f^2 = \sigma_g^2 = 0.25\)</span>, and <span class="math inline">\(\sigma_r^2 = 0.01\)</span>. I simulate data for 60 individuals per population.</p>
+<pre class="r"><code>set.seed(666)
+
+n_per_pop &lt;- 60
+p &lt;- 10000
+
+a &lt;- rnorm(p)
+b &lt;- rnorm(p)
+c &lt;- rnorm(p)
+d &lt;- rnorm(p, sd = 0.5)
+e &lt;- rnorm(p, sd = 0.5)
+f &lt;- rnorm(p, sd = 0.5)
+g &lt;- rnorm(p, sd = 0.5)
+
+popA &lt;- c(rep(1, n_per_pop), rep(0, 3 * n_per_pop))
+popB &lt;- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popC &lt;- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popD &lt;- c(rep(0, 3 * n_per_pop), rep(1, n_per_pop))
+
+Y &lt;- cbind(popA, popB, popC, popD) %*% rbind(a + b + d, a + b + e, a + c + f, a + c + g)
+Y &lt;- Y + rnorm(4 * n_per_pop * p, sd = 0.1)
+
+
+plot_dr &lt;- function(dr) {
+  sd &lt;- sqrt(dr$prior_s2)
+  L &lt;- dr$EL
+  LDsqrt &lt;- L %*% diag(sd)
+  K &lt;- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), each = n_per_pop)) +
+    scale_color_brewer(palette=&quot;Set2&quot;)
+}</code></pre>
+</div>
+<div id="default-drift-fit" class="section level2">
+<h2>Default drift fit</h2>
+<p>First I show the “greedy” fit obtained by <code>flashier</code>, which is the default initialization method for <code>drift</code>.</p>
+<pre class="r"><code>greedy &lt;- init_from_data(Y)
+plot_dr(greedy)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/greedy-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>It seems like it should be possible to get from here to the fit we want: shrink the Factor 4 loadings for population B and the Factor 5 loadings for population C and then remove Factor 6. But <code>drift</code> doesn’t quite find this solution. I ran it for 100 iterations here, but running it longer doesn’t change things much more:</p>
+<pre class="r"><code>dr_default &lt;- drift(greedy, verbose = FALSE)
+plot_dr(dr_default)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/default_drift-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>This is a problem with the optimization and not with the model. If I initialize using the “true” factors, I get a better ELBO:</p>
+<pre class="r"><code>dr_true &lt;- init_from_EL(Y,
+                        cbind(popA + popB + popC + popD,
+                              popA + popB, popC + popD,
+                              popA, popB, popC, popD),
+                        cbind(a, b, c, d, e, f, g))
+dr_true &lt;- drift(dr_true, miniter = 2, verbose = FALSE)
+
+cat(&quot;Optimal ELBO (true factors):&quot;, dr_true$elbo,
+    &quot;\nDefault fit ELBO:           &quot;, dr_default$elbo,
+    &quot;\nDifference:                 &quot;, dr_true$elbo - dr_default$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; Optimal ELBO (true factors): 1946805 
+#&gt; Default fit ELBO:            1944695 
+#&gt; Difference:                  2109.401</code></pre>
+</div>
+<div id="idea-1-initialize-using-two-pointmass-priors" class="section level2">
+<h2>Idea 1: Initialize using two-pointmass priors</h2>
+<p>Throughout this analysis, I’ll heavily abuse the fact that the data is structured like a tree (with no admixture). I’ll re-evaluate using an additional admixed population in a subsequent analysis.</p>
+<p>So, given that the data is structured like a tree, it makes sense to re-run <code>drift</code> using two-pointmass priors rather than the more general family of bimodal priors. Results are still very unbecoming of a tree, but the ELBO is much higher and the fact that the (unscaled) expected loadings are all zeros and ones will make adjustments easier.</p>
+<pre class="r"><code>dr_2pm &lt;- drift(init_from_data(Y, pm = TRUE),  verbose = FALSE)
+plot_dr(dr_2pm)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/2pm-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cat(&quot;Difference in ELBO from optimal:&quot;, dr_true$elbo - dr_2pm$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; Difference in ELBO from optimal: 302.4329</code></pre>
+</div>
+<div id="idea-2-remove-redundant-factors" class="section level2">
+<h2>Idea 2: Remove redundant factors</h2>
+<p>Factors 4 and 7 from the two-pointmass fit are clearly redundant. This kind of problem would be easy to spot algorithmically just by checking the covariance of the expected loadings. Here, I’ll just remove Factor 7 manually and re-fit. The ELBO improves as a result.</p>
+<pre class="r"><code># Keep k1; remove k2
+remove_factor &lt;- function(dr, k1, k2, maxiter = 100) {
+  dr &lt;- within(dr, {
+    K &lt;- K - 1
+    EL &lt;- EL[, -k2]
+    EL2 &lt;- EL2[, -k2]
+    EF[, k1] &lt;- EF[, k1] + EF[, k2]
+    EF2[, k1] &lt;- EF2[, k1] + EF2[, k2]
+    EF &lt;- EF[, -k2]
+    EF2 &lt;- EF2[, -k2]
+    CovF &lt;- CovF[-k2, -k2]
+    wt_avg_CovF &lt;- wt_avg_CovF[-k2, -k2]
+    prior_s2[k1] &lt;- prior_s2[k1] + prior_s2[k2]
+    prior_s2 &lt;- prior_s2[-k2]
+    KL_l &lt;- KL_l[-k2]
+    fitted_g &lt;- fitted_g[-k2]
+    ebnm_fn &lt;- ebnm_fn[-k2]
+  })
+  return(drift(dr, miniter = 10, maxiter = maxiter, verbose = FALSE))
+}
+dr_pruned &lt;- remove_factor(dr_2pm, 4, 7)
+cat(&quot;Difference in ELBO from optimal:&quot;, dr_true$elbo - dr_pruned$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; Difference in ELBO from optimal: 125.453</code></pre>
+<pre class="r"><code>plot_dr(dr_pruned) </code></pre>
+<p><img src="figure/tree_adjust.Rmd/prune-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="idea-3-force-factors-into-a-tree-like-structure" class="section level2">
+<h2>Idea 3: Force factors into a tree-like structure</h2>
+<p>Clearly, the problems begin when Factor 4 is added. Factors 2 and 3 split the overall population into two groups (A + B and C + D) and are easily interpreted as the earliest branching of the tree. But Factor 4 <em>combines</em> the next two splits (between A and B and between C and D).</p>
+<p>To avoid this kind of thing, I impose restrictions on each new <span class="math inline">\(k\)</span>th factor. Consider the set of new loadings that are equal to one (i.e., the set of individuals that experienced the drift event represented by the new factor). To be easily interpretable as an edge in a tree, this set must be either a subset of or have no elements in common with each previous set of individuals. That is, for each <span class="math inline">\(j &lt; k\)</span>, it must be true (in a suitably approximate sense) that either <span class="math display">\[ L_j^T L_k = 0 \]</span> or <span class="math display">\[ L_j^T L_k = L_k^T L_k \]</span> If this condition doesn’t obtain, then I split the <span class="math inline">\(k\)</span>th factor up. Namely, for each <span class="math inline">\(j&#39;\)</span> such that <span class="math inline">\(L_{j&#39;}^T L_k \ne 0\)</span> and <span class="math inline">\(L_{j&#39;}^T L_k \ne L_k^T L_k\)</span>, I create a new factor with loadings <span class="math display">\[ L_{j&#39;} \odot L_k \]</span> What this does is to take the intersection of the <span class="math inline">\(k\)</span>th set of individuals with the <span class="math inline">\(j&#39;\)</span>th set. If necessary, I also add a factor <span class="math display">\[ L_k - \sum_{j&#39;} L_{j&#39;} \odot L_k \]</span> so that <span class="math inline">\(F_k\)</span> can simply be duplicated for each new factor. Here’s what happens when I fit a four-factor drift fit and then split up the fourth factor as described:</p>
+<pre class="r"><code>dr_3fac &lt;- drift(init_from_data(Y, pm = TRUE, Kmax = 3), verbose = FALSE)
+
+split_last_factor &lt;- function(dr, maxiter = 100) {
+  cp &lt;- crossprod(dr$EL)[, dr$K]
+  kset &lt;- which(cp &gt; 0.5 &amp; cp &lt; max(cp) - 0.5)
+  new_EL &lt;- dr$EL[, kset] * dr$EL[, dr$K]
+  old_CovF &lt;- dr$CovF
+  old_wtCovF &lt;- dr$wt_avg_CovF
+
+  dr &lt;- within(dr, {
+    EL &lt;- cbind(EL[, -K], new_EL)
+    EL2 &lt;- cbind(EL2[, -K], new_EL^2)
+    CovF &lt;- diag(rep(1, ncol(EL)))
+    wt_avg_CovF &lt;- diag(rep(1, ncol(EL)))
+    CovF[1:K, 1:K] &lt;- old_CovF
+    wt_avg_CovF[1:K, 1:K] &lt;- old_wtCovF
+    for (i in 1:(length(kset) - 1)) {
+      EF &lt;- cbind(EF, EF[, K])
+      EF2 &lt;- cbind(EF2, EF2[, K])
+      prior_s2 &lt;- c(prior_s2, prior_s2[K])
+      KL_l &lt;- c(KL_l, KL_l[K])
+      fitted_g &lt;- c(fitted_g, fitted_g[K])
+      ebnm_fn &lt;- c(ebnm_fn, ebnm_fn[K])
+    }
+    K &lt;- K - 1 + ncol(new_EL)
+  })
+
+  return(drift(dr, miniter = 10, maxiter = maxiter, verbose = FALSE))
+}
+
+dr_split &lt;- split_last_factor(dr_3fac)
+cat(&quot;ELBO before split:      &quot;, dr_3fac$elbo,
+    &quot;\nELBO after split:       &quot;, dr_split$elbo,
+    &quot;\nDifference from optimal:&quot;, dr_true$elbo - dr_split$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; ELBO before split:       -349223.3 
+#&gt; ELBO after split:        1946339 
+#&gt; Difference from optimal: 466.0111</code></pre>
+<pre class="r"><code>plot_dr(dr_split)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/split_factor-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Not only is the fit hugely improved, but we’ve already recovered the essential structure of the true tree.</p>
+</div>
+<div id="idea-4-shift-the-edges-around" class="section level2">
+<h2>Idea 4: Shift the edges around</h2>
+<p>One discrepancy remains: to get the true tree from these loadings, it’s necessary to retrace some edges (namely, the edges corresponding to effects <span class="math inline">\(d\)</span> and <span class="math inline">\(g\)</span>):</p>
+<p><img src="assets/tree_overlap.png" width="400" height="400" style="display: block; margin: auto;" /></p>
+<p>I attempted to add another factor using the “greedy” <code>flash</code> method, but it didn’t take. What I’d like to do instead is to add a sixth factor that represents the overlapping part of factors 2 and 4, and a seventh factor to clean up factors 3 and 5. For each of these transformations, I want to find a matrix <span class="math inline">\(A\)</span> such that <span class="math inline">\(LA\)</span> gives the new loadings. I’ll also need a matrix <span class="math inline">\(B\)</span> such that <span class="math inline">\(AB^T = I\)</span> to get the new factors <span class="math inline">\(FB\)</span>.</p>
+<p>The new sixth factor will be composed of some proportion of factor 2 and some proportion of factor 4, but factor 4 traces it in the opposite direction. Thus I want to set <span class="math display">\[ F_6 := \alpha F_2 - \beta F_4 \]</span> for some <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span>, <span class="math inline">\(0 &lt; \beta &lt; 1\)</span>. The new factors <span class="math inline">\(F_2\)</span> and <span class="math inline">\(F_4\)</span> will be <span class="math display">\[ F_2^{new} := (1 - \alpha) F_2 + \beta F_4,\ F_4^{new} := (1 - \beta) F_4 + \alpha F_2 \]</span></p>
+<p>This family of transformations is given in matrix form as <span class="math display">\[ B = \left[\begin{array}
+{rrrrrr}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 - \alpha &amp; 0 &amp; \alpha &amp; 0 &amp; \alpha \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; \beta &amp; 0 &amp; 1 - \beta &amp; 0 &amp; -\beta \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}\right] \]</span></p>
+<p>Since the individuals that experience the drift event corresponding to the new sixth factor are those that experience 2 but not 4, the transformation <span class="math inline">\(A\)</span> can be seen as “subtracting” the individuals corresponding to Factor 4 from those corresponding to Factor 2:</p>
+<p><span class="math display">\[ A = \left[\begin{array}
+{rrrrrr}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}\right] \]</span></p>
+<p>It can be checked that <span class="math inline">\(AB^T = I\)</span>, as required. To choose <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, I note that the sum of squares of <span class="math inline">\(F_k\)</span> is proportional to <span class="math inline">\(\sigma_k^2\)</span>, the magnitude of the <span class="math inline">\(k\)</span>th drift event. The best fit should minimize the (weighted) total amount of drift <span class="math inline">\(\sum_{k \in \{2, 4, 6\}} w_kF_k^TF_k\)</span>. It might be a good idea to weight the factors according to the number of individuals who experience the drift event <span class="math inline">\(\| L_k \|_1\)</span>, but for simplicity I set <span class="math inline">\(w_k = 1\)</span> for all <span class="math inline">\(k\)</span>. This yields optimal parameters <span class="math inline">\(\alpha = \beta = \frac{1}{3}\)</span>. This choice of <span class="math inline">\(w_k\)</span> also gives a simple way to find candidates <span class="math inline">\(F_i\)</span> and <span class="math inline">\(F_j\)</span> on which to try out this transformation: just choose the ones that yield the largest reduction in the overall sum of squares <span class="math inline">\(\sum_k F_k^T F_k\)</span>.</p>
+<p>For the following two “shifts,” I choose the transformation algorithmically:</p>
+<pre class="r"><code>shift_mat &lt;- function(dr) {
+  # Which i and j give valid new factors?
+  elig &lt;- matrix(0, nrow = ncol(dr$EL), ncol = ncol(dr$EL))
+  for (i in 1:nrow(elig)) {
+    for (j in 1:nrow(elig)) {
+      new_col = dr$EL[, i] - dr$EL[, j]
+      # Check that it has values between 0 and 1:
+      if (i != j &amp; min(new_col) &gt; -0.1) {
+        # Check that it&#39;s not already there:
+        if (min(apply(dr$EL - new_col, 2, function(x) max(abs(x)))) &gt; 0.1) {
+          elig[i, j] &lt;- 1
+        }
+      }
+    }
+  }
+  
+  # Calculate the reduction in the sum of squares for each i and j:
+  FtF &lt;- crossprod(dr$EF)
+  diag(FtF) &lt;- -diag(FtF)
+  SS_reduc &lt;- matrix(0, nrow = nrow(FtF), ncol = ncol(FtF))
+  for (i in 1:(nrow(FtF) - 1)) {
+    for (j in (i + 1):nrow(FtF)) {
+      SS_reduc[i, j] &lt;- SS_reduc[j, i] &lt;- -sum(FtF[c(i, j), c(i, j)]) / 3
+    }
+  }
+  SS_reduc &lt;- SS_reduc * elig
+
+  i &lt;- row(SS_reduc)[which.max(SS_reduc)]
+  j &lt;- col(SS_reduc)[which.max(SS_reduc)]
+  cat(&quot;Subtracting factor&quot;, j, &quot;from factor&quot;, i, &quot;...\n&quot;)
+
+  Anew &lt;- rep(0, ncol(dr$EF))
+  Anew[i] &lt;- 1
+  Anew[j] &lt;- -1
+  A &lt;- cbind(diag(rep(1, ncol(dr$EF))), Anew)
+
+  Bdiag &lt;- rep(1, ncol(dr$EF))
+  Bnew &lt;- rep(0, ncol(dr$EF))
+  Bdiag[i] &lt;- Bdiag[j] &lt;- 2/3
+  Bnew[i] &lt;- 1/3
+  Bnew[j] &lt;- -1/3
+  B &lt;- rbind(diag(Bdiag), Bnew)
+  B[i, j] &lt;- 1/3
+  B[j, i] &lt;- 1/3
+
+  return(list(A = A, B = B))
+}
+
+try_shift &lt;- function(dr, maxiter = 100) {
+  shft &lt;- shift_mat(dr)
+  dr &lt;- init_from_EL(Y, dr$EL %*% shft$A, dr$EF %*% t(shft$B))
+  dr &lt;- drift(dr, miniter = 2, maxiter = maxiter, verbose = FALSE)
+}
+
+dr_shift1 &lt;- try_shift(dr_split)</code></pre>
+<pre><code>#&gt; Subtracting factor 5 from factor 3 ...</code></pre>
+<pre class="r"><code>dr_shift2 &lt;- try_shift(dr_shift1)</code></pre>
+<pre><code>#&gt; Subtracting factor 4 from factor 2 ...</code></pre>
+<pre class="r"><code>
+cat(&quot;Difference in ELBO from optimal before shifts:     &quot;, dr_true$elbo - dr_split$elbo,
+    &quot;\nDifference in ELBO from optimal after first shift: &quot;, dr_true$elbo - dr_shift1$elbo,
+    &quot;\nDifference in ELBO from optimal after second shift:&quot;, dr_true$elbo - dr_shift2$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; Difference in ELBO from optimal before shifts:      466.0111 
+#&gt; Difference in ELBO from optimal after first shift:  247.9496 
+#&gt; Difference in ELBO from optimal after second shift: 0.04425617</code></pre>
+<pre class="r"><code>
+plot_dr(dr_shift1)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/shift-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_dr(dr_shift2)</code></pre>
+<p><img src="figure/tree_adjust.Rmd/shift-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>So two shifts gives us the true tree and the optimal ELBO. Nice!</p>
+<p>This process also stops at the correct time: a third attempt to shift makes the fit worse.</p>
+<pre class="r"><code>dr_shift3 &lt;- try_shift(dr_shift2)</code></pre>
+<pre><code>#&gt; Subtracting factor 7 from factor 1 ...</code></pre>
+<pre class="r"><code>cat(&quot;Difference in ELBO from optimal after third shift:&quot;, dr_true$elbo - dr_shift3$elbo, &quot;\n&quot;)</code></pre>
+<pre><code>#&gt; Difference in ELBO from optimal after third shift: 140.7487</code></pre>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+I showed that the correct tree can be recovered as follows: initialize using two-pointmass priors, checking after each factor has been added to ensure that the loadings are interpretable as a tree; if not, split the factor up. Once factors can no longer be added using the “greedy” method, shift the edges around until the ELBO ceases to improve. In the next analysis, I’ll see whether this strategy works when a fifth admixed population is also present. <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.5.3 (2019-03-11)
+#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
+#&gt; Running under: macOS Mojave 10.14.6
+#&gt; 
+#&gt; Matrix products: default
+#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+#&gt; 
+#&gt; locale:
+#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.4.0     stringr_1.4.0     dplyr_0.8.0.1    
+#&gt;  [4] purrr_0.3.2       readr_1.3.1       tidyr_0.8.3      
+#&gt;  [7] tibble_2.1.1      ggplot2_3.2.0     tidyverse_1.2.1  
+#&gt; [10] drift.alpha_0.0.9 flashier_0.2.4   
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.4.6       lubridate_1.7.4    invgamma_1.1      
+#&gt;  [4] lattice_0.20-38    assertthat_0.2.1   rprojroot_1.3-2   
+#&gt;  [7] digest_0.6.18      truncnorm_1.0-8    R6_2.4.0          
+#&gt; [10] cellranger_1.1.0   plyr_1.8.4         backports_1.1.3   
+#&gt; [13] evaluate_0.13      httr_1.4.0         pillar_1.3.1      
+#&gt; [16] rlang_0.4.2        lazyeval_0.2.2     readxl_1.3.1      
+#&gt; [19] rstudioapi_0.10    ebnm_0.1-21        irlba_2.3.3       
+#&gt; [22] whisker_0.3-2      Matrix_1.2-15      rmarkdown_1.12    
+#&gt; [25] labeling_0.3       munsell_0.5.0      mixsqp_0.3-40     
+#&gt; [28] broom_0.5.1        compiler_3.5.3     modelr_0.1.5      
+#&gt; [31] xfun_0.6           pkgconfig_2.0.2    SQUAREM_2017.10-1 
+#&gt; [34] htmltools_0.3.6    tidyselect_0.2.5   workflowr_1.2.0   
+#&gt; [37] withr_2.1.2        crayon_1.3.4       grid_3.5.3        
+#&gt; [40] nlme_3.1-137       jsonlite_1.6       gtable_0.3.0      
+#&gt; [43] git2r_0.25.2       magrittr_1.5       scales_1.0.0      
+#&gt; [46] cli_1.1.0          stringi_1.4.3      reshape2_1.4.3    
+#&gt; [49] fs_1.2.7           xml2_1.2.0         generics_0.0.2    
+#&gt; [52] RColorBrewer_1.1-2 tools_3.5.3        glue_1.3.1        
+#&gt; [55] hms_0.4.2          parallel_3.5.3     yaml_2.2.0        
+#&gt; [58] colorspace_1.4-1   ashr_2.2-50        rvest_0.3.4       
+#&gt; [61] knitr_1.22         haven_2.1.1</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
