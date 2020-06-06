@@ -1,0 +1,317 @@
+---
+title: "Strategies for adjusting drift fits"
+author: "Jason Willwerscheid"
+date: "6/5/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+## Introduction
+
+We've found that `drift` often gets stuck in local optima. To see why, write
+$$ Y = LF^T + E = (LA)(FB)^T + E $$ 
+If $AB^T = I$ and both $A$ and $LA$ are reasonably bimodal, then it's difficult to see how `drift` would be able to navigate from one solution to the other.
+
+In this analysis (and others to follow) I'll look at ways to jump from one optimum to another. My hope is that there are a small number of "moves" that one can make to get from one fit to another, and that one can choose the best fit by trying moves and comparing ELBOs.
+
+I simplify things by simulating a dataset where the drift model is exact. The tree representation of the data is as follows:
+
+```{r fig1, echo = FALSE, out.height = 400, out.width = 400}
+knitr::include_graphics("assets/tree_4pop.png")
+```
+
+So, individuals from population $A$ have data distributed $N(a + b + d, \sigma_r^2 I_p)$, population $B$ is $N(a + b + e, \sigma_r^2 I_p)$, and so on. Each edge $a$ through $g$ represents effects that are normally distributed with mean zero: $a \sim N(0, \sigma_a^2 I_p)$, etc. I use parameter values $p = 10000$, $\sigma_a^2 = \sigma_b^2 = \sigma_c^2 = 1$, $\sigma_d^2 = \sigma_e^2 = \sigma_f^2 = \sigma_g^2 = 0.25$, and $\sigma_r^2 = 0.01$. I simulate data for 60 individuals per population.
+
+```{r sim}
+set.seed(666)
+
+n_per_pop <- 60
+p <- 10000
+
+a <- rnorm(p)
+b <- rnorm(p)
+c <- rnorm(p)
+d <- rnorm(p, sd = 0.5)
+e <- rnorm(p, sd = 0.5)
+f <- rnorm(p, sd = 0.5)
+g <- rnorm(p, sd = 0.5)
+
+popA <- c(rep(1, n_per_pop), rep(0, 3 * n_per_pop))
+popB <- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popC <- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popD <- c(rep(0, 3 * n_per_pop), rep(1, n_per_pop))
+
+Y <- cbind(popA, popB, popC, popD) %*% rbind(a + b + d, a + b + e, a + c + f, a + c + g)
+Y <- Y + rnorm(4 * n_per_pop * p, sd = 0.1)
+
+
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C", "D"), each = n_per_pop)) +
+    scale_color_brewer(palette="Set2")
+}
+```
+
+## Default drift fit
+
+First I show the "greedy" fit obtained by `flashier`, which is the default initialization method for `drift`. 
+
+```{r greedy}
+greedy <- init_from_data(Y)
+plot_dr(greedy)
+```
+
+It seems like it should be possible to get from here to the fit we want: shrink the Factor 4 loadings for population B and the Factor 5 loadings for population C and then remove Factor 6. But `drift` doesn't quite find this solution. I ran it for 100 iterations here, but running it longer doesn't change things much more:
+
+```{r default_drift}
+dr_default <- drift(greedy, verbose = FALSE)
+plot_dr(dr_default)
+```
+
+This is a problem with the optimization and not with the model. If I initialize using the "true" factors, I get a better ELBO:
+
+```{r default_elbo}
+dr_true <- init_from_EL(Y,
+                        cbind(popA + popB + popC + popD,
+                              popA + popB, popC + popD,
+                              popA, popB, popC, popD),
+                        cbind(a, b, c, d, e, f, g))
+dr_true <- drift(dr_true, miniter = 2, verbose = FALSE)
+
+cat("Optimal ELBO (true factors):", dr_true$elbo,
+    "\nDefault fit ELBO:           ", dr_default$elbo,
+    "\nDifference:                 ", dr_true$elbo - dr_default$elbo, "\n")
+```
+
+## Idea 1: Initialize using two-pointmass priors
+
+Throughout this analysis, I'll heavily abuse the fact that the data is structured like a tree (with no admixture). I'll re-evaluate using an additional admixed population in a subsequent analysis.
+
+So, given that the data is structured like a tree, it makes sense to re-run `drift` using two-pointmass priors rather than the more general family of bimodal priors. Results are still very unbecoming of a tree, but the ELBO is much higher and the fact that the (unscaled) expected loadings are all zeros and ones will make adjustments easier.
+
+```{r 2pm}
+dr_2pm <- drift(init_from_data(Y, pm = TRUE),  verbose = FALSE)
+plot_dr(dr_2pm)
+cat("Difference in ELBO from optimal:", dr_true$elbo - dr_2pm$elbo, "\n")
+```
+
+## Idea 2: Remove redundant factors
+
+Factors 4 and 7 from the two-pointmass fit are clearly redundant. This kind of problem would be easy to spot algorithmically just by checking the covariance of the expected loadings. Here, I'll just remove Factor 7 manually and re-fit. The ELBO improves as a result.
+
+```{r prune}
+# Keep k1; remove k2
+remove_factor <- function(dr, k1, k2, maxiter = 100) {
+  dr <- within(dr, {
+    K <- K - 1
+    EL <- EL[, -k2]
+    EL2 <- EL2[, -k2]
+    EF[, k1] <- EF[, k1] + EF[, k2]
+    EF2[, k1] <- EF2[, k1] + EF2[, k2]
+    EF <- EF[, -k2]
+    EF2 <- EF2[, -k2]
+    CovF <- CovF[-k2, -k2]
+    wt_avg_CovF <- wt_avg_CovF[-k2, -k2]
+    prior_s2[k1] <- prior_s2[k1] + prior_s2[k2]
+    prior_s2 <- prior_s2[-k2]
+    KL_l <- KL_l[-k2]
+    fitted_g <- fitted_g[-k2]
+    ebnm_fn <- ebnm_fn[-k2]
+  })
+  return(drift(dr, miniter = 10, maxiter = maxiter, verbose = FALSE))
+}
+dr_pruned <- remove_factor(dr_2pm, 4, 7)
+cat("Difference in ELBO from optimal:", dr_true$elbo - dr_pruned$elbo, "\n")
+plot_dr(dr_pruned) 
+```
+
+## Idea 3: Force factors into a tree-like structure
+
+Clearly, the problems begin when Factor 4 is added. Factors 2 and 3 split the overall population into two groups (A + B and C + D) and are easily interpreted as the earliest branching of the tree. But Factor 4 *combines* the next two splits (between A and B and between C and D). 
+
+To avoid this kind of thing, I impose restrictions on each new $k$th factor. Consider the set of new loadings that are equal to one (i.e., the set of individuals that experienced the drift event represented by the new factor). To be easily interpretable as an edge in a tree, this set must be either a subset of or have no elements in common with each previous set of individuals. That is, for each $j < k$, it must be true (in a suitably approximate sense) that either
+$$ L_j^T L_k = 0 $$ 
+or 
+$$ L_j^T L_k = L_k^T L_k $$
+If this condition doesn't obtain, then I split the $k$th factor up. Namely, for each $j'$ such that $L_{j'}^T L_k \ne 0$ and $L_{j'}^T L_k \ne L_k^T L_k$, I create a new factor with loadings
+$$ L_{j'} \odot L_k $$
+What this does is to take the intersection of the $k$th set of individuals with the $j'$th set. If necessary, I also add a factor
+$$ L_k - \sum_{j'} L_{j'} \odot L_k $$
+so that $F_k$ can simply be duplicated for each new factor.
+Here's what happens when I fit a four-factor drift fit and then split up the fourth factor as described:
+
+```{r split_factor}
+dr_3fac <- drift(init_from_data(Y, pm = TRUE, Kmax = 3), verbose = FALSE)
+
+split_last_factor <- function(dr, maxiter = 100) {
+  cp <- crossprod(dr$EL)[, dr$K]
+  kset <- which(cp > 0.5 & cp < max(cp) - 0.5)
+  new_EL <- dr$EL[, kset] * dr$EL[, dr$K]
+  old_CovF <- dr$CovF
+  old_wtCovF <- dr$wt_avg_CovF
+
+  dr <- within(dr, {
+    EL <- cbind(EL[, -K], new_EL)
+    EL2 <- cbind(EL2[, -K], new_EL^2)
+    CovF <- diag(rep(1, ncol(EL)))
+    wt_avg_CovF <- diag(rep(1, ncol(EL)))
+    CovF[1:K, 1:K] <- old_CovF
+    wt_avg_CovF[1:K, 1:K] <- old_wtCovF
+    for (i in 1:(length(kset) - 1)) {
+      EF <- cbind(EF, EF[, K])
+      EF2 <- cbind(EF2, EF2[, K])
+      prior_s2 <- c(prior_s2, prior_s2[K])
+      KL_l <- c(KL_l, KL_l[K])
+      fitted_g <- c(fitted_g, fitted_g[K])
+      ebnm_fn <- c(ebnm_fn, ebnm_fn[K])
+    }
+    K <- K - 1 + ncol(new_EL)
+  })
+
+  return(drift(dr, miniter = 10, maxiter = maxiter, verbose = FALSE))
+}
+
+dr_split <- split_last_factor(dr_3fac)
+cat("ELBO before split:      ", dr_3fac$elbo,
+    "\nELBO after split:       ", dr_split$elbo,
+    "\nDifference from optimal:", dr_true$elbo - dr_split$elbo, "\n")
+plot_dr(dr_split)
+```
+
+Not only is the fit hugely improved, but we've already recovered the essential structure of the true tree.
+
+## Idea 4: Shift the edges around
+
+One discrepancy remains: to get the true tree from these loadings, it's necessary to retrace some edges (namely, the edges corresponding to effects $d$ and $g$):
+
+```{r fig2, echo = FALSE, out.height = 400, out.width = 400}
+knitr::include_graphics("assets/tree_overlap.png")
+```
+
+I attempted to add another factor using the "greedy" `flash` method, but it didn't take. What I'd like to do instead is to add a sixth factor that represents the overlapping part of factors 2 and 4, and a seventh factor to clean up factors 3 and 5. For each of these transformations, I want to find a matrix $A$ such that $LA$ gives the new loadings. I'll also need a matrix $B$ such that $AB^T = I$ to get the new factors $FB$.
+
+The new sixth factor will be composed of some proportion of factor 2 and some proportion of factor 4, but factor 4 traces it in the opposite direction. Thus I want to set
+$$ F_6 := \alpha F_2 - \beta F_4 $$
+for some $0 < \alpha < 1$, $0 < \beta < 1$. The new factors $F_2$ and $F_4$ will be
+$$ F_2^{new} := (1 - \alpha) F_2 + \beta F_4,\ F_4^{new} := (1 - \beta) F_4 + \alpha F_2 $$
+
+This family of transformations is given in matrix form as
+$$ B = \left[\begin{array}
+{rrrrrr}
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 - \alpha & 0 & \alpha & 0 & \alpha \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & \beta & 0 & 1 - \beta & 0 & -\beta \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+\end{array}\right] $$
+
+Since the individuals that experience the drift event corresponding to the new sixth factor are those that experience 2 but not 4, the transformation $A$ can be seen as "subtracting" the individuals corresponding to Factor 4 from those corresponding to Factor 2:
+
+$$ A = \left[\begin{array}
+{rrrrrr}
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & -1 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+\end{array}\right] $$
+
+It can be checked that $AB^T = I$, as required. To choose $\alpha$ and $\beta$, I note that the sum of squares of $F_k$ is proportional to $\sigma_k^2$, the magnitude of the $k$th drift event. The best fit should minimize the (weighted) total amount of drift $\sum_{k \in \{2, 4, 6\}} w_kF_k^TF_k$. It might be a good idea to weight the factors according to the number of individuals who experience the drift event $\| L_k \|_1$, but for simplicity I set $w_k = 1$ for all $k$. This yields optimal parameters $\alpha = \beta = \frac{1}{3}$. This choice of $w_k$ also gives a simple way to find candidates $F_i$ and $F_j$ on which to try out this transformation: just choose the ones that yield the largest reduction in the overall sum of squares $\sum_k F_k^T F_k$.
+
+For the following two "shifts," I choose the transformation algorithmically:
+
+```{r shift}
+shift_mat <- function(dr) {
+  # Which i and j give valid new factors?
+  elig <- matrix(0, nrow = ncol(dr$EL), ncol = ncol(dr$EL))
+  for (i in 1:nrow(elig)) {
+    for (j in 1:nrow(elig)) {
+      new_col = dr$EL[, i] - dr$EL[, j]
+      # Check that it has values between 0 and 1:
+      if (i != j & min(new_col) > -0.1) {
+        # Check that it's not already there:
+        if (min(apply(dr$EL - new_col, 2, function(x) max(abs(x)))) > 0.1) {
+          elig[i, j] <- 1
+        }
+      }
+    }
+  }
+  
+  # Calculate the reduction in the sum of squares for each i and j:
+  FtF <- crossprod(dr$EF)
+  diag(FtF) <- -diag(FtF)
+  SS_reduc <- matrix(0, nrow = nrow(FtF), ncol = ncol(FtF))
+  for (i in 1:(nrow(FtF) - 1)) {
+    for (j in (i + 1):nrow(FtF)) {
+      SS_reduc[i, j] <- SS_reduc[j, i] <- -sum(FtF[c(i, j), c(i, j)]) / 3
+    }
+  }
+  SS_reduc <- SS_reduc * elig
+
+  i <- row(SS_reduc)[which.max(SS_reduc)]
+  j <- col(SS_reduc)[which.max(SS_reduc)]
+  cat("Subtracting factor", j, "from factor", i, "...\n")
+
+  Anew <- rep(0, ncol(dr$EF))
+  Anew[i] <- 1
+  Anew[j] <- -1
+  A <- cbind(diag(rep(1, ncol(dr$EF))), Anew)
+
+  Bdiag <- rep(1, ncol(dr$EF))
+  Bnew <- rep(0, ncol(dr$EF))
+  Bdiag[i] <- Bdiag[j] <- 2/3
+  Bnew[i] <- 1/3
+  Bnew[j] <- -1/3
+  B <- rbind(diag(Bdiag), Bnew)
+  B[i, j] <- 1/3
+  B[j, i] <- 1/3
+
+  return(list(A = A, B = B))
+}
+
+try_shift <- function(dr, maxiter = 100) {
+  shft <- shift_mat(dr)
+  dr <- init_from_EL(Y, dr$EL %*% shft$A, dr$EF %*% t(shft$B))
+  dr <- drift(dr, miniter = 2, maxiter = maxiter, verbose = FALSE)
+}
+
+dr_shift1 <- try_shift(dr_split)
+dr_shift2 <- try_shift(dr_shift1)
+
+cat("Difference in ELBO from optimal before shifts:     ", dr_true$elbo - dr_split$elbo,
+    "\nDifference in ELBO from optimal after first shift: ", dr_true$elbo - dr_shift1$elbo,
+    "\nDifference in ELBO from optimal after second shift:", dr_true$elbo - dr_shift2$elbo, "\n")
+
+plot_dr(dr_shift1)
+plot_dr(dr_shift2)
+```
+
+So two shifts gives us the true tree and the optimal ELBO. Nice!
+
+This process also stops at the correct time: a third attempt to shift makes the fit worse.
+
+```{r shift3}
+dr_shift3 <- try_shift(dr_shift2)
+cat("Difference in ELBO from optimal after third shift:", dr_true$elbo - dr_shift3$elbo, "\n")
+```
+
+## Conclusion
+
+I showed that the correct tree can be recovered as follows: initialize using two-pointmass priors, checking after each factor has been added to ensure that the loadings are interpretable as a tree; if not, split the factor up. Once factors can no longer be added using the "greedy" method, shift the edges around until the ELBO ceases to improve. In the next analysis, I'll see whether this strategy works when a fifth admixed population is also present.
