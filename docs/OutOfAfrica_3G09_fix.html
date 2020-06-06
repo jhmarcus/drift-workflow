@@ -361,7 +361,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-21
+<strong>Last updated:</strong> 2020-06-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -452,16 +452,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3549c6da8b937f6f4e98ceaf9c403cfcfcba04c4targetblank3549c6da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3549c6da8b937f6f4e98ceaf9c403cfcfcba04c4" target="_blank">3549c6d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree39fcbb84543f6962099105ae36b4c6885945b82dtargetblank39fcbb8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/39fcbb84543f6962099105ae36b4c6885945b82d" target="_blank">39fcbb8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3549c6da8b937f6f4e98ceaf9c403cfcfcba04c4targetblank3549c6da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree39fcbb84543f6962099105ae36b4c6885945b82dtargetblank39fcbb8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/3549c6da8b937f6f4e98ceaf9c403cfcfcba04c4" target="_blank">3549c6d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jhmarcus/drift-workflow/tree/39fcbb84543f6962099105ae36b4c6885945b82d" target="_blank">39fcbb8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -475,6 +475,9 @@ Ignored files:
     Ignored:    notebooks/.ipynb_checkpoints/
     Ignored:    output/
     Ignored:    sandbox/.ipynb_checkpoints/
+
+Unstaged changes:
+    Modified:   snakefiles/coalsim/Snakefile
 
 </code></pre>
 <p>
@@ -513,6 +516,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/39fcbb84543f6962099105ae36b4c6885945b82d/analysis/OutOfAfrica_3G09_fix.Rmd" target="_blank">39fcbb8</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+<td>
+added warnings to cov
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/b65e497bccf1447bc0e39b79128e869190030eec/docs/OutOfAfrica_3G09_fix.html" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/5b4cd63596d9c758ad8021fe2522d1cea1255416/analysis/OutOfAfrica_3G09_fix.Rmd" target="_blank">5b4cd63</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+<td>
+updated to larger sample size for ooa fixed sim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/cb9009e378093ef98c5ea1cb1dc24f3ea7eade22/docs/OutOfAfrica_3G09_fix.html" target="_blank">cb9009e</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-05-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -737,13 +808,17 @@ colors &lt;- brewer.pal(8, &quot;Set2&quot;)
 Y &lt;- G[,((daf&gt;=.05) &amp; (daf &lt;=.95))]
 p &lt;- ncol(Y)
 print(n)</code></pre>
-<pre><code>[1] 120</code></pre>
+<pre><code>[1] 300</code></pre>
 <pre class="r"><code>print(p)</code></pre>
-<pre><code>[1] 29815</code></pre>
+<pre><code>[1] 21492</code></pre>
 <pre class="r"><code># sub-population labels from stdpop
-labs &lt;- rep(c(&quot;YRI&quot;, &quot;CEU&quot;, &quot;HAN&quot;), each=40)</code></pre>
-<p>we end up with 120 individuals and ~30000 SNPs. View fitted the sample covariance matrix:</p>
-<pre class="r"><code>plot_cov((1.0 / p) * Y %*% t(Y), as.is=T)</code></pre>
+labs &lt;- rep(c(&quot;YRI&quot;, &quot;CEU&quot;, &quot;HAN&quot;), each=100)</code></pre>
+<p>we end up with 300 individuals and ~20000 SNPs. View fitted the sample covariance matrix:</p>
+<pre class="r"><code>plot_cov((1.0 / p) * Y %*% t(Y), as.is=T) + 
+  scale_fill_viridis_c() + 
+  labs(fill=&quot;Cov&quot;)</code></pre>
+<pre><code>Scale for &#39;fill&#39; is already present. Adding another scale for &#39;fill&#39;,
+which will replace the existing scale.</code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
@@ -767,6 +842,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-3-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-3-1.png" target="_blank">1dde8eb</a>
@@ -794,8 +880,8 @@ Joseph Marcus
 </div>
 </div>
 <p>plot allele frequencies of Africa vs OOA populations:</p>
-<pre class="r"><code>daf_afr &lt;- colSums(G[1:40,]) / (2*40)
-daf_ooa &lt;- colSums(G[41:120,]) / (2*80)
+<pre class="r"><code>daf_afr &lt;- colSums(G[1:100,]) / (2*100)
+daf_ooa &lt;- colSums(G[101:300,]) / (2*200)
 qplot(daf_ooa, daf_afr, alpha=.1)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -820,6 +906,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-1.png" target="_blank">1dde8eb</a>
@@ -883,6 +980,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-2.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-2.png" target="_blank">1dde8eb</a>
 </td>
 <td>
@@ -933,6 +1041,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-3.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-4-3.png" target="_blank">1dde8eb</a>
 </td>
 <td>
@@ -970,8 +1089,7 @@ fl &lt;- flash.init(Y) %&gt;%
   flash.fix.loadings(kset = 1, mode = 1L) %&gt;%
   flash.backfit() %&gt;%
   flash.add.greedy(Kmax=6, prior.family=c(prior.bimodal(), prior.normal()))</code></pre>
-<pre><code>Backfitting 1 factors (tolerance: 5.33e-02)...
-  Difference between iterations is within 1.0e-01...
+<pre><code>Backfitting 1 factors (tolerance: 9.61e-02)...
 Wrapping up...
 Done.
 Adding factor 2 to flash object...
@@ -983,6 +1101,7 @@ Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>sd &lt;- unlist(lapply(fl$fitted.g[[2]], &#39;[[&#39;, 3))
 L &lt;- fl$flash.fit$EF[[1]]
+s2 &lt;- fl$residuals.sd^2
 LDsqrt &lt;- L %*% diag(sd)
 K &lt;- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
@@ -1009,6 +1128,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-5-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-5-1.png" target="_blank">1dde8eb</a>
@@ -1073,6 +1203,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-6-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-6-1.png" target="_blank">1dde8eb</a>
 </td>
 <td>
@@ -1109,7 +1250,9 @@ Joseph Marcus
 </div>
 </div>
 <p>view fitted covariance matrix:</p>
-<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
+<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill=&quot;Cov&quot;) </code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
@@ -1133,6 +1276,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-7-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-7-1.png" target="_blank">1dde8eb</a>
@@ -1178,18 +1332,19 @@ Joseph Marcus
 <pre class="r"><code>flbf &lt;- fl %&gt;% 
   flash.backfit() %&gt;% 
   flash.nullcheck(remove=TRUE)</code></pre>
-<pre><code>Backfitting 4 factors (tolerance: 5.33e-02)...
+<pre><code>Backfitting 4 factors (tolerance: 9.61e-02)...
   Difference between iterations is within 1.0e+02...
   Difference between iterations is within 1.0e+01...
   Difference between iterations is within 1.0e+00...
   Difference between iterations is within 1.0e-01...
-  Difference between iterations is within 1.0e-02...
 Wrapping up...
 Done.
 Nullchecking 4 factors...
+Factor 2 removed, increasing objective by 5.814e-05.
 Wrapping up...
 Done.</code></pre>
 <pre class="r"><code>sd &lt;- unlist(lapply(flbf$fitted.g[[2]], &#39;[[&#39;, 3))
+s2 &lt;- flbf$residuals.sd^2
 L &lt;- flbf$flash.fit$EF[[1]]
 LDsqrt &lt;- L %*% diag(sd)
 K &lt;- ncol(LDsqrt)
@@ -1217,6 +1372,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-8-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-8-1.png" target="_blank">1dde8eb</a>
@@ -1281,6 +1447,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-9-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-9-1.png" target="_blank">1dde8eb</a>
 </td>
 <td>
@@ -1317,7 +1494,9 @@ Joseph Marcus
 </div>
 </div>
 <p>view fitted covariance matrix:</p>
-<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
+<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill=&quot;Cov&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
@@ -1341,6 +1520,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-10-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-10-1.png" target="_blank">1dde8eb</a>
@@ -1386,12 +1576,13 @@ Joseph Marcus
 <pre class="r"><code>init &lt;- init_from_data(Y, Kmax=6)
 dr &lt;- drift(init, miniter=2, 
             maxiter=1000, 
-            tol=0.01, 
+            tol=1e-5, 
             verbose=FALSE) 
 
 sd &lt;- sqrt(dr$prior_s2)
 L &lt;- dr$EL
 LDsqrt &lt;- L %*% diag(sd)
+s2 &lt;- dr$resid_s2
 K &lt;- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1417,6 +1608,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-11-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-11-1.png" target="_blank">1dde8eb</a>
@@ -1481,6 +1683,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-12-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-12-1.png" target="_blank">1dde8eb</a>
 </td>
 <td>
@@ -1517,7 +1730,9 @@ Joseph Marcus
 </div>
 </div>
 <p>view fitted covariance matrix:</p>
-<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)</code></pre>
+<pre class="r"><code>plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill=&quot;Cov&quot;)</code></pre>
 <p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
@@ -1541,6 +1756,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-13-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/1dde8eb3eb24577ccef7438581a7a73cf49a0cc8/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-13-1.png" target="_blank">1dde8eb</a>
@@ -1567,7 +1793,58 @@ Joseph Marcus
 </table>
 </div>
 </div>
-<p>the <code>drift</code> algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift).</p>
+<p>the <code>drift</code> algorithm converges quickly and maintains the greedy solution. Lets try adding a factor:</p>
+<pre class="r"><code>dr2 &lt;- drift(add_factor(dr), 
+             miniter=2, 
+             maxiter=1000, 
+             tol=1e-5, 
+             verbose=FALSE) 
+
+sd &lt;- sqrt(dr2$prior_s2)
+L &lt;- dr2$EL
+LDsqrt &lt;- L %*% diag(sd)
+s2 &lt;- dr2$resid_s2
+K &lt;- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette=&quot;Set2&quot;)</code></pre>
+<p><img src="figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/b65e497bccf1447bc0e39b79128e869190030eec/docs/figure/OutOfAfrica_3G09_fix.Rmd/unnamed-chunk-14-1.png" target="_blank">b65e497</a>
+</td>
+<td>
+Joseph Marcus
+</td>
+<td>
+2020-06-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The additional factor does seem to capture much interesting structure.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1602,24 +1879,30 @@ other attached packages:
 [13] drift.alpha_0.0.9  flashier_0.2.4     lfa_1.9.0         
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.1       jsonlite_1.6     modelr_0.1.6     assertthat_0.2.1
- [5] mixsqp_0.3-43    cellranger_1.1.0 yaml_2.2.0       ebnm_0.1-24     
- [9] pillar_1.4.3     backports_1.1.6  lattice_0.20-38  glue_1.4.0      
-[13] digest_0.6.25    promises_1.0.1   rvest_0.3.5      colorspace_1.4-1
-[17] htmltools_0.3.6  httpuv_1.4.5     Matrix_1.2-15    plyr_1.8.4      
-[21] pkgconfig_2.0.3  invgamma_1.1     broom_0.5.6      haven_2.2.0     
-[25] corpcor_1.6.9    scales_1.1.0     whisker_0.3-2    later_0.7.5     
-[29] git2r_0.26.1     farver_2.0.3     generics_0.0.2   ellipsis_0.3.0  
-[33] withr_2.2.0      ashr_2.2-50      cli_2.0.2        magrittr_1.5    
-[37] crayon_1.3.4     readxl_1.3.1     evaluate_0.14    fansi_0.4.1     
-[41] fs_1.3.1         nlme_3.1-137     xml2_1.3.2       truncnorm_1.0-8 
-[45] tools_3.5.1      hms_0.5.3        lifecycle_0.2.0  munsell_0.5.0   
-[49] reprex_0.3.0     irlba_2.3.3      compiler_3.5.1   rlang_0.4.5     
-[53] grid_3.5.1       rstudioapi_0.11  labeling_0.3     rmarkdown_1.10  
-[57] gtable_0.3.0     DBI_1.0.0        R6_2.4.1         lubridate_1.7.4 
-[61] knitr_1.20       workflowr_1.6.1  rprojroot_1.3-2  stringi_1.4.6   
-[65] parallel_3.5.1   SQUAREM_2020.2   Rcpp_1.0.4.6     vctrs_0.2.4     
-[69] dbplyr_1.4.3     tidyselect_1.0.0</code></pre>
+ [1] httr_1.4.1        viridisLite_0.3.0 jsonlite_1.6     
+ [4] modelr_0.1.6      assertthat_0.2.1  mixsqp_0.3-43    
+ [7] cellranger_1.1.0  yaml_2.2.0        ebnm_0.1-24      
+[10] pillar_1.4.3      backports_1.1.6   lattice_0.20-38  
+[13] glue_1.4.0        digest_0.6.25     promises_1.0.1   
+[16] rvest_0.3.5       colorspace_1.4-1  htmltools_0.3.6  
+[19] httpuv_1.4.5      Matrix_1.2-15     plyr_1.8.4       
+[22] pkgconfig_2.0.3   invgamma_1.1      broom_0.5.6      
+[25] haven_2.2.0       corpcor_1.6.9     scales_1.1.0     
+[28] whisker_0.3-2     later_0.7.5       git2r_0.26.1     
+[31] farver_2.0.3      generics_0.0.2    ellipsis_0.3.0   
+[34] withr_2.2.0       ashr_2.2-50       cli_2.0.2        
+[37] magrittr_1.5      crayon_1.3.4      readxl_1.3.1     
+[40] evaluate_0.14     fansi_0.4.1       fs_1.3.1         
+[43] nlme_3.1-137      xml2_1.3.2        truncnorm_1.0-8  
+[46] tools_3.5.1       hms_0.5.3         lifecycle_0.2.0  
+[49] munsell_0.5.0     reprex_0.3.0      irlba_2.3.3      
+[52] compiler_3.5.1    rlang_0.4.5       grid_3.5.1       
+[55] rstudioapi_0.11   labeling_0.3      rmarkdown_1.10   
+[58] gtable_0.3.0      DBI_1.0.0         R6_2.4.1         
+[61] lubridate_1.7.4   knitr_1.20        workflowr_1.6.1  
+[64] rprojroot_1.3-2   stringi_1.4.6     parallel_3.5.1   
+[67] SQUAREM_2020.2    Rcpp_1.0.4.6      vctrs_0.2.4      
+[70] dbplyr_1.4.3      tidyselect_1.0.0 </code></pre>
 </div>
 </div>
 

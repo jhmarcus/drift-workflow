@@ -49,20 +49,22 @@ print(n)
 print(p)
 
 # sub-population labels from stdpop
-labs <- rep(c("YRI", "CEU", "HAN"), each=40)
+labs <- rep(c("YRI", "CEU", "HAN"), each=100)
 ```
 
-we end up with 120 individuals and ~30000 SNPs. View fitted the sample covariance matrix:
+we end up with 300 individuals and ~20000 SNPs. View fitted the sample covariance matrix:
 
 ```{r}
-plot_cov((1.0 / p) * Y %*% t(Y), as.is=T)
+plot_cov((1.0 / p) * Y %*% t(Y), as.is=T) + 
+  scale_fill_viridis_c() + 
+  labs(fill="Cov")
 ```
 
 plot allele frequencies of Africa vs OOA populations:
 
 ```{r}
-daf_afr <- colSums(G[1:40,]) / (2*40)
-daf_ooa <- colSums(G[41:120,]) / (2*80)
+daf_afr <- colSums(G[1:100,]) / (2*100)
+daf_ooa <- colSums(G[101:300,]) / (2*200)
 qplot(daf_ooa, daf_afr, alpha=.1)
 hist(daf_afr)
 hist(daf_ooa)
@@ -84,6 +86,7 @@ fl <- flash.init(Y) %>%
 
 sd <- unlist(lapply(fl$fitted.g[[2]], '[[', 3))
 L <- fl$flash.fit$EF[[1]]
+s2 <- fl$residuals.sd^2
 LDsqrt <- L %*% diag(sd)
 K <- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
@@ -97,8 +100,10 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
-plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```{r, warning=FALSE, message=FALSE}
+plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill="Cov") 
 ```
 
 the `greedy` algorithm finds 3 population specific factors.
@@ -113,6 +118,7 @@ flbf <- fl %>%
   flash.nullcheck(remove=TRUE)
 
 sd <- unlist(lapply(flbf$fitted.g[[2]], '[[', 3))
+s2 <- flbf$residuals.sd^2
 L <- flbf$flash.fit$EF[[1]]
 LDsqrt <- L %*% diag(sd)
 K <- ncol(LDsqrt)
@@ -127,8 +133,10 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
-plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```{r, warning=FALSE, message=FALSE}
+plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill="Cov")
 ```
 
 the `backfitting` algorithm represents the data with a sparser solution and finds a factor represented by YRI and a small loading from Han and 
@@ -141,12 +149,13 @@ Run `drift` initializing from the greedy solution:
 init <- init_from_data(Y, Kmax=6)
 dr <- drift(init, miniter=2, 
             maxiter=1000, 
-            tol=0.01, 
+            tol=1e-5, 
             verbose=FALSE) 
 
 sd <- sqrt(dr$prior_s2)
 L <- dr$EL
 LDsqrt <- L %*% diag(sd)
+s2 <- dr$resid_s2
 K <- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
 ```
@@ -159,9 +168,27 @@ create_structure_plot(L=LDsqrt[,2:K], labels=labs, colors=colors)
 
 view fitted covariance matrix:
 
-```{r}
-plot_cov(LDsqrt %*% t(LDsqrt), as.is=T)
+```{r, warning=FALSE, message=FALSE}
+plot_cov(LDsqrt %*% t(LDsqrt) + s2*diag(n), as.is=T) + 
+  scale_fill_viridis_c() +
+  labs(fill="Cov")
 ```
 
-the `drift` algorithm finds two population specific factors and a shared factor between HAN CEU. Also notably the population specific factor for Africa has lower total magnitude then for OOA populations which makes senses as the prior variance for OOA should be higher (i.e. more drift).
+the `drift` algorithm converges quickly and maintains the greedy solution. Lets try adding a factor:
 
+```{r}
+dr2 <- drift(add_factor(dr), 
+             miniter=2, 
+             maxiter=1000, 
+             tol=1e-5, 
+             verbose=FALSE) 
+
+sd <- sqrt(dr2$prior_s2)
+L <- dr2$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr2$resid_s2
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
+The additional factor does seem to capture much interesting structure.
