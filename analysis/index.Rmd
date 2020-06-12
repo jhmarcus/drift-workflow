@@ -43,6 +43,7 @@ Four-population tree:
 
 * [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
 * [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
+* [Using a penalized ELBO to encourage orthogonal factors](ortho_2pop_admix.html)
 
 ## Data Preparation
 
