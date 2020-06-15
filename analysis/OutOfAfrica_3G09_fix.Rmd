@@ -55,7 +55,15 @@ labs <- rep(c("YRI", "CEU", "HAN"), each=100)
 we end up with 300 individuals and ~20000 SNPs. View fitted the sample covariance matrix:
 
 ```{r}
-plot_cov((1.0 / p) * Y %*% t(Y), as.is=T) + 
+plot_cov((1.0 / p) * Y %*% t(Y) , as.is=T) + 
+  scale_fill_viridis_c() + 
+  labs(fill="Cov")
+```
+
+here is the sample correlation matrix:
+
+```{r}
+plot_cov(cov2cor((1.0 / p) * Y %*% t(Y)), as.is=T) + 
   scale_fill_viridis_c() + 
   labs(fill="Cov")
 ```
@@ -191,4 +199,35 @@ K <- ncol(LDsqrt)
 plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
 ```
 
-The additional factor does seem to capture much interesting structure.
+The additional factor does seem to capture much interesting structure. Lets now try intializing from a more shared representation of the data:
+
+```{r}
+n_samp_pop <- 100
+EL <- cbind(c(rep(1, n_samp_pop), rep(1, n_samp_pop), rep(1, n_samp_pop)),
+            c(rep(1, n_samp_pop), rep(0, n_samp_pop), rep(0, n_samp_pop)),
+            c(rep(0, n_samp_pop), rep(1, n_samp_pop), rep(0, n_samp_pop)),
+            c(rep(0, n_samp_pop), rep(0, n_samp_pop), rep(1, n_samp_pop)),
+            c(rep(0, n_samp_pop), rep(1, n_samp_pop), rep(1, n_samp_pop))) 
+EL <- EL + matrix(runif(5*n, 0,.05), nrow=n, ncol=5)
+plot_loadings(EL, labs) 
+
+EF <- t(solve(crossprod(EL), t(EL) %*% Y))
+fl <- flash.init(Y, var.type = 0) %>%
+      flash.init.factors(EF = list(EL, EF),
+                         prior.family = c(prior.bimodal(), prior.normal())) %>%
+      flash.fix.loadings(kset = 1, mode = 1L) %>%
+      flash.backfit(maxiter=1) 
+
+init <- init_from_flash(fl)
+dr <- drift(init, miniter=2, 
+            maxiter=1000, 
+            tol=1e-3, 
+            verbose=TRUE) 
+
+sd <- sqrt(dr$prior_s2)
+L <- dr$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr$resid_s2
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
