@@ -35,10 +35,15 @@ Coalescent simulations with fixed shared factor:
 * [OutOfAfrica_3G09](OutOfAfrica_3G09_fix.html)
 * [AmericanAdmixture_4B11](AmericanAdmixture_4B11_fix.html)
 
+Four-population tree:
+
+* [Simple tree, with strategies for getting from default drift fit to optimal tree](tree_adjust.html)
+
 ## Explorations
 
 * [Empircal Bayes Normal Means with Bimodal Priors](ebnm_bimodal.html)
 * [Empircal Bayes Normal Means with Bernoulli Priors](ebnm_bern.html)
+* [Using a penalized ELBO to encourage orthogonal factors](ortho_2pop_admix.html)
 
 ## Data Preparation
 

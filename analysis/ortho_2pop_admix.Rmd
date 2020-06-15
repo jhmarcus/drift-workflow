@@ -1,0 +1,169 @@
+---
+title: 'Penalized drift: simple admixture event'
+author: "Jason Willwerscheid"
+date: "6/12/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+## Introduction
+
+I attempted to use the methods described [here](tree_adjust.html) to fit a four-population tree with an additional admixed Population E. I used admixture proportions of $1/2$ for Population B, $1/3$ for Population C, and $1/6$ for Population D, so that individuals from Population E have data distributed
+$$ N \left( \frac{a + b + e}{2} + \frac{a + c + f}{3} + \frac{a + c + g}{6},\ \sigma^2_r I_p \right) $$
+I recovered the correct tree, but Population E was located at the root of the tree rather than showing up as an admixture. There are a number of fits that will achieve this result. For example:
+
+```{r fig1, echo = FALSE, out.height = 400, out.width = 400}
+knitr::include_graphics("assets/4pop_admix_at_root.png")
+```
+
+When I initialized to the true factors, I achieved a `drift` fit with a better ELBO, so this is once again an optimization issue rather than a problem with the objective function. But it's very difficult to get from one optimum to the other, even if one knows in advance that Population E is an admixture and that the other populations are "pure."
+
+One way to detect the issue is to examine the cross-product $(EF)^T EF$. Since the "true" factors $a, b, \ldots, g$ are mutually independent, the covariance matrix should be diagonal. It's easy to see from the above diagram, however, that locating Population E at the root will result in nonzero off-diagonal entries. 
+
+In the analysis below I'll consider the [two-population admixture scenario](admix1.html), which distills the above difficulty. Indeed, if there are an equal number of individuals from Populations A and B and Population C is a 50-50 admixture, then the expected mean for Population C will be exactly equal to the expected sample mean. Since the greedy fit initializes the first factor at the sample mean, it will put Population C at the root of the tree, and it will be very difficult for `drift` to find its way out of that optimum. 
+
+## Default fit
+
+As expected, the default `drift` fit puts Population C at the root of the tree:
+
+```{r dr_default}
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C"), each = n_per_pop)) +
+    scale_color_brewer(palette="Set2")
+}
+
+set.seed(666)
+
+n_per_pop <- 60
+p <- 10000
+
+a <- rnorm(p)
+b <- rnorm(p)
+c <- rnorm(p)
+
+popA <- c(rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popB <- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popC <- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop))
+
+Y <- cbind(popA, popB, popC) %*% rbind(a + b, a + c, a + (b + c) / 2)
+Y <- Y + rnorm(3 * n_per_pop * p, sd = 0.1)
+
+dr_default <- drift(init_from_data(Y), verbose = FALSE)
+plot_dr(dr_default)
+```
+
+Since Factor 1 is approximately the sample mean $a + \frac{b + c}{2}$, Factor 2 is approximately $\frac{b - c}{2}$, while Factor 3 is approximately $\frac{c - b}{2}$. Thus we observe a strong negative correlation between Factors 2 and 3:
+
+```{r dr_def_cor}
+plot_cov(cov(dr_default$EF), as.is = TRUE)
+```
+
+## True factors
+
+Next I initialize using the true factors. This initialization yields a better ELBO and clearly shows that Population C is an admixture:
+
+```{r truth}
+true_EF <- cbind(a, b, c)
+true_EL <- cbind(popA + popB + popC, popA + popC / 2, popB + popC / 2)
+
+dr_true <- drift(init_from_EL(Y, EL = true_EL, EF = true_EF), miniter = 2, verbose = FALSE)
+
+cat("ELBO (default initialization):", dr_default$elbo,
+    "\nELBO (initialize from truth): ", dr_true$elbo)
+
+plot_dr(dr_true)
+```
+
+Note that this fit departs significantly from the initialization in that the off-diagonal entries of the covariance matrix are not particularly close to zero:
+
+```{r truth_cov}
+plot_cov(cov(dr_true$EF), as.is = TRUE)
+```
+
+## Penalized drift
+
+To encourage `drift` to find optima where factors are orthogonal, I added a penalty to the objective function:
+$$ -\lambda \sum_{k, \ell: k \ne \ell} \left((EF_k)^T(EF_\ell) \right)^2$$
+
+If I initialize using the true factors, Population C still shows up as an admixture, but now the factors are orthogonal:
+
+```{r ortho_truth}
+dr_ortho <- drift(init_from_EL(Y, EL = true_EL, EF = true_EF), lambda = 10, 
+                  miniter = 5, maxiter = 1000, verbose = FALSE)
+plot_dr(dr_ortho)
+
+plot_cov(cov(dr_ortho$EF), as.is = TRUE)
+```
+
+Indeed, the fitted factors maintain the true factors almost exactly:
+
+```{r ortho_true_comp}
+cor(dr_ortho$EF, cbind(true_a = a, true_b = b, true_c = c))
+```
+
+This last result is perhaps not surprising, since that's where the factors started. More surprisingly, I can recover the true factors if I start from the `drift` fit that was initialized from the truth (which, recall, departed significantly from the initialization):
+
+```{r ortho_recover}
+dr_ortho2 <- drift(init_from_EL(Y, EL = dr_ortho$EL, EF = dr_ortho$EF), lambda = 10, 
+                  miniter = 5, maxiter = 1000, verbose = FALSE)
+cor(dr_ortho2$EF, cbind(true_a = a, true_b = b, true_c = c))
+```
+
+## Penalized drift with greedy initialization
+
+Another encouraging result is that `drift` is able to find the admixture when I use the default initialization (which, as I argued above, should be a very difficult optimum to escape). In fact, the default initialization finds an even better solution (judging by the penalized ELBO):
+
+```{r ortho_greedy}
+# I need to gently ramp up lambda in order for this to work:
+dr_greedy_ortho <- drift(init_from_data(Y), 
+                         lambda = 1, miniter = 5, maxiter = 1000, verbose = FALSE)
+dr_greedy_ortho <- drift(init_from_EL(Y, EL = dr_greedy_ortho$EL, EF = dr_greedy_ortho$EF),
+                         lambda = 10, miniter = 5, maxiter = 1000, verbose = FALSE)
+
+cat("Penalized ELBO (default initialization):", dr_greedy_ortho$elbo,
+    "\nPenalized ELBO (initialize from truth): ", dr_ortho$elbo)
+
+plot_dr(dr_greedy_ortho)
+
+plot_cov(cov(dr_greedy_ortho$EF), as.is = TRUE)
+```
+
+Since, in theory, the `drift` objective encourages orthogonality, my intention was to use the penalized approach to find a good initialization and then to re-run `drift` without the penalty. Doing so retains the admixture but re-introduces some covariance (which is similar to the covariance in the fit that was initialized using the true factors):
+
+```{r remove_pen}
+dr_pen_init <- drift(init_from_EL(Y, EL = dr_greedy_ortho$EL, EF = dr_greedy_ortho$EF),
+                      lambda = 0, miniter = 5, maxiter = 1000, verbose = FALSE)
+plot_dr(dr_pen_init)
+
+plot_cov(cov(dr_pen_init$EF), as.is = TRUE)
+```
+
+The ELBO is not as good as when I initialize using the true factors, but it's not nearly as far off as it was when I used the default greedy initialization:
+
+```{r remove_pen_elbo}
+cat("ELBO (orthogonal initialization):", dr_pen_init$elbo,
+    "\nELBO (initialize from truth):    ", dr_true$elbo)
+```
+
+## Conclusion
+
+Using a penalized approach that encourages orthogonal factors, I was able to find the admixture even in this very difficult scenario where the mean of the admixed population is equal to the overall population mean. Further, the penalized approach can recover the true factors nearly exactly if the initialization is close enough to the truth.
+
