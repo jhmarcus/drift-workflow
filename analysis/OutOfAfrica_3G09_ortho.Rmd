@@ -1,0 +1,69 @@
+---
+title: "OutOfAfrica_3G09_ortho"
+author: "Joseph Marcus"
+date: "2020-06-15"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(RColorBrewer)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+  source("../code/structure_plot.R")
+})
+```
+
+
+
+
+## Data
+
+```{r}
+data_path <- "../output/simulations/OutOfAfrica_3G09/rep1.txt"
+G <- t(as.matrix(read.table(data_path, sep=" ")))
+colnames(G) <- NULL
+rownames(G) <- NULL
+n <- nrow(G)
+daf <- colSums(G) / (2 * n)
+colors <- brewer.pal(8, "Set2")
+
+# filter out too rare and too common SNPs
+Y <- G[,((daf>=.05) & (daf <=.95))]
+p <- ncol(Y)
+print(n)
+print(p)
+
+# sub-population labels from stdpop
+labs <- rep(c("YRI", "CEU", "HAN"), each=100)
+```
+
+## 
+
+```{r}
+
+EL_init <- matrix(runif(n*5), nrow=n, ncol=5)
+
+#dr_greedy_ortho <- drift(init_from_data(Y, Kmax=3, incl.mean=T), 
+#                         lambda = 5, miniter = 5, maxiter = 1000, verbose = TRUE)
+dr_greedy_ortho <- drift(init_from_EL(Y, EL = EL_init),
+                         lambda = 5, miniter = 5, maxiter = 1000, verbose = TRUE)
+
+sd <- sqrt(dr_greedy_ortho$prior_s2)
+L <- dr_greedy_ortho$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr_greedy_ortho$resid_s2
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,1:K], labs) + scale_color_brewer(palette="Set2")
+```
