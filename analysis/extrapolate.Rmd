@@ -1,0 +1,84 @@
+---
+title: "Extrapolation Test"
+author: "Jason Willwerscheid"
+date: "6/24/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I test the "extrapolation" method that I [developed](https://willwerscheid.github.io/FLASHvestigations/extrapolate.html) for `flashier` and have since implemented in `drift`. I use the same four-population dataset that I used in a  [previous analysis](tree_adjust.html).
+
+```{r sim}
+set.seed(666)
+
+n_per_pop <- 60
+p <- 10000
+
+a <- rnorm(p)
+b <- rnorm(p)
+c <- rnorm(p)
+d <- rnorm(p, sd = 0.5)
+e <- rnorm(p, sd = 0.5)
+f <- rnorm(p, sd = 0.5)
+g <- rnorm(p, sd = 0.5)
+
+popA <- c(rep(1, n_per_pop), rep(0, 3 * n_per_pop))
+popB <- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popC <- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popD <- c(rep(0, 3 * n_per_pop), rep(1, n_per_pop))
+
+Y <- cbind(popA, popB, popC, popD) %*% rbind(a + b + d, a + b + e, a + c + f, a + c + g)
+Y <- Y + rnorm(4 * n_per_pop * p, sd = 0.1)
+
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C", "D"), each = n_per_pop)) +
+    scale_color_brewer(palette="Set2")
+}
+```
+
+The approach works well. The fit that uses extrapolation to accelerate gets to a much better solution fairly quickly:
+
+```{r fits}
+# For reasons that I don't yet understand, extrapolation works especially well for
+#   relatively small values of beta.max.
+options(extrapolate.control = list(beta.max = 1.1))
+
+greedy <- init_from_data(Y)
+dr_slow <- drift(greedy, verbose = FALSE, extrapolate = FALSE, maxiter = 2000, tol = 1e-4)
+dr_xtrap <- drift(greedy, verbose = FALSE, extrapolate = TRUE, maxiter = 2000, tol = 1e-4)
+
+df <- dr_slow$iterations %>%
+  mutate(extrapolate = "FALSE") %>%
+  bind_rows(dr_xtrap$iterations %>% mutate(extrapolate = "TRUE"))
+ggplot(df, aes(x = iter, y = elbo, col = extrapolate)) + geom_line()
+```
+
+The solutions are qualitatively different. Without extrapolation, the solution is highly suboptimal (as I've shown elsewhere):
+
+```{r figs1}
+plot_dr(dr_slow)
+```
+
+The extrapolated solution is much better. In particular, the tree-like structure of the data is readily apparent:
+
+```{r figs2}
+plot_dr(dr_xtrap)
+```
