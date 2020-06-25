@@ -1,0 +1,89 @@
+---
+title: "r1africa1nfb"
+author: "Joseph Marcus"
+date: "2020-06-22"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(RColorBrewer)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+  source("../code/structure_plot.R")
+})
+```
+
+## Data
+
+```{r}
+data_path <- "../data/datasets/r1africa1nfb/r1africa1nfb"
+G <- t(lfa::read.bed(data_path))
+colnames(G) <- NULL
+rownames(G) <- NULL
+n <- nrow(G)
+daf <- colSums(G, na.rm=T) / (2 * n)
+colors <- brewer.pal(8, "Set2")
+
+# filter out too rare and too common SNPs
+Y <- G[,((daf>=.05) & (daf <=.95))]
+
+# mean impute
+mu <- colMeans(Y, na.rm = TRUE)
+for(j in 1:ncol(Y)){
+  Y[is.na(Y[,j]), j] <- mu[j]
+}
+
+coords <- read.table("../data/datasets/r1africa1nfb/r1africa1nfb.coord", header=F)
+colnames(coords) <- c("Long", "Lat")
+
+p <- ncol(Y)
+print(n)
+print(p)
+```
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_data(Y, Kmax=8)
+dr <- drift(init, miniter=2, 
+            maxiter=1000, 
+            tol=1e-5, 
+            verbose=TRUE) 
+sd <- sqrt(dr$prior_s2)
+L <- dr$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr$resid_s2
+Kmax <- ncol(LDsqrt)
+df <- cbind(coords, LDsqrt)
+gath_df <- df %>% 
+  gather(K, value, -Lat, -Long) %>% 
+  filter(K!=1)
+
+#####
+jit <- 2
+buf <- 2
+p <- ggplot() + 
+     geom_path(data=map_data("world"), aes(long, lat, group=group), color="gray", size=0.25) + 
+     geom_jitter(data=gath_df, aes(Long, Lat, color=value), width=jit, height=jit, shape=21) +      
+     scale_colour_gradient2() + 
+     coord_map() +
+     facet_wrap(.~factor(K, levels = paste0(1:Kmax)), ncol=2) + 
+     theme_void() +
+     xlim(min(df$Long)-buf, max(df$Long)+buf) + 
+     ylim(min(df$Lat)-buf, max(df$Lat)+buf) 
+```
+

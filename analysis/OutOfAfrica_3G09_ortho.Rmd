@@ -25,9 +25,6 @@ suppressMessages({
 })
 ```
 
-
-
-
 ## Data
 
 ```{r}
@@ -52,13 +49,22 @@ labs <- rep(c("YRI", "CEU", "HAN"), each=100)
 ## 
 
 ```{r}
-
 EL_init <- matrix(runif(n*5), nrow=n, ncol=5)
+EL_init[,1] <- 1
+fl <- flash.init(Y) %>%
+      flash.set.verbose(1L * TRUE)
+ones <- matrix(1, nrow = nrow(Y), ncol = 1)
+ls.soln <- t(solve(crossprod(EL_init), crossprod(EL_init, Y)))      
+fl <- fl %>%
+      flash.init.factors(EF = list(EL_init, ls.soln),
+                         prior.family = c(prior.bimodal(), prior.normal())) %>%
+      flash.fix.loadings(kset = 1, mode = 1L) %>%
+      flash.backfit(maxiter=1)
 
 #dr_greedy_ortho <- drift(init_from_data(Y, Kmax=3, incl.mean=T), 
 #                         lambda = 5, miniter = 5, maxiter = 1000, verbose = TRUE)
-dr_greedy_ortho <- drift(init_from_EL(Y, EL = EL_init),
-                         lambda = 5, miniter = 5, maxiter = 1000, verbose = TRUE)
+dr_greedy_ortho <- drift(init_from_flash(fl),
+                         lambda = 5, miniter = 5, maxiter = 20, verbose = TRUE)
 
 sd <- sqrt(dr_greedy_ortho$prior_s2)
 L <- dr_greedy_ortho$EL

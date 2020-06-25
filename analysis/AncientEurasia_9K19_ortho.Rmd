@@ -1,0 +1,90 @@
+---
+title: "AncientEurasia_9K19_ortho"
+author: "Joseph Marcus"
+date: "2020-06-22"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(RColorBrewer)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+  source("../code/structure_plot.R")
+})
+```
+
+## Data
+
+```{r}
+data_path <- "../output/simulations/AncientEurasia_9K19/rep0.txt"
+G <- t(as.matrix(read.table(data_path, sep=" ")))
+colnames(G) <- NULL
+rownames(G) <- NULL
+n <- nrow(G)
+daf <- colSums(G) / (2 * n)
+colors <- brewer.pal(8, "Set2")
+
+# filter out too rare and too common SNPs
+Y <- G[,((daf>=.05) & (daf <=.95))]
+p <- ncol(Y)
+print(n)
+print(p)
+
+# sub-population labels from stdpop
+labs <- rep(c("Mbuti", "LBK", "Sardinian", "Loschbour", 
+              "MA1", "Han", "UstIshim"), each=10)
+```
+
+# flash [greedy]
+
+Run the `greedy` algorithm:
+
+```{r}
+ones <- matrix(1, nrow = n, ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+fl <- flash.init(Y) %>%
+  flash.init.factors(EF = list(ones, ls.soln), 
+                     prior.family=c(prior.bimodal(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax=12, prior.family=c(prior.bimodal(), prior.normal()))
+
+sd <- unlist(lapply(fl$fitted.g[[2]], '[[', 3))
+L <- fl$flash.fit$EF[[1]]
+s2 <- fl$residuals.sd^2
+LDsqrt <- L %*% diag(sd)
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
+# drift
+
+Run `drift` initializing from the greedy solution:
+
+```{r}
+init <- init_from_data(Y, Kmax=12)
+dr <- drift(init, miniter=2, 
+            maxiter=1000, 
+            tol=1e-5, 
+            verbose=TRUE) 
+
+sd <- sqrt(dr$prior_s2)
+L <- dr$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr$resid_s2
+K <- ncol(LDsqrt)
+plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+```
+
