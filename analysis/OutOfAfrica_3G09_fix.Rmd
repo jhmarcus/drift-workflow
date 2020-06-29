@@ -154,18 +154,49 @@ the `backfitting` algorithm represents the data with a sparser solution and find
 Run `drift` initializing from the greedy solution:
 
 ```{r}
-init <- init_from_data(Y, Kmax=6)
-dr <- drift(init, miniter=2, 
-            maxiter=1000, 
-            tol=1e-5, 
-            verbose=FALSE) 
+Kmax <- 10
+EL_init <- matrix(runif(n*Kmax), nrow=n, ncol=Kmax)
+EL_init[,1] <- 1
+fl <- flash.init(Y) %>%
+      flash.set.verbose(1L * TRUE)
+ones <- matrix(1, nrow=nrow(Y), ncol=1)
+ls.soln <- t(solve(crossprod(EL_init), crossprod(EL_init, Y)))      
+fl <- fl %>%
+      flash.init.factors(EF=list(EL_init, ls.soln),
+                         prior.family=c(prior.bimodal(grid_size=100), 
+                                        prior.normal())) %>%
+      flash.fix.loadings(kset=1, mode=1L) %>%
+      flash.backfit(maxiter=50, method="extrapolate")
+
+init <- init_from_flash(fl)
+plot(init$EL[,8])
+
+dr <- drift(init, verbose=TRUE, extrapolate=TRUE, maxiter=2000, tol=1e-4)
+
+
+#Kmax <- 6
+#EL_init <- matrix(runif(n*Kmax), nrow=n, ncol=Kmax)
+#EL_init[,1] <-1
+#init <- init_from_EL(Y, EL_init,pm = )
+#plot(init$EL[,1])
+
+#Kmax <- 5
+#EL_init <- matrix(runif(n*Kmax), nrow=n, ncol=Kmax)
+#f <- nnfa(Y, EL_init, lower=0, upper=.1, tau=2)
+#plot(f$L[,5])
+
+#init <- init_from_EL(Y, f$L)
+
+#Kmax <- 5
+#init <- init_from_data(Y, Kmax=Kmax, incl.mean=TRUE)
+
 
 sd <- sqrt(dr$prior_s2)
 L <- dr$EL
 LDsqrt <- L %*% diag(sd)
 s2 <- dr$resid_s2
 K <- ncol(LDsqrt)
-plot_loadings(LDsqrt[,2:K], labs) + scale_color_brewer(palette="Set2")
+plot_loadings(LDsqrt[,2:Kmax], labs) + scale_color_brewer(palette="Set2")
 ```
 
 view structure plot:

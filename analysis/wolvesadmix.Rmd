@@ -85,5 +85,6 @@ p <- ggplot() +
      theme_void() +
      xlim(min(df$Long)-buf, max(df$Long)+buf) + 
      ylim(min(df$Lat)-buf, max(df$Lat)+buf) 
+p
 ```
 
