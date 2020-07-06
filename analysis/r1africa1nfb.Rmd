@@ -1,0 +1,194 @@
+---
+title: "r1africa1nfb"
+author: "Joseph Marcus"
+date: "2020-06-22"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+Here I analyze a genotyping array dataset (`r1africa1nfb`) of humans from Africa. This dataset was originally organized by [Peter et al. 2020](https://academic.oup.com/mbe/article/37/4/943/5645183) which merged previously published datasets. `r1africa1nfb` has 749 individuals and 20724 SNPs. 
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(lfa)
+  library(flashier)
+  library(drift.alpha)
+  library(ggplot2)
+  library(RColorBrewer)
+  library(viridis)
+  library(reshape2)
+  library(tidyverse)
+  library(alstructure)
+  source("../code/structure_plot.R")
+})
+```
+
+## Data
+
+Here I read the data, remove SNPs that are too rare or common, and mean-impute missing data:
+
+```{r}
+data_path <- "../data/datasets/r1africa1nfb/r1africa1nfb"
+G <- t(lfa::read.bed(data_path))
+colnames(G) <- NULL
+rownames(G) <- NULL
+n <- nrow(G)
+daf <- colSums(G, na.rm=T) / (2 * n)
+colors <- brewer.pal(8, "Set2")
+
+# filter out too rare and too common SNPs
+Y <- G[,((daf>=.05) & (daf <=.95))]
+
+# mean impute
+mu <- colMeans(Y, na.rm = TRUE)
+for(j in 1:ncol(Y)){
+  Y[is.na(Y[,j]), j] <- mu[j]
+}
+
+coords <- read.table("../data/datasets/r1africa1nfb/r1africa1nfb.coord", header=F)
+colnames(coords) <- c("Long", "Lat")
+
+p <- ncol(Y)
+print(n)
+print(p)
+```
+
+# ADMIXTURE
+
+Here I display ADMIXTURE plots from K=2 to K=8. I ran 5 replicates of ADMIXTURE for each K and then plot the one the achieves the highest likelihood among the replicates:
+
+```{r fig1, echo = FALSE}
+knitr::include_graphics("assets/supp-figure-admixturegallery.png")
+```
+
+# flash-greedy
+
+Here I run the EBMF greedy algorithm:
+
+```{r cache=TRUE, warning=FALSE, message=FALSE}
+Kmax <- 8
+greedy <- init_from_data(Y, Kmax=Kmax)
+
+# prepare
+sd <- sqrt(greedy$prior_s2)
+L <- greedy$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- greedy$resid_s2
+Kmax <- ncol(LDsqrt)
+df <- cbind(coords, LDsqrt)
+gath_df <- df %>% 
+  gather(K, value, -Lat, -Long) %>% 
+  filter(K!=1) 
+
+# plot
+jit <- 2
+buf <- 5
+p <- ggplot() + 
+     geom_path(data=map_data("world"), 
+               aes(long, lat, group=group), 
+               color="gray", size=0.25) + 
+     geom_jitter(data=gath_df, 
+                 aes(Long, Lat, color=value), 
+                 width=jit, height=jit, shape=21) +      
+     scale_color_viridis() + 
+     coord_map() +
+     facet_wrap(.~factor(K, levels = paste0(2:Kmax)), ncol=3, nrow=3) + 
+     theme_void() +
+     xlim(min(df$Long)-buf, max(df$Long)+buf) + 
+     ylim(min(df$Lat)-buf, max(df$Lat)+buf) 
+p
+```
+
+# drift (no-extrapolation)
+
+Here I run `drift` with no extrapolation and initialized from the greedy fit:
+
+```{r, cache=TRUE, warning=FALSE, fig.width=5, fig.height=8, message=FALSE}
+dr_slow <- drift(greedy, 
+                 verbose=FALSE, 
+                 extrapolate=FALSE, 
+                 maxiter=2000, 
+                 tol=1e-4)
+
+# prepare
+sd <- sqrt(dr_slow$prior_s2)
+L <- dr_slow$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr_slow$resid_s2
+Kmax <- ncol(LDsqrt)
+df <- cbind(coords, LDsqrt)
+gath_df <- df %>% 
+  gather(K, value, -Lat, -Long) %>% 
+  filter(K!=1) 
+
+# plot
+p <- ggplot() + 
+     geom_path(data=map_data("world"), 
+               aes(long, lat, group=group), 
+               color="gray", size=0.25) + 
+     geom_jitter(data=gath_df, 
+                 aes(Long, Lat, color=value), 
+                 width=jit, height=jit, shape=21) +      
+     scale_color_viridis() + 
+     coord_map() +
+     facet_wrap(.~factor(K, levels = paste0(2:Kmax)), ncol=3, nrow=3) + 
+     theme_void() +
+     xlim(min(df$Long)-buf, max(df$Long)+buf) + 
+     ylim(min(df$Lat)-buf, max(df$Lat)+buf) 
+p
+```
+
+# drift (extrapolation)
+
+Here I run `drift` with extrapolation and initialized from the same greedy fit:
+
+```{r, cache=TRUE, fig.width=5, fig.height=8, warning=FALSE, message=FALSE}
+dr_fast <- drift(greedy, 
+                 verbose=FALSE, 
+                 extrapolate=TRUE, 
+                 maxiter=2000, 
+                 tol=1e-4)
+
+# prepare
+sd <- sqrt(dr_fast$prior_s2)
+L <- dr_fast$EL
+LDsqrt <- L %*% diag(sd)
+s2 <- dr_fast$resid_s2
+Kmax <- ncol(LDsqrt)
+df <- cbind(coords, LDsqrt)
+gath_df <- df %>% 
+  gather(K, value, -Lat, -Long) %>% 
+  filter(K!=1) 
+
+# plot
+p <- ggplot() + 
+     geom_path(data=map_data("world"), 
+               aes(long, lat, group=group), 
+               color="gray", size=0.25) + 
+     geom_jitter(data=gath_df, 
+                 aes(Long, Lat, color=value), 
+                 width=jit, height=jit, shape=21) +      
+     scale_color_viridis() + 
+     coord_map() +
+     facet_wrap(.~factor(K, levels = paste0(2:Kmax)), ncol=3, nrow=3) + 
+     theme_void() +
+     xlim(min(df$Long)-buf, max(df$Long)+buf) + 
+     ylim(min(df$Lat)-buf, max(df$Lat)+buf) 
+p
+```
+
+Compare no-extrapolation vs extrapolation ELBOs:
+
+```{r}
+d <- dr_slow$iterations %>%
+     mutate(extrapolate = "FALSE") %>%
+     bind_rows(dr_fast$iterations %>% mutate(extrapolate = "TRUE"))
+ggplot(d, aes(x = iter, y = elbo, col = extrapolate)) + geom_line()
+```
+
+It seems the extrapolation and no-extrapolation algorithms find similar solutions with similar quality but extrapolation finds it faster.
