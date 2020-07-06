@@ -46,6 +46,7 @@ Four-population tree:
 * [Using a penalized ELBO to encourage orthogonal factors](ortho_2pop_admix.html)
 * [Acceleration via extrapolation](extrapolate.html)
 * [Extrapolation: Admixture example](extrapolate2.html)
+* [Random initialization](random_init.html)
 
 ## Data Preparation
 
