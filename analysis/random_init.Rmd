@@ -163,3 +163,39 @@ elbo_df <- tibble(type = c("default", rep("random", 10)),
                   ind = 1:(ntrials + 1))
 ggplot(elbo_df, aes(x = ind, y = elbo, col = type)) + geom_point()
 ```
+
+
+## Analysis
+
+To better understand what's going on here, I decompose each factor into a combination of the "true" drift events $a$, $b$, $c$, $d$, $e$, $f$, and $g$. The optimal fit appears as follows:
+
+```{r decomp_optimal}
+X <- cbind(a, b, c, d, e, f, g)
+mat <- solve(crossprod(X)) %*% t(X)
+optimal_rep <- round(t(mat %*% dr_true$EF), 2)
+rownames(optimal_rep)[1:3] <- c("shared", "popsAB", "popsCD")
+optimal_rep
+plot_cov(t(optimal_rep), as.is = TRUE)
+```
+
+Compare with the best randomly initialized fit:
+
+```{r decomp_rand}
+rand_rep <- round(t(mat %*% rand_dr$EF[, c(1, 7, 8, 6, 4)]), 2)
+rownames(rand_rep) <- c("shared", "popsAB", "popsCD", "popsAD", "popsBD")
+rand_rep
+plot_cov(t(rand_rep), as.is = TRUE)
+```
+
+Decomposing the best randomly initialized fit in terms of the optimal factors (rather than the "true" factors) yields:
+
+```{r decomp_rand2}
+X <- dr_true$EF
+mat <- solve(crossprod(X)) %*% t(X)
+rand_rep2 <- round(t(mat %*% rand_dr$EF[, c(1, 7, 8, 6, 4)]), 2)
+rownames(rand_rep2) <- c("shared", "popsAB", "popsCD", "popsAD", "popsBD")
+colnames(rand_rep2)[1:3] <- c("shared", "popsAB", "popsCD")
+rand_rep2
+```
+
+Very roughly, then, the shared factor (or "root") represents the drift events $a + d + e - g$, and other factors include some of $d$, $e$, $f$, and $g$ as well as the events they're supposed to represent.
