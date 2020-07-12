@@ -1,0 +1,143 @@
+---
+title: "1kg_phase3"
+author: "Joseph Marcus"
+date: "2020-06-30"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Imports
+
+Import the required libraries and scripts:
+
+```{r}
+suppressMessages({
+  library(ggplot2)
+  library(RColorBrewer)
+  library(viridis)
+  library(reshape2)
+  library(ggrepel)
+  library(tidyverse)
+  library(cowplot)
+  source("../code/structure_plot.R")
+})
+```
+
+# Functions
+
+Helper functions used in this analysis:
+
+```{r}
+create_structure_plot_from_rds <- function(rds, 
+                                           subpops, 
+                                           label_order, 
+                                           colors, 
+                                           gap){
+  sd <- sqrt(rds$prior_s2)
+  L <- rds$EL
+  LDsqrt <- L %*% diag(sd)
+  s2 <- rds$resid_s2
+  K <- ncol(LDsqrt)
+  p <- create_structure_plot(LDsqrt[,2:ncol(LDsqrt)],
+                             labels=subpops, 
+                             gap=gap,
+                             label_order=label_order,
+                             colors=colors)
+  return(p)
+}
+
+plot_factor_map <- function(rds, k, subpops, coords, colors, text_size=2){
+  # compute loadings
+  sd <- sqrt(rds$prior_s2)
+  L <- rds$EL
+  LDsqrt <- L %*% diag(sd)
+  s2 <- rds$resid_s2
+  ell <- LDsqrt[,k]
+  
+  # compute median loadings
+  l_df <- data.frame(loading=ell)
+  l_df$pop <- subpops
+  l_df <- l_df %>% inner_join(coords)
+  med_df <- l_df %>% 
+            group_by(pop) %>% 
+            summarise(loading=median(loading), 
+                      lat=median(lat), 
+                      lon=median(lon))
+  
+  # plot map
+  p <- ggplot() + 
+       geom_polygon(data=map_data("world"), 
+                    aes(x=long, y=lat, group=group), color="#bdbdbd", fill="#bdbdbd") +
+       geom_point(data=med_df, aes(lon, lat, fill=sqrt(loading)), pch=21) +     
+       geom_label_repel(data=med_df, aes(lon, lat, fill=sqrt(loading), label=pop), size=text_size) +
+       scale_fill_gradient2(low="white", high=colors[k-1]) + 
+       theme_void() + 
+       theme(legend.position = "none") +
+       labs(fill="Loading") 
+  return(p)
+}
+```
+
+## Data
+
+Read and prepare meta data:
+
+```{r}
+meta <- read.table("../data/datasets/1kg_phase3/integrated_call_samples_v3.20130502.ALL.panel", header=T)
+fam <- read.table("../data/datasets/1kg_phase3/1kg_phase3.fam") %>% select(V1)
+colnames(fam) <- c("sample")
+meta <- fam %>% inner_join(meta, by = c("sample"))
+coords <- read.table("../data/datasets/1kg_phase3/1kg_phase3_coords.csv", sep=",", header=TRUE)
+head(meta)
+```
+
+prepare plotting variables:
+
+```{r}
+subpops <- meta$pop
+# same order as 1kg admixture plot in paper
+label_order <- c("LWK", "ESN", "YRI", "MSL", "GWD", "ACB", "ASW",
+                 "CLM", "MXL", "PUR", "PEL", "TSI", "IBS", "GBR", 
+                 "CEU", "FIN", "PJL", "GIH", "ITU", "STU", "BEB",
+                 "CDX", "KHV", "CHS", "CHB", "JPT")
+
+colors <- brewer.pal(n=12, name="Set3")
+colors_admix <- brewer.pal(n=8, name="Set2")
+gap <- 10
+```
+
+# drift
+
+```{r}
+plots <- list()
+elbos <- rep(NA, 19)
+for(k in 2:20){
+  print(k)
+  path <- paste0("../output/drift/1kg_phase3/1kg_phase3_K", k, ".rds")
+  rds <- readRDS(path)
+  elbos[k-1] <- rds$elbo
+  plots[[k]] <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
+}
+```
+
+map plot
+
+```{r}
+Q <- read.table("../output/admixture/1kg_phase3/1kg_phase3.K8r2.Q")
+path <- paste0("../output/drift/1kg_phase3/1kg_phase3_K", 9, ".rds")
+rds <- readRDS(path)
+p_admix <- create_structure_plot(Q, subpops, colors_admix, label_order, gap)
+p_bar <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
+p_map <- plot_grid(plot_factor_map(rds, 2, subpops, coords, colors),
+                   plot_factor_map(rds, 3, subpops, coords, colors),
+                   plot_factor_map(rds, 4, subpops, coords, colors),
+                   plot_factor_map(rds, 5, subpops, coords, colors),
+                   plot_factor_map(rds, 6, subpops, coords, colors),
+                   plot_factor_map(rds, 7, subpops, coords, colors),
+                   plot_factor_map(rds, 8, subpops, coords, colors),
+                   plot_factor_map(rds, 9, subpops, coords, colors),
+                   plot_factor_map(rds, 10, subpops, coords, colors),
+                   nrow=3, ncol=3)
+plot_grid(p_admix, p_bar, p_map, nrow=3, ncol=1, rel_heights=c(.25, .25, 1)) + ggsave("test.png", width=8, height=8)
+```

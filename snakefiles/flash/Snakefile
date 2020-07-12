@@ -4,7 +4,8 @@ import os
 
 # global variables
 RSCRIPT_PATH = "/software/R-3.5.1-el7-x86_64/lib64/R/bin/Rscript "
-KMAX = 12
+KMAX = 20
+KEEP_DATASETS = ["1kg_phase3"]
 
 # setup the output files 
 dataset_paths = glob.glob("data/datasets/*")
@@ -13,7 +14,7 @@ rds_backfit = []
 rds_drift = []
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
-    if dataset in ["hoa_global", "hoa_weur", "marcus_et_al_2020"]: 
+    if dataset in KEEP_DATASETS: 
       bed_lst = glob.glob("{}/*.bed".format(dataset_path))
       if len(bed_lst) > 0:
         bed_path = bed_lst[0]
