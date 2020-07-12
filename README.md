@@ -18,7 +18,7 @@ Setup conda env:
 
 ```
 # setup env
-conda create -n=drift python=3 jupyter jupyterlab rstudio numpy pandas scipy matplotlib stdpopsim jupyter-rsession-proxy rpy2
+conda create -n=drift python=3 jupyter jupyterlab rstudio numpy pandas scipy matplotlib stdpopsim jupyter-rsession-proxy rpy2 pysam click
 pip install snakemake
 
 # for some reason pip was not exported at the time so installed using this path
