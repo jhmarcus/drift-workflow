@@ -114,7 +114,7 @@ plots <- list()
 elbos <- rep(NA, 19)
 for(k in 2:20){
   print(k)
-  path <- paste0("../output/drift/1kg_phase3/1kg_phase3_K", k, ".rds")
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_K", k, "_derived.rds")
   rds <- readRDS(path)
   elbos[k-1] <- rds$elbo
   plots[[k]] <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
@@ -125,7 +125,8 @@ map plot
 
 ```{r}
 Q <- read.table("../output/admixture/1kg_phase3/1kg_phase3.K8r2.Q")
-path <- paste0("../output/drift/1kg_phase3/1kg_phase3_K", 9, ".rds")
+#path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", 9, ".rds")
+#path <- paste0("../output/drift_rand/1kg_phase3_derived/1kg_phase3_derived_K10_rep4.rds")
 rds <- readRDS(path)
 p_admix <- create_structure_plot(Q, subpops, colors_admix, label_order, gap)
 p_bar <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
@@ -140,4 +141,18 @@ p_map <- plot_grid(plot_factor_map(rds, 2, subpops, coords, colors),
                    plot_factor_map(rds, 10, subpops, coords, colors),
                    nrow=3, ncol=3)
 plot_grid(p_admix, p_bar, p_map, nrow=3, ncol=1, rel_heights=c(.25, .25, 1)) + ggsave("test.png", width=8, height=8)
+```
+
+# Random Elbos
+
+```{r}
+plots <- list()
+elbos <- rep(NA, 19)
+for(k in 2:20){
+  print(k)
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_K", k, "_derived.rds")
+  rds <- readRDS(path)
+  elbos[k-1] <- rds$elbo
+  plots[[k]] <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
+}
 ```

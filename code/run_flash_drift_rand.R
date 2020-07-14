@@ -24,7 +24,7 @@ n <- nrow(Y_imp)
 EL <- matrix(runif(n * K), nrow=n, ncol=K)
 EL[, 1] <- 1
 EF <- t(solve(crossprod(EL), crossprod(EL, Y))) 
-dr <- drift(init_from_EL(Y, EL, EF), miniter=20, maxiter=20, extrapolate=TRUE, verbose=TRUE)
+dr <- drift(init_from_EL(Y, EL, EF), miniter=20, maxiter=20, extrapolate=FALSE, verbose=TRUE)
 dr <- drift(dr, miniter=2, maxiter=2500, tol=1e-4, extrapolate=TRUE, verbose=TRUE)
 
 # save the rd 

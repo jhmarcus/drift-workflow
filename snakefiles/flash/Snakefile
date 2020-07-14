@@ -35,8 +35,8 @@ rule flash_all:
     input:
         rds_greedy,
         #rds_backfit,
-        rds_drift
-        #rds_drift_rand
+        rds_drift,
+        rds_drift_rand
 
 
 rule run_flash_greedy:
@@ -94,4 +94,4 @@ rule run_drift_rand:
     benchmark:
         "output/benchmark/drift_rand/{dataset}/{prefix}_K{k}_rep{rep}.txt"
     run:
-      shell(RSCRIPT_PATH + "--vanilla code/run_drift_rand.R {params.bed} {output.rds} {params.k}")
+      shell(RSCRIPT_PATH + "--vanilla code/run_flash_drift_rand.R {params.bed} {output.rds} {params.k}")
