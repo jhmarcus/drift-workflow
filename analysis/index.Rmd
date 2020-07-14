@@ -59,6 +59,10 @@ These vignettes describe data preparation steps:
 * [hoa global drift fits](hoa_global_drift_bimodal.html) 
 * [r1africa1nfb](r1africa1nfb.html)
 
+## Figures
+
+* [Simple Simulation](figure-simple-sim.hml)
+
 ---
 
 # Deprecated
