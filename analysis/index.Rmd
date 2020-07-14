@@ -61,7 +61,7 @@ These vignettes describe data preparation steps:
 
 ## Figures
 
-* [Simple Simulation](figure-simple-sim.hml)
+* [Simple Simulation](figure-simple-sim.html)
 
 ---
 
