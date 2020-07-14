@@ -1,0 +1,111 @@
+---
+title: "Figure: Simple Simulaton"
+author: "Joseph Marcus"
+date: "2020-07-14"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+  library(alstructure)
+  library(lfa)
+  source("../code/structure_plot.R")
+})
+```
+
+## Simulaton
+
+Simulate non-negative genotype data roughly between 0 and 2 using a Gaussian factor analysis model under with three pops A, B, C and C is 50% admixture between A and B:
+
+```{r}
+# specify simulation
+n <- 150
+p <- 5000
+K <- 3
+subpops <- rep(c("A", "B", "C"), each=50)
+colors <- c("#66c2a5", "#fc8d62", "#8da0cb")
+
+# simulate "genotype data"
+a <- 1 + rnorm(p, mean=0, sd=.1)
+b <- rnorm(p, mean=0, sd=.2)
+c <- rnorm(p, mean=0, sd=.2)
+FF <- cbind(a, b, c)
+L <- matrix(NA, nrow=n, ncol=3)
+L[, 1] <- 1
+L[, 2] <- 0
+L[, 3] <- 0
+L[1:50, 2] <- 1
+L[101:150, 2] <- .5
+L[51:100, 3]  <- 1
+L[101:150, 3] <- .5
+sd_e <- .1
+E <- matrix(rnorm(n*p, mean=0, sd=.05), ncol=p)
+Y <-  L %*% t(FF) + E
+```
+
+## PCA
+
+Run PCA:
+
+```{r}
+Z <- scale(Y)
+pc_res <- lfa:::trunc.svd(Z, d=10)
+PC <- pc_res$u
+print(pc_res$d / sum(pc_res$d))
+p_pca <- qplot(1:n, PC[,1], color=subpops) + 
+  xlab("") + ylab("PC1 (.598)") + 
+  theme_classic() +
+  theme(axis.text.y = element_text(size = 12),
+        axis.title.y=element_text(size=12),
+        legend.title=element_blank()) + 
+  theme(legend.position = c(0.2, 0.6)) +
+  ggtitle("(A) PCA") + 
+  theme(plot.title = element_text(hjust=0.5))
+p_pca
+```
+
+## ALStructure
+
+Run an ADMIXTURE model using ALStructure:
+
+```{r}
+al_res <- alstructure(t(Y), 2)
+Q <- t(al_res$Q_hat)
+p_admix <- create_structure_plot(Q, subpops, colors[c(1, 3)], c("A", "B", "C")) + 
+  ylab("Admixture fraction") + 
+  ggtitle("(B) ALStructure") +
+  theme(plot.title = element_text(hjust=0.5))
+p_admix
+```
+
+## Drift (random init)
+
+Run drift with random init
+
+```{r}
+set.seed(2000)
+EL <- matrix(runif(n * K), ncol = K)  
+EL[, 1] <- 1
+EF <- t(solve(crossprod(EL), crossprod(EL, Y))) 
+dr <- drift(init_from_EL(Y, EL, EF), miniter=20, maxiter=20, 
+            extrapolate=FALSE, verbose=TRUE)
+dr <- drift(dr, miniter=2, maxiter=1000, tol=1e-4, 
+            extrapolate=TRUE, verbose=TRUE)
+p_drift <- create_structure_plot(dr$EL, subpops, colors[c(2,3,1)], c("A", "B", "C")) + 
+  ggtitle("(C) Drift") + theme(plot.title = element_text(hjust=0.5))
+p_drift
+```
+
+## Figure
+
+Make the figure:
+
+```{r}
+p_grid <- cowplot::plot_grid(p_pca, p_admix, p_drift, nrow=3)
+p_grid + ggsave("../output/figures/simple-sim.pdf", width=7, height=6)
+```
