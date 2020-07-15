@@ -29,13 +29,17 @@ create_structure_plot_from_rds <- function(rds,
                                            subpops, 
                                            label_order, 
                                            colors, 
-                                           gap){
-  sd <- sqrt(rds$prior_s2)
-  L <- rds$EL
+                                           gap,
+                                           kset = NULL){
+  if (is.null(kset)) {
+    kset = 2:rds$K
+  }
+  sd <- sqrt(rds$prior_s2[kset])
+  L <- rds$EL[, kset]
   LDsqrt <- L %*% diag(sd)
-  s2 <- rds$resid_s2
+  s2 <- rds$resid_s2[kset]
   K <- ncol(LDsqrt)
-  p <- create_structure_plot(LDsqrt[,2:ncol(LDsqrt)],
+  p <- create_structure_plot(LDsqrt,
                              labels=subpops, 
                              gap=gap,
                              label_order=label_order,
@@ -101,6 +105,29 @@ label_order <- c("LWK", "ESN", "YRI", "MSL", "GWD", "ACB", "ASW",
 colors <- brewer.pal(n=12, name="Set3")
 colors_admix <- brewer.pal(n=8, name="Set2")
 gap <- 20
+
+EL_list <- list()
+for (k in 2:12) {
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", k, ".rds")
+  rds <- readRDS(path)
+  EL_list <- c(EL_list, list(rds$EL))
+}
+kset_list <- list()
+kset_list[[1]] <- 1:2
+for (k in 2:11) {
+  # Map factors from K = k - 1 to factors from K = k
+  next_cor <- cor(EL_list[[k - 1]][, -1], EL_list[[k]][, -1])
+  next_kset <- rep(0, nrow(next_cor))
+  for (i in 1:nrow(next_cor)) {
+    prev_k <- row(next_cor)[which.max(next_cor)]
+    next_k <- col(next_cor)[which.max(next_cor)]
+    next_kset[prev_k] <- next_k
+    next_cor[prev_k, ] <- -1
+  }
+  new_k <- setdiff(1:ncol(next_cor), next_kset)
+  kset_list[[k]] <- c(kset_list[[k - 1]][next_kset], new_k)
+}
+
 ```
 
 # drift (greedy init)
