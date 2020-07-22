@@ -47,6 +47,7 @@ Four-population tree:
 * [Acceleration via extrapolation](extrapolate.html)
 * [Extrapolation: Admixture example](extrapolate2.html)
 * [Random initialization](random_init.html)
+* [Other prior families](pm1_priors.html)
 
 ## Data Preparation
 
