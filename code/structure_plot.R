@@ -6,6 +6,9 @@ create_structure_plot <- function(L, labels, colors,
                                   yaxis_tick_font_size=12,
                                   yaxis_title_font_size=12
                                   ){
+  scaleFUN <- function(x) sprintf("%.2f", x)
+  
+  
   # TODO: assert label_order is unique 
   # TODO: assert label_order is in labels
   K <- ncol(L)
@@ -42,13 +45,14 @@ create_structure_plot <- function(L, labels, colors,
   # Create the STRUCTURE plot.
   n <- max(pdat$sample)
   p <- ggplot(pdat,aes_string(x = "sample",y = "loading",
-                                fill = "K")) +
+                                fill = "K", color="K")) +
            geom_bar(stat="identity", width=1) +  
            scale_x_continuous(limits = c(0.0,n+1),breaks = ticks,
                               labels = unique_labels, 
                               expand = c(0, 0)) +
-           scale_y_continuous(expand=c(0, 0)) +
+           scale_y_continuous(expand=c(0, 0), labels=scaleFUN) +
            scale_fill_manual(values=colors) + 
+           scale_color_manual(values=colors) + 
            theme_classic() +
            theme(panel.grid.major = element_blank(), 
                  panel.grid.minor = element_blank(),
@@ -56,7 +60,7 @@ create_structure_plot <- function(L, labels, colors,
                  axis.text.x=element_text(size = label_font_size, colour = "black", angle = 45, hjust = 1), 
                  axis.ticks.x=element_blank(),
                  axis.line.x = element_blank(),
-                 plot.margin = unit(c(0, 0, 0, 0), "cm"),
+                 plot.margin = unit(c(0.0, 0, 0.0, 0), "cm"),
                  axis.title.y=element_text(size=yaxis_title_font_size)) + 
            ylab("Loading") + 
            guides(fill=FALSE, color=FALSE) +

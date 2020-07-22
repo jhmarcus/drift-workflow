@@ -1,0 +1,236 @@
+---
+title: "1kg_phase3"
+author: "Joseph Marcus"
+date: "2020-06-30"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r}
+suppressMessages({
+  library(ggplot2)
+  library(RColorBrewer)
+  library(viridis)
+  library(reshape2)
+  library(ggrepel)
+  library(tidyverse)
+  library(cowplot)
+  source("../code/structure_plot.R")
+})
+```
+
+# Functions
+
+Helper functions used in this analysis:
+
+```{r}
+create_structure_plot_from_rds <- function(rds, 
+                                           subpops, 
+                                           label_order, 
+                                           colors, 
+                                           gap,
+                                           kset = NULL){
+  if (is.null(kset)) {
+    kset = 2:rds$K
+  }
+  sd <- sqrt(rds$prior_s2[kset])
+  L <- rds$EL[, kset]
+  LDsqrt <- L %*% diag(sd)
+  s2 <- rds$resid_s2[kset]
+  K <- ncol(LDsqrt)
+  p <- create_structure_plot(LDsqrt,
+                             labels=subpops, 
+                             gap=gap,
+                             label_order=label_order,
+                             colors=colors)
+  return(p)
+}
+
+plot_factor_map <- function(rds, k, subpops, coords, colors, text_size=2){
+  # compute loadings
+  sd <- sqrt(rds$prior_s2)
+  L <- rds$EL
+  LDsqrt <- L %*% diag(sd)
+  s2 <- rds$resid_s2
+  ell <- LDsqrt[,k]
+  
+  # compute median loadings
+  l_df <- data.frame(loading=ell)
+  l_df$pop <- subpops
+  l_df <- l_df %>% inner_join(coords)
+  med_df <- l_df %>% 
+            group_by(pop) %>% 
+            summarise(loading=median(loading), 
+                      lat=median(lat), 
+                      lon=median(lon))
+  
+  # plot map
+  p <- ggplot() + 
+       geom_polygon(data=map_data("world"), 
+                    aes(x=long, y=lat, group=group), color="#bdbdbd", fill="#bdbdbd") +
+       geom_point(data=med_df, aes(lon, lat, fill=sqrt(loading)), pch=21) +     
+       geom_label_repel(data=med_df, aes(lon, lat, fill=sqrt(loading), label=pop), size=text_size) +
+       scale_fill_gradient2(low="white", high=colors[k-1]) + 
+       theme_void() + 
+       theme(legend.position = "none") +
+       labs(fill="Loading") 
+  return(p)
+}
+```
+
+## Data
+
+Read and prepare meta data:
+
+```{r}
+meta <- read.table("../data/datasets/1kg_phase3/integrated_call_samples_v3.20130502.ALL.panel", header=T)
+fam <- read.table("../data/datasets/1kg_phase3/1kg_phase3.fam") %>% select(V1)
+colnames(fam) <- c("sample")
+meta <- fam %>% inner_join(meta, by = c("sample"))
+coords <- read.table("../data/datasets/1kg_phase3/1kg_phase3_coords.csv", sep=",", header=TRUE)
+head(meta)
+```
+
+prepare plotting variables:
+
+```{r}
+subpops <- meta$pop
+# same order as 1kg admixture plot in paper
+label_order <- c("LWK", "ESN", "YRI", "MSL", "GWD", "ACB", "ASW",
+                 "CLM", "MXL", "PUR", "PEL", "TSI", "IBS", "GBR", 
+                 "CEU", "FIN", "PJL", "GIH", "ITU", "STU", "BEB",
+                 "CDX", "KHV", "CHS", "CHB", "JPT")
+
+colors <- brewer.pal(n=12, name="Set3")
+colors_admix <- brewer.pal(n=8, name="Set2")
+gap <- 20
+
+EL_list <- list()
+for (k in 2:12) {
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", k, ".rds")
+  rds <- readRDS(path)
+  EL_list <- c(EL_list, list(rds$EL))
+}
+kset_list <- list()
+kset_list[[1]] <- 1:2
+for (k in 2:11) {
+  # Map factors from K = k - 1 to factors from K = k
+  next_cor <- cor(EL_list[[k - 1]][, -1], EL_list[[k]][, -1])
+  next_kset <- rep(0, nrow(next_cor))
+  for (i in 1:nrow(next_cor)) {
+    prev_k <- row(next_cor)[which.max(next_cor)]
+    next_k <- col(next_cor)[which.max(next_cor)]
+    next_kset[prev_k] <- next_k
+    next_cor[prev_k, ] <- -1
+  }
+  new_k <- setdiff(1:ncol(next_cor), next_kset)
+  kset_list[[k]] <- c(kset_list[[k - 1]][next_kset], new_k)
+}
+
+```
+
+# drift (greedy init)
+
+```{r, cache=TRUE}
+plots <- list()
+elbos <- rep(NA, 12)
+for(k in 2:12){
+  print(k)
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", k, ".rds")
+  rds <- readRDS(path)
+  elbos[k-1] <- rds$elbo
+  plots[[k-1]] <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap) +          
+                  theme(axis.text.x=element_text(size=0), 
+                        axis.title.y=element_text(size=8), 
+                        axis.text.y=element_text(size=6))
+}
+```
+
+# Create gallery plot (drift greedy)
+
+```{r}
+p_drift_gal <- plot_grid(plots[[1]],
+                         plots[[2]],
+                         plots[[3]],
+                         plots[[4]],
+                         plots[[5]],
+                         plots[[6]],
+                         plots[[7]],
+                         plots[[8]],
+                         plots[[9]],
+                         plots[[10]],
+                         plots[[11]],
+                         rel_heights=c(rep(1, 10), 1.5),
+                         nrow=11)
+p_drift_gal + ggsave("../output/figures/1kg_phase3-drift-gal.pdf", width=4, height=6)
+``` 
+
+# Create gallery plot admixture
+
+```{r}
+```
+
+# ELBO comparisons
+
+```{r, cache=TRUE}
+plots <- list()
+n_reps <- 5
+K <- 20
+elbos <- matrix(NA, nrow=K-1, ncol=n_reps+1)
+for(j in 1:(K-1)){
+  # random init
+  for(i in 1:n_reps){
+    print(paste0("i=", i, ", k=", j+1))
+    path <- paste0("../output/drift_rand/1kg_phase3_derived/1kg_phase3_derived_K", j+1, "_rep", i-1, ".rds")
+    rds <- readRDS(path)
+    elbos[j, i] <- rds$elbo
+  }
+
+  # greedy init
+  print(paste0("greedy, k=", j+1))
+  path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", j+1, ".rds")
+  rds <- readRDS(path)
+  elbos[j, n_reps + 1] <- rds$elbo
+
+}
+```
+
+plot the elbos:
+
+```{r}
+elbo_df <- as.data.frame(elbos[,-6])
+colnames(elbo_df) <- c("rep1", "rep2", "rep3", "rep4", "rep5") #, "greedy")
+elbo_df$k <- 2:20
+
+
+gath_elbo_df <- elbo_df %>% filter(k>10) %>% gather(variable, value, -k)
+p_elbo <- ggplot(gath_elbo_df, aes(x=k, y=value, color=variable)) + 
+  geom_point() 
+p_elbo
+```
+
+# Map plot
+
+```{r}
+Q <- read.table("../output/admixture/1kg_phase3/1kg_phase3.K8r2.Q")
+path <- paste0("../output/drift/1kg_phase3_derived/1kg_phase3_derived_K", 9, ".rds")
+#path <- paste0("../output/drift_rand/1kg_phase3_derived/1kg_phase3_derived_K10_rep4.rds")
+rds <- readRDS(path)
+p_admix <- create_structure_plot(Q, subpops, colors_admix, label_order, gap)
+p_bar <- create_structure_plot_from_rds(rds, subpops, label_order, colors, gap)
+p_map <- plot_grid(plot_factor_map(rds, 2, subpops, coords, colors),
+                   plot_factor_map(rds, 3, subpops, coords, colors),
+                   plot_factor_map(rds, 4, subpops, coords, colors),
+                   plot_factor_map(rds, 5, subpops, coords, colors),
+                   plot_factor_map(rds, 6, subpops, coords, colors),
+                   plot_factor_map(rds, 7, subpops, coords, colors),
+                   plot_factor_map(rds, 8, subpops, coords, colors),
+                   plot_factor_map(rds, 9, subpops, coords, colors),
+                   plot_factor_map(rds, 10, subpops, coords, colors),
+                   nrow=3, ncol=3)
+plot_grid(p_admix, p_bar, p_map, nrow=3, ncol=1, rel_heights=c(.25, .25, 1)) + 
+  ggsave("../output/figures/1kg_phase3-map-plot.pdf", width=8, height=8)
+```
+
+

@@ -1,0 +1,113 @@
+---
+title: "Figure: Simple Simulaton"
+author: "Joseph Marcus"
+date: "2020-07-14"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+  library(alstructure)
+  library(lfa)
+  source("../code/structure_plot.R")
+})
+```
+
+## Simulaton
+
+Simulate non-negative genotype data roughly between 0 and 2 using a Gaussian factor analysis model under with three pops A, B, C and C is 50% admixture between A and B:
+
+```{r}
+# specify simulation
+n <- 150
+p <- 10000
+K <- 3
+subpops <- rep(c("A", "B", "C"), each=50)
+colors <- c("#66c2a5", "#fc8d62", "#8da0cb")
+
+# simulate "genotype data"
+branch_1 <- 1 + rnorm(p, mean=0, sd=.1)
+branch_2 <- rnorm(p, mean=0, sd=.1)
+branch_3 <- rnorm(p, mean=0, sd=.3)
+branch_4 <- rnorm(p, mean=0, sd=.3)
+branch_5 <- rnorm(p, mean=0, sd=.3)
+FF <- cbind(branch_1, branch_2, branch_3, branch_4, branch_5)
+L <- matrix(0, nrow=n, ncol=5)
+a_idx <- 1:50
+b_idx <- 51:100
+c_idx <- 101:150
+L[, 1] <- 1
+L[b_idx, 2] <- 1
+L[c_idx, 2] <- 1
+L[a_idx, 3] <- 1
+L[b_idx, 4] <- 1
+L[c_idx, 5] <- 1
+sd_e <- .05
+E <- matrix(rnorm(n*p, mean=0, sd=.05), ncol=p)
+Y <-  L %*% t(FF) + E
+Y[Y<0] <- 0
+Y[Y>2] <-2
+```
+
+## PCA
+
+Run PCA:
+
+```{r}
+Z <- scale(Y)
+pc_res <- lfa:::trunc.svd(Z, d=10)
+PC <- pc_res$u
+p_pca <- qplot(PC[,1], PC[,2], color=subpops) + 
+         labs(color="") + 
+         theme_classic() +
+         theme(legend.position = c(0.1, 0.8)) +
+         xlab("PC1") + 
+         ylab("PC2") + 
+         ggtitle("(A) PCA") + 
+         theme(plot.title = element_text(hjust=0.5))
+p_pca
+```
+
+## ALStructure
+
+Run an ADMIXTURE model using ALStructure:
+
+```{r}
+al_res <- alstructure(t(Y), 3)
+Q <- t(al_res$Q_hat)
+p_admix <- create_structure_plot(Q, subpops, colors, c("A", "B", "C")) + 
+  ylab("Admixture fraction") + 
+  ggtitle("(B) ALStructure") +
+  theme(plot.title = element_text(hjust=0.5))
+p_admix
+```
+
+## Drift (random init)
+
+Run drift with random init
+
+```{r}
+set.seed(2000)
+colors <- c("#fc8d62", "#66c2a5", "#8da0cb", "#a6d854", "#e78ac3")
+dr <- drift(init_from_data(Y, Kmax=5), miniter=20, maxiter=20, 
+            extrapolate=FALSE, verbose=TRUE)
+dr <- drift(dr, miniter=2, maxiter=1000, tol=1e-4, 
+            extrapolate=TRUE, verbose=TRUE)
+p_drift <- create_structure_plot(dr$EL, subpops, colors, c("A", "B", "C")) + 
+  ggtitle("(C) Drift") + theme(plot.title = element_text(hjust=0.5))
+p_drift
+```
+
+## Figure
+
+Make the figure:
+
+```{r}
+p_grid <- cowplot::plot_grid(p_pca, p_admix, p_drift, nrow=3)
+p_grid + ggsave("../output/figures/simple-sim.pdf", width=7, height=6)
+```

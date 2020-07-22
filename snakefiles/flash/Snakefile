@@ -4,16 +4,19 @@ import os
 
 # global variables
 RSCRIPT_PATH = "/software/R-3.5.1-el7-x86_64/lib64/R/bin/Rscript "
-KMAX = 12
+KMAX = 20
+N_REPS = 5
+KEEP_DATASETS = ["1kg_phase3_derived"]
 
 # setup the output files 
 dataset_paths = glob.glob("data/datasets/*")
 rds_greedy = []
 rds_backfit = []
 rds_drift = []
+rds_drift_rand = []
 for dataset_path in dataset_paths:
     dataset = os.path.basename(dataset_path)
-    if dataset in ["hoa_global", "hoa_weur", "marcus_et_al_2020"]: 
+    if dataset in KEEP_DATASETS: 
       bed_lst = glob.glob("{}/*.bed".format(dataset_path))
       if len(bed_lst) > 0:
         bed_path = bed_lst[0]
@@ -22,6 +25,8 @@ for dataset_path in dataset_paths:
           rds_greedy.append("output/flash_greedy/{}/{}_K{}.rds".format(dataset, prefix, k))
           rds_backfit.append("output/flash_backfit/{}/{}_K{}.rds".format(dataset, prefix, k))
           rds_drift.append("output/drift/{}/{}_K{}.rds".format(dataset, prefix, k))
+          for rep in range(N_REPS):
+            rds_drift_rand.append("output/drift_rand/{}/{}_K{}_rep{}.rds".format(dataset, prefix, k, rep))
 
 
 rule flash_all:
@@ -30,7 +35,8 @@ rule flash_all:
     input:
         rds_greedy,
         #rds_backfit,
-        rds_drift
+        rds_drift,
+        rds_drift_rand
 
 
 rule run_flash_greedy:
@@ -73,3 +79,19 @@ rule run_drift:
         "output/benchmark/drift/{dataset}/{prefix}_K{k}.txt"
     run:
       shell(RSCRIPT_PATH + "--vanilla code/run_flash_drift.R {input.rds} {output.rds}")
+
+
+rule run_drift_rand:
+    """Runs drift with random init 
+    """
+    input:
+        bed = "data/datasets/{dataset}/{prefix}.bed"
+    params:
+        bed = "data/datasets/{dataset}/{prefix}",
+        k = "{k}"
+    output:
+        rds = "output/drift_rand/{dataset}/{prefix}_K{k}_rep{rep}.rds"
+    benchmark:
+        "output/benchmark/drift_rand/{dataset}/{prefix}_K{k}_rep{rep}.txt"
+    run:
+      shell(RSCRIPT_PATH + "--vanilla code/run_flash_drift_rand.R {params.bed} {output.rds} {params.k}")
