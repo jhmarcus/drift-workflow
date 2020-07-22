@@ -1,0 +1,218 @@
+---
+title: "Revisiting prior families for trees"
+author: "Jason Willwerscheid"
+date: "7/22/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I use the four-population tree that I also used in my [exploration of random initialization](random_init.html). 
+
+```{r sim}
+set.seed(666)
+
+n_per_pop <- 60
+p <- 10000
+
+a <- rnorm(p)
+b <- rnorm(p)
+c <- rnorm(p)
+d <- rnorm(p, sd = 0.5)
+e <- rnorm(p, sd = 0.5)
+f <- rnorm(p, sd = 0.5)
+g <- rnorm(p, sd = 0.5)
+
+popA <- c(rep(1, n_per_pop), rep(0, 4 * n_per_pop))
+popB <- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, 3 * n_per_pop))
+popC <- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popD <- c(rep(0, 3 * n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popE <- c(rep(0, 4 * n_per_pop), rep(1, n_per_pop))
+
+E.factor <- (a + b + e) / 2 + (a + c + f) / 3 + (a + c + g) / 6
+
+Y <- cbind(popA, popB, popC, popD, popE) %*% 
+  rbind(a + b + d, a + b + e, a + c + f, a + c + g, E.factor)
+Y <- Y + rnorm(5 * n_per_pop * p, sd = 0.1)
+
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C", "D", "E"), each = n_per_pop)) +
+    scale_color_brewer(palette="Set2")
+}
+```
+
+We should be able to get to a factorization where each column corresponds to a split in a tree:
+$$ \begin{bmatrix} 1 & 1 & 1 & 0 \\ 1 & 1 & -1 & 0 \\ 1 & -1 & 0 & 1 \\
+1 & -1 & 0 & -1 \\ 1 & 0 & -1/2 & 1/6 \end{bmatrix} 
+\begin{bmatrix} f_1 \\ f_2 \\ f_3 \\ f_4 \end{bmatrix} $$
+The first column in the matrix on the left corresponds to the root; the second, to the top split; and the third and fourth, to the bottom splits. Since this matrix is full rank, we might expect that this solution would be easier to find than the solutions we want to get from the bimodal priors we've been using so far. (The last row corresponds to the admixed population $E$: for example, since it is half population $B$ and half populations $C$ and $D$, it shares equally in both sides of the top split, so its entry in the second column is $1/2 - 1/2 = 0$.) 
+
+To try to obtain such a factorization, I try to use mixtures of a pointmass at -1, a pointmass at +1, and a uniform component in between.
+
+```{r prior}
+tree.fn = function(x, s, g_init, fix_g, output, ...) {
+  if (is.null(g_init)) {
+    g_init <- ashr::unimix(rep(1/3, 3), c(-1, -1, 1), c(-1, 1, 1))
+  }
+
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "ash",
+                                prior = c(10, 1, 10),
+                                ...))
+}
+
+prior.tree = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    tree.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+```
+
+First I fit a vector of ones (the root) and then I fit the top split by adding a "greedy" factor:
+
+```{r pm1}
+ones <- matrix(1, nrow = nrow(Y), ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+
+fl <- flash.init(Y) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = list(ones, ls.soln), 
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.backfit()
+plot(fl$flash.fit$EF[[1]][, 2])
+```
+
+So far, so good. To fit the next two branches, we have two options: either remove the individuals that don't fit nicely (Population E) from the next two splits (and re-fit later) or allow them to be loaded on both splits. In either case, the loadings of the individuals from the opposite side of the split should be fixed at zero. I try the first method first (one side of the split only):
+
+```{r pm2}
+set1 <- (fl$flash.fit$EF[[1]][, 2] > 0.9)
+set2 <- (fl$flash.fit$EF[[1]][, 2] < -0.9)
+set3 <- !set1 & !set2 # admixed individuals
+
+next.factor <- matrix(1L * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 3, mode = 1L) %>%
+  flash.backfit(3)
+
+next.factor <- matrix(sample(c(-1, 1), size = nrow(Y), replace = TRUE) * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 4, mode = 1L, is.fixed = set2 | set3) %>%
+  flash.backfit(4)
+
+plot(fl2$flash.fit$EF[[1]][, 4])
+```
+
+I don't know why a solution loaded on -1 and +1 isn't preferred (or, even if the loadings aren't exactly symmetric, I'd at least expect it to be loaded on one of the two poles). We might need to think about the prior family some more. For example, an NPMLE prior can capture the fact that the loadings should be distributed as a small number of pointmasses:
+
+```{r npmle}
+npmle.fn = function(x, s, g_init, fix_g, output, ...) {
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "npmle",
+                                ...))
+}
+
+prior.npmle = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    npmle.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+
+ones <- matrix(1, nrow = nrow(Y), ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+
+fl <- flash.init(Y) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = list(ones, ls.soln), 
+                     prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.backfit(warmstart = FALSE)
+plot(fl$flash.fit$EF[[1]][, 2])
+
+set1 <- popA | popB
+set2 <- popC | popD
+set3 <- popE
+
+next.factor <- matrix(1L * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.fix.loadings(kset = 3, mode = 1L) %>%
+  flash.backfit(3)
+
+next.factor <- matrix(sample(c(-1, 1), size = nrow(Y), replace = TRUE) * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.fix.loadings(kset = 4, mode = 1L, is.fixed = set2 | set3) %>%
+  flash.backfit(4, warmstart = FALSE)
+
+plot(fl2$flash.fit$EF[[1]][, 4])
+```
+
+If I allow Population E to be included in this factor, I get:
+
+```{r withPopE}
+next.factor <- matrix(1L * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.fix.loadings(kset = 3, mode = 1L) %>%
+  flash.backfit(3)
+
+next.factor <- matrix(sample(c(-1, 1), size = nrow(Y), replace = TRUE) * (set1 | set3), ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.npmle(), prior.normal())) %>%
+  flash.fix.loadings(kset = 4, mode = 1L, is.fixed = set2) %>%
+  flash.backfit(4, warmstart = FALSE)
+
+plot(fl2$flash.fit$EF[[1]][, 4])
+```
+
+This is about what we'd expect, since Population E owes its half-share in this split entirely to Population B.
