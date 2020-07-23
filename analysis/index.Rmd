@@ -52,6 +52,7 @@ Other prior families:
 
 * [First thoughts](pm1_priors.html)
 * [Initialization using three-pointmass priors, then relaxation](pm1_priors2.html)
+* [The same, but a more challenging scenario](pm1_priors3.html)
 
 ## Data Preparation
 
