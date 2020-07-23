@@ -1,0 +1,202 @@
+---
+title: "Revisiting prior families for trees: Part II"
+author: "Jason Willwerscheid"
+date: "7/22/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I continue to use the four-population tree that I've been using, but I change the admixture proportions for Population $E$ to 60% $B$, 25% $C$, and 15% $D$. I did so because I wanted to make the problem slightly less nice for the approach I'm trying out here. 
+
+Namely, I'm initializing the tree by using a mixture of point masses at -1, 0, and +1, with the point mass at zero corresponding to either zero participation in the corresponding subtree or a 50-50 admixture. For example, admixture proportions of $1/2$, $1/3$, and $1/6$ would give a 50-50 admixture for the top split (between Populations $A/B$ and Populations $C/D$), so that we'd expect the loading for Population $E$ to be zero. With a 60-25-15 admixture, we'd instead like to see a loading of $1/5$.
+
+After initializing the tree, I'll re-fit using a more flexible mixture of point masses at -1 and +1 and then a uniform component on $[-0.9, 0.9]$. I don't want to allow the uniform component to span the entire interval between -1 and +1: the optimization seems to be a little easier when the difference between the pointmass and the uniform component is exaggerated. This should be fine for all but the worst of cases (i.e., very small admixture proportions for the top split). 
+
+```{r sim}
+set.seed(666)
+
+n_per_pop <- 60
+p <- 10000
+
+a <- rnorm(p)
+b <- rnorm(p)
+c <- rnorm(p)
+d <- rnorm(p, sd = 0.5)
+e <- rnorm(p, sd = 0.5)
+f <- rnorm(p, sd = 0.5)
+g <- rnorm(p, sd = 0.5)
+
+popA <- c(rep(1, n_per_pop), rep(0, 4 * n_per_pop))
+popB <- c(rep(0, n_per_pop), rep(1, n_per_pop), rep(0, 3 * n_per_pop))
+popC <- c(rep(0, 2 * n_per_pop), rep(1, n_per_pop), rep(0, 2 * n_per_pop))
+popD <- c(rep(0, 3 * n_per_pop), rep(1, n_per_pop), rep(0, n_per_pop))
+popE <- c(rep(0, 4 * n_per_pop), rep(1, n_per_pop))
+
+E.factor <- 0.60 * (a + b + e) + 0.25 * (a + c + f) + 0.15 * (a + c + g)
+
+Y <- cbind(popA, popB, popC, popD, popE) %*% 
+  rbind(a + b + d, a + b + e, a + c + f, a + c + g, E.factor)
+Y <- Y + rnorm(5 * n_per_pop * p, sd = 0.1)
+
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C", "D", "E"), each = n_per_pop)) +
+    scale_color_brewer(palette="Set2")
+}
+
+tree.fn = function(x, s, g_init, fix_g, output, ...) {
+  if (is.null(g_init)) {
+    g_init <- ashr::unimix(rep(1/3, 3), c(-1, 0, 1), c(-1, 0, 1))
+  }
+
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "ash",
+                                prior = c(10, 1, 10),
+                                ...))
+}
+
+prior.tree = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    tree.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+
+flextree.fn = function(x, s, g_init, fix_g, output, ...) {
+  if (is.null(g_init)) {
+    g_init <- ashr::unimix(rep(1/3, 3), c(-1, -0.9, 1), c(-1, 0.9, 1))
+  }
+
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "ash",
+                                prior = c(10, 1, 10),
+                                ...))
+}
+
+prior.flextree = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    flextree.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+```
+
+Here's what the initial tree looks like with the three-pointmass priors. I added extra "mean" factors for Populations $A/B$ and Populations $C/D$ (Factors 3 and 5 below), basically to subtract out the contribution from Population $E$ before splitting. I'll be able to remove those factors when I use the more relaxed priors.
+
+```{r fl2}
+ones <- matrix(1, nrow = nrow(Y), ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, Y)))
+
+fl <- flash.init(Y) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = list(ones, ls.soln), 
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.backfit()
+
+set1 <- (fl$flash.fit$EF[[1]][, 2] < -0.9)
+set2 <- (fl$flash.fit$EF[[1]][, 2] > 0.9)
+set3 <- !set1 & !set2 # admixed individuals
+
+# Add a mean factor for Populations A/B.
+
+next.factor <- matrix(1L * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 3, mode = 1L) %>%
+  flash.backfit(3)
+
+# Split A/B.
+
+next.factor <- matrix(sample(c(-1, 1), size = nrow(Y), replace = TRUE) * set1, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 4, mode = 1L, is.fixed = set2 | set3) %>%
+  flash.backfit(4)
+
+# Add a mean factor for Populations C/D.
+
+next.factor <- matrix(1L * set2, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 5, mode = 1L) %>%
+  flash.backfit(5)
+
+# Split C/D.
+
+next.factor <- matrix(sample(c(-1, 1), size = nrow(Y), replace = TRUE) * set2, ncol = 1)
+ls.soln <- t(solve(crossprod(next.factor), crossprod(next.factor, Y)))
+
+fl2 <- fl2 %>%
+  flash.init.factors(EF = list(next.factor, ls.soln),
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 6, mode = 1L, is.fixed = set1 | set3) %>%
+  flash.backfit(6)
+
+plot_dr(init_from_flash(fl2))
+```
+
+Here's what the fit looks like after relaxation.
+
+```{r fl3}
+# Remove the redundant "mean" factors.
+fl3 <- fl2 %>%
+  flash.fix.loadings(kset = 4, mode = 1L, is.fixed = set2) %>%
+  flash.fix.loadings(kset = 6, mode = 1L, is.fixed = set1) %>%
+  flash.remove.factors(c(3, 5)) %>%
+  flash.backfit()
+
+# Relax the priors.
+for (k in 1:4) {
+  fl3$flash.fit$ebnm.fn[[k]][[1]] <- flextree.fn
+}
+
+# Refit.
+fl3 <- fl3 %>% flash.backfit(warmstart = FALSE)
+  
+plot_dr(init_from_flash(fl3))
+```
+
+This looks pretty good. For Population $E$, we want to see loadings of $0.4 - 0.6 = -0.2$ for the top split (Factor 2), $0.6$ for Factor 3, and $0.25 - 0.15 = 0.1$ for Factor 4. And that's pretty much what we see (with the exception that there's noticeable shrinkage for Factor 3):
+
+```{r LL}
+LL <- colMeans(fl3$flash.fit$EF[[1]][241:300, ])
+names(LL) <- paste("Factor", 1:4)
+round(LL, 2)
+```
+
+
