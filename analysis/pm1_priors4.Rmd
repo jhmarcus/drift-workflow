@@ -1,0 +1,162 @@
+---
+title: "Revisiting prior families for trees: Part IV"
+author: "Jason Willwerscheid"
+date: "7/22/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I use the more challenging scenario from the [previous analysis](pm1_priors3.html), but I'd like to see whether I can simplify the fitting process. Namely, I'll use a mixture of point masses at -1, 0, and +1 without fixing any loadings at zero. Hopefully, I'll be able to get a tree-like structure without imposing it via external constraints. I'll also attempt to do the relaxation without fixed loadings. To do so, I'll need to keep all three point masses as well as adding a uniform component on $[-0.9, 0.9]$ (in the previous analysis, I removed the point mass at zero).
+
+```{r sim}
+set.seed(666)
+
+nA <- 100
+nB <- 50
+nC <- 40
+nD <- 80
+nE <- 50
+n <- nA + nB + nC + nD + nE
+
+p <- 10000
+
+a <- rnorm(p, sd = 2)
+b <- rnorm(p, sd = 1.5)
+c <- rnorm(p)
+d <- rnorm(p, sd = 0.5)
+e <- rnorm(p, sd = 0.25)
+f <- rnorm(p, sd = 0.5)
+g <- rnorm(p, sd = 0.75)
+
+popA <- c(rep(1, nA), rep(0, nB + nC + nD + nE))
+popB <- c(rep(0, nA), rep(1, nB), rep(0, nC + nD + nE))
+popC <- c(rep(0, nA + nB), rep(1, nC), rep(0, nD + nE))
+popD <- c(rep(0, nA + nB + nC), rep(1, nD), rep(0, nE))
+popE <- c(rep(0, nA + nB + nC + nD), rep(1, nE))
+
+E.factor <- 0.10 * (a + b + e) + 0.35 * (a + c + f) + 0.55 * (a + c + g)
+
+Y <- cbind(popA, popB, popC, popD, popE) %*% 
+  rbind(a + b + d, a + b + e, a + c + f, a + c + g, E.factor)
+Y <- Y + rnorm(n * p, sd = 0.1)
+
+plot_dr <- function(dr) {
+  sd <- sqrt(dr$prior_s2)
+  L <- dr$EL
+  LDsqrt <- L %*% diag(sd)
+  K <- ncol(LDsqrt)
+  plot_loadings(LDsqrt[,1:K], rep(c("A", "B", "C", "D", "E"), c(nA, nB, nC, nD, nE))) +
+    scale_color_brewer(palette="Set2")
+}
+
+tree.fn = function(x, s, g_init, fix_g, output, ...) {
+  if (is.null(g_init)) {
+    g_init <- ashr::unimix(rep(1/3, 3), c(-1, 0, 1), c(-1, 0, 1))
+  }
+
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "ash",
+                                prior = c(10, 1, 10),
+                                ...))
+}
+
+prior.tree = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    tree.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+
+flextree.fn = function(x, s, g_init, fix_g, output, ...) {
+  if (is.null(g_init)) {
+    g_init <- ashr::unimix(rep(1/4, 4), c(-1, 0, 1, -0.9), c(-1, 0, 1, 0.9))
+  }
+
+  return(flashier:::ebnm.nowarn(x = x,
+                                s = s,
+                                g_init = g_init,
+                                fix_g = fix_g,
+                                output = output,
+                                prior_family = "ash",
+                                prior = c(10, 10, 10, 1),
+                                ...))
+}
+
+prior.flextree = function(...) {
+  return(as.prior(sign = 0, ebnm.fn = function(x, s, g_init, fix_g, output) {
+    flextree.fn(x, s, g_init, fix_g, output, ...)
+  }))
+}
+
+init.mean.factor <- function(resids, zero.idx) {
+  u <- matrix(1, nrow = nrow(resids), ncol = 1)
+  u[zero.idx, 1] <- 0
+  v <- t(solve(crossprod(u), crossprod(u, resids)))
+  return(list(u, v))
+}
+
+init.split.factor <- function(resids, zero.idx) {
+  svd.res <- svd(resids, nu = 1, nv = 1)
+  u <- svd.res$u
+  u[zero.idx] <- 0
+  u <- matrix(sign(u), ncol = 1)
+  v <- t(solve(crossprod(u), crossprod(u, resids)))
+  return(list(u, v))
+}
+```
+
+If I use the correct value of `K`, the initial tree appears as follows:
+
+```{r fl2}
+fl <- flash.init(Y) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = init.mean.factor(Y, NULL), 
+                     prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax = 3, prior.family = c(prior.tree(), prior.normal())) %>%
+  flash.backfit()
+
+plot_dr(init_from_flash(fl))
+```
+
+Not bad! I'll leave the question of misspecified `K` aside for now (and indeed, it might not be a big issue in practice) and see whether the relaxation works without fixing loadings.
+
+```{r fl3}
+fl2 <- fl
+
+# Relax the priors.
+for (k in 1:4) {
+  fl2$flash.fit$ebnm.fn[[k]][[1]] <- flextree.fn
+}
+fl2 <- fl2 %>% flash.backfit(warmstart = FALSE) %>% flash.backfit()
+
+plot_dr(init_from_flash(fl2))
+```
+
+It does! As in the previous analysis, the loadings for Population $E$ are correct:
+
+```{r LL}
+LL <- colMeans(fl2$flash.fit$EF[[1]][271:320, ])
+names(LL) <- paste("Factor", 1:4)
+round(LL, 2)
+```
+
+
