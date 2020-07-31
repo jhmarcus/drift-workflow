@@ -54,6 +54,7 @@ Other prior families:
 * [Initialization using three-pointmass priors, then relaxation](pm1_priors2.html)
 * [The same, but a more challenging scenario](pm1_priors3.html)
 * [Simplifying the fitting process](pm1_priors4.html)
+* [An eight-population tree](pm1_priors5.html)
 
 ## Data Preparation
 
