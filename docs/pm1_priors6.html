@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreeaa25c3e38f3455e598b4402899a558d3730ef274targetblankaa25c3ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/aa25c3e38f3455e598b4402899a558d3730ef274" target="_blank">aa25c3e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefa11a543eb33a8a5d86ab7892f27accbda77a888targetblankfa11a54a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/fa11a543eb33a8a5d86ab7892f27accbda77a888" target="_blank">fa11a54</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreeaa25c3e38f3455e598b4402899a558d3730ef274targetblankaa25c3ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreefa11a543eb33a8a5d86ab7892f27accbda77a888targetblankfa11a54a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -602,6 +602,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/fa11a543eb33a8a5d86ab7892f27accbda77a888/analysis/pm1_priors6.Rmd" target="_blank">fa11a54</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-01
+</td>
+<td>
+workflowr::wflow_publish(“analysis/pm1_priors6.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/89c472703e3634becc0e7809b49918b4faf9528f/docs/pm1_priors6.html" target="_blank">89c4727</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -771,6 +805,43 @@ fl2 &lt;- fl2 %&gt;% flash.backfit(warmstart = FALSE) %&gt;% flash.backfit()
 
 plot_dr(init_from_flash(fl))</code></pre>
 <p><img src="figure/pm1_priors6.Rmd/fl-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl-1">
+Past versions of fl-1.png
+</button>
+</p>
+<div id="fig-fl-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/89c472703e3634becc0e7809b49918b4faf9528f/docs/figure/pm1_priors6.Rmd/fl-1.png" target="_blank">89c4727</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>One way to handle this problem is to impose a “hard” tree constraint on the initial fit. By doing so, each factor can be interpreted as a sub-partition of a previous partition, so that a binary tree can be easily reconstructed:</p>
 <pre class="r"><code>add_split &lt;- function(fl, k) {
   set1 &lt;- (fl$flash.fit$EF[[1]][, k] &lt; -0.9)
@@ -824,6 +895,43 @@ fl3 &lt;- fl3 %&gt;% add_split(k = 3) %&gt;% add_split(k = 4)
 
 plot_dr(init_from_flash(fl3))</code></pre>
 <p><img src="figure/pm1_priors6.Rmd/fl3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl3-1">
+Past versions of fl3-1.png
+</button>
+</p>
+<div id="fig-fl3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/89c472703e3634becc0e7809b49918b4faf9528f/docs/figure/pm1_priors6.Rmd/fl3-1.png" target="_blank">89c4727</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Now I “relax” this fit. I relax the priors and then I unfix all loadings (with the exception of the first factor <code>k = 1</code>). It’s not perfect; in particular, smaller populations have loadings that are not as large as they should be. Still, it’s easy to spot the tree here:</p>
 <pre class="r"><code>fl4 &lt;- fl3
 
@@ -833,20 +941,57 @@ for (k in 1:fl4$n.factors) {
 fl4 &lt;- fl4 %&gt;% flash.backfit(warmstart = FALSE) %&gt;% flash.backfit()
 
 fl5 &lt;- fl4 %&gt;%
-  flash.fix.loadings(kset = 2:fl4$n.factors, mode = 1, is.fixed = FALSE) %&gt;%
+  flash.fix.loadings(kset = 3:fl4$n.factors, mode = 1, is.fixed = FALSE) %&gt;%
   flash.backfit()
 
 plot_dr(init_from_flash(fl5))</code></pre>
 <p><img src="figure/pm1_priors6.Rmd/fl5-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>The second fit has a slightly higher ELBO despite having a lower KL-divergence for the loadings:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fl5-1">
+Past versions of fl5-1.png
+</button>
+</p>
+<div id="fig-fl5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/89c472703e3634becc0e7809b49918b4faf9528f/docs/figure/pm1_priors6.Rmd/fl5-1.png" target="_blank">89c4727</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The second fit has a slightly lower ELBO, which can be explained by a lower KL-divergence for the loadings:</p>
 <pre class="r"><code>cat(&quot;ELBO (without tree constraint):&quot;, fl2$elbo,
     &quot;\nELBO (with tree constraint):   &quot;, fl5$elbo,
     &quot;\nKL-div (loadings, no tree):  &quot;, sum(fl2$flash.fit$KL[[1]]),
     &quot;\nKL-div (loadings, with tree):&quot;, sum(fl5$flash.fit$KL[[1]]))</code></pre>
 <pre><code>#&gt; ELBO (without tree constraint): 2726712 
-#&gt; ELBO (with tree constraint):    2727521 
+#&gt; ELBO (with tree constraint):    2726650 
 #&gt; KL-div (loadings, no tree):   -1605.171 
-#&gt; KL-div (loadings, with tree): -1705.938</code></pre>
+#&gt; KL-div (loadings, with tree): -2091.872</code></pre>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -873,7 +1018,7 @@ plot_dr(init_from_flash(fl5))</code></pre>
 #&gt;  [1] forcats_0.4.0     stringr_1.4.0     dplyr_0.8.0.1    
 #&gt;  [4] purrr_0.3.2       readr_1.3.1       tidyr_0.8.3      
 #&gt;  [7] tibble_2.1.1      ggplot2_3.2.0     tidyverse_1.2.1  
-#&gt; [10] drift.alpha_0.0.9 flashier_0.2.5   
+#&gt; [10] drift.alpha_0.0.9 flashier_0.2.7   
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.4.6       lubridate_1.7.4    invgamma_1.1      
