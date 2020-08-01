@@ -234,13 +234,13 @@ for (k in 1:fl4$n.factors) {
 fl4 <- fl4 %>% flash.backfit(warmstart = FALSE) %>% flash.backfit()
 
 fl5 <- fl4 %>%
-  flash.fix.loadings(kset = 2:fl4$n.factors, mode = 1, is.fixed = FALSE) %>%
+  flash.fix.loadings(kset = 3:fl4$n.factors, mode = 1, is.fixed = FALSE) %>%
   flash.backfit()
 
 plot_dr(init_from_flash(fl5))
 ```
 
-The second fit has a slightly higher ELBO despite having a lower KL-divergence for the loadings: 
+The second fit has a slightly lower ELBO, which can be explained by a lower KL-divergence for the loadings: 
 
 ```{r kl}
 cat("ELBO (without tree constraint):", fl2$elbo,
