@@ -11,6 +11,8 @@ output:
 
 # Current
 
+* [Papers and ideas for fitting trees](tree_literature.html)
+
 ## Simulations
 
 * [Simple 2 population tree simulation](simple_2pop_tree_simulation_bimodal.html)
