@@ -56,6 +56,7 @@ Other prior families:
 * [Simplifying the fitting process](pm1_priors4.html)
 * [An eight-population tree](pm1_priors5.html)
 * [Dealing with factors that are confounded due to equal branch lengths](pm1_priors6.html)
+* [Three-pointmass priors](pm1_priors7.html)
 
 ## Data Preparation
 
