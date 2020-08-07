@@ -1,0 +1,65 @@
+---
+title: "Literature on Trees"
+author: "Jason Willwerscheid"
+date: "8/7/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This note serves to collect papers and ideas that we've discussed as a group.
+
+Ways to do FA:
+
+* Drift
+* Straight-up flash on a covariance matrix
+* Flash as a penalized approach, constraining `L = F` (cf. Youngseok's work on `mr.ash`)
+* A "greedy" version of drift: update $q(f_k | f_{-k})$ and $q(l_k)$ iteratively, keeping $q(f_{-k})$ and $q(l_{-k})$ fixed
+
+To get trees:
+
+* Flash with three-pointmass priors
+* Spectral clustering
+* Peter's "minimax" projection
+* MILP techniques
+
+Papers:
+
+Yan, Patterson, and Narasimhan, ["miqoGraph: Fitting admixture graphs using mixed-integer quadratic optimization"](https://www.biorxiv.org/content/biorxiv/early/2019/10/11/801548.full.pdf)
+
+Rohe and Zeng, ["Vintage Factor Analysis with Varimax Performs Statistical Inference"](https://arxiv.org/pdf/2004.05387.pdf) (2020)
+
+* Reconsiders PCA with varimax rotations.
+
+Cabreros and Story, ["A Likelihood-Free Estimator of Population Structure Bridging Admixture Models and Principal Components Analysis"](https://www.genetics.org/content/212/4/1009#sec-16) (2019)
+
+* The ALStructure paper.
+
+Lawson, van Dorp, and Falush, ["A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots"](https://www.nature.com/articles/s41467-018-05257-7.pdf) (2018)
+
+* The badMIXTURE paper.
+
+Hensman, Rattray, and Lawrence, ["Fast Variational Inference in the Conjugate Exponential Family"](https://arxiv.org/pdf/1206.5162.pdf) (2012)
+
+* Joe used ideas from this paper for a Collapsed VI algorithm.
+
+Nakajima and Sugiyama, ["Theoretical Analysis of Bayesian Matrix Factorization"](http://www.jmlr.org/papers/volume12/nakajima11a/nakajima11a.pdf) (2011)
+
+* Basically EBMF with normal priors.
+
+Zhang et al, ["Phylogeny Inference Based on Spectral Graph Clustering"](https://www.liebertpub.com/doi/pdfplus/10.1089/cmb.2009.0028) (2011)
+
+Bravo et al, ["Estimating Tree-Structured Covariance Matrices via Mixed-Integer Programming"](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3212858/) (2009)
+
+Lee, Nadler, and Wasserman, ["TREELETS—AN ADAPTIVE MULTI-SCALE BASIS FOR SPARSE UNORDERED DATA"](https://arxiv.org/pdf/0707.0481.pdf) (2008)
+
+McCullagh, ["Structured covariance matrices in multivariate regression models"](http://www.stat.uchicago.edu/~pmcc/reports/similarity.pdf) (2006)
+
+* "Minimax" projections to get trees from covariance matrices.
+
+Felsenstein, ["Confidence Limits on Phylogenies: An Approach Using the Bootstrap"](https://www.jstor.org/stable/2408678?seq=1) (1985)
+
