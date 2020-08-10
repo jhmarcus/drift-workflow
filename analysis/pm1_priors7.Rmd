@@ -20,7 +20,9 @@ suppressMessages({
 })
 ```
 
-The purpose of this analysis is to experiment with the family of "three-pointmass priors" with mass on $-a$, $0$, and $b$. I use the balanced tree from the [previous analysis](pm1_priors6.html).
+The purpose of this analysis is to experiment with the family of "three-pointmass priors" with mass on $-a$, $0$, and $b$. 
+
+I use the balanced tree from the [previous analysis](pm1_priors6.html).
 
 ```{r sim}
 set.seed(666)
@@ -168,7 +170,7 @@ init.split.factor <- function(resids, zero.idx) {
 }
 ```
 
-Unlike in the previous analysis, `flash` finds the tree:
+With no admixtures, `flash` finds the tree:
 
 ```{r fl}
 fl <- flash.init(Y) %>%
@@ -183,7 +185,7 @@ fl <- flash.init(Y) %>%
 plot_dr(init_from_flash(fl))
 ```
 
-If, however, I add in some admixtures, the splits are all jumbled:
+If, however, I add in some admixed populations, the splits are all jumbled:
 
 ```{r sim2}
 set.seed(666)
@@ -250,3 +252,127 @@ fl <- flash.init(Y) %>%
 plot_dr(init_from_flash(fl))
 ```
 
+It's likely that I simply got lucky in the previous analysis and unlucky here. We'll need a better way to encourage sparsity in the later splits.
+
+## Sparse PCA
+
+First I look at how sparse PCA does (using package `sparsepca`). It mostly just clusters populations -- there's no evidence of a tree-like structure here.
+
+```{r spca}
+library(sparsepca)
+spca.t <- system.time(spca.res <- spca(t(Y), k = 8, max_iter = 10000, verbose = FALSE))
+plot_dr(init_from_EL(Y, spca.res$loadings))
+```
+
+## Flash with point-normal priors
+
+Next I try `flash` with a more sparsity-inducing family of priors. I only fit up to the third factor since that's where the problems begin.
+
+```{r dirichlet}
+fl2 <- flash.init(Y) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = init.mean.factor(Y, NULL), 
+                     prior.family = c(prior.threepm(), prior.normal())) %>%
+  flash.fix.loadings(kset = 1, mode = 1L) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax = 1, prior.family = c(prior.threepm(), prior.normal())) 
+
+fl.pn <- fl2 %>%
+  flash.add.greedy(Kmax = 1, prior.family = c(prior.point.normal(), prior.normal()))
+
+plot_dr(init_from_flash(fl.pn))
+```
+
+The point-normal prior basically just returns the SVD solution with no additional sparsity. Indeed, the first principal component after residualizing out the first two factors appears as follows:
+
+```{r svd}
+svd.res <- svd(Y - fitted(fl2), nu = 2, nv = 2)
+plot(svd.res$u[, 1])
+```
+
+## Varimax rotation
+
+The problem is that since I'm using a balanced tree, the next two eigenvalues are pretty similar, so it's very easy to get the corresponding splits mixed up.
+
+```{r svd2}
+cat("Next 8 eigevalues:", round(svd.res$d[1:8]))
+```
+
+One solution would be to do a varimax rotation to induce sparsity. After doing so, the third factor appears as follows: 
+
+```{r varimax}
+varimax.res <- varimax(svd.res$u, normalize = FALSE)
+plot(varimax.res$loadings[, 1])
+```
+
+Using this factor to initialize `flash` (with a three-pointmass prior) then gives me the split I want:
+
+```{r varimax2}
+EL <- varimax.res$loadings[, 1, drop = FALSE]
+EF <- (svd.res$v %*% t(solve(varimax.res$rotmat)))[, 1, drop = FALSE]
+fl.varimax <- fl2 %>%
+  flash.init.factors(EF = list(EL, EF),
+                     prior.family = c(prior.threepm(), prior.normal())) %>%
+  flash.backfit(kset = 3)
+plot_dr(init_from_flash(fl.varimax))
+```
+
+Note that I cheated by using exactly two principal components. If I didn't know anything about the tree, it might make sense to look at all principal components with eigenvalues that are reasonably similar to the first. If, for example, I take all PCs with eigenvalues that are least half as large as the first PC, I'd need to rotate five PCs. I use this criterion to add new factors up to a total of eight:
+
+```{r varimax4}
+add_split <- function(fl, eigen.thresh = 0.5) {
+  svd.res <- svd(Y - fitted(fl), nu = 10, nv = 10)
+  n.eigen <- sum(svd.res$d > eigen.thresh * svd.res$d[1])
+  if (n.eigen > 1) {
+    varimax.res <- varimax(svd.res$u[, 1:n.eigen], normalize = FALSE)
+    EL <- varimax.res$loadings[, 1, drop = FALSE]
+    EF <- (svd.res$v[, 1:n.eigen] %*% t(solve(varimax.res$rotmat)))[, 1, drop = FALSE]
+  } else {
+    EL <- svd.res$u[, 1, drop = FALSE]
+    EF <- svd.res$v[, 1, drop = FALSE]
+  }
+  fl.new <- fl %>%
+    flash.init.factors(EF = list(EL, EF),
+                       prior.family = c(prior.threepm(), prior.normal())) %>%
+    flash.backfit(kset = fl$n.factors + 1)
+  return(fl.new)
+}
+
+fl3 <- fl2
+for (i in 1:6) {
+  fl3 <- add_split(fl3)
+}
+plot_dr(init_from_flash(fl3))
+```
+
+Finally, I relax the priors for both the first three-pointmass fit and this pre-rotated fit and compare ELBOs:
+
+```{r elbo}
+fl.relax <- fl
+for (k in 2:fl.relax$n.factors) {
+  fl.relax$flash.fit$g[[k]][[1]]$pi <- rep(0.25, 4)
+  fl.relax$flash.fit$g[[k]][[1]]$a <- c(fl.relax$flash.fit$g[[k]][[1]]$a,
+                                        0.9 * min(fl.relax$flash.fit$g[[k]][[1]]$a))
+  fl.relax$flash.fit$g[[k]][[1]]$b <- c(fl.relax$flash.fit$g[[k]][[1]]$b,
+                                        0.9 * max(fl.relax$flash.fit$g[[k]][[1]]$b))
+  fl.relax$flash.fit$ebnm.fn[[k]][[1]] <- prior.unimodal()[[1]]$ebnm.fn
+}
+fl.relax <- fl.relax %>% 
+  flash.backfit()
+cat("ELBO (no pre-rotations):", fl.relax$elbo)
+plot_dr(init_from_flash(fl.relax))
+
+fl3.relax <- fl3
+for (k in 2:fl3.relax$n.factors) {
+  fl3.relax$flash.fit$g[[k]][[1]]$pi <- rep(0.25, 4)
+  fl3.relax$flash.fit$g[[k]][[1]]$a <- c(fl3.relax$flash.fit$g[[k]][[1]]$a,
+                                         0.9 * min(fl3.relax$flash.fit$g[[k]][[1]]$a))
+  fl3.relax$flash.fit$g[[k]][[1]]$b <- c(fl3.relax$flash.fit$g[[k]][[1]]$b,
+                                         0.9 * max(fl3.relax$flash.fit$g[[k]][[1]]$b))
+  fl3.relax$flash.fit$ebnm.fn[[k]][[1]] <- prior.unimodal()[[1]]$ebnm.fn
+}
+fl3.relax <- fl3.relax %>% 
+  flash.backfit()
+cat("ELBO (with pre-rotations):", fl3.relax$elbo)
+plot_dr(init_from_flash(fl3.relax))
+```
