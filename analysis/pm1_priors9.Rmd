@@ -20,7 +20,7 @@ suppressMessages({
 })
 ```
 
-I return to the simplest scenario (a balanced tree with four populations of equal sizes) to see whether we can get the tree using normal mixture or unimodal priors.
+I return to the simplest scenario (a balanced tree with four populations of equal sizes) to see whether we can get the tree using a less contrived family of priors than the three-pointmass family.
 
 ```{r sim}
 sim_tree <- function(n_range, 
@@ -134,7 +134,40 @@ fl_uni <- flash.init(balanced_4pop$Y) %>%
 balanced_4pop$plot_fn(fl_uni)
 ```
 
-Interestingly, though, point-Laplace priors *do* find the tree!
+Even varimax rotations won't find it:
+
+```{r varimax}
+add_split <- function(fl, Y, eigen.thresh = 0.5) {
+  svd.res <- svd(Y - fitted(fl), nu = 10, nv = 10)
+  n.eigen <- sum(svd.res$d > eigen.thresh * svd.res$d[1])
+  if (n.eigen > 1) {
+    varimax.res <- varimax(svd.res$u[, 1:n.eigen], normalize = FALSE)
+    EL <- varimax.res$loadings[, 1, drop = FALSE]
+    EF <- (svd.res$v[, 1:n.eigen] %*% t(solve(varimax.res$rotmat)))[, 1, drop = FALSE]
+  } else {
+    EL <- svd.res$u[, 1, drop = FALSE]
+    EF <- svd.res$v[, 1, drop = FALSE]
+  }
+  fl.new <- fl %>%
+    flash.init.factors(EF = list(EL, EF),
+                       prior.family = c(prior.normal.scale.mix(), prior.normal())) %>%
+    flash.backfit(kset = fl$n.factors + 1)
+  return(fl.new)
+}
+
+fl_varimax <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 2, 
+                   prior.family = c(prior.normal.scale.mix(), prior.normal()))
+for (i in 1:2) {
+  fl_varimax <- add_split(fl_varimax, balanced_4pop$Y)
+}
+fl_varimax <- flash.backfit(fl_varimax, tol = 1e-4)
+
+balanced_4pop$plot_fn(fl_varimax)
+```
+
+Point-Laplace priors, however, *do* find the tree!
 
 ```{r pl}
 fl_pl <- flash.init(balanced_4pop$Y) %>%
