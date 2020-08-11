@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreede622bf7d1ce5d982d25ade866b0bc8ce98844eatargetblankde622bfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/de622bf7d1ce5d982d25ade866b0bc8ce98844ea" target="_blank">de622bf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree71e3eaed799c637c0d2dbffc7c5436bbdf366708targetblank71e3eaea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/71e3eaed799c637c0d2dbffc7c5436bbdf366708" target="_blank">71e3eae</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreede622bf7d1ce5d982d25ade866b0bc8ce98844eatargetblankde622bfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree71e3eaed799c637c0d2dbffc7c5436bbdf366708targetblank71e3eaea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -554,7 +554,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    docs/.DS_Store
     Ignored:    docs/assets/.DS_Store
     Ignored:    output/
@@ -565,7 +564,6 @@ Untracked files:
     Untracked:  analysis/pm1_priors10.Rmd
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   drift-workflow.Rproj
 
 </code></pre>
@@ -610,6 +608,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/71e3eaed799c637c0d2dbffc7c5436bbdf366708/analysis/pm1_priors9.Rmd" target="_blank">71e3eae</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-11
+</td>
+<td>
+workflowr::wflow_publish(“analysis/pm1_priors9.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/526ae683f741d521aa507fc864436a9e6fe34503/docs/pm1_priors9.html" target="_blank">526ae68</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/de622bf7d1ce5d982d25ade866b0bc8ce98844ea/analysis/pm1_priors9.Rmd" target="_blank">de622bf</a>
 </td>
 <td>
@@ -634,7 +666,7 @@ workflowr::wflow_publish(“analysis/pm1_priors9.Rmd”)
   library(drift.alpha)
   library(tidyverse)
 })</code></pre>
-<p>I return to the simplest scenario (a balanced tree with four populations of equal sizes) to see whether we can get the tree using normal mixture or unimodal priors.</p>
+<p>I return to the simplest scenario (a balanced tree with four populations of equal sizes) to see whether we can get the tree using a less contrived family of priors than the three-pointmass family.</p>
 <pre class="r"><code>sim_tree &lt;- function(n_range, 
                      p = 10000, 
                      branch_means, 
@@ -729,6 +761,43 @@ fl_nsm &lt;- flash.init(balanced_4pop$Y) %&gt;%
 
 balanced_4pop$plot_fn(fl_nsm)</code></pre>
 <p><img src="figure/pm1_priors9.Rmd/normal_mix-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-normal_mix-1">
+Past versions of normal_mix-1.png
+</button>
+</p>
+<div id="fig-normal_mix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/526ae683f741d521aa507fc864436a9e6fe34503/docs/figure/pm1_priors9.Rmd/normal_mix-1.png" target="_blank">526ae68</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Unimodal priors can’t find it either:</p>
 <pre class="r"><code>fl_uni &lt;- flash.init(balanced_4pop$Y) %&gt;%
   flash.set.verbose(0) %&gt;%
@@ -740,7 +809,74 @@ balanced_4pop$plot_fn(fl_nsm)</code></pre>
 <pre class="r"><code>
 balanced_4pop$plot_fn(fl_uni)</code></pre>
 <p><img src="figure/pm1_priors9.Rmd/unimix-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Interestingly, though, point-Laplace priors <em>do</em> find the tree!</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unimix-1">
+Past versions of unimix-1.png
+</button>
+</p>
+<div id="fig-unimix-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/526ae683f741d521aa507fc864436a9e6fe34503/docs/figure/pm1_priors9.Rmd/unimix-1.png" target="_blank">526ae68</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Even varimax rotations won’t find it:</p>
+<pre class="r"><code>add_split &lt;- function(fl, Y, eigen.thresh = 0.5) {
+  svd.res &lt;- svd(Y - fitted(fl), nu = 10, nv = 10)
+  n.eigen &lt;- sum(svd.res$d &gt; eigen.thresh * svd.res$d[1])
+  if (n.eigen &gt; 1) {
+    varimax.res &lt;- varimax(svd.res$u[, 1:n.eigen], normalize = FALSE)
+    EL &lt;- varimax.res$loadings[, 1, drop = FALSE]
+    EF &lt;- (svd.res$v[, 1:n.eigen] %*% t(solve(varimax.res$rotmat)))[, 1, drop = FALSE]
+  } else {
+    EL &lt;- svd.res$u[, 1, drop = FALSE]
+    EF &lt;- svd.res$v[, 1, drop = FALSE]
+  }
+  fl.new &lt;- fl %&gt;%
+    flash.init.factors(EF = list(EL, EF),
+                       prior.family = c(prior.normal.scale.mix(), prior.normal())) %&gt;%
+    flash.backfit(kset = fl$n.factors + 1)
+  return(fl.new)
+}
+
+fl_varimax &lt;- flash.init(balanced_4pop$Y) %&gt;%
+  flash.set.verbose(0) %&gt;%
+  flash.add.greedy(Kmax = 2, 
+                   prior.family = c(prior.normal.scale.mix(), prior.normal()))
+for (i in 1:2) {
+  fl_varimax &lt;- add_split(fl_varimax, balanced_4pop$Y)
+}
+fl_varimax &lt;- flash.backfit(fl_varimax, tol = 1e-4)
+
+balanced_4pop$plot_fn(fl_varimax)</code></pre>
+<p><img src="figure/pm1_priors9.Rmd/varimax-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Point-Laplace priors, however, <em>do</em> find the tree!</p>
 <pre class="r"><code>fl_pl &lt;- flash.init(balanced_4pop$Y) %&gt;%
   flash.set.verbose(0) %&gt;%
   flash.add.greedy(Kmax = 4, 
@@ -749,6 +885,43 @@ balanced_4pop$plot_fn(fl_uni)</code></pre>
 
 balanced_4pop$plot_fn(fl_pl)</code></pre>
 <p><img src="figure/pm1_priors9.Rmd/pl-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl-1">
+Past versions of pl-1.png
+</button>
+</p>
+<div id="fig-pl-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/526ae683f741d521aa507fc864436a9e6fe34503/docs/figure/pm1_priors9.Rmd/pl-1.png" target="_blank">526ae68</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-08-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
