@@ -60,6 +60,7 @@ Other prior families:
 * [Dealing with factors that are confounded due to equal branch lengths](pm1_priors6.html)
 * [Three-pointmass priors](pm1_priors7.html)
 * [Adding an outgroup](pm1_priors8.html)
+* [Point-laplace priors](pm1_priors9.html)
 
 ## Data Preparation
 
