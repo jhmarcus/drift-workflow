@@ -1,0 +1,203 @@
+---
+title: "Revisiting prior families for trees: Part X"
+author: "Jason Willwerscheid"
+date: "7/22/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+Here I present some more scenarios where point-Laplace priors outperform scale mixtures of normals.
+
+```{r sim}
+sim_tree <- function(n_range, 
+                     p = 10000, 
+                     branch_means, 
+                     branch_sds, 
+                     resid_sd = 0.1,
+                     admix_pops = NULL, 
+                     outgroup = FALSE, 
+                     seed = 666) {
+  set.seed(seed)
+  
+  depth <- length(branch_means)
+  npop_pure <- 2^(depth - 1)
+
+  if (is.null(admix_pops)) {
+    admix_pops <- matrix(nrow = 0, ncol = 0)
+  }
+  npop_admix <- ncol(admix_pops)
+  
+  npop <- npop_pure + npop_admix + outgroup
+  
+  if (length(n_range) == 1) {
+    n <- rep(n_range, npop)
+  } else {
+    n <- sample(30:100, npop, replace = TRUE)
+  }
+  K <- 2^depth - 1
+  
+  FF <- matrix(nrow = p, ncol = K)
+  k <- 1
+  for (d in 1:depth) {
+    for (i in 1:(2^(d - 1))) {
+      FF[, k] <- rnorm(p, sd = branch_means[d] + rnorm(1, sd = branch_sds[d]))
+      k <- k + 1
+    }
+  }
+  
+  tree_mat <- matrix(0, nrow = npop_pure, ncol = K)
+  k <- 1
+  for (d in 1:depth) {
+    size <- 2^(depth - d)
+    for (i in 1:(2^(d - 1))) {
+      tree_mat[((i - 1) * size + 1):(i * size), k] <- 1
+      k <- k + 1
+    }
+  }
+  
+  pop_means <- FF %*% t(tree_mat)
+  if (npop_admix > 0) {
+    pop_means <- cbind(pop_means, pop_means %*% admix_pops)
+  }
+  if (outgroup) {
+    pop_means <- cbind(pop_means, rnorm(p, mean = 0, sd = sqrt(sum(branch_sds^2))))
+  }
+  
+  Y <- NULL
+  for (i in 1:npop) {
+    Y <- rbind(Y, matrix(pop_means[, i], nrow = n[i], ncol = p, byrow = TRUE))
+  }
+  Y <- Y + rnorm(sum(n) * p, sd = resid_sd)
+  
+  plot_fl <- function(fl) {
+    dr <- init_from_flash(fl)
+    sd <- sqrt(dr$prior_s2)
+    L <- dr$EL
+    LDsqrt <- L %*% diag(sd)
+    K <- ncol(LDsqrt)
+    plot_loadings(LDsqrt[,1:K], rep(letters[1:npop], n)) +
+      scale_color_brewer(palette="Set3")
+  }
+  
+  return(list(Y = Y, plot_fn = plot_fl))
+}
+  
+init.mean.factor <- function(resids, zero.idx) {
+  u <- matrix(1, nrow = nrow(resids), ncol = 1)
+  u[zero.idx, 1] <- 0
+  v <- t(solve(crossprod(u), crossprod(u, resids)))
+  return(list(u, v))
+}
+```
+
+1. Populations of unequal sizes (`n_range = 30:100`) with an additional 60-40 admixture:
+
+Scale mixtures of normals:
+
+```{r admix_smn}
+admix_4pop <- sim_tree(n_range = 30:100,
+                          p = 10000,
+                          branch_means = rep(1, 3),
+                          branch_sds = rep(0, 3),
+                          resid_sd = 0.1,
+                          admix_pops = matrix(c(0, 0.6, 0.4, 0), ncol = 1))
+
+fl_nsm <- flash.init(admix_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.normal.scale.mix(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4)
+
+admix_4pop$plot_fn(fl_nsm)
+```
+
+Point-Laplace:
+
+```{r admix_pl}
+fl_pl <- flash.init(admix_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4)
+
+admix_4pop$plot_fn(fl_pl)
+```
+
+2. Populations of unequal sizes with an additional outgroup:
+
+Scale mixtures of normals:
+
+```{r outgroup_smn}
+outgroup_4pop <- sim_tree(n_range = 30:100,
+                          p = 10000,
+                          branch_means = rep(1, 3),
+                          branch_sds = rep(0, 3),
+                          resid_sd = 0.1,
+                          outgroup = TRUE)
+
+fl_nsm <- flash.init(outgroup_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.normal.scale.mix(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4)
+
+outgroup_4pop$plot_fn(fl_nsm)
+```
+
+Point-Laplace:
+
+```{r outgroup_pl}
+fl_pl <- flash.init(outgroup_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4)
+
+outgroup_4pop$plot_fn(fl_pl)
+```
+
+3. Balanced tree with eight populations:
+
+Scale mixtures of normals:
+
+```{r pop8_smn}
+tree_8pop <- sim_tree(n_range = 50,
+                      p = 10000,
+                      branch_means = rep(1, 4),
+                      branch_sds = rep(0, 4),
+                      resid_sd = 0.1)
+
+fl_nsm <- flash.init(tree_8pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 8, 
+                   prior.family = c(prior.normal.scale.mix(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4)
+
+tree_8pop$plot_fn(fl_nsm)
+```
+
+Point-Laplace:
+
+```{r pop8_pl}
+fl_pl <- flash.init(tree_8pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 8, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4, maxiter = 1000)
+
+tree_8pop$plot_fn(fl_pl)
+```
