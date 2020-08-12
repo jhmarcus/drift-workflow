@@ -61,6 +61,7 @@ Other prior families:
 * [Three-pointmass priors](pm1_priors7.html)
 * [Adding an outgroup](pm1_priors8.html)
 * [Point-laplace priors](pm1_priors9.html)
+* [Scenarios where point-laplace priors outperform scale mixtures of normals](pm1_priors10.html)
 
 ## Data Preparation
 
