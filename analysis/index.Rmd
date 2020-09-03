@@ -58,10 +58,11 @@ Other prior families:
 * [Simplifying the fitting process](pm1_priors4.html)
 * [An eight-population tree](pm1_priors5.html)
 * [Dealing with factors that are confounded due to equal branch lengths](pm1_priors6.html)
-* [Non symmetric three-pointmass priors](pm1_priors7.html)
+* [Non-symmetric three-pointmass priors](pm1_priors7.html)
 * [Adding an outgroup](pm1_priors8.html)
 * [Point-laplace priors](pm1_priors9.html)
 * [Scenarios where point-laplace priors outperform scale mixtures of normals](pm1_priors10.html)
+* [Why does a purely greedy approach fail?](pm1_priors11.html)
 
 ## Data Preparation
 
