@@ -1,0 +1,187 @@
+---
+title: "Revisiting prior families for trees: Part XI"
+author: "Jason Willwerscheid"
+date: "7/22/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 5, fig.height = 4)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I run some more experiments on the balanced tree with four populations of equal sizes to try to get a better understanding of what's going on.
+
+```{r sim}
+sim_tree <- function(n_range, 
+                     p = 10000, 
+                     branch_means, 
+                     branch_sds, 
+                     resid_sd = 0.1,
+                     admix_pops = NULL, 
+                     outgroup = FALSE, 
+                     seed = 666) {
+  set.seed(666)
+  
+  depth <- length(branch_means)
+  npop_pure <- 2^(depth - 1)
+
+  if (is.null(admix_pops)) {
+    admix_pops <- matrix(nrow = 0, ncol = 0)
+  }
+  npop_admix <- ncol(admix_pops)
+  
+  npop <- npop_pure + npop_admix + outgroup
+  
+  if (length(n_range) == 1) {
+    n <- rep(n_range, npop)
+  } else {
+    n <- sample(30:100, npop, replace = TRUE)
+  }
+  K <- 2^depth - 1
+  
+  FF <- matrix(nrow = p, ncol = K)
+  k <- 1
+  for (d in 1:depth) {
+    for (i in 1:(2^(d - 1))) {
+      FF[, k] <- rnorm(p, sd = branch_means[d] + rnorm(1, sd = branch_sds[d]))
+      k <- k + 1
+    }
+  }
+  
+  tree_mat <- matrix(0, nrow = npop_pure, ncol = K)
+  k <- 1
+  for (d in 1:depth) {
+    size <- 2^(depth - d)
+    for (i in 1:(2^(d - 1))) {
+      tree_mat[((i - 1) * size + 1):(i * size), k] <- 1
+      k <- k + 1
+    }
+  }
+  
+  pop_means <- FF %*% t(tree_mat)
+  if (npop_admix > 0) {
+    pop_means <- cbind(pop_means, pop_means %*% admix_pops)
+  }
+  if (outgroup) {
+    pop_means <- cbind(pop_means, rnorm(p, mean = 0, sd = sqrt(sum(branch_sds^2))))
+  }
+  
+  Y <- NULL
+  for (i in 1:npop) {
+    Y <- rbind(Y, matrix(pop_means[, i], nrow = n[i], ncol = p, byrow = TRUE))
+  }
+  Y <- Y + rnorm(sum(n) * p, sd = resid_sd)
+  
+  plot_fl <- function(fl) {
+    dr <- init_from_flash(fl)
+    sd <- sqrt(dr$prior_s2)
+    L <- dr$EL
+    LDsqrt <- L %*% diag(sd)
+    K <- ncol(LDsqrt)
+    plot_loadings(LDsqrt[,1:K], rep(letters[1:npop], n)) +
+      scale_color_brewer(palette="Set3")
+  }
+  
+  return(list(Y = Y, plot_fn = plot_fl))
+}
+  
+init.mean.factor <- function(resids, zero.idx) {
+  u <- matrix(1, nrow = nrow(resids), ncol = 1)
+  u[zero.idx, 1] <- 0
+  v <- t(solve(crossprod(u), crossprod(u, resids)))
+  return(list(u, v))
+}
+
+balanced_4pop <- sim_tree(n_range = 50,
+                          p = 10000,
+                          branch_means = rep(1, 3),
+                          branch_sds = rep(0, 3),
+                          resid_sd = 0.1)
+```
+
+In an [earlier analysis](pm1_priors9.html), I needed to do a backfit in order to find sparse third and fourth factors via rotation. Ideally, though, the greedy approach would be able to find a sparse third factor. But it doesn't:
+
+```{r pl1}
+fl_pl <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 3, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 0)
+
+balanced_4pop$plot_fn(fl_pl)
+```
+
+This is not a convergence issue: if I initialize to a sparse factor (by, for example, keeping only the first three factors from the fit from the previous analysis), I get the same result:
+
+```{r pl2}
+fl_pl2 <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 0)
+
+fl_pl3 <- fl_pl2 %>% 
+  flash.remove.factors(kset = 4) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 0)
+
+balanced_4pop$plot_fn(fl_pl3)
+```
+
+What's happening is that we're getting the third principal component and there's a sufficiently large gap between the third and fourth singular values for the non-sparse third PC to be preferred to a sparse linear combination of the third and fourth PCs.
+
+```{r svd}
+svd_res <- svd(balanced_4pop$Y)
+cat("First four singular values:", round(svd_res$d[1:4]))
+```
+
+The third PC appears as follows:
+
+```{r svd2}
+plot(svd_res$u[, 3])
+```
+
+This is not due to residual noise, but (I think) to the fact that the simulated branches aren't exactly orthogonal. If I remove the noise altogether, I get the same result:
+
+```{r sim2}
+balanced_4pop_smallsd <- sim_tree(n_range = 50,
+                                  p = 10000,
+                                  branch_means = rep(1, 3),
+                                  branch_sds = rep(0, 3),
+                                  resid_sd = 0)
+
+fl_pl4 <- flash.init(balanced_4pop_smallsd$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 3, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 0)
+
+balanced_4pop$plot_fn(fl_pl4)
+```
+
+If I force the prior to put some mass on the pointmass at zero (here, I fix the mixture proportions at `c(0.5, 0.5)`), I again get the same result:
+
+```{r fixg}
+g <- ebnm::laplacemix(pi = c(0.5, 0.5), mean = c(0, 0), scale = c(0, 1))
+
+fl_pl5 <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 3, 
+                   prior.family = c(prior.point.laplace(g_init = g, fix_g = TRUE),
+                   prior.normal())) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 0)
+
+balanced_4pop$plot_fn(fl_pl5)
+```
+
+There doesn't appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary.
