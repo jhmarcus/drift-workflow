@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/170155451.svg)](https://zenodo.org/badge/latestdoi/170155451)
+
 # drift-workflow
 
 A workflow for visualizing population structure with empirical Bayes factor analysis
