@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree688d5fa5d26e1ee091e50ac25530f5e891facabbtargetblank688d5faa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/688d5fa5d26e1ee091e50ac25530f5e891facabb" target="_blank">688d5fa</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9atargetblank40bd6e1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9a" target="_blank">40bd6e1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree688d5fa5d26e1ee091e50ac25530f5e891facabbtargetblank688d5faa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9atargetblank40bd6e1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -561,9 +561,9 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/extrapolate3.Rmd
     Untracked:  analysis/extrapolate4.Rmd
+    Untracked:  analysis/pm1_priors_tmp.Rmd
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
     Modified:   drift-workflow.Rproj
 
 </code></pre>
@@ -603,6 +603,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9a/analysis/pm1_priors11.Rmd" target="_blank">40bd6e1</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+<td>
+workflowr::wflow_publish(“analysis/pm1_priors11.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/pm1_priors11.html" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -727,6 +761,43 @@ balanced_4pop &lt;- sim_tree(n_range = 50,
 
 balanced_4pop$plot_fn(fl_pl)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/pl1-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl1-1">
+Past versions of pl1-1.png
+</button>
+</p>
+<div id="fig-pl1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/figure/pm1_priors11.Rmd/pl1-1.png" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This is not a convergence issue: if I initialize to a sparse factor (by, for example, keeping only the first three factors from the fit from the previous analysis), I get the same result:</p>
 <pre class="r"><code>fl_pl2 &lt;- flash.init(balanced_4pop$Y) %&gt;%
   flash.set.verbose(0) %&gt;%
@@ -740,6 +811,43 @@ fl_pl3 &lt;- fl_pl2 %&gt;%
 
 balanced_4pop$plot_fn(fl_pl3)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/pl2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl2-1">
+Past versions of pl2-1.png
+</button>
+</p>
+<div id="fig-pl2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/figure/pm1_priors11.Rmd/pl2-1.png" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>What’s happening is that we’re getting the third principal component and there’s a sufficiently large gap between the third and fourth singular values for the non-sparse third PC to be preferred to a sparse linear combination of the third and fourth PCs.</p>
 <pre class="r"><code>svd_res &lt;- svd(balanced_4pop$Y)
 cat(&quot;First four singular values:&quot;, round(svd_res$d[1:4]))</code></pre>
@@ -747,6 +855,43 @@ cat(&quot;First four singular values:&quot;, round(svd_res$d[1:4]))</code></pre>
 <p>The third PC appears as follows:</p>
 <pre class="r"><code>plot(svd_res$u[, 3])</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/svd2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-svd2-1">
+Past versions of svd2-1.png
+</button>
+</p>
+<div id="fig-svd2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/figure/pm1_priors11.Rmd/svd2-1.png" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>This is not due to residual noise, but (I think) to the fact that the simulated branches aren’t exactly orthogonal. If I remove the noise altogether, I get the same result:</p>
 <pre class="r"><code>balanced_4pop_smallsd &lt;- sim_tree(n_range = 50,
                                   p = 10000,
@@ -762,6 +907,43 @@ fl_pl4 &lt;- flash.init(balanced_4pop_smallsd$Y) %&gt;%
 
 balanced_4pop$plot_fn(fl_pl4)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/sim2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-sim2-1">
+Past versions of sim2-1.png
+</button>
+</p>
+<div id="fig-sim2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/figure/pm1_priors11.Rmd/sim2-1.png" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>If I force the prior to put some mass on the pointmass at zero (here, I fix the mixture proportions at <code>c(0.5, 0.5)</code>), I again get the same result:</p>
 <pre class="r"><code>g &lt;- ebnm::laplacemix(pi = c(0.5, 0.5), mean = c(0, 0), scale = c(0, 1))
 
@@ -774,6 +956,107 @@ fl_pl5 &lt;- flash.init(balanced_4pop$Y) %&gt;%
 
 balanced_4pop$plot_fn(fl_pl5)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/fixg-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fixg-1">
+Past versions of fixg-1.png
+</button>
+</p>
+<div id="fig-fixg-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/f2b82dce8e993742b13129b8ad66d1f911e3824a/docs/figure/pm1_priors11.Rmd/fixg-1.png" target="_blank">f2b82dc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The result is the same if I use a sparse initialization. I show the initialization and details for 25 iterations, which is sufficient to get to a non-sparse solution:</p>
+<pre class="r"><code>fl_pl6 &lt;- flash.init(balanced_4pop$Y) %&gt;%
+  flash.set.verbose(0) %&gt;%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(g_init = g, fix_g = TRUE),
+                   prior.normal())) %&gt;%
+  flash.backfit(tol = 1e-3, verbose.lvl = 0) %&gt;%
+  flash.remove.factors(kset = 4)
+
+balanced_4pop$plot_fn(fl_pl6)</code></pre>
+<p><img src="figure/pm1_priors11.Rmd/fixg2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+verbose.fns &lt;- c(flashier:::calc.obj.diff,
+                 function(new, old, k) {
+                   round(sum(flashier:::get.KL(new, n = 1)))
+                 },
+                 function(new, old, k) {
+                   round(sum(flashier:::get.KL(new, n = 2)))
+                 },
+                 function(new, old, k) {
+                   round(flashier:::get.obj(new) - 
+                           sum(flashier:::get.KL(new, n = 1)) -
+                           sum(flashier:::get.KL(new, n = 2)))
+                 })
+verbose.colnames &lt;- c(&quot;ELBO diff&quot;, &quot;KL-div (L)&quot;, &quot;KL-div (F)&quot;, &quot;fit (llik)&quot;)
+verbose.colwidths &lt;- c(12, 14, 14, 14)
+
+fl_pl7 &lt;- fl_pl6 %&gt;% 
+  flash.set.verbose(3, verbose.fns, verbose.colnames, verbose.colwidths) %&gt;%
+  flash.backfit(tol = 1e-4, verbose.lvl = 3, maxiter = 25)</code></pre>
+<pre><code>#&gt; Backfitting 3 factors (tolerance: 1.00e-04)...
+#&gt;     Iteration  Factor   ELBO diff    KL-div (L)    KL-div (F)    fit (llik)
+#&gt;             1     all    3.48e+04         -3273        -94552      -1476575 
+#&gt;             2     all    4.28e+02         -3542        -94231      -1476199 
+#&gt;             3     all    9.53e+02         -3592        -94354      -1475073 
+#&gt;             4     all    1.11e+03         -3598        -94385      -1473930 
+#&gt;             5     all    1.20e+03         -3605        -94411      -1472694 
+#&gt;             6     all    1.26e+03         -3613        -94441      -1471393 
+#&gt;             7     all    1.21e+03         -3623        -94471      -1470144 
+#&gt;             8     all    6.68e+02         -3635        -94497      -1469439 
+#&gt;             9     all    2.24e-02         -3634        -94480      -1469457 
+#&gt;            10     all    1.76e-02         -3634        -94479      -1469457 
+#&gt;            11     all    2.35e-02         -3634        -94480      -1469457 
+#&gt;            12     all    2.92e-02         -3634        -94480      -1469457 
+#&gt;            13     all    3.16e-02         -3634        -94480      -1469457 
+#&gt;            14     all    9.80e-03         -3634        -94480      -1469457 
+#&gt;            15     all    2.96e-03         -3634        -94480      -1469457 
+#&gt;            16     all    5.46e-03         -3634        -94480      -1469457 
+#&gt;            17     all    8.18e-03         -3634        -94480      -1469457 
+#&gt;            18     all    1.17e-02         -3634        -94480      -1469457 
+#&gt;            19     all    1.61e-02         -3634        -94480      -1469457 
+#&gt;            20     all    1.41e-02         -3634        -94480      -1469457 
+#&gt;            21     all    2.19e-03         -3634        -94480      -1469457 
+#&gt;            22     all    4.07e-03         -3634        -94480      -1469457 
+#&gt;            23     all    6.16e-03         -3634        -94480      -1469457 
+#&gt;            24     all    8.97e-03         -3634        -94480      -1469457 
+#&gt;            25     all    1.27e-02         -3634        -94480      -1469457 
+#&gt;   --Maximum number of iterations reached!
+#&gt;   Backfit complete. Objective: -1567570.423 
+#&gt; Wrapping up...
+#&gt; Done.</code></pre>
+<pre class="r"><code>
+balanced_4pop$plot_fn(fl_pl7)</code></pre>
+<p><img src="figure/pm1_priors11.Rmd/fixg2-2.png" width="480" style="display: block; margin: auto;" /></p>
 There doesn’t appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary. <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
