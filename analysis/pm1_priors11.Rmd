@@ -184,4 +184,39 @@ fl_pl5 <- flash.init(balanced_4pop$Y) %>%
 balanced_4pop$plot_fn(fl_pl5)
 ```
 
+The result is the same if I use a sparse initialization. I show the initialization and details for 25 iterations, which is sufficient to get to a non-sparse solution:
+
+```{r fixg2}
+fl_pl6 <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(g_init = g, fix_g = TRUE),
+                   prior.normal())) %>%
+  flash.backfit(tol = 1e-3, verbose.lvl = 0) %>%
+  flash.remove.factors(kset = 4)
+
+balanced_4pop$plot_fn(fl_pl6)
+
+verbose.fns <- c(flashier:::calc.obj.diff,
+                 function(new, old, k) {
+                   round(sum(flashier:::get.KL(new, n = 1)))
+                 },
+                 function(new, old, k) {
+                   round(sum(flashier:::get.KL(new, n = 2)))
+                 },
+                 function(new, old, k) {
+                   round(flashier:::get.obj(new) - 
+                           sum(flashier:::get.KL(new, n = 1)) -
+                           sum(flashier:::get.KL(new, n = 2)))
+                 })
+verbose.colnames <- c("ELBO diff", "KL-div (L)", "KL-div (F)", "fit (llik)")
+verbose.colwidths <- c(12, 14, 14, 14)
+
+fl_pl7 <- fl_pl6 %>% 
+  flash.set.verbose(3, verbose.fns, verbose.colnames, verbose.colwidths) %>%
+  flash.backfit(tol = 1e-4, verbose.lvl = 3, maxiter = 25)
+
+balanced_4pop$plot_fn(fl_pl7)
+```
+
 There doesn't appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary.
