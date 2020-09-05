@@ -63,6 +63,7 @@ Other prior families:
 * [Point-laplace priors](pm1_priors9.html)
 * [Scenarios where point-laplace priors outperform scale mixtures of normals](pm1_priors10.html)
 * [Why does a purely greedy approach fail?](pm1_priors11.html)
+* [A simpler approach using only the covariance matrix](pm1_priors12.html)
 
 ## Data Preparation
 
