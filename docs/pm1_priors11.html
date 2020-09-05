@@ -20,9 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -275,92 +272,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -368,16 +279,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -462,7 +363,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-03
+<strong>Last updated:</strong> 2020-09-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -541,10 +442,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9atargetblank40bd6e1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9a" target="_blank">40bd6e1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3f347faab04536513746a45a7bd287bc37ecfb94targetblank3f347faa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3f347faab04536513746a45a7bd287bc37ecfb94" target="_blank">3f347fa</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree40bd6e18edf02bf3e6538ae11c69a8e65c8cfe9atargetblank40bd6e1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3f347faab04536513746a45a7bd287bc37ecfb94targetblank3f347faa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -564,6 +465,7 @@ Untracked files:
     Untracked:  analysis/pm1_priors_tmp.Rmd
 
 Unstaged changes:
+    Modified:   analysis/tree_literature.Rmd
     Modified:   drift-workflow.Rproj
 
 </code></pre>
@@ -603,6 +505,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/3f347faab04536513746a45a7bd287bc37ecfb94/analysis/pm1_priors11.Rmd" target="_blank">3f347fa</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-05
+</td>
+<td>
+wflow_publish(“analysis/pm1_priors11.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/ac40b3bc4b519c70824e7c1f972f0adc8a503e38/docs/pm1_priors11.html" target="_blank">ac40b3b</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -675,7 +611,7 @@ wflow_publish(“analysis/pm1_priors11.Rmd”)
                      admix_pops = NULL, 
                      outgroup = FALSE, 
                      seed = 666) {
-  set.seed(666)
+  set.seed(seed)
   
   depth &lt;- length(branch_means)
   npop_pure &lt;- 2^(depth - 1)
@@ -1004,6 +940,43 @@ Jason Willwerscheid
 
 balanced_4pop$plot_fn(fl_pl6)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/fixg2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fixg2-1">
+Past versions of fixg2-1.png
+</button>
+</p>
+<div id="fig-fixg2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ac40b3bc4b519c70824e7c1f972f0adc8a503e38/docs/figure/pm1_priors11.Rmd/fixg2-1.png" target="_blank">ac40b3b</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>
 verbose.fns &lt;- c(flashier:::calc.obj.diff,
                  function(new, old, k) {
@@ -1057,7 +1030,339 @@ fl_pl7 &lt;- fl_pl6 %&gt;%
 <pre class="r"><code>
 balanced_4pop$plot_fn(fl_pl7)</code></pre>
 <p><img src="figure/pm1_priors11.Rmd/fixg2-2.png" width="480" style="display: block; margin: auto;" /></p>
-There doesn’t appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary. <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fixg2-2">
+Past versions of fixg2-2.png
+</button>
+</p>
+<div id="fig-fixg2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ac40b3bc4b519c70824e7c1f972f0adc8a503e38/docs/figure/pm1_priors11.Rmd/fixg2-2.png" target="_blank">ac40b3b</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>There doesn’t appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary.</p>
+<div id="appendix" class="section level2">
+<h2>Appendix</h2>
+<p>For contrast, I show the per-iteration progress for the four-factor backfit:</p>
+<pre class="r"><code>fl_bf &lt;- flash.init(balanced_4pop$Y) %&gt;%
+  flash.set.verbose(0) %&gt;%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %&gt;%
+  flash.set.verbose(3, verbose.fns, verbose.colnames, verbose.colwidths) %&gt;%
+  flash.backfit(tol = 1e-4)</code></pre>
+<pre><code>#&gt; Backfitting 4 factors (tolerance: 1.00e-04)...
+#&gt;     Iteration  Factor   ELBO diff    KL-div (L)    KL-div (F)    fit (llik)
+#&gt;             1     all    6.34e+05         -5176       -171337       1746838 
+#&gt;             2     all    5.91e+03         -5539       -189448       1771222 
+#&gt;             3     all    3.74e+02         -5466       -185796       1767871 
+#&gt;             4     all    3.20e+00         -5458       -185393       1767464 
+#&gt;             5     all    4.16e-02         -5459       -185427       1767498 
+#&gt;             6     all    2.82e-03         -5459       -185435       1767507 
+#&gt;             7     all    1.90e-03         -5459       -185435       1767506 
+#&gt;             8     all    3.12e-03         -5459       -185434       1767506 
+#&gt;             9     all    5.89e-03         -5459       -185434       1767506 
+#&gt;            10     all    1.21e-02         -5459       -185434       1767506 
+#&gt;            11     all    2.44e-02         -5459       -185434       1767506 
+#&gt;            12     all    4.92e-02         -5459       -185434       1767506 
+#&gt;            13     all    9.88e-02         -5459       -185434       1767506 
+#&gt;            14     all    1.98e-01         -5459       -185434       1767506 
+#&gt;            15     all    3.98e-01         -5458       -185434       1767506 
+#&gt;            16     all    8.03e-01         -5457       -185434       1767506 
+#&gt;            17     all    1.63e+00         -5456       -185434       1767506 
+#&gt;            18     all    3.35e+00         -5452       -185435       1767506 
+#&gt;            19     all    6.83e+00         -5445       -185435       1767506 
+#&gt;            20     all    3.53e+00         -5428       -185447       1767505 
+#&gt;            21     all    2.95e+00         -5428       -185445       1767506 
+#&gt;            22     all    1.92e-02         -5428       -185445       1767506 
+#&gt;            23     all    3.26e-02         -5428       -185445       1767506 
+#&gt;            24     all    5.63e-02         -5428       -185445       1767506 
+#&gt;            25     all    1.06e-01         -5428       -185445       1767506 
+#&gt;            26     all    2.20e-01         -5428       -185445       1767506 
+#&gt;            27     all    4.42e-01         -5428       -185445       1767506 
+#&gt;            28     all    8.60e-01         -5428       -185444       1767506 
+#&gt;            29     all    1.60e+00         -5428       -185442       1767506 
+#&gt;            30     all    2.70e+00         -5428       -185440       1767506 
+#&gt;            31     all    3.36e+00         -5427       -185437       1767506 
+#&gt;            32     all    1.33e-03         -5427       -185437       1767506 
+#&gt;            33     all    2.66e-03         -5427       -185437       1767506 
+#&gt;            34     all    4.51e-03         -5427       -185437       1767506 
+#&gt;            35     all    7.81e-03         -5427       -185437       1767506 
+#&gt;            36     all    1.48e-02         -5427       -185437       1767506 
+#&gt;            37     all    3.08e-02         -5427       -185437       1767506 
+#&gt;            38     all    6.24e-02         -5427       -185437       1767506 
+#&gt;            39     all    1.24e-01         -5427       -185437       1767506 
+#&gt;            40     all    2.41e-01         -5427       -185437       1767506 
+#&gt;            41     all    4.52e-01         -5427       -185436       1767506 
+#&gt;            42     all    7.78e-01         -5426       -185436       1767506 
+#&gt;            43     all    1.05e+00         -5425       -185436       1767506 
+#&gt;            44     all    6.14e-02         -5423       -185438       1767506 
+#&gt;            45     all    3.34e-03         -5423       -185438       1767506 
+#&gt;            46     all    6.67e-03         -5423       -185438       1767506 
+#&gt;            47     all    1.13e-02         -5423       -185438       1767506 
+#&gt;            48     all    1.96e-02         -5423       -185438       1767506 
+#&gt;            49     all    3.69e-02         -5423       -185438       1767506 
+#&gt;            50     all    7.65e-02         -5423       -185438       1767506 
+#&gt;            51     all    1.54e-01         -5423       -185438       1767506 
+#&gt;            52     all    3.00e-01         -5423       -185437       1767506 
+#&gt;            53     all    5.59e-01         -5423       -185437       1767506 
+#&gt;            54     all    9.50e-01         -5423       -185436       1767506 
+#&gt;            55     all    1.22e+00         -5422       -185436       1767506 
+#&gt;            56     all    8.81e-04         -5422       -185436       1767506 
+#&gt;            57     all    1.77e-03         -5422       -185436       1767506 
+#&gt;            58     all    3.00e-03         -5422       -185436       1767506 
+#&gt;            59     all    5.20e-03         -5422       -185436       1767506 
+#&gt;            60     all    9.86e-03         -5422       -185436       1767506 
+#&gt;            61     all    2.06e-02         -5422       -185436       1767506 
+#&gt;            62     all    4.18e-02         -5422       -185436       1767506 
+#&gt;            63     all    8.39e-02         -5422       -185436       1767506 
+#&gt;            64     all    1.66e-01         -5422       -185436       1767506 
+#&gt;            65     all    3.22e-01         -5422       -185436       1767506 
+#&gt;            66     all    6.04e-01         -5421       -185435       1767506 
+#&gt;            67     all    1.04e+00         -5420       -185435       1767506 
+#&gt;            68     all    1.43e+00         -5418       -185436       1767506 
+#&gt;            69     all    2.33e-01         -5414       -185440       1767506 
+#&gt;            70     all    7.49e-03         -5414       -185440       1767506 
+#&gt;            71     all    1.49e-02         -5414       -185440       1767506 
+#&gt;            72     all    2.53e-02         -5414       -185440       1767506 
+#&gt;            73     all    4.38e-02         -5414       -185440       1767506 
+#&gt;            74     all    8.26e-02         -5414       -185440       1767506 
+#&gt;            75     all    1.70e-01         -5414       -185440       1767506 
+#&gt;            76     all    3.40e-01         -5414       -185440       1767506 
+#&gt;            77     all    6.56e-01         -5413       -185439       1767506 
+#&gt;            78     all    1.19e+00         -5413       -185438       1767506 
+#&gt;            79     all    1.88e+00         -5413       -185437       1767506 
+#&gt;            80     all    1.74e+00         -5412       -185435       1767506 
+#&gt;            81     all    1.24e-03         -5412       -185435       1767506 
+#&gt;            82     all    2.48e-03         -5412       -185435       1767506 
+#&gt;            83     all    4.21e-03         -5412       -185435       1767506 
+#&gt;            84     all    7.29e-03         -5412       -185435       1767506 
+#&gt;            85     all    1.38e-02         -5412       -185435       1767506 
+#&gt;            86     all    2.87e-02         -5412       -185435       1767506 
+#&gt;            87     all    5.82e-02         -5412       -185435       1767506 
+#&gt;            88     all    1.16e-01         -5412       -185435       1767506 
+#&gt;            89     all    2.24e-01         -5412       -185435       1767506 
+#&gt;            90     all    4.17e-01         -5412       -185435       1767506 
+#&gt;            91     all    7.05e-01         -5411       -185435       1767506 
+#&gt;            92     all    8.96e-01         -5410       -185435       1767506 
+#&gt;            93     all    1.44e-03         -5410       -185435       1767506 
+#&gt;            94     all    2.88e-03         -5410       -185435       1767506 
+#&gt;            95     all    4.89e-03         -5410       -185435       1767506 
+#&gt;            96     all    8.47e-03         -5410       -185435       1767506 
+#&gt;            97     all    1.60e-02         -5410       -185435       1767506 
+#&gt;            98     all    3.32e-02         -5410       -185435       1767506 
+#&gt;            99     all    6.70e-02         -5410       -185435       1767506 
+#&gt;           100     all    1.32e-01         -5410       -185435       1767506 
+#&gt;           101     all    2.52e-01         -5410       -185435       1767506 
+#&gt;           102     all    4.51e-01         -5409       -185435       1767506 
+#&gt;           103     all    6.85e-01         -5409       -185435       1767506 
+#&gt;           104     all    5.06e-01         -5407       -185436       1767506 
+#&gt;           105     all    2.19e-03         -5407       -185436       1767506 
+#&gt;           106     all    4.37e-03         -5407       -185436       1767506 
+#&gt;           107     all    7.41e-03         -5407       -185436       1767506 
+#&gt;           108     all    1.28e-02         -5407       -185436       1767506 
+#&gt;           109     all    2.42e-02         -5407       -185436       1767506 
+#&gt;           110     all    5.01e-02         -5407       -185436       1767506 
+#&gt;           111     all    1.00e-01         -5407       -185436       1767506 
+#&gt;           112     all    1.95e-01         -5407       -185436       1767506 
+#&gt;           113     all    3.62e-01         -5407       -185435       1767506 
+#&gt;           114     all    6.06e-01         -5407       -185435       1767506 
+#&gt;           115     all    7.33e-01         -5406       -185435       1767506 
+#&gt;           116     all    9.54e-04         -5406       -185435       1767506 
+#&gt;           117     all    1.91e-03         -5406       -185435       1767506 
+#&gt;           118     all    3.24e-03         -5406       -185435       1767506 
+#&gt;           119     all    5.62e-03         -5406       -185435       1767506 
+#&gt;           120     all    1.07e-02         -5406       -185435       1767506 
+#&gt;           121     all    2.22e-02         -5406       -185435       1767506 
+#&gt;           122     all    4.53e-02         -5406       -185435       1767506 
+#&gt;           123     all    9.11e-02         -5406       -185435       1767506 
+#&gt;           124     all    1.81e-01         -5406       -185435       1767506 
+#&gt;           125     all    3.56e-01         -5405       -185435       1767506 
+#&gt;           126     all    6.85e-01         -5405       -185435       1767506 
+#&gt;           127     all    1.26e+00         -5403       -185435       1767506 
+#&gt;           128     all    2.05e+00         -5401       -185436       1767506 
+#&gt;           129     all    2.26e+00         -5395       -185439       1767506 
+#&gt;           130     all    8.03e-03         -5395       -185439       1767506 
+#&gt;           131     all    1.60e-02         -5395       -185439       1767506 
+#&gt;           132     all    2.72e-02         -5395       -185439       1767506 
+#&gt;           133     all    4.69e-02         -5395       -185439       1767506 
+#&gt;           134     all    8.83e-02         -5395       -185439       1767506 
+#&gt;           135     all    1.82e-01         -5395       -185439       1767506 
+#&gt;           136     all    3.62e-01         -5395       -185439       1767506 
+#&gt;           137     all    6.91e-01         -5395       -185438       1767506 
+#&gt;           138     all    1.23e+00         -5394       -185437       1767506 
+#&gt;           139     all    1.83e+00         -5394       -185436       1767506 
+#&gt;           140     all    1.12e+00         -5393       -185435       1767506 
+#&gt;           141     all    1.47e-03         -5393       -185435       1767506 
+#&gt;           142     all    2.94e-03         -5393       -185435       1767506 
+#&gt;           143     all    5.00e-03         -5393       -185435       1767506 
+#&gt;           144     all    8.66e-03         -5393       -185435       1767506 
+#&gt;           145     all    1.64e-02         -5393       -185435       1767506 
+#&gt;           146     all    3.41e-02         -5393       -185435       1767506 
+#&gt;           147     all    6.90e-02         -5393       -185435       1767506 
+#&gt;           148     all    1.37e-01         -5393       -185435       1767506 
+#&gt;           149     all    2.65e-01         -5393       -185435       1767506 
+#&gt;           150     all    4.92e-01         -5392       -185435       1767506 
+#&gt;           151     all    8.25e-01         -5392       -185435       1767506 
+#&gt;           152     all    1.01e+00         -5390       -185436       1767506 
+#&gt;           153     all    2.09e-03         -5390       -185436       1767506 
+#&gt;           154     all    4.17e-03         -5390       -185436       1767506 
+#&gt;           155     all    7.08e-03         -5390       -185436       1767506 
+#&gt;           156     all    1.23e-02         -5390       -185436       1767506 
+#&gt;           157     all    2.32e-02         -5390       -185436       1767506 
+#&gt;           158     all    4.80e-02         -5390       -185436       1767506 
+#&gt;           159     all    9.66e-02         -5390       -185436       1767506 
+#&gt;           160     all    1.89e-01         -5390       -185435       1767506 
+#&gt;           161     all    3.58e-01         -5390       -185435       1767506 
+#&gt;           162     all    6.25e-01         -5389       -185435       1767506 
+#&gt;           163     all    8.85e-01         -5388       -185435       1767506 
+#&gt;           164     all    3.05e-01         -5387       -185437       1767506 
+#&gt;           165     all    3.43e-03         -5387       -185437       1767506 
+#&gt;           166     all    6.86e-03         -5387       -185437       1767506 
+#&gt;           167     all    1.16e-02         -5387       -185437       1767506 
+#&gt;           168     all    2.01e-02         -5387       -185437       1767506 
+#&gt;           169     all    3.79e-02         -5386       -185436       1767506 
+#&gt;           170     all    7.85e-02         -5386       -185436       1767506 
+#&gt;           171     all    1.57e-01         -5386       -185436       1767506 
+#&gt;           172     all    3.04e-01         -5386       -185436       1767506 
+#&gt;           173     all    5.58e-01         -5386       -185436       1767506 
+#&gt;           174     all    9.09e-01         -5386       -185435       1767506 
+#&gt;           175     all    9.81e-01         -5385       -185435       1767506 
+#&gt;           176     all    1.28e-03         -5385       -185435       1767506 
+#&gt;           177     all    2.57e-03         -5385       -185435       1767506 
+#&gt;           178     all    4.36e-03         -5385       -185435       1767506 
+#&gt;           179     all    7.56e-03         -5385       -185435       1767506 
+#&gt;           180     all    1.43e-02         -5385       -185435       1767506 
+#&gt;           181     all    2.99e-02         -5385       -185435       1767506 
+#&gt;           182     all    6.09e-02         -5385       -185435       1767506 
+#&gt;           183     all    1.22e-01         -5385       -185435       1767506 
+#&gt;           184     all    2.42e-01         -5384       -185435       1767506 
+#&gt;           185     all    4.74e-01         -5384       -185435       1767506 
+#&gt;           186     all    8.98e-01         -5383       -185435       1767506 
+#&gt;           187     all    1.60e+00         -5381       -185435       1767506 
+#&gt;           188     all    2.39e+00         -5377       -185437       1767506 
+#&gt;           189     all    1.59e+00         -5370       -185443       1767506 
+#&gt;           190     all    1.34e-02         -5370       -185443       1767506 
+#&gt;           191     all    2.68e-02         -5370       -185443       1767506 
+#&gt;           192     all    4.54e-02         -5370       -185443       1767506 
+#&gt;           193     all    7.84e-02         -5370       -185443       1767506 
+#&gt;           194     all    1.48e-01         -5370       -185442       1767506 
+#&gt;           195     all    3.04e-01         -5370       -185442       1767506 
+#&gt;           196     all    6.04e-01         -5370       -185442       1767506 
+#&gt;           197     all    1.15e+00         -5370       -185441       1767506 
+#&gt;           198     all    2.04e+00         -5369       -185439       1767506 
+#&gt;           199     all    3.00e+00         -5369       -185436       1767506 
+#&gt;           200     all    1.64e+00         -5368       -185436       1767506 
+#&gt;           201     all    2.14e-03         -5368       -185436       1767506 
+#&gt;           202     all    4.27e-03         -5368       -185436       1767506 
+#&gt;           203     all    7.25e-03         -5368       -185436       1767506 
+#&gt;           204     all    1.26e-02         -5368       -185436       1767506 
+#&gt;           205     all    2.37e-02         -5368       -185436       1767506 
+#&gt;           206     all    4.94e-02         -5368       -185436       1767506 
+#&gt;           207     all    9.97e-02         -5368       -185436       1767506 
+#&gt;           208     all    1.97e-01         -5368       -185436       1767506 
+#&gt;           209     all    3.80e-01         -5367       -185435       1767506 
+#&gt;           210     all    6.93e-01         -5367       -185435       1767506 
+#&gt;           211     all    1.12e+00         -5366       -185435       1767506 
+#&gt;           212     all    1.16e+00         -5363       -185436       1767506 
+#&gt;           213     all    3.17e-03         -5363       -185436       1767506 
+#&gt;           214     all    6.32e-03         -5363       -185436       1767506 
+#&gt;           215     all    1.07e-02         -5363       -185436       1767506 
+#&gt;           216     all    1.86e-02         -5363       -185436       1767506 
+#&gt;           217     all    3.51e-02         -5363       -185436       1767506 
+#&gt;           218     all    7.26e-02         -5363       -185436       1767506 
+#&gt;           219     all    1.46e-01         -5363       -185436       1767506 
+#&gt;           220     all    2.85e-01         -5363       -185436       1767506 
+#&gt;           221     all    5.34e-01         -5363       -185436       1767506 
+#&gt;           222     all    9.16e-01         -5362       -185435       1767506 
+#&gt;           223     all    1.21e+00         -5361       -185435       1767506 
+#&gt;           224     all    1.59e-03         -5361       -185435       1767506 
+#&gt;           225     all    3.17e-03         -5361       -185435       1767506 
+#&gt;           226     all    5.39e-03         -5361       -185435       1767506 
+#&gt;           227     all    9.34e-03         -5361       -185435       1767506 
+#&gt;           228     all    1.77e-02         -5361       -185435       1767506 
+#&gt;           229     all    3.70e-02         -5361       -185435       1767506 
+#&gt;           230     all    7.54e-02         -5361       -185435       1767506 
+#&gt;           231     all    1.52e-01         -5361       -185435       1767506 
+#&gt;           232     all    3.03e-01         -5361       -185435       1767506 
+#&gt;           233     all    5.99e-01         -5360       -185435       1767506 
+#&gt;           234     all    1.16e+00         -5359       -185435       1767506 
+#&gt;           235     all    1.36e+00         -5357       -185436       1767506 
+#&gt;           236     all    2.09e-03         -5357       -185436       1767506 
+#&gt;           237     all    4.17e-03         -5357       -185436       1767506 
+#&gt;           238     all    7.06e-03         -5357       -185436       1767506 
+#&gt;           239     all    1.22e-02         -5357       -185436       1767506 
+#&gt;           240     all    2.17e+02         -5005       -185435       1767371 
+#&gt;           241     all    1.74e+02         -4952       -185433       1767489 
+#&gt;           242     all    5.10e-01         -4952       -185438       1767494 
+#&gt;           243     all    1.43e+01         -4952       -185435       1767506 
+#&gt;           244     all    1.55e-02         -4952       -185436       1767507 
+#&gt;           245     all    1.34e-02         -4952       -185436       1767506 
+#&gt;           246     all    2.43e-02         -4952       -185435       1767506 
+#&gt;           247     all    1.87e+01         -4932       -185435       1767505 
+#&gt;           248     all    1.35e+02         -4798       -185435       1767507 
+#&gt;           249     all    2.09e+00         -4798       -185435       1767509 
+#&gt;           250     all    2.06e-03         -4799       -185435       1767509 
+#&gt;           251     all    5.12e-04         -4799       -185436       1767509 
+#&gt;           252     all    7.19e-04         -4798       -185435       1767509 
+#&gt;           253     all    8.78e-04         -4798       -185435       1767509 
+#&gt;           254     all    1.13e-03         -4798       -185435       1767509 
+#&gt;           255     all    1.53e-03         -4798       -185435       1767509 
+#&gt;           256     all    2.27e-03         -4798       -185435       1767509 
+#&gt;           257     all    3.75e-03         -4798       -185435       1767509 
+#&gt;           258     all    7.05e-03         -4798       -185435       1767509 
+#&gt;           259     all    1.43e-02         -4798       -185435       1767509 
+#&gt;           260     all    2.84e-02         -4798       -185435       1767509 
+#&gt;           261     all    5.47e-02         -4798       -185435       1767509 
+#&gt;           262     all    1.00e-01         -4798       -185435       1767509 
+#&gt;           263     all    1.63e-01         -4798       -185435       1767509 
+#&gt;           264     all    1.73e-01         -4798       -185436       1767509 
+#&gt;           265     all    2.26e+02         -4551       -185437       1767490 
+#&gt;           266     all    3.24e+01         -4543       -185437       1767513 
+#&gt;           267     all    3.35e-02         -4542       -185438       1767514 
+#&gt;           268     all    2.71e-01         -4542       -185437       1767514 
+#&gt;           269     all    3.06e-03         -4542       -185437       1767514 
+#&gt;           270     all    2.87e-03         -4542       -185437       1767514 
+#&gt;           271     all    5.58e-03         -4542       -185437       1767514 
+#&gt;           272     all    1.13e-02         -4542       -185437       1767514 
+#&gt;           273     all    2.23e-02         -4542       -185437       1767514 
+#&gt;           274     all    4.30e-02         -4542       -185437       1767514 
+#&gt;           275     all    7.87e-02         -4542       -185437       1767514 
+#&gt;           276     all    1.28e-01         -4542       -185437       1767514 
+#&gt;           277     all    1.36e-01         -4542       -185437       1767514 
+#&gt;           278     all    2.35e-05         -4542       -185437       1767514 
+#&gt;   Backfit complete. Objective: 1577534.959 
+#&gt; Wrapping up...
+#&gt; Done.</code></pre>
+<pre class="r"><code>
+balanced_4pop$plot_fn(fl_bf)</code></pre>
+<img src="figure/pm1_priors11.Rmd/bf-1.png" width="480" style="display: block; margin: auto;" /> <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
@@ -1108,6 +1413,7 @@ There doesn’t appear to be a good way to get a sparse third factor using a gre
 #&gt; [58] colorspace_1.4-1   ashr_2.2-51        rvest_0.3.4       
 #&gt; [61] knitr_1.22         haven_2.1.1</code></pre>
 </div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -1123,8 +1429,6 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
-</div>
-</div>
 
 </div>
 
