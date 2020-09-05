@@ -5,6 +5,7 @@ date: "7/22/2020"
 output:
   workflowr::wflow_html:
     code_folding: hide
+    toc: false
 ---
 
 ```{r setup, include = FALSE}
@@ -31,7 +32,7 @@ sim_tree <- function(n_range,
                      admix_pops = NULL, 
                      outgroup = FALSE, 
                      seed = 666) {
-  set.seed(666)
+  set.seed(seed)
   
   depth <- length(branch_means)
   npop_pure <- 2^(depth - 1)
@@ -220,3 +221,19 @@ balanced_4pop$plot_fn(fl_pl7)
 ```
 
 There doesn't appear to be a good way to get a sparse third factor using a greedy approach. Backfitting might be necessary.
+
+
+## Appendix
+
+For contrast, I show the per-iteration progress for the four-factor backfit:
+
+```{r bf}
+fl_bf <- flash.init(balanced_4pop$Y) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = c(prior.point.laplace(), prior.normal())) %>%
+  flash.set.verbose(3, verbose.fns, verbose.colnames, verbose.colwidths) %>%
+  flash.backfit(tol = 1e-4)
+
+balanced_4pop$plot_fn(fl_bf)
+```
