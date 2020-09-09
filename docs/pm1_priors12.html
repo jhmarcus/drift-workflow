@@ -363,7 +363,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-05
+<strong>Last updated:</strong> 2020-09-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -442,10 +442,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree109b2d7c75426594cc4c5402f3ef8dd183d2d6b3targetblank109b2d7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/109b2d7c75426594cc4c5402f3ef8dd183d2d6b3" target="_blank">109b2d7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree29e148e80a0bdc35bde47713dd017a620d5feb5ftargetblank29e148ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/29e148e80a0bdc35bde47713dd017a620d5feb5f" target="_blank">29e148e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree109b2d7c75426594cc4c5402f3ef8dd183d2d6b3targetblank109b2d7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree29e148e80a0bdc35bde47713dd017a620d5feb5ftargetblank29e148ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -505,6 +505,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/29e148e80a0bdc35bde47713dd017a620d5feb5f/analysis/pm1_priors12.Rmd" target="_blank">29e148e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-09
+</td>
+<td>
+wflow_publish(“analysis/pm1_priors12.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/ae183d9921a434f425d3c8371444d72e70f3de7b/docs/pm1_priors12.html" target="_blank">ae183d9</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -616,25 +650,144 @@ balanced_4pop &lt;- sim_tree(n_range = 50,
                           p = 10000,
                           branch_means = rep(1, 3),
                           branch_sds = rep(0, 3),
-                          resid_sd = 0.1)</code></pre>
+                          resid_sd = 0.1)
+covmat &lt;- cov(t(balanced_4pop$Y))</code></pre>
 <p>I use point-Laplace priors with no backfit here:</p>
-<pre class="r"><code>covmat &lt;- cov(t(balanced_4pop$Y))
-fl_g &lt;- flash.init(covmat) %&gt;%
+<pre class="r"><code>fl_g &lt;- flash.init(covmat) %&gt;%
   flash.set.verbose(0) %&gt;%
   flash.add.greedy(Kmax = 4, 
                    prior.family = prior.point.laplace())
 
 balanced_4pop$plot_fn(fl_g)</code></pre>
 <p><img src="figure/pm1_priors12.Rmd/pl-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl-1">
+Past versions of pl-1.png
+</button>
+</p>
+<div id="fig-pl-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ae183d9921a434f425d3c8371444d72e70f3de7b/docs/figure/pm1_priors12.Rmd/pl-1.png" target="_blank">ae183d9</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Point-normal priors also work fine:</p>
-<pre class="r"><code>covmat &lt;- cov(t(balanced_4pop$Y))
-fl_g2 &lt;- flash.init(covmat) %&gt;%
+<pre class="r"><code>fl_g2 &lt;- flash.init(covmat) %&gt;%
   flash.set.verbose(0) %&gt;%
   flash.add.greedy(Kmax = 4, 
                    prior.family = prior.point.normal())
 
 balanced_4pop$plot_fn(fl_g2)</code></pre>
-<img src="figure/pm1_priors12.Rmd/pn-1.png" width="480" style="display: block; margin: auto;" /> <br> <br>
+<p><img src="figure/pm1_priors12.Rmd/pn-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pn-1">
+Past versions of pn-1.png
+</button>
+</p>
+<div id="fig-pn-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ae183d9921a434f425d3c8371444d72e70f3de7b/docs/figure/pm1_priors12.Rmd/pn-1.png" target="_blank">ae183d9</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Assuming that the fit “discovers” the constraint <span class="math inline">\(L = F\)</span> (and it seems to do so fairly easily), the model here is <span class="math display">\[ \text{Cov}(Y) \sim LL&#39; + E \]</span> where <span class="math inline">\(E\)</span> has the “constant” variance structure <span class="math display">\[ E_{ij} \sim N(0, \sigma^2) \]</span></p>
+<p>A better model, however, would fit <span class="math display">\[ \text{Cov}(Y) \sim LL&#39; + \sigma_r^2 I + E \]</span> since the expected covariance matrix for <span class="math inline">\(Y = LF&#39; + E\)</span> when <span class="math inline">\(F_j \sim N(0, I_p)\)</span> and <span class="math inline">\(E_{ij} \sim N(0, \sigma_r^2)\)</span> is <span class="math inline">\(LL&#39; + \sigma_r^2I\)</span>. If we put a prior on <span class="math inline">\(\sigma_r^2 \sim N(0, \sigma_d^2)\)</span>, then the model becomes<br />
+<span class="math display">\[ \text{Cov}(Y) \sim LL&#39; + \tilde{E} \]</span> where <span class="math display">\[ \tilde{E}_{ij} \sim N(0, \sigma^2 + \delta_{ij} \sigma_d^2) \]</span> (Note that the MLE for <span class="math inline">\(\sigma_d^2\)</span> is <span class="math inline">\(\sigma_r^4\)</span>, not <span class="math inline">\(\sigma_r^2\)</span>.) I fit this last model by iterating between 1) estimating <span class="math inline">\(\sigma_d^2\)</span> and 2) treating <span class="math inline">\(\sigma_d^2\)</span> as fixed and fitting the flash model using a “noisy” variance structure. I initialize <span class="math inline">\(\sigma_d^2\)</span> at zero.</p>
+<pre class="r"><code>fl &lt;- flash.init(covmat) %&gt;%
+  flash.set.verbose(0) %&gt;%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = prior.point.laplace())
+
+n &lt;- nrow(covmat)
+diag_S2 &lt;- 0
+elbo_diff &lt;- Inf
+while (elbo_diff &gt; 0.01) {
+  old_elbo &lt;- fl$elbo
+  fl &lt;- flash.init(covmat, S = diag(rep(sqrt(diag_S2), n)), var.type = 0) %&gt;%
+    flash.set.verbose(0) %&gt;%
+    flash.init.factors(EF = fl$flash.fit$EF, EF2 = fl$flash.fit$EF2,
+                       prior.family = prior.point.laplace()) %&gt;%
+    flash.backfit()
+  cat(&quot;SD (diagonal):&quot;, formatC(sqrt(diag_S2), format = &quot;e&quot;, digits = 2),
+      &quot; SD (off-diag):&quot;, formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = &quot;e&quot;, digits = 2),
+      &quot; ELBO:&quot;, fl$elbo, &quot;\n&quot;)
+  elbo_diff &lt;- fl$elbo - old_elbo
+  
+  diag_S2 &lt;- mean(diag(covmat)^2 
+                  - 2 * diag(covmat) * rowSums(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])
+                  + rowSums(fl$flash.fit$EF2[[1]] * fl$flash.fit$EF2[[2]])
+                  - rowSums(fl$flash.fit$EF[[1]]^2 * fl$flash.fit$EF[[2]]^2))
+  diag_S2 &lt;- diag_S2 + sum(crossprod(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])) / n
+  diag_S2 &lt;- diag_S2 - 1 / fl$flash.fit$tau[1, 2]
+}</code></pre>
+<pre><code>#&gt; SD (diagonal): 0.00e+00  SD (off-diag): 7.20e-04  ELBO: 217914.4 
+#&gt; SD (diagonal): 9.77e-03  SD (off-diag): 9.45e-05  ELBO: 292465.1 
+#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.7 
+#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.8 
+#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.8</code></pre>
+<pre class="r"><code>
+balanced_4pop$plot_fn(fl)</code></pre>
+<p><img src="figure/pm1_priors12.Rmd/diag-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>However, it seems that, as in the <a href="pm1_priors11.html">previous analysis</a>, some overfitting problems are beginning to rear their heads — adding the diagonal variance term allows the off-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:</p>
+<pre class="r"><code>cat(&quot;Nonzero loadings per factor (no diagonal variance term):&quot;, 
+    colSums(fl_g$loadings.lfsr[[1]] &lt; 0.05))</code></pre>
+<pre><code>#&gt; Nonzero loadings per factor (no diagonal variance term): 200 200 100 100</code></pre>
+<pre class="r"><code>cat(&quot;Nonzero loadings per factor (with diagonal variance):&quot;, 
+    colSums(fl$loadings.lfsr[[1]] &lt; 0.05))</code></pre>
+<pre><code>#&gt; Nonzero loadings per factor (with diagonal variance): 200 200 200 190</code></pre>
+<br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
