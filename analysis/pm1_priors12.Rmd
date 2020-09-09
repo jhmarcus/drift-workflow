@@ -106,12 +106,12 @@ balanced_4pop <- sim_tree(n_range = 50,
                           branch_means = rep(1, 3),
                           branch_sds = rep(0, 3),
                           resid_sd = 0.1)
+covmat <- cov(t(balanced_4pop$Y))
 ```
 
 I use point-Laplace priors with no backfit here:
 
 ```{r pl}
-covmat <- cov(t(balanced_4pop$Y))
 fl_g <- flash.init(covmat) %>%
   flash.set.verbose(0) %>%
   flash.add.greedy(Kmax = 4, 
@@ -123,7 +123,6 @@ balanced_4pop$plot_fn(fl_g)
 Point-normal priors also work fine:
 
 ```{r pn}
-covmat <- cov(t(balanced_4pop$Y))
 fl_g2 <- flash.init(covmat) %>%
   flash.set.verbose(0) %>%
   flash.add.greedy(Kmax = 4, 
@@ -131,3 +130,59 @@ fl_g2 <- flash.init(covmat) %>%
 
 balanced_4pop$plot_fn(fl_g2)
 ```
+
+Assuming that the fit "discovers" the constraint $L = F$ (and it seems to do so fairly easily), the model here is
+$$ \text{Cov}(Y) \sim LL' + E $$
+where $E$ has the "constant" variance structure
+$$ E_{ij} \sim N(0, \sigma^2) $$
+
+A better model, however, would fit
+$$ \text{Cov}(Y) \sim LL' + \sigma_r^2 I + E $$
+since the expected covariance matrix for $Y = LF' + E$ when $F_j \sim N(0, I_p)$ and $E_{ij} \sim N(0, \sigma_r^2)$ is $LL' + \sigma_r^2I$. If we put a prior on $\sigma_r^2 \sim N(0, \sigma_d^2)$, then the model becomes  
+$$ \text{Cov}(Y) \sim LL' + \tilde{E} $$
+where
+$$ \tilde{E}_{ij} \sim N(0, \sigma^2 + \delta_{ij} \sigma_d^2) $$
+(Note that the MLE for $\sigma_d^2$ is $\sigma_r^4$, not $\sigma_r^2$.)
+I fit this last model by iterating between 1) estimating $\sigma_d^2$ and 2) treating $\sigma_d^2$ as fixed and fitting the flash model using a "noisy" variance structure. I initialize $\sigma_d^2$ at zero. 
+
+```{r diag}
+fl <- flash.init(covmat) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 4, 
+                   prior.family = prior.point.laplace())
+
+n <- nrow(covmat)
+diag_S2 <- 0
+elbo_diff <- Inf
+while (elbo_diff > 0.01) {
+  old_elbo <- fl$elbo
+  fl <- flash.init(covmat, S = diag(rep(sqrt(diag_S2), n)), var.type = 0) %>%
+    flash.set.verbose(0) %>%
+    flash.init.factors(EF = fl$flash.fit$EF, EF2 = fl$flash.fit$EF2,
+                       prior.family = prior.point.laplace()) %>%
+    flash.backfit()
+  cat("SD (diagonal):", formatC(sqrt(diag_S2), format = "e", digits = 2),
+      " SD (off-diag):", formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = "e", digits = 2),
+      " ELBO:", fl$elbo, "\n")
+  elbo_diff <- fl$elbo - old_elbo
+  
+  diag_S2 <- mean(diag(covmat)^2 
+                  - 2 * diag(covmat) * rowSums(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])
+                  + rowSums(fl$flash.fit$EF2[[1]] * fl$flash.fit$EF2[[2]])
+                  - rowSums(fl$flash.fit$EF[[1]]^2 * fl$flash.fit$EF[[2]]^2))
+  diag_S2 <- diag_S2 + sum(crossprod(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])) / n
+  diag_S2 <- diag_S2 - 1 / fl$flash.fit$tau[1, 2]
+}
+
+balanced_4pop$plot_fn(fl)
+```
+
+However, it seems that, as in the [previous analysis](pm1_priors11.html), some overfitting problems are beginning to rear their heads --- adding the diagonal variance term allows the off-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:
+
+```{r lfsr}
+cat("Nonzero loadings per factor (no diagonal variance term):", 
+    colSums(fl_g$loadings.lfsr[[1]] < 0.05))
+cat("Nonzero loadings per factor (with diagonal variance):", 
+    colSums(fl$loadings.lfsr[[1]] < 0.05))
+```
+
