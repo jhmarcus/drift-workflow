@@ -442,10 +442,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree29e148e80a0bdc35bde47713dd017a620d5feb5ftargetblank29e148ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/29e148e80a0bdc35bde47713dd017a620d5feb5f" target="_blank">29e148e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7475dd42daeabb1531b52bb025486c09b1d1db56targetblank7475dd4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/7475dd42daeabb1531b52bb025486c09b1d1db56" target="_blank">7475dd4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree29e148e80a0bdc35bde47713dd017a620d5feb5ftargetblank29e148ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree7475dd42daeabb1531b52bb025486c09b1d1db56targetblank7475dd4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -505,6 +505,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/7475dd42daeabb1531b52bb025486c09b1d1db56/analysis/pm1_priors12.Rmd" target="_blank">7475dd4</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-09
+</td>
+<td>
+wflow_publish(“analysis/pm1_priors12.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/33d694d525ad6313c940a84175e680124394c270/docs/pm1_priors12.html" target="_blank">33d694d</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -761,7 +795,7 @@ while (elbo_diff &gt; 0.01) {
                        prior.family = prior.point.laplace()) %&gt;%
     flash.backfit()
   cat(&quot;SD (diagonal):&quot;, formatC(sqrt(diag_S2), format = &quot;e&quot;, digits = 2),
-      &quot; SD (off-diag):&quot;, formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = &quot;e&quot;, digits = 2),
+      &quot; SD (non-diag):&quot;, formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = &quot;e&quot;, digits = 2),
       &quot; ELBO:&quot;, fl$elbo, &quot;\n&quot;)
   elbo_diff &lt;- fl$elbo - old_elbo
   
@@ -772,15 +806,52 @@ while (elbo_diff &gt; 0.01) {
   diag_S2 &lt;- diag_S2 + sum(crossprod(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])) / n
   diag_S2 &lt;- diag_S2 - 1 / fl$flash.fit$tau[1, 2]
 }</code></pre>
-<pre><code>#&gt; SD (diagonal): 0.00e+00  SD (off-diag): 7.20e-04  ELBO: 217914.4 
-#&gt; SD (diagonal): 9.77e-03  SD (off-diag): 9.45e-05  ELBO: 292465.1 
-#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.7 
-#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.8 
-#&gt; SD (diagonal): 9.99e-03  SD (off-diag): 9.58e-05  ELBO: 292522.8</code></pre>
+<pre><code>#&gt; SD (diagonal): 0.00e+00  SD (non-diag): 7.20e-04  ELBO: 217914.4 
+#&gt; SD (diagonal): 9.77e-03  SD (non-diag): 9.45e-05  ELBO: 292465.1 
+#&gt; SD (diagonal): 9.99e-03  SD (non-diag): 9.58e-05  ELBO: 292522.7 
+#&gt; SD (diagonal): 9.99e-03  SD (non-diag): 9.58e-05  ELBO: 292522.8 
+#&gt; SD (diagonal): 9.99e-03  SD (non-diag): 9.58e-05  ELBO: 292522.8</code></pre>
 <pre class="r"><code>
 balanced_4pop$plot_fn(fl)</code></pre>
 <p><img src="figure/pm1_priors12.Rmd/diag-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>However, it seems that, as in the <a href="pm1_priors11.html">previous analysis</a>, some overfitting problems are beginning to rear their heads — adding the diagonal variance term allows the off-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-diag-1">
+Past versions of diag-1.png
+</button>
+</p>
+<div id="fig-diag-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/33d694d525ad6313c940a84175e680124394c270/docs/figure/pm1_priors12.Rmd/diag-1.png" target="_blank">33d694d</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>However, it seems that, as in the <a href="pm1_priors11.html">previous analysis</a>, some overfitting problems are beginning to rear their heads — adding the diagonal variance term allows the non-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:</p>
 <pre class="r"><code>cat(&quot;Nonzero loadings per factor (no diagonal variance term):&quot;, 
     colSums(fl_g$loadings.lfsr[[1]] &lt; 0.05))</code></pre>
 <pre><code>#&gt; Nonzero loadings per factor (no diagonal variance term): 200 200 100 100</code></pre>
