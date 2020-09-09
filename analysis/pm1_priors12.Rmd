@@ -162,7 +162,7 @@ while (elbo_diff > 0.01) {
                        prior.family = prior.point.laplace()) %>%
     flash.backfit()
   cat("SD (diagonal):", formatC(sqrt(diag_S2), format = "e", digits = 2),
-      " SD (off-diag):", formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = "e", digits = 2),
+      " SD (non-diag):", formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = "e", digits = 2),
       " ELBO:", fl$elbo, "\n")
   elbo_diff <- fl$elbo - old_elbo
   
@@ -177,7 +177,7 @@ while (elbo_diff > 0.01) {
 balanced_4pop$plot_fn(fl)
 ```
 
-However, it seems that, as in the [previous analysis](pm1_priors11.html), some overfitting problems are beginning to rear their heads --- adding the diagonal variance term allows the off-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:
+However, it seems that, as in the [previous analysis](pm1_priors11.html), some overfitting problems are beginning to rear their heads --- adding the diagonal variance term allows the non-diagonal variance to become very small, and as a result few loadings are estimated to be zero. Compare LFSRs for the first fit and this last one:
 
 ```{r lfsr}
 cat("Nonzero loadings per factor (no diagonal variance term):", 
