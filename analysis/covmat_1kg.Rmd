@@ -1,0 +1,112 @@
+---
+title: "Fitting a real-data covariance matrix"
+author: "Jason Willwerscheid"
+date: "9/11/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 8, fig.height = 6.5)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I fit flash to the covariance matrix of the `1kg_phase3_derived` dataset using point-Laplace priors. I show results from the greedy fit, backfit, and `LL' + D` fit.
+
+```{r dat}
+covmat <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds")
+meta <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_meta.rds")
+
+plot_fl <- function(fl) {
+  df <- data.frame(fl$flash.fit$EF[[1]])
+  colnames(df) <- paste0("Factor ", formatC(1:fl$n.factors, width = 2, flag = "0"))
+  df$subpop <- meta$pop
+  df$superpop <- meta$super_pop
+  df <- df %>% arrange(superpop)
+  df$idx <- 1:nrow(df)
+  gath_df <- df %>% 
+    gather(K, value, -subpop, -idx, -superpop) %>%
+    mutate(K = factor(K))
+  med_gath_df <- gath_df %>% 
+    group_by(subpop, K) %>% 
+    summarise(value=median(value), idx=median(idx))
+  
+  p <- ggplot(gath_df, aes(x=idx, y=value, color=superpop)) + 
+    geom_point() +
+    facet_wrap(~K) + 
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank()) +
+    labs(color="superpop")
+  return(p)
+}
+```
+
+## Greedy fit
+
+```{r pl_g}
+fl_g <- flash.init(covmat) %>%
+  flash.set.verbose(0) %>%
+  flash.add.greedy(Kmax = 20, 
+                   prior.family = prior.point.laplace())
+
+plot(plot_fl(fl_g))
+```
+
+## Backfit
+
+```{r pl_bf}
+fl_bf <- fl_g %>% flash.backfit()
+
+plot(plot_fl(fl_bf))
+```
+
+## Additional diagonal variance
+
+```{r diag}
+n <- nrow(covmat)
+
+fl <- fl_bf
+diag_S2 <- mean(diag(covmat)^2 
+                - 2 * diag(covmat) * rowSums(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])
+                + rowSums(fl$flash.fit$EF2[[1]] * fl$flash.fit$EF2[[2]])
+                - rowSums(fl$flash.fit$EF[[1]]^2 * fl$flash.fit$EF[[2]]^2))
+diag_S2 <- diag_S2 + sum(crossprod(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])) / n
+diag_S2 <- diag_S2 - 1 / fl$flash.fit$tau
+  
+elbo_diff <- Inf
+while (elbo_diff > 0.1) {
+  old_elbo <- fl$elbo
+  fl <- flash.init(covmat, S = diag(rep(sqrt(diag_S2), n)), var.type = 0) %>%
+    flash.set.verbose(0) %>%
+    flash.init.factors(EF = fl$flash.fit$EF, EF2 = fl$flash.fit$EF2,
+                       prior.family = prior.point.laplace()) %>%
+    flash.backfit()
+  cat("SD (diagonal):", formatC(sqrt(diag_S2), format = "e", digits = 2),
+      " SD (non-diag):", formatC(sqrt(1 / fl$flash.fit$tau[1, 2]), format = "e", digits = 2),
+      " ELBO:", fl$elbo, "\n")
+  elbo_diff <- fl$elbo - old_elbo
+  
+  diag_S2 <- mean(diag(covmat)^2 
+                  - 2 * diag(covmat) * rowSums(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])
+                  + rowSums(fl$flash.fit$EF2[[1]] * fl$flash.fit$EF2[[2]])
+                  - rowSums(fl$flash.fit$EF[[1]]^2 * fl$flash.fit$EF[[2]]^2))
+  diag_S2 <- diag_S2 + sum(crossprod(fl$flash.fit$EF[[1]] * fl$flash.fit$EF[[2]])) / n
+  diag_S2 <- diag_S2 - 1 / fl$flash.fit$tau[1, 2]
+}
+
+plot(plot_fl(fl))
+```
+
+
