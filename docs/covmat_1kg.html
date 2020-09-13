@@ -442,10 +442,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8633525f3943956fe97eed6d11653f8f44dc2cb9targetblank8633525a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/8633525f3943956fe97eed6d11653f8f44dc2cb9" target="_blank">8633525</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3fca558e48d357955df13febead7e002b4fc3b2ftargetblank3fca558a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/3fca558e48d357955df13febead7e002b4fc3b2f" target="_blank">3fca558</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree8633525f3943956fe97eed6d11653f8f44dc2cb9targetblank8633525a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtree3fca558e48d357955df13febead7e002b4fc3b2ftargetblank3fca558a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -507,6 +507,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/3fca558e48d357955df13febead7e002b4fc3b2f/analysis/covmat_1kg.Rmd" target="_blank">3fca558</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-13
+</td>
+<td>
+wflow_publish(“analysis/covmat_1kg.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/d1220b292a2b86e3f5702a5840be362db1499e61/docs/covmat_1kg.html" target="_blank">d1220b2</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -845,7 +879,7 @@ which_k &lt;- (LL_scale &gt; .01)
 LL &lt;- LL[, which_k]
 LL_scale &lt;- LL_scale[which_k]
 
-dr &lt;- init_from_covmat(covmat, LL, p = 10000, prior.s2 = LL_scale^2)
+dr &lt;- init_from_covmat(covmat, LL, p = 30000, prior.s2 = LL_scale^2)
 dr &lt;- drift(dr, maxiter = 200, verbose = FALSE)
 
 plot(plot_fl(dr$EL %*% diag(sqrt(dr$prior_s2))))</code></pre>
@@ -872,6 +906,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/d1220b292a2b86e3f5702a5840be362db1499e61/docs/figure/covmat_1kg.Rmd/dr-1.png" target="_blank">d1220b2</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/c77198e4e00aade34fdedadee2cd09920c98c307/docs/figure/covmat_1kg.Rmd/dr-1.png" target="_blank">c77198e</a>
