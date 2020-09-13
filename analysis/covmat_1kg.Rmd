@@ -114,8 +114,7 @@ plot(plot_fl(fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))))
 ```{r dr}
 LL <- fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))
 LL <- cbind(abs(LL[, 1]), pmax(LL[, -1], 0), pmax(-LL[, -1], 0))
-LL <- LL[, c(1, 2 * (1:11), 2 * (1:11) + 1)]
-# LL <- LL[, -c(3, 7, 12, 14, 16, 18, 21, 22)] # by inspection
+LL <- LL[, c(1, as.vector(sapply(2:12, `+`, c(0, 11))))]
 
 LL_scale <- apply(LL, 2, max)
 LL <- t(t(LL) / LL_scale)
