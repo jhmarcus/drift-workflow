@@ -123,8 +123,9 @@ which_k <- (LL_scale > .01)
 LL <- LL[, which_k]
 LL_scale <- LL_scale[which_k]
 
-dr <- init_from_covmat(covmat, LL, p = 10000, prior.s2 = LL_scale^2)
+dr <- init_from_covmat(covmat, LL, p = 30000, prior.s2 = LL_scale^2)
 dr <- drift(dr, maxiter = 200, verbose = FALSE)
 
 plot(plot_fl(dr$EL %*% diag(sqrt(dr$prior_s2))))
 ```
+
