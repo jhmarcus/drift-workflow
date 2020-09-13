@@ -363,7 +363,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-11
+<strong>Last updated:</strong> 2020-09-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -442,10 +442,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreef11bdf57ccc0c6d472b696f0eb9396f15a0d5a5etargetblankf11bdf5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/f11bdf57ccc0c6d472b696f0eb9396f15a0d5a5e" target="_blank">f11bdf5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreec433e173e916f42afcf13d1eb495c4b2abc273abtargetblankc433e17a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jhmarcus/drift-workflow/tree/c433e173e916f42afcf13d1eb495c4b2abc273ab" target="_blank">c433e17</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreef11bdf57ccc0c6d472b696f0eb9396f15a0d5a5etargetblankf11bdf5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjhmarcusdriftworkflowtreec433e173e916f42afcf13d1eb495c4b2abc273abtargetblankc433e17a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -512,6 +512,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/c433e173e916f42afcf13d1eb495c4b2abc273ab/analysis/covmat_1kg.Rmd" target="_blank">c433e17</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-12
+</td>
+<td>
+wflow_publish(“analysis/covmat_1kg.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jhmarcus/drift-workflow/ca2258e4ae136f1dec2c78663fe9912e1bae56e9/docs/covmat_1kg.html" target="_blank">ca2258e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jhmarcus/drift-workflow/blob/f11bdf57ccc0c6d472b696f0eb9396f15a0d5a5e/analysis/covmat_1kg.Rmd" target="_blank">f11bdf5</a>
 </td>
 <td>
@@ -540,9 +574,9 @@ wflow_publish(“analysis/covmat_1kg.Rmd”)
 <pre class="r"><code>covmat &lt;- readRDS(&quot;../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds&quot;)
 meta &lt;- readRDS(&quot;../data/datasets/1kg_phase3_derived/1kg_phase3_derived_meta.rds&quot;)
 
-plot_fl &lt;- function(fl) {
-  df &lt;- data.frame(fl$flash.fit$EF[[1]])
-  colnames(df) &lt;- paste0(&quot;Factor &quot;, formatC(1:fl$n.factors, width = 2, flag = &quot;0&quot;))
+plot_fl &lt;- function(LL) {
+  df &lt;- data.frame(LL)
+  colnames(df) &lt;- paste0(&quot;Factor &quot;, formatC(1:ncol(LL), width = 2, flag = &quot;0&quot;))
   df$subpop &lt;- meta$pop
   df$superpop &lt;- meta$super_pop
   df &lt;- df %&gt;% arrange(superpop)
@@ -571,15 +605,89 @@ plot_fl &lt;- function(fl) {
   flash.add.greedy(Kmax = 20, 
                    prior.family = prior.point.laplace())
 
-plot(plot_fl(fl_g))</code></pre>
+plot(plot_fl(fl_g$loadings.pm[[1]] %*% diag(sqrt(fl_g$loadings.scale))))</code></pre>
 <p><img src="figure/covmat_1kg.Rmd/pl_g-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl_g-1">
+Past versions of pl_g-1.png
+</button>
+</p>
+<div id="fig-pl_g-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ca2258e4ae136f1dec2c78663fe9912e1bae56e9/docs/figure/covmat_1kg.Rmd/pl_g-1.png" target="_blank">ca2258e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="backfit" class="section level2">
 <h2>Backfit</h2>
 <pre class="r"><code>fl_bf &lt;- fl_g %&gt;% flash.backfit()
 
-plot(plot_fl(fl_bf))</code></pre>
+plot(plot_fl(fl_bf$loadings.pm[[1]] %*% diag(sqrt(fl_bf$loadings.scale))))</code></pre>
 <p><img src="figure/covmat_1kg.Rmd/pl_bf-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pl_bf-1">
+Past versions of pl_bf-1.png
+</button>
+</p>
+<div id="fig-pl_bf-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ca2258e4ae136f1dec2c78663fe9912e1bae56e9/docs/figure/covmat_1kg.Rmd/pl_bf-1.png" target="_blank">ca2258e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="additional-diagonal-variance" class="section level2">
 <h2>Additional diagonal variance</h2>
@@ -617,9 +725,65 @@ while (elbo_diff &gt; 0.1) {
 #&gt; SD (diagonal): 2.86e-01  SD (non-diag): 1.47e-03  ELBO: 31798035 
 #&gt; SD (diagonal): 2.86e-01  SD (non-diag): 1.47e-03  ELBO: 31798036</code></pre>
 <pre class="r"><code>
-plot(plot_fl(fl))</code></pre>
+plot(plot_fl(fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))))</code></pre>
 <p><img src="figure/covmat_1kg.Rmd/diag-1.png" width="768" style="display: block; margin: auto;" /></p>
-<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-diag-1">
+Past versions of diag-1.png
+</button>
+</p>
+<div id="fig-diag-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jhmarcus/drift-workflow/blob/ca2258e4ae136f1dec2c78663fe9912e1bae56e9/docs/figure/covmat_1kg.Rmd/diag-1.png" target="_blank">ca2258e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2020-09-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="drift" class="section level2">
+<h2>Drift</h2>
+<pre class="r"><code>LL &lt;- fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))
+LL &lt;- cbind(abs(LL[, 1]), pmax(LL[, -1], 0), pmax(-LL[, -1], 0))
+LL &lt;- LL[, c(1, 2 * (1:11), 2 * (1:11) + 1)]
+# LL &lt;- LL[, -c(3, 7, 12, 14, 16, 18, 21, 22)] # by inspection
+
+LL_scale &lt;- apply(LL, 2, max)
+LL &lt;- t(t(LL) / LL_scale)
+
+which_k &lt;- (LL_scale &gt; .01)
+LL &lt;- LL[, which_k]
+LL_scale &lt;- LL_scale[which_k]
+
+dr &lt;- init_from_covmat(covmat, LL, p = 10000, prior.s2 = LL_scale^2)
+dr &lt;- drift(dr, maxiter = 200, verbose = FALSE)
+
+plot(plot_fl(dr$EL %*% diag(sqrt(dr$prior_s2))))</code></pre>
+<img src="figure/covmat_1kg.Rmd/dr-1.png" width="768" style="display: block; margin: auto;" /> <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
@@ -645,7 +809,7 @@ plot(plot_fl(fl))</code></pre>
 #&gt;  [1] forcats_0.4.0      stringr_1.4.0      dplyr_0.8.0.1     
 #&gt;  [4] purrr_0.3.2        readr_1.3.1        tidyr_0.8.3       
 #&gt;  [7] tibble_2.1.1       ggplot2_3.2.0      tidyverse_1.2.1   
-#&gt; [10] drift.alpha_0.0.10 flashier_0.2.7    
+#&gt; [10] drift.alpha_0.0.11 flashier_0.2.7    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.4.6      lubridate_1.7.4   invgamma_1.1     
