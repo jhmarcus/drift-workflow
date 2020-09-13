@@ -27,9 +27,9 @@ I repeat the [previous analysis](covmat_1kg.html) but with a fixed "mean" factor
 covmat <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds")
 meta <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_meta.rds")
 
-plot_fl <- function(fl) {
-  df <- data.frame(fl$flash.fit$EF[[1]])
-  colnames(df) <- paste0("Factor ", formatC(1:fl$n.factors, width = 2, flag = "0"))
+plot_fl <- function(LL) {
+  df <- data.frame(LL)
+  colnames(df) <- paste0("Factor ", formatC(1:ncol(LL), width = 2, flag = "0"))
   df$subpop <- meta$pop
   df$superpop <- meta$super_pop
   df <- df %>% arrange(superpop)
@@ -67,7 +67,7 @@ fl_g <- flash.init(covmat) %>%
   flash.add.greedy(Kmax = 11, 
                    prior.family = prior.point.laplace())
 
-plot(plot_fl(fl_g))
+plot(plot_fl(fl_g$loadings.pm[[1]] %*% diag(sqrt(fl_g$loadings.scale))))
 ```
 
 ## Backfit
@@ -75,7 +75,7 @@ plot(plot_fl(fl_g))
 ```{r pl_bf}
 fl_bf <- fl_g %>% flash.backfit()
 
-plot(plot_fl(fl_bf))
+plot(plot_fl(fl_bf$loadings.pm[[1]] %*% diag(sqrt(fl_bf$loadings.scale))))
 ```
 
 ## Additional diagonal variance
@@ -112,7 +112,27 @@ while (elbo_diff > 0.1) {
   diag_S2 <- diag_S2 - 1 / fl$flash.fit$tau[1, 2]
 }
 
-plot(plot_fl(fl))
+plot(plot_fl(fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))))
+```
+
+## Drift
+
+```{r dr}
+LL <- fl$loadings.pm[[1]] %*% diag(sqrt(fl$loadings.scale))
+LL <- cbind(abs(LL[, 1]), pmax(LL[, -1], 0), pmax(-LL[, -1], 0))
+LL <- LL[, c(1, as.vector(sapply(2:12, `+`, c(0, 11))))]
+
+LL_scale <- apply(LL, 2, max)
+LL <- t(t(LL) / LL_scale)
+
+which_k <- (LL_scale > .01)
+LL <- LL[, which_k]
+LL_scale <- LL_scale[which_k]
+
+dr <- init_from_covmat(covmat, LL, p = 30000, prior.s2 = LL_scale^2, fix.EL = 1)
+dr <- drift(dr, maxiter = 200, verbose = FALSE)
+
+plot(plot_fl(dr$EL %*% diag(sqrt(dr$prior_s2))))
 ```
 
 
