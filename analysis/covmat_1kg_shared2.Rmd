@@ -1,0 +1,169 @@
+---
+title: "Fitting a real-data covariance matrix: details"
+author: "Jason Willwerscheid"
+date: "9/11/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 8, fig.height = 6.5)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+I add a few fits and more detailed plots to the [previous analysis](covmat_1kg_shared.html).
+
+```{r dat}
+covmat <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds")
+meta <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_meta.rds")
+
+plot_fl <- function(LL) {
+  df <- data.frame(LL)
+  colnames(df) <- paste0("Factor ", formatC(1:ncol(LL), width = 2, flag = "0"))
+  df$subpop <- meta$pop
+  df$superpop <- meta$super_pop
+  df <- df %>% arrange(superpop, subpop)
+  df$idx <- 1:nrow(df)
+  gath_df <- df %>% 
+    gather(K, value, -subpop, -idx, -superpop) %>%
+    mutate(K = factor(K))
+  med_gath_df <- gath_df %>% 
+    group_by(subpop, K) %>% 
+    summarise(value=median(value), idx=median(idx))
+  
+  p <- ggplot(gath_df, aes(x=idx, y=value, color=superpop)) + 
+    geom_point() +
+    facet_wrap(~K) + 
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank()) +
+    labs(color="superpop")
+  return(p)
+}
+
+plot_subpops <- function(LL) {
+  df <- data.frame(LL)
+  colnames(df) <- paste0("Factor ", formatC(1:ncol(LL), width = 2, flag = "0"))
+  df$subpop <- meta$pop
+  df$superpop <- meta$super_pop
+  df <- df %>% arrange(superpop, subpop)
+  df$idx <- 1:nrow(df)
+  gath_df <- df %>% 
+    gather(K, value, -subpop, -idx, -superpop) %>%
+    mutate(K = factor(K))
+  med_gath_df <- gath_df %>% 
+    group_by(subpop, K) %>% 
+    summarise(value=median(value), idx=median(idx))
+  
+  all_plots <- lapply(levels(df$superpop), function(pop) {
+    p <- ggplot(filter(gath_df, superpop == pop), aes(x=idx, y=value, color=subpop)) + 
+      geom_point() +
+      facet_wrap(~K) + 
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      theme(axis.title.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank()) +
+      labs(color="subpop") +
+      ggtitle(paste("superpop:", pop))
+    return(p)  
+  })
+}
+```
+
+## Greedy fit (point-Laplace)
+
+```{r pl_g}
+ones <- matrix(1, nrow = nrow(covmat), ncol = 1)
+ls.soln <- t(solve(crossprod(ones), crossprod(ones, covmat)))
+
+diag(covmat) <- NA
+
+fl_g <- flash.init(covmat) %>%
+  flash.set.verbose(0) %>%
+  flash.init.factors(EF = list(ones, ls.soln)) %>%
+  flash.fix.loadings(kset = 1, mode = 1) %>%
+  flash.backfit() %>%
+  flash.add.greedy(Kmax = 11, 
+                   prior.family = prior.point.laplace())
+
+plot(plot_fl(fl_g$loadings.pm[[1]] %*% diag(sqrt(fl_g$loadings.scale))))
+```
+
+## Backfit (point-Laplace)
+
+```{r pl_bf}
+fl_bf <- fl_g %>% flash.backfit(maxiter = 1000)
+
+plot(plot_fl(fl_bf$loadings.pm[[1]] %*% diag(sqrt(fl_bf$loadings.scale))))
+```
+
+## Drift (point-Laplace, $p = 100000$)
+
+The true value of $p$ is around 100k:
+
+```{r dr}
+covmat <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds")
+LL <- fl_bf$loadings.pm[[1]] %*% diag(sqrt(fl_bf$loadings.scale))
+
+dr <- init_from_covmat(covmat, LL, p = 100000, fix.EL = 1,
+                       prior.family = prior.point.laplace())
+dr <- drift(dr, maxiter = 500, tol = 1e-4, verbose = FALSE)
+
+plot(plot_fl(dr$EL %*% diag(sqrt(dr$prior_s2))))
+```
+
+## Drift (point-Laplace, $p = 10000$)
+
+I can set $p$ smaller to get a sparser solution:
+
+```{r dr_10000}
+dr10000 <- init_from_covmat(covmat, LL, p = 10000, fix.EL = 1,
+                       prior.family = prior.point.laplace())
+dr10000 <- drift(dr10000, maxiter = 500, tol = 1e-4, verbose = FALSE)
+
+plot(plot_fl(dr10000$EL %*% diag(sqrt(dr10000$prior_s2))))
+```
+
+## Subpopulations (point-Laplace drift)
+
+```{r subpops}
+all_p <- plot_subpops(dr10000$EL %*% diag(sqrt(dr10000$prior_s2)))
+for (p in all_p) {plot(p)}
+```
+
+## Drift (bimodal)
+
+I initialize using the sparser factors from `drift` with $p = 10000$:
+
+```{r bimodal}
+LL <- dr10000$EL[, c(1, 2, 2, 3, 3, 4, 5, 6, 6, 8, 8, 9, 10, 11, 12)]
+LL <- t(t(LL) * c(1, 1, -1, 1, -1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1))
+LL <- pmax(LL, 0)
+
+LL_scale <- apply(LL, 2, max)
+LL <- t(t(LL) / LL_scale)
+
+dr_bimodal <- init_from_covmat(covmat, LL, p = 10000, prior.s2 = LL_scale^2, fix.EL = 1,
+                               prior.family = prior.bimodal())
+dr_bimodal <- drift(dr_bimodal, maxiter = 500, tol = 1e-4, verbose = FALSE)
+
+plot(plot_fl(dr_bimodal$EL %*% diag(sqrt(dr_bimodal$prior_s2))))
+```
+
+## Subpopulations (bimodal drift)
+
+```{r subpops_bimodal}
+all_p <- plot_subpops(dr_bimodal$EL %*% diag(sqrt(dr_bimodal$prior_s2)))
+for (p in all_p) {plot(p)}
+```
