@@ -1,0 +1,208 @@
+---
+title: "Fitting a real-data covariance matrix: interpretation (2)"
+author: "Jason Willwerscheid"
+date: "9/18/2020"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>",
+                      fig.width = 8, fig.height = 6.5)
+```
+
+```{r load.pkgs}
+suppressMessages({
+  library(flashier)
+  library(drift.alpha)
+  library(tidyverse)
+})
+```
+
+Here I've altered the fitting process from the [previous analysis](covmat_1kg_shared3.html). The purpose was to try to speed things up but the whole thing still takes about half an hour. In any case, it's useful to see how the fits vary. The importance of the out-of-Africa and European factors is much different here, and some of the weirdness in the previous results has disappeared, but other weirdness has cropped up elsewhere.
+
+## Superpopulations
+
+```{r dat}
+covmat <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_covmat.rds")
+meta <- readRDS("../data/datasets/1kg_phase3_derived/1kg_phase3_derived_meta.rds")
+
+plot_fl <- function(LL) {
+  df <- data.frame(LL)
+  colnames(df) <- paste0("Factor ", formatC(1:ncol(LL), width = 2, flag = "0"))
+  df$subpop <- meta$pop
+  df$superpop <- meta$super_pop
+  df <- df %>% arrange(superpop, subpop)
+  df$idx <- 1:nrow(df)
+  gath_df <- df %>% 
+    gather(K, value, -subpop, -idx, -superpop) %>%
+    mutate(K = factor(K))
+  med_gath_df <- gath_df %>% 
+    group_by(subpop, K) %>% 
+    summarise(value=median(value), idx=median(idx))
+  
+  p <- ggplot(gath_df, aes(x=idx, y=value, color=superpop)) + 
+    geom_point() +
+    facet_wrap(~K) + 
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank()) +
+    labs(color="superpop")
+  return(p)
+}
+
+plot_subpops <- function(LL) {
+  df <- data.frame(LL)
+  colnames(df) <- paste0("Factor ", formatC(1:ncol(LL), width = 2, flag = "0"))
+  df$subpop <- meta$pop
+  df$superpop <- meta$super_pop
+  df <- df %>% arrange(superpop, subpop)
+  df$idx <- 1:nrow(df)
+  gath_df <- df %>% 
+    gather(K, value, -subpop, -idx, -superpop) %>%
+    mutate(K = factor(K))
+  med_gath_df <- gath_df %>% 
+    group_by(subpop, K) %>% 
+    summarise(value=median(value), idx=median(idx))
+  
+  all_plots <- lapply(levels(df$superpop), function(pop) {
+    p <- ggplot(filter(gath_df, superpop == pop), aes(x=idx, y=value, color=subpop)) + 
+      geom_point() +
+      facet_wrap(~K) + 
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      theme(axis.title.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank()) +
+      labs(color="subpop") +
+      ggtitle(paste("superpop:", pop))
+    return(p)  
+  })
+}
+```
+
+```{r pl_g}
+t_greedy <- system.time({
+  ones <- matrix(1, nrow = nrow(covmat), ncol = 1)
+  ls.soln <- t(solve(crossprod(ones), crossprod(ones, covmat)))
+  
+  covmat_diagNA <- covmat
+  diag(covmat_diagNA) <- NA
+  
+  fl_g <- flash.init(covmat_diagNA) %>%
+    flash.set.verbose(0) %>%
+    flash.init.factors(EF = list(ones, ls.soln)) %>%
+    flash.fix.loadings(kset = 1, mode = 1) %>%
+    flash.backfit() %>%
+    flash.add.greedy(Kmax = 14, 
+                     prior.family = prior.point.laplace())
+})
+
+cat("Time to fit greedy factors:", round(t_greedy[3], 1), "seconds")
+```
+
+```{r pl_bf}
+t_backfit <- system.time({
+  fl_bf <- fl_g %>% flash.backfit(tol = 1)
+})
+
+cat("Time to backfit:", round(t_backfit[3] / 60, 1), "minutes")
+```
+
+```{r pl_drift}
+LL <- fl_bf$loadings.pm[[1]] %*% diag(sqrt(fl_bf$loadings.scale))
+
+t_drift1 <- system.time({
+  dr <- init_from_covmat(covmat, LL, p = 30000, fix.EL = 1,
+                         prior.family = prior.point.laplace())
+  dr <- drift(dr, maxiter = 500, tol = 1e-2, verbose = FALSE)
+})
+
+cat("Time to drift (point-Laplace):", round(t_drift1[3] / 60, 1), "minutes")
+```
+
+```{r bm_drift}
+LL <- dr$EL %*% diag(sqrt(dr$prior_s2))
+LL <- LL[, c(1, rep(2:fl_bf$n.factors, each = 2))]
+LL <- t(t(LL) * c(1, rep(c(1, -1), fl_bf$n.factors - 1)))
+LL <- pmax(LL, 0)
+
+LL_scale <- apply(LL, 2, max)
+LL <- t(t(LL) / LL_scale)
+
+zero_cols <- which(LL_scale < 1e-2)
+LL <- LL[, -zero_cols]
+LL_scale <- LL_scale[-zero_cols]
+
+t_drift2 <- system.time({
+  dr_bm <- init_from_covmat(covmat, LL, p = 30000, prior.s2 = LL_scale^2, fix.EL = 1,
+                            prior.family = prior.bimodal())
+  dr_bm <- drift(dr_bm, maxiter = 500, tol = 1e-4, verbose = FALSE)
+})
+
+cat("Time to drift (bimodal):", round(t_drift2[3] / 60, 1), "minutes")
+
+LL <- dr_bm$EL %*% diag(sqrt(dr_bm$prior_s2))
+LL_norms <- apply(LL, 2, function(x) sum(x^2))
+LL <- LL[, order(LL_norms, decreasing = TRUE)]
+LL_norms <- apply(LL, 2, function(x) sum(x^2))
+zero_cols <- which(LL_norms < 1e-6)
+LL <- LL[, -zero_cols]
+
+plot(plot_fl(LL))
+```
+
+## Subpopulations
+
+```{r subpops}
+all_p <- plot_subpops(LL)
+for (p in all_p) {plot(p)}
+```
+
+## Factor descriptions
+
+* Factor 2: The primary African factor, with varying degrees of admixture for African Americans (ASW), African Caribbeans (ACB), and Amerindians. Intriguingly, there is a small degree of admixture for many Iberians (IBR).
+
+* Factor 3: The out-of-Africa factor. Again, there are varying degrees of admixture for African Americans,  African Caribbeans, and Amerindians.
+
+* Factor 4: The primary East Asian factor. Among Amerindians, loadings are largest among Peruvians and smallest among Puerto Ricans (PUR). Interestingly, there is a small degree of admixture for Finns (FIN) and most South Asians (most notably among Bengalis (BEB)).
+
+* Factor 5: The primary European factor, with strong contributions from South Asian populations (especially Punjabi and Gujarati) and varying degrees of admixture for African Americans, African Caribbeans, and Amerindians. There is a single Vietnamese (KHV) individual with a nonzero loading: this can probably be ignored.
+
+* Factor 6: The Amerindian factor, with loadings largest among Peruvians and smallest among Puerto Ricans (PUR). A few African Americans are also loaded on this factor.
+
+* Factor 7: The primary South Asian factor. Oddly, Peruvians (and a single African Caribbean individual) are also loaded on this factor.
+
+* Factor 8: Substructure among East Asians: large loadings for the more Southeastern Vietnamese and Chinese Dai populations, modest loadings for some Chinese Han, and mostly zero loadings for Japanese.
+
+* Factor 9: Substructure among Europeans: largest loadings among the Finns with more modest loadings for other Northern European populations (GBR and CEU).
+
+* Factor 10: A West African factor: large loadings for Gambians (GWD) and modest loadings for the Mende from Sierra Leone (MSL).
+
+* Factor 11: Kenyan.
+
+* Factor 12: Japanese. 
+
+* Factor 13: Common to some, but not all Gujarati Indians from Houston.
+
+* Factor 14: Puerto Rican. I was surprised to see a separate factor for this population. 
+
+* Factor 15: Common to some, but not all Punjabi.
+
+* Factor 16: Common to some, but not all Telugu Indians.
+
+* Factor 17: Unique to several Gujarati Indians from Houston.
+
+* Factor 18: Unique to several Sri Lankans.
+
+* Factor 19: Unique to several African Americans.
+
+* Factor 20: Unique to three South Asian individuals (two Telugu and one Sri Lankan).
+
+* Factor 21: Shared among the two Nigerian populations (Esan (ESN) and Yoruba (YRI)).
+
+* Factor 22: Shared among Japanese and most Chinese Han from Beijing.
+
+* Factor 23: Shared among several Toscani and a few Puerto Ricans and Colombians.
