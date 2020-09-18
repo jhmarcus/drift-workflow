@@ -75,7 +75,7 @@ These vignettes describe data preparation steps:
 
 * [hoa global drift fits](hoa_global_drift_bimodal.html) 
 * [r1africa1nfb](r1africa1nfb.html)
-* 1kg_phase3_derived: with [estimated first factor](covmat_1kg.html) and [fixed mean factor](covmat_1kg_shared.html); more [details](covmat_1kg_shared2.html)
+* 1kg_phase3_derived: with [estimated first factor](covmat_1kg.html) and [fixed mean factor](covmat_1kg_shared.html); more [details](covmat_1kg_shared2.html) and [commentary](covmat_1kg_shared3.html); a [second run](covmat_1kg_shared4.html) using a slightly different fitting process
 
 ## Figures
 
